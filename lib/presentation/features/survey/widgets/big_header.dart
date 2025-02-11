@@ -77,7 +77,7 @@ class BigHeader extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    context.brand.theme.colors.primary.withOpacity(0),
+                    context.brand.theme.colors.primary.withValues(alpha: 0),
                     context.brand.theme.colors.primary,
                   ],
                 ),

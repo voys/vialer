@@ -71,7 +71,7 @@ List<ColleagueContext> _colleagueContextFromJson(List<dynamic> json) => json
         _ => null
       },
     )
-    .whereNotNull()
+    .nonNulls
     .toList();
 
 ColleagueDestinationType _colleagueDestinationTypeFromJson(String type) =>
