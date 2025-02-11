@@ -82,7 +82,7 @@ class SharedContactFieldRow extends StatelessWidget {
                             side: BorderSide(
                               width: 1,
                               color: context.brand.theme.colors.primary
-                                  .withOpacity(0.12),
+                                  .withValues(alpha: 0.12),
                             ),
                           ),
                           child: FaIcon(

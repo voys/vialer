@@ -180,7 +180,7 @@ class _Choice extends StatelessWidget {
               color: highlighted ? Theme.of(context).primaryColor : null,
               border: Border.all(
                 color: highlighted
-                    ? context.brand.theme.colors.grey4.withOpacity(0)
+                    ? context.brand.theme.colors.grey4.withValues(alpha: 0)
                     : context.brand.theme.colors.grey4,
               ),
             ),

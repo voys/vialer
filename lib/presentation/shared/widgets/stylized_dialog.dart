@@ -35,7 +35,7 @@ class StylizedDialog extends StatelessWidget {
         icon: FaIcon(
           headerIcon,
           size: 50,
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
         ),
         text: Column(
           children: [

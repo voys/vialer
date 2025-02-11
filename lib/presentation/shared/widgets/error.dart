@@ -44,7 +44,7 @@ class ErrorAlert extends StatelessWidget {
               child: Container(
                 padding: padding,
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.black.withValues(alpha: 0.4),
                   border: Border(
                     top: BorderSide(
                       color: context.brand.theme.colors.errorContent,
@@ -60,7 +60,7 @@ class ErrorAlert extends StatelessWidget {
                       height: 24,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.black.withOpacity(0.5),
+                        color: Colors.black.withValues(alpha: 0.5),
                       ),
                       child: Center(
                         child: FaIcon(

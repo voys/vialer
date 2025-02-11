@@ -10,19 +10,19 @@ class CircularGraphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final outerCircleColor =
-        context.brand.theme.colors.primaryLight.withOpacity(0.4);
+        context.brand.theme.colors.primaryLight.withValues(alpha: 0.4);
 
     return Center(
       child: Material(
         shape: const CircleBorder(),
         color: outerCircleColor,
         elevation: 2,
-        shadowColor: context.brand.theme.colors.primary.withOpacity(0),
+        shadowColor: context.brand.theme.colors.primary.withValues(alpha: 0),
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Material(
             shape: const CircleBorder(),
-            color: outerCircleColor.withOpacity(1),
+            color: outerCircleColor.withValues(alpha: 1),
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: FaIcon(

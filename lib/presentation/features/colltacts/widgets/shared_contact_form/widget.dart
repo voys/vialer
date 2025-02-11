@@ -366,7 +366,7 @@ class _ConclusionButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           side: BorderSide(
             width: 1,
-            color: context.brand.theme.colors.primary.withOpacity(0.12),
+            color: context.brand.theme.colors.primary.withValues(alpha: 0.12),
           ),
         ),
         onPressed: onPressed,

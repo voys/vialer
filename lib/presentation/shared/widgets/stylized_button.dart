@@ -102,7 +102,7 @@ class StylizedButton extends StatelessWidget {
           boxShadow: [
             if (!disabled && isRaised)
               BoxShadow(
-                color: Colors.black.withOpacity(0.16),
+                color: Colors.black.withValues(alpha: 0.16),
                 offset: const Offset(0, 2),
                 blurRadius: 4,
               ),
