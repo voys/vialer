@@ -1,0 +1,2 @@
+- Android: Calls will now be rejected if you are on a GSM call
+- Various bug fixes and improvements
