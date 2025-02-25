@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import 'package:libphonenumber/libphonenumber.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vialer/domain/util/phone_number.dart';
 
+import '../../../../domain/usecases/calling/call_through/normalize_phone_number.dart';
 import '../../../../presentation/util/loggable.dart';
 import '../../../../presentation/util/pigeon.dart' as native;
 import '../../../API/voipgrid/voipgrid_service.dart';
@@ -16,9 +16,10 @@ import '../../../models/user/user.dart';
 
 @singleton
 class CallThroughRepository with Loggable {
-  CallThroughRepository(this._service);
+  CallThroughRepository(this._service, this.normalizePhoneNumber);
 
   final VoipgridService _service;
+  final NormalizePhoneNumber normalizePhoneNumber;
 
   Future<void> call(
     String destination,
@@ -109,12 +110,16 @@ class CallThroughRepository with Loggable {
 
     logger.info('Attempting call-through using ISO code: $isoCode');
 
-    final normalizedNumber = await PhoneNumberUtil.normalizePhoneNumber(
-      phoneNumber: number,
+    final normalizedNumber = await normalizePhoneNumber(
+      number: number,
       isoCode: isoCode,
     );
 
     if (normalizedNumber == null) {
+      logger.severe(
+        'Unable to start call-through call as region for the given isoCode '
+        '($isoCode) does not exist.',
+      );
       throw NormalizationException();
     }
 
