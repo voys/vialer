@@ -6,8 +6,12 @@ import 'package:vialer/domain/usecases/use_case.dart';
 class NormalizePhoneNumber extends UseCase {
   Future<String?> call({
     required String number,
-    required String isoCode,
+    required String? isoCode,
   }) async {
+    if (isoCode == null) {
+      final parsed = await parse(number);
+      return parsed['e164'] as String?;
+    }
     final regions = await getAllSupportedRegions();
     final country = regions[isoCode.toUpperCase()];
     if (country == null) return null;
