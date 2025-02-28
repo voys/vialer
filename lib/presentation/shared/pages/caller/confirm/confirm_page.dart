@@ -309,7 +309,7 @@ class _AndroidInputs extends StatelessWidget {
                     context.brand.theme.colors.grey6,
                   ),
                   overlayColor: WidgetStateProperty.all(
-                    context.brand.theme.colors.grey4.withOpacity(0.25),
+                    context.brand.theme.colors.grey4.withValues(alpha: 0.25),
                   ),
                 ),
                 onPressed: onCancelButtonPressed,
@@ -332,7 +332,7 @@ class ConfirmPageRoute extends PageRoute<dynamic> {
   });
 
   static const _curve = Curves.decelerate;
-  static final _barrierColor = Colors.black.withOpacity(0.8);
+  static final _barrierColor = Colors.black.withValues(alpha: 0.8);
 
   final String destination;
   final CallOrigin origin;
@@ -372,7 +372,7 @@ class ConfirmPageRoute extends PageRoute<dynamic> {
       decoration: curved.drive(
         DecorationTween(
           begin: BoxDecoration(
-            color: _barrierColor.withOpacity(0),
+            color: _barrierColor.withValues(alpha: 0),
           ),
           end: BoxDecoration(
             color: _barrierColor,

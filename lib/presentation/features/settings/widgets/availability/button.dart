@@ -63,6 +63,9 @@ class AvailabilityButton extends StatelessWidget {
         disabledForegroundColor: isActive
             ? _foregroundColor(context)
             : _disabledForegroundColor(context),
+        iconColor: isActive
+            ? _foregroundColor(context)
+            : _disabledForegroundColor(context),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

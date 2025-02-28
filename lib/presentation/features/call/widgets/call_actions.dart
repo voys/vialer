@@ -332,7 +332,7 @@ class _ActionButtonState extends State<_ActionButton> {
               shape: const CircleBorder(),
               color: _active
                   ? context.brand.theme.colors.primary
-                  : context.brand.theme.colors.primary.withOpacity(0),
+                  : context.brand.theme.colors.primary.withValues(alpha: 0),
               child: InkResponse(
                 onTap: _enabled ? _onPressed : null,
                 containedInkWell: _active,

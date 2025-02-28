@@ -85,10 +85,22 @@ import UserNotifications
     /// Handles receiving call starts from outside the application (e.g. contacts)
     override func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if let handle = userActivity.startCallHandle {
-            let number = handle.replacingOccurrences(of: "[^0-9\\+]", with: "", options: .regularExpression)
+            let number = formatPhoneNumber(handle)
             nativeToFlutter?.launchDialerAndPopulateNumber(number: number, completion: { _ in })
         }
         
+        return true
+    }
+    
+    // Handles receiving call starts from other apps(e.g. conversations) as vialercall://call?number=
+    override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard url.scheme == "vialercall",
+            let host = url.host, host == "call",
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
+            let number = queryItems.first(where: { $0.name == "number" })?.value else { return false }
+            
+        nativeToFlutter?.launchDialerAndPopulateNumber(number: formatPhoneNumber(number), completion: { _ in })
+
         return true
     }
     
@@ -126,6 +138,12 @@ import UserNotifications
         }
        
         completionHandler([.alert])
+    }
+}
+
+extension AppDelegate {
+    private func formatPhoneNumber(_ number: String) -> String {
+        return number.replacingOccurrences(of: "[^0-9\\+]", with: "", options: .regularExpression)
     }
 }
 

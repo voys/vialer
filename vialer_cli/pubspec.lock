@@ -13,10 +13,10 @@ packages:
     dependency: "direct main"
     description:
       name: austerity
-      sha256: "6d0a2889af71dadbd7582983f1ce0d1ef9f9589a531b8da9353097e3a7e965ab"
+      sha256: "3b30f30b862762bbb8ec1c5c1c93684e500a51ce84aa2b4b5366eb5a9e0a7db0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   characters:
     dependency: transitive
     description:

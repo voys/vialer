@@ -121,7 +121,7 @@ class _Illustration extends StatelessWidget {
       height: size + padding + borderWidth,
       padding: const EdgeInsets.all(borderWidth),
       decoration: BoxDecoration(
-        color: backgroundColor.withOpacity(0.40),
+        color: backgroundColor.withValues(alpha: 0.40),
         shape: BoxShape.circle,
       ),
       child: Container(
