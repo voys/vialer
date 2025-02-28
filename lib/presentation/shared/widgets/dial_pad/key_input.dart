@@ -68,7 +68,7 @@ class _KeyInputState extends State<KeyInput> {
     );
 
     return Container(
-      color: context.brand.theme.colors.grey3.withOpacity(0.5),
+      color: context.brand.theme.colors.grey3.withValues(alpha: 0.5),
       child: VerticallyExpandedRow(
         children: [
           Expanded(
