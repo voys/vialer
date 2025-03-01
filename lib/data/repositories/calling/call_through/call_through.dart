@@ -106,7 +106,7 @@ class CallThroughRepository with Loggable {
     }
 
     // If there is already a country code, we don't want to change it.
-    final isoCode = number.startsWith('+') ? '' : _findIsoCode(user: user);
+    final isoCode = number.startsWith('+') ? null : _findIsoCode(user: user);
 
     logger.info('Attempting call-through using ISO code: $isoCode');
 
