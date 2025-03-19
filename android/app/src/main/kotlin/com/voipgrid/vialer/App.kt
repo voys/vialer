@@ -3,7 +3,7 @@ package com.voipgrid.vialer
 import LoggedInElsewhereNotification
 import com.voipgrid.vialer.logging.Logger
 import io.flutter.app.FlutterApplication
-import org.openvoipalliance.flutterphonelib.*
+import org.openvoipalliance.flutterphonelib.startPhoneLib
 
 class App : FlutterApplication() {
 
@@ -19,6 +19,8 @@ class App : FlutterApplication() {
             segment,
             LoggedInElsewhereNotification(this),
         )
+
+        registerActivityLifecycleCallbacks(activityMonitor)
 
         startPhoneLib(
             activityClass = MainActivity::class.java,
@@ -39,6 +41,7 @@ class App : FlutterApplication() {
                 ))
 
                 middleware.currentCallInfo = null
+                sendAppToBackgroundWhenRequired()
             }
         ) { message, level ->
             logger.writeLog(message, level)
@@ -52,5 +55,20 @@ class App : FlutterApplication() {
         lateinit var middleware: Middleware
         lateinit var segment: Segment
         lateinit var prefs: FlutterSharedPreferences
+
+        val activityMonitor = ActivityMonitor()
+
+        /**
+         * Whenever this flag is set to TRUE, for the next call the app will be sent to the
+         * background on completion..
+         */
+        var sendAppToBackgroundAfterCall: Boolean = false
+
+        fun sendAppToBackgroundWhenRequired() {
+            if (!sendAppToBackgroundAfterCall) return
+            logger.writeLog("Sending app to background as [sendAppToBackgroundAfterCall] is TRUE")
+            sendAppToBackgroundAfterCall = false
+            activityMonitor.sendAppToBackground()
+        }
     }
 }
