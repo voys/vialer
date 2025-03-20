@@ -83,12 +83,9 @@ class _AppState extends State<App> {
 
   final _setIsUsingScreenReader = SetIsUsingScreenReader();
 
-  late final bool _shouldOnboard;
-
   @override
   void initState() {
     super.initState();
-    _shouldOnboard = ShouldOnboard()();
     _listenForEvents();
   }
 
@@ -98,6 +95,9 @@ class _AppState extends State<App> {
 
     _setIsUsingScreenReader(context.isUsingScreenReader);
   }
+
+  String get _initialRoute =>
+      ShouldOnboard()() ? Routes.onboarding : Routes.main;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class _AppState extends State<App> {
                 navigatorKey: _navigatorKey,
                 title: context.brand.appName,
                 theme: context.brand.theme.themeData,
-                initialRoute: _shouldOnboard ? Routes.onboarding : Routes.main,
+                initialRoute: _initialRoute,
                 routes: Routes.mapped,
                 localizationsDelegates: const [
                   VialerLocalizations.delegate,
@@ -120,6 +120,19 @@ class _AppState extends State<App> {
                   GlobalCupertinoLocalizations.delegate,
                 ],
                 supportedLocales: VialerLocalizations.locales.map(Locale.new),
+                // We get a route of `/` when opening the app from an intent
+                // when the app has been killed. We will essentially catch this
+                // unregistered route and redirect to [initialRoute].
+                onUnknownRoute: (_) {
+                  return MaterialPageRoute(
+                    builder: (context) => Routes.mapped[_initialRoute]!(
+                      context,
+                    ),
+                    // Directly specifying settings will ensure the route
+                    // doesn't get rebuilt again.
+                    settings: RouteSettings(name: _initialRoute),
+                  );
+                },
                 builder: (context, child) {
                   if (!inDebugMode) {
                     ErrorWidget.builder = (_) => const BuildError();
