@@ -106,9 +106,7 @@ class _CallerState extends State<Caller>
     }
 
     if (state is StartingCall && state.isVoip ||
-        (state is Calling &&
-            state.isVoip &&
-            state.voipCall!.direction.isInbound)) {
+        (state is Calling && state.isVoip)) {
       unawaited(
         _navigatorState.pushAndRemoveUntil<void>(
           MaterialPageRoute(
