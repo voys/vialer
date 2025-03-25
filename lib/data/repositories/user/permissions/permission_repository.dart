@@ -46,7 +46,17 @@ extension PermissionMapper on domain.Permission {
 
 extension PermissionStatusMapper on permission_handler.PermissionStatus {
   domain.PermissionStatus toDomainEntity() => switch (this) {
-        permission_handler.PermissionStatus.granted =>
+        // Limited means we have only been granted access to a specific number
+        // of items (e.g. only specific contacts selected by the user). If the
+        // user wishes to only display these, we should treat it as if the
+        // permission was granted.
+        //
+        // However, we probably want to display some UI to the user to let them
+        // know that they have only been granted access to a limited number of
+        // contacts so they aren't confused when more do not appear so this
+        // should be separated in a future update.
+        permission_handler.PermissionStatus.granted ||
+        permission_handler.PermissionStatus.limited =>
           domain.PermissionStatus.granted,
         permission_handler.PermissionStatus.denied =>
           domain.PermissionStatus.denied,
@@ -54,8 +64,6 @@ extension PermissionStatusMapper on permission_handler.PermissionStatus {
           domain.PermissionStatus.permanentlyDenied,
         permission_handler.PermissionStatus.restricted =>
           domain.PermissionStatus.restricted,
-        permission_handler.PermissionStatus.limited =>
-          domain.PermissionStatus.undetermined,
         permission_handler.PermissionStatus.provisional =>
           domain.PermissionStatus.granted,
       };
