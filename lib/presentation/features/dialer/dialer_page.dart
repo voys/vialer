@@ -5,16 +5,10 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vialer/data/models/user/user.dart';
 import 'package:vialer/global.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
-import '../../../../data/models/event/event_bus.dart';
-import '../../../../data/models/user/settings/app_setting.dart';
-import '../../../../data/models/user/settings/setting_changed.dart';
-import '../../../../dependency_locator.dart';
-import '../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../routes.dart';
 import '../../shared/widgets/caller.dart';
 import '../../shared/widgets/conditional_placeholder.dart';
@@ -40,35 +34,6 @@ class DialerPage extends StatefulWidget {
 class _DialerPageState extends State<DialerPage>
     with WidgetsBindingObserver, WidgetsBindingObserverRegistrar {
   final _dialPadController = TextEditingController();
-  final _eventBus = dependencyLocator<EventBusObserver>();
-  StreamSubscription<SettingChangedEvent<Object>>? _eventBusSubscription;
-
-  final _getUser = GetLoggedInUserUseCase();
-
-  bool _enableT9ContactSearch = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    unawaited(_updateEnableT9ContactSearch());
-
-    _eventBusSubscription = _eventBus.onSettingChange<bool>(
-      AppSetting.enableT9ContactSearch,
-      (_, newValue) {
-        unawaited(_updateEnableT9ContactSearch(settingValue: newValue));
-      },
-    );
-  }
-
-  Future<void> _updateEnableT9ContactSearch({bool? settingValue}) async {
-    final user = _getUser();
-
-    setState(() {
-      _enableT9ContactSearch =
-          settingValue ?? user.settings.get(AppSetting.enableT9ContactSearch);
-    });
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -108,13 +73,6 @@ class _DialerPageState extends State<DialerPage>
     showOutgoingNumberPrompt(context, number, (_) {
       unawaited(context.read<DialerCubit>().call(number));
     });
-  }
-
-  @override
-  void dispose() {
-    unawaited(_eventBusSubscription?.cancel());
-
-    super.dispose();
   }
 
   @override
@@ -175,7 +133,6 @@ class _DialerPageState extends State<DialerPage>
                         : null,
                     controller: _dialPadController,
                     onDeleteAll: dialerCubit.clearLastCalledDestination,
-                    isT9ContactSearchEnabled: _enableT9ContactSearch,
                   ),
                 ),
               ),
