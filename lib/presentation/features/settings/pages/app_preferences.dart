@@ -15,7 +15,6 @@ import '../widgets/tile/category/audio.dart';
 import '../widgets/tile/category/calling.dart';
 import '../widgets/tile/category/debug.dart';
 import '../widgets/tile/category/recents.dart';
-import '../widgets/tile/enable_dialer_contact_search.dart';
 import '../widgets/tile/ignore_battery_optimizations.dart';
 import '../widgets/tile/link/troubleshooting.dart';
 import '../widgets/tile/remote_logging.dart';
@@ -71,7 +70,6 @@ class AppPreferencesSubPage extends StatelessWidget {
                         onChanged: (_) =>
                             cubit.directUserToConfigureCallDirectoryExtension(),
                       ),
-                    if (context.isIOS) EnableT9ContactSearch(user),
                   ],
                 ),
                 RecentsCategory(

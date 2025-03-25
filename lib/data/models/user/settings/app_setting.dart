@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:vialer/data/models/user/settings/settings.dart';
 
 enum AppSetting<T extends Object> with SettingKey<T> {
@@ -10,7 +8,6 @@ enum AppSetting<T extends Object> with SettingKey<T> {
   showTroubleshooting<bool>(),
   showClientCalls<bool>(),
   showOnlineColleaguesOnly<bool>(),
-  enableT9ContactSearch<bool>(),
   hasUnreadFeatureAnnouncements<bool>(),
   enableAdvancedVoipLogging<bool>();
 
@@ -26,7 +23,6 @@ enum AppSetting<T extends Object> with SettingKey<T> {
         AppSetting.showTroubleshooting => false,
         AppSetting.showClientCalls => false,
         AppSetting.showOnlineColleaguesOnly => true,
-        AppSetting.enableT9ContactSearch => Platform.isAndroid,
         AppSetting.hasUnreadFeatureAnnouncements => false,
         AppSetting.enableAdvancedVoipLogging => false,
       };

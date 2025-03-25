@@ -40,7 +40,6 @@ class ClearStorageAndPreserveCrossSessionSettings extends UseCase
 /// a setting only relevant to the currently logged-in user.
 const preserve = [
   CallSetting.usePhoneRingtone,
-  AppSetting.enableT9ContactSearch,
   AppSetting.remoteLogging,
   AppSetting.showCallsInNativeRecents,
   AppSetting.showClientCalls,
