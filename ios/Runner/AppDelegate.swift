@@ -98,8 +98,9 @@ import UserNotifications
             let host = url.host, host == "call",
             let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
             let number = queryItems.first(where: { $0.name == "number" })?.value else { return false }
-            
-        nativeToFlutter?.launchDialerAndPopulateNumber(number: formatPhoneNumber(number), completion: { _ in })
+        
+        segment?.track(event: "call-from-os-initiated", properties: [:])
+        startCall(number: number.replacingOccurrences(of: "[^0-9\\+]", with: "", options: .regularExpression))
 
         return true
     }
