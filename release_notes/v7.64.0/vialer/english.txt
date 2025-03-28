@@ -1,0 +1,3 @@
+- Delete button now works after the dialer is prefilled with a phone number
+- iOS: No longer showing a "no permission" warning when you only choose to grant permission to a limited number of contacts
+- iOS: T9 search in the dialer will now be enabled by default, the setting to enable/disable it has been removed
