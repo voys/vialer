@@ -175,6 +175,7 @@ class _DeleteButtonState extends State<_DeleteButton> {
     super.initState();
 
     _controller.addListener(_handleStatusChange);
+    _handleStatusChange();
   }
 
   @override
