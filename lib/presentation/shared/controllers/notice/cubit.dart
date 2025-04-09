@@ -84,16 +84,15 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable {
     final googlePlayServicesIsAvailable =
         Platform.isAndroid ? await _googlePlayServices.isAvailable() : true;
 
-    if (phoneStatus != PermissionStatus.granted &&
-        microphoneStatus != PermissionStatus.granted) {
+    if (phoneStatus.wasDenied && microphoneStatus.wasDenied) {
       emit(const PhoneAndMicrophonePermissionDeniedNotice());
-    } else if (phoneStatus != PermissionStatus.granted) {
+    } else if (phoneStatus.wasDenied) {
       emit(const PhonePermissionDeniedNotice());
-    } else if (microphoneStatus != PermissionStatus.granted) {
+    } else if (microphoneStatus.wasDenied) {
       emit(const MicrophonePermissionDeniedNotice());
-    } else if (bluetoothStatus != PermissionStatus.granted) {
+    } else if (bluetoothStatus.wasDenied) {
       emit(const BluetoothConnectPermissionDeniedNotice());
-    } else if (notificationsStatus != PermissionStatus.granted) {
+    } else if (notificationsStatus.wasDenied) {
       emit(const NotificationsPermissionDeniedNotice());
     } else if (!user.isAllowedVoipCalling) {
       emit(
@@ -113,7 +112,7 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable {
       );
     } else if (!googlePlayServicesIsAvailable) {
       emit(const NoGooglePlayServices());
-    } else if (ignoreBatteryOptimization != PermissionStatus.granted) {
+    } else if (ignoreBatteryOptimization.wasDenied) {
       emit(const IgnoreBatteryOptimizationsPermissionDeniedNotice());
     } else {
       emit(const NoNotice());
@@ -135,12 +134,11 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable {
 
       final status = await _requestPermission(permission: permission);
 
-      if (status != PermissionStatus.granted) {
+      if (status.wasDenied) {
         await _openAppSettings();
       }
 
-      if (permission == os.Permission.phone &&
-          status == PermissionStatus.granted) {
+      if (permission == os.Permission.phone && status.wasGranted) {
         _caller.initialize();
       }
 

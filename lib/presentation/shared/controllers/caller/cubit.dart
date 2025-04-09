@@ -199,7 +199,7 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
       permission: Permission.microphone,
     );
 
-    final granted = permissionStatus == PermissionStatus.granted;
+    final granted = permissionStatus.wasGranted;
 
     if (!granted) {
       logger.info('Microphone permission is denied, stopping/ignoring call');
@@ -583,7 +583,7 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
     // We don't want to interrupt an ongoing call.
     if (state is CallProcessState) return;
 
-    if (status == PermissionStatus.granted) {
+    if (status.wasGranted) {
       emit(const CanCall());
     } else {
       emit(

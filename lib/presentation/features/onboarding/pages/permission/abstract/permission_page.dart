@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../../data/models/user/permissions/permission.dart';
-import '../../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../../domain/usecases/metrics/track_permission.dart';
 import '../../../../../../domain/usecases/onboarding/request_permission.dart';
 import '../../../controllers/cubit.dart';
@@ -36,13 +35,13 @@ class _PermissionPageState extends State<PermissionPage> {
     final status = await _requestPermission(permission: widget.permission);
     context.read<OnboardingCubit>().forward();
 
-    if (status == PermissionStatus.granted) {
+    if (status.wasGranted) {
       widget.onPermissionGranted?.call();
     }
 
     _trackPermission(
       type: widget.permission.toShortString(),
-      granted: status == PermissionStatus.granted,
+      granted: status.wasGranted,
     );
   }
 

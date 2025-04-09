@@ -23,6 +23,7 @@ class Colors {
     required this.primary,
     required this.primaryDark,
     required this.primaryLight,
+    required this.primaryLighter,
     required this.splashScreen,
     required this.primaryGradientStart,
     required this.primaryGradientEnd,
@@ -92,6 +93,7 @@ class Colors {
     int primaryLightest = 0xFFFFEDD5,
   }) : this(
           primary: primary,
+          primaryLighter: primaryLighter,
           primaryDark: primaryDarkest,
           primaryLight: primaryLightest,
           splashScreen: primaryLightest,
@@ -111,6 +113,7 @@ class Colors {
     int primaryLightest = 0xFFF0F0FF,
   }) : this(
           primary: primary,
+          primaryLighter: primaryLighter,
           primaryDark: primaryDarkest,
           primaryLight: primaryLightest,
           splashScreen: primary,
@@ -129,6 +132,7 @@ class Colors {
     int primaryLightest = 0xFFD2D3FF,
   }) : this(
           primary: primary,
+          primaryLighter: primaryLighter,
           primaryDark: primaryDarkest,
           primaryLight: primaryLightest,
           splashScreen: 0xFFFFFFFF,
@@ -147,6 +151,7 @@ class Colors {
     int primaryLightest = 0xFFEDE9F9,
   }) : this(
           primary: primary,
+          primaryLighter: primaryLighter,
           primaryDark: primaryDarkest,
           primaryLight: primaryLightest,
           splashScreen: primaryLightest,
@@ -159,6 +164,7 @@ class Colors {
   final int primary;
   final int primaryDark;
   final int primaryLight;
+  final int primaryLighter;
 
   final int infoText;
   final int disabledText;

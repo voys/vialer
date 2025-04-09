@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../../data/models/colltacts/colltact.dart';
 import '../../../../../../../data/models/user/permissions/permission.dart';
-import '../../../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../../../domain/usecases/onboarding/request_permission.dart';
 import '../../../../../shared/widgets/caller.dart';
 import 'state.dart';
@@ -32,7 +31,7 @@ class ColltactDetailsCubit extends Cubit<ColltactDetailsState> {
 
     final status = await _requestPermission(permission: Permission.contacts);
 
-    if (status != PermissionStatus.granted) return;
+    if (status.wasDenied) return;
 
     final id = colltact.contact.identifier;
 
