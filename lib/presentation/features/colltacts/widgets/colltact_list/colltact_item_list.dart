@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/colltact_bloc_builder.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/group_header.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/item.dart';
+import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/restricted_permission_warning.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/util/search.dart';
 import 'package:vialer/presentation/util/contact.dart';
 
@@ -43,6 +44,9 @@ class ColltactItemList extends StatelessWidget {
         final contactsState = container.contactsState;
         final colleaguesState = container.colleaguesState;
         final sharedContactsState = container.sharedContactsState;
+        final hasLimitedContactsPermission = kind == ColltactKind.contact
+            ? container.contactsCubit.hasLimitedContactsPermission
+            : false;
 
         if (kind == ColltactKind.contact) {
           final contacts = contactsState is ContactsLoaded
@@ -119,6 +123,18 @@ class ColltactItemList extends StatelessWidget {
               bottomLettersPadding: bottomLettersPadding,
               onRefresh: onRefresh,
               children: widgets,
+              headerBuilder: hasLimitedContactsPermission
+                  ? (_) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          left: 12,
+                          right: 12,
+                        ),
+                        child: RestrictedPermissionWarning(),
+                      );
+                    }
+                  : null,
             ),
           ),
         );

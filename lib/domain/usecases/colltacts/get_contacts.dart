@@ -3,7 +3,6 @@ import 'dart:async';
 import '../../../data/models/colltacts/contact.dart';
 import '../../../data/models/user/permissions/no_permission.dart';
 import '../../../data/models/user/permissions/permission.dart';
-import '../../../data/models/user/permissions/permission_status.dart';
 import '../../../data/repositories/colltacts/contact_repository.dart';
 import '../../../data/repositories/user/permissions/permission_repository.dart';
 import '../../../dependency_locator.dart';
@@ -20,7 +19,7 @@ class GetContactsUseCase extends UseCase {
       Permission.contacts,
     );
 
-    if (status != PermissionStatus.granted) {
+    if (status.wasDenied) {
       unawaited(_contactRepository.cleanUp());
       throw NoPermissionException();
     }

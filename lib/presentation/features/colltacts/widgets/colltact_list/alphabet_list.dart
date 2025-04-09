@@ -12,12 +12,17 @@ class AlphabetListView extends StatefulWidget {
     required this.bottomLettersPadding,
     required this.children,
     required this.onRefresh,
+    this.headerBuilder,
     super.key,
   });
 
   final double bottomLettersPadding;
   final List<Widget> children;
   final Future<void> Function() onRefresh;
+
+  /// If provided, will build this widget at the top of the list of [children]
+  /// and will scroll with the list.
+  final WidgetBuilder? headerBuilder;
 
   @override
   State<StatefulWidget> createState() => _AlphabetListViewState();
@@ -100,12 +105,18 @@ class _AlphabetListViewState extends State<AlphabetListView> {
                 itemCount: widget.children.length,
                 itemBuilder: (context, index) {
                   if (widget.children.isNotEmpty) {
-                    return Provider<EdgeInsets>(
-                      create: (_) => EdgeInsets.only(
-                        left: 16,
-                        right: 16 + sideLetterSize.width,
-                      ),
-                      child: widget.children[index],
+                    return Column(
+                      children: [
+                        if (index == 0 && widget.headerBuilder != null)
+                          widget.headerBuilder!.call(context),
+                        Provider<EdgeInsets>(
+                          create: (_) => EdgeInsets.only(
+                            left: 16,
+                            right: 16 + sideLetterSize.width,
+                          ),
+                          child: widget.children[index],
+                        ),
+                      ],
                     );
                   } else {
                     return Container();

@@ -35,7 +35,7 @@ class T9Colltacts extends _$T9Colltacts {
   Future<void> loadColltactsIfAllowed() async {
     final status = await _getPermissionStatus(permission: Permission.contacts);
 
-    if (status == PermissionStatus.granted) {
+    if (status.wasGranted) {
       _loadColltacts();
     } else {
       state = T9ColltactsState.noPermission(

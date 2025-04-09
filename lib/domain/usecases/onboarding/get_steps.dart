@@ -4,7 +4,6 @@ import 'dart:io';
 import '../../../../dependency_locator.dart';
 import '../../../data/models/onboarding/step.dart';
 import '../../../data/models/user/permissions/permission.dart';
-import '../../../data/models/user/permissions/permission_status.dart';
 import '../../../data/repositories/user/permissions/permission_repository.dart';
 import '../use_case.dart';
 
@@ -48,7 +47,7 @@ class GetOnboardingStepsUseCase extends UseCase {
   Future<bool> _isPermissionNotGranted(Permission permission) =>
       _permissionRepository
           .getPermissionStatus(permission)
-          .then((value) => value != PermissionStatus.granted);
+          .then((value) => value.wasDenied);
 
   /// We always want to show the contacts step on Android as we are
   /// specifically requesting consent.

@@ -18,8 +18,7 @@ class GetPermissionStatusUseCase extends UseCase {
 
     // If the contact permission is ever denied we need to ensure our contacts
     // cache is properly cleaned up.
-    if (permission == Permission.contacts &&
-        status != PermissionStatus.granted) {
+    if (permission == Permission.contacts && status.wasDenied) {
       unawaited(_contactRepository.cleanUp());
     }
 
