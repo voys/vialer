@@ -13,7 +13,6 @@ import '../../../../../data/models/event/event_bus.dart';
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
 import '../../../../../data/models/user/events/user_devices_changed.dart';
 import '../../../../../data/models/user/permissions/permission.dart';
-import '../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../data/models/user/refresh/user_refresh_task.dart';
 import '../../../../../data/models/user/settings/call_setting.dart';
 import '../../../../../data/models/user/settings/settings.dart';
@@ -100,9 +99,7 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
             buildInfo: await _getBuildInfo(),
             hasIgnoreBatteryOptimizationsPermission: await _getPermissionStatus(
               permission: Permission.ignoreBatteryOptimizations,
-            ).then(
-              (status) => status == PermissionStatus.granted,
-            ),
+            ).then((status) => status.wasGranted),
             isCallDirectoryExtensionEnabled: Platform.isIOS
                 ? await _sharedContacts.isCallDirectoryExtensionEnabled()
                 : false,

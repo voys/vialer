@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vialer/global.dart';
 
 import '../../../../../../data/models/colltacts/colltact.dart';
 import '../../../../../../data/models/colltacts/contact.dart';
@@ -31,6 +32,8 @@ class ContactsCubit extends Cubit<ContactsState> {
 
   final CallerCubit _caller;
 
+  bool _isLimited = false;
+
   Future<void> call(String destination) =>
       _caller.call(destination, origin: CallOrigin.contacts);
 
@@ -45,14 +48,14 @@ class ContactsCubit extends Cubit<ContactsState> {
       emit(const ContactsState.loading());
     }
 
-    final contacts =
-        status == PermissionStatus.granted ? await _getContacts() : <Contact>[];
+    _isLimited = status == PermissionStatus.limited;
+    final contacts = status.wasGranted ? await _getContacts() : <Contact>[];
 
     emit(
       ContactsState.loaded(
         contacts: contacts,
         contactSort: await _getContactSort(),
-        noContactPermission: status != PermissionStatus.granted,
+        noContactPermission: status.wasDenied,
         dontAskAgain: status == PermissionStatus.permanentlyDenied ||
             (Platform.isIOS && status == PermissionStatus.denied),
       ),
@@ -67,6 +70,8 @@ class ContactsCubit extends Cubit<ContactsState> {
     await _loadContacts(status);
   }
 
+  bool get hasLimitedContactsPermission => _isLimited;
+
   void openAppSettings() => unawaited(_openAppSettings());
 
   Colltact refreshColltactContact(Colltact colltact) {
@@ -79,5 +84,12 @@ class ContactsCubit extends Cubit<ContactsState> {
       if (contact != null) colltact = Colltact.contact(contact);
     }
     return colltact;
+  }
+
+  void requestMoreRestrictedContacts() async {
+    // This does not work properly when run on a simulator, try on a real device
+    // if you are having issues here.
+    await _openAppSettings();
+    track('contacts-permission-more-contacts-requested');
   }
 }

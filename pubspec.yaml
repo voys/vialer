@@ -33,7 +33,7 @@ dependencies:
   i18n: ^4.1.0
   intl: ^0.19.0
   flutter_dotenv: ^5.1.0
-  sentry_flutter: ^8.9.0
+  sentry_flutter: ^8.14.1
   flutter_segment_sdk: ^3.13.4
   package_info_plus: ^4.2.0
   sqlite3_flutter_libs: ^0.5.20
