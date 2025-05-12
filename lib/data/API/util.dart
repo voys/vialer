@@ -124,7 +124,7 @@ class PreventAppendingTrailingSlashInterceptor
     implements chopper.RequestInterceptor {
   @override
   FutureOr<chopper.Request> onRequest(Request request) => request.copyWith(
-        uri: Uri.parse(request.url.toString().removeSuffix('/')),
+        uri: Uri.parse(request.url.toString().withoutTrailingSlash),
       );
 }
 
@@ -275,4 +275,8 @@ class ClientHeaderInterceptor implements chopper.RequestInterceptor {
 
     return onRequest(request);
   }
+}
+
+extension on String {
+  String get withoutTrailingSlash => removeSuffix('/').replaceFirst('/?', '?');
 }
