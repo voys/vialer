@@ -13,9 +13,9 @@
   "privacyPolicyUrl": "https://bellenmetannabel.nl/privacy-app/",
   "availabilityServiceUrl": "https://api.eu-production.holodeck.voys.nl/user-status",
   "sharedContactsUrl": "https://contactbook.eu-production.holodeck.voys.nl",
-  "phoneNumberValidationUrl": "https://phonenumbers.spindle.dev",
+  "phoneNumberValidationUrl": "https://api.eu-production.holodeck.voys.nl/number-normalisation/v1/",
   "featureAnnouncementsUrl": "https://api.eu-production.holodeck.voys.nl/feature-announcements/",
-  "resgateUrl": "wss://resgate.prod.holodeck.spindle.dev",
+  "resgateUrl": "wss://resgate.eu-production.holodeck.voys.nl",
   "supportUrl": "https://bellenmetannabel.nl/contact",
   "supportUrlNL": ""
 }
