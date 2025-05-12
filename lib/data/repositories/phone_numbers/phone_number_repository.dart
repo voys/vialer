@@ -12,8 +12,14 @@ class PhoneNumberRepository with Loggable {
 
   final PhoneNumberService _service;
 
-  Future<ValidationResult> validate(String number) async {
-    final httpResponse = await _service.validate(number);
+  Future<ValidationResult> validate(
+    String number, {
+    bool acceptExtension = false,
+  }) async {
+    final httpResponse = await _service.validate(
+      number,
+      acceptExtension: acceptExtension,
+    );
 
     if (httpResponse.statusCode == 400) {
       return ValidationResult.invalid();
@@ -38,11 +44,11 @@ class _PhoneNumberValidationResponse with _$PhoneNumberValidationResponse {
     // These properties are only used when creating via JSON.
     // ignore_for_file: unused_element
     required bool isValid,
-    String? phoneNumberPretty,
-    String? phoneNumberFlat,
-    String? phoneNumberType,
-    String? callingCode,
-    String? countryCode,
+    @JsonKey(name: 'international_formatted') String? phoneNumberPretty,
+    @JsonKey(name: 'dial_number') String? phoneNumberFlat,
+    @JsonKey(name: 'number_type') String? phoneNumberType,
+    @JsonKey(name: 'country_calling_code') int? callingCode,
+    @JsonKey(name: 'country') String? countryCode,
     String? location,
   }) = __PhoneNumberValidationResponse;
 
@@ -60,6 +66,7 @@ sealed class ValidationResult with _$ValidationResult {
     required String countryCode,
     required String location,
   }) = ValidPhoneNumberResult;
+
   const factory ValidationResult.invalid() = InvalidPhoneNumberResult;
 }
 
@@ -71,7 +78,7 @@ extension on _PhoneNumberValidationResponse {
       pretty: phoneNumberPretty!,
       flat: phoneNumberFlat!,
       type: PhoneNumberType.fromServerValue(phoneNumberType!),
-      callingCode: callingCode!,
+      callingCode: callingCode!.toString(),
       countryCode: countryCode!,
       location: location!,
     );

@@ -10,20 +10,20 @@ part 'phone_number_service.chopper.dart';
 @singleton
 abstract class PhoneNumberService extends ChopperService {
   @factoryMethod
-  static PhoneNumberService create() => createFromUri(
-        Uri.parse(GetBrand()().phoneNumberValidationUrl.toString()),
-      );
-
-  static PhoneNumberService createFromUri(Uri uri) => _$PhoneNumberService(
-        // This end-point does not require authentication.
+  static PhoneNumberService create() => _$PhoneNumberService(
         ChopperClient(
-          baseUrl: uri,
+          baseUrl: Uri.parse(GetBrand()().phoneNumberValidationUrl.toString()),
           converter: JsonConverter(),
+          interceptors: [
+            const AuthorizationInterceptor(onlyModernAuth: true),
+            ...globalInterceptors,
+          ],
         ),
       );
 
-  @Get(path: 'validate/{number}')
+  @Get(path: 'normalise/{number}')
   Future<Response<Map<String, dynamic>>> validate(
-    @Path('number') String number,
-  );
+    @Path('number') String number, {
+    @Query('accept_extension') bool acceptExtension = true,
+  });
 }

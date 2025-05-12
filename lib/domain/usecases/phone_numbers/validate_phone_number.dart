@@ -19,7 +19,10 @@ class ValidatePhoneNumber extends UseCase {
     Iterable<PhoneNumberType> validTypes = const [],
     bool strict = false,
   }) async {
-    final result = await _phoneNumbers.validate(number);
+    final result = await _phoneNumbers.validate(
+      number,
+      acceptExtension: !strict,
+    );
 
     if (result is! ValidPhoneNumberResult) return false;
 
