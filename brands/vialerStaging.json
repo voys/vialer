@@ -13,9 +13,9 @@
   "privacyPolicyUrl": "https://vialerapp.com/privacy/",
   "availabilityServiceUrl": "https://api.eu-staging.holodeck.voys.nl/user-status",
   "sharedContactsUrl": "https://contactbook.eu-staging.holodeck.voys.nl",
-  "phoneNumberValidationUrl": "https://phonenumbers.spindle.dev",
+  "phoneNumberValidationUrl": "https://api.eu-staging.holodeck.voys.nl/number-normalisation/v1/",
   "featureAnnouncementsUrl": "https://api.stag.holodeck.spindle.dev/feature-announcements/",
-  "resgateUrl": "wss://resgate.stag.holodeck.spindle.dev",
+  "resgateUrl": "wss://resgate.eu-staging.holodeck.voys.nl",
   "supportUrl": "",
   "supportUrlNL": ""
 }
