@@ -13,7 +13,7 @@
   "openingHoursBasicUrl": "https://api.eu-production.holodeck.voys.nl/opening-hours-basic/client/",
   "privacyPolicyUrl": "https://www.voys.nl/app-privacy/",
   "availabilityServiceUrl": "https://api.eu-production.holodeck.voys.nl/user-status",
-  "sharedContactsUrl": "https://contactbook.eu-production.holodeck.voys.nl",
+  "sharedContactsUrl": "https://api.eu-production.holodeck.voys.nl/contactbook",
   "phoneNumberValidationUrl": "https://api.eu-production.holodeck.voys.nl/number-normalisation/v1/",
   "featureAnnouncementsUrl": "https://api.eu-production.holodeck.voys.nl/feature-announcements/",
   "resgateUrl": "wss://resgate.eu-production.holodeck.voys.nl",
