@@ -1,0 +1,1 @@
+- A message will now be displayed if you have only granted access to a limited number of contacts
