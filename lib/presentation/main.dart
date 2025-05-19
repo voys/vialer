@@ -125,7 +125,11 @@ class _AppState extends State<App> {
                 // We get a route of `/` when opening the app from an intent
                 // when the app has been killed. We will essentially catch this
                 // unregistered route and redirect to [initialRoute].
-                onUnknownRoute: (_) {
+                onUnknownRoute: (requestedRoute) {
+                  // This prevents anything from being rebuilt when the app
+                  // is already running.
+                  if (requestedRoute.name != '/') return null;
+
                   return MaterialPageRoute(
                     builder: (context) => Routes.mapped[_initialRoute]!(
                       context,
