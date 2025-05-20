@@ -12,7 +12,7 @@
   "openingHoursBasicUrl": "https://api.stag.holodeck.spindle.dev/opening-hours-basic/client/",
   "privacyPolicyUrl": "https://vialerapp.com/privacy/",
   "availabilityServiceUrl": "https://api.eu-staging.holodeck.voys.nl/user-status",
-  "sharedContactsUrl": "https://contactbook.eu-staging.holodeck.voys.nl",
+  "sharedContactsUrl": "https://api.eu-staging.holodeck.voys.nl/contactbook",
   "phoneNumberValidationUrl": "https://api.eu-staging.holodeck.voys.nl/number-normalisation/v1/",
   "featureAnnouncementsUrl": "https://api.stag.holodeck.spindle.dev/feature-announcements/",
   "resgateUrl": "wss://resgate.eu-staging.holodeck.voys.nl",
