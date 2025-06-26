@@ -4,6 +4,7 @@ import 'package:vialer/data/API/opening_hours_basic/phone_number_service.dart';
 import 'package:vialer/presentation/util/loggable.dart';
 
 part 'phone_number_repository.freezed.dart';
+
 part 'phone_number_repository.g.dart';
 
 @singleton
@@ -42,7 +43,7 @@ class _PhoneNumberValidationResponse with _$PhoneNumberValidationResponse {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _PhoneNumberValidationResponse({
     // These properties are only used when creating via JSON.
-    // ignore_for_file: unused_element
+    // ignore_for_file: unused_element_parameter
     required bool isValid,
     @JsonKey(name: 'international_formatted') String? phoneNumberPretty,
     @JsonKey(name: 'dial_number') String? phoneNumberFlat,
