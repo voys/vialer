@@ -58,7 +58,7 @@ class ColltactList extends StatelessWidget {
 
 class _ColltactList extends StatefulWidget {
   const _ColltactList({
-    // ignore: unused_element
+    // ignore: unused_element_parameter
     this.bottomLettersPadding = 0,
   });
 
