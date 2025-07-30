@@ -1,0 +1,50 @@
+{
+  "originHash" : "fdaa19c347ee07c982cd1f30ffbe7c2b05ac67f885bfda8ef6aca350c6095139",
+  "pins" : [
+    {
+      "identity" : "csqlite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/simolus3/CSQLite.git",
+      "state" : {
+        "revision" : "7b5bfc02122b8c64dabad2d0e2b45227ff469db1"
+      }
+    },
+    {
+      "identity" : "ios-phone-lib",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/open-voip-alliance/iOS-Phone-Lib.git",
+      "state" : {
+        "revision" : "1f4ffb7d25f0ade69dd825fb6be83db671f8ba69",
+        "version" : "0.1.15"
+      }
+    },
+    {
+      "identity" : "linphone-sdk-swift-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab.linphone.org/BC/public/linphone-sdk-swift-ios.git",
+      "state" : {
+        "revision" : "2d65f089792cb91c50f51dc26417c7d4c0ebb988",
+        "version" : "5.4.24"
+      }
+    },
+    {
+      "identity" : "sentry-cocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/getsentry/sentry-cocoa",
+      "state" : {
+        "revision" : "930b78a63f47549c81e6e63c9172584f7d3dfdd6",
+        "version" : "8.52.1"
+      }
+    },
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohannesNevels/Swinject.git",
+      "state" : {
+        "revision" : "a6fc20519781c1c4f64a00b76200c51116a8e8b8",
+        "version" : "2.9.2"
+      }
+    }
+  ],
+  "version" : 3
+}
