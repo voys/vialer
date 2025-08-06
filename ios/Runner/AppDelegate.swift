@@ -10,6 +10,7 @@ import UserNotifications
     private let flutterSharedPreferences = FlutterSharedPreferences()
     private var segment: Segment?
     private var nativeToFlutter: NativeToFlutter?
+    private var launchedFromURLScheme = false
 
     private var ringtonePath: String {
         let filename = "ringtone-\(Bundle.brandName)"
@@ -31,6 +32,8 @@ import UserNotifications
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        launchedFromURLScheme = false
+        
         UIApplication.shared.registerForRemoteNotifications()
 
         UNUserNotificationCenter.current().delegate = self
@@ -60,6 +63,10 @@ import UserNotifications
                 ])
 
                 middleware.currentCallInfo = nil
+                
+                if self.launchedFromURLScheme {
+                    self.navigateToConversationsApp()
+                }
             },
             onLogReceived: { message, level in
                 self.logger.writeLog(message)
@@ -99,6 +106,7 @@ import UserNotifications
             let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
             let number = queryItems.first(where: { $0.name == "number" })?.value else { return false }
         
+        launchedFromURLScheme = true
         segment?.track(event: "call-from-os-initiated", properties: [:])
         startCall(number: number.replacingOccurrences(of: "[^0-9\\+]", with: "", options: .regularExpression))
 
@@ -145,6 +153,20 @@ import UserNotifications
 extension AppDelegate {
     private func formatPhoneNumber(_ number: String) -> String {
         return number.replacingOccurrences(of: "[^0-9\\+]", with: "", options: .regularExpression)
+    }
+    
+    private func navigateToConversationsApp() {
+        DispatchQueue.main.async {
+            if let url = URL(string: "co.voys.conversations://") {
+                UIApplication.shared.open(url, options: [:]) { success in
+                    if success {
+                        self.logger.writeLog("Successfully navigated to conversations app")
+                    } else {
+                        self.logger.writeLog("Failed to open conversations app via URL scheme")
+                    }
+                }
+            }
+        }
     }
 }
 
