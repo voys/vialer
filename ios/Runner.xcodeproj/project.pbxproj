@@ -13,7 +13,7 @@
 		1AF5B3972BC7D2F300209DA6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1AF5B3962BC7D2F300209DA6 /* PrivacyInfo.xcprivacy */; };
 		1AF5B3982BC7D2F300209DA6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1AF5B3962BC7D2F300209DA6 /* PrivacyInfo.xcprivacy */; };
 		27F867CA35416CD7EFB0A536 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB25041671E32083F3A7709 /* Pods_Runner.framework */; };
-		3B3967161E833CAA004F5970 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		3B3967161E833CAA004F5970 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		5C12BB9C28F45B4F00053E2F /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5C12BB9B28F45B4F00053E2F /* ringback.wav */; };
 		5C1A6765272441C70079B4D1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1A6764272441C70079B4D1 /* Logger.swift */; };
 		5C5B39A22823B94D0052D50F /* SystemTones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B39A12823B94D0052D50F /* SystemTones.swift */; };
@@ -453,7 +453,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				5CF09A4B280EEBF9009B3C9C /* ringtone.wav in Resources */,
-				3B3967161E833CAA004F5970 /* BuildFile in Resources */,
+				3B3967161E833CAA004F5970 /* (null) in Resources */,
 				5C12BB9C28F45B4F00053E2F /* ringback.wav in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
@@ -930,7 +930,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer.CallDirectoryExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voys.app.CallDirectoryExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1160,7 +1160,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voys.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1233,7 +1233,7 @@
 				);
 				MTL_FAST_MATH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
-				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voys.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
