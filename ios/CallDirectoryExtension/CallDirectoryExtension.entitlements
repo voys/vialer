@@ -4,7 +4,11 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
+<<<<<<< Updated upstream
 		<string>group.com.voys.app.contact</string>
+=======
+		<string>$(APP_GROUP_IDENTIFIER)</string>
+>>>>>>> Stashed changes
 	</array>
 </dict>
 </plist>
