@@ -3,17 +3,18 @@ import 'dart:io';
 /// This script replaces the iOS Team ID and Bundle ID in an Xcode project file.
 /// The new values must be provided as command-line arguments.
 ///
-/// Usage: dart update_ios_signing_for_brand.dart <iosTeamId> <iosBundleId>
+/// Usage: dart update_ios_signing_for_brand.dart <iosTeamId> <iosBundleId> <appGroupIdentifier>
 void main(List<String> arguments) async {
-  if (arguments.length < 2) {
+  if (arguments.length < 3) {
     throw Exception(
       'Usage: dart replace_ios_teamid_bundleid.dart'
-      ' <iosTeamId> <iosBundleId>',
+      ' <iosTeamId> <iosBundleId> <appGroupIdentifier>',
     );
   }
 
   final iosTeamId = arguments[0];
   final iosBundleId = arguments[1];
+  final appGroupIdentifier = arguments[2];
 
   final filePaths = [
     'ios/Runner.xcodeproj/project.pbxproj',
@@ -30,11 +31,10 @@ void main(List<String> arguments) async {
       RegExp(
         r'(?<=PRODUCT_BUNDLE_IDENTIFIER = )[\w.]+(?=\.CallDirectoryExtension;|;)',
       ),
+    ],
+    appGroupIdentifier: [
       RegExp(
-        r'(?<=<string>group.)\$\(APP_GROUP_IDENTIFIER\)(?=\.contacts</string>)',
-      ),
-      RegExp(
-        r'(?<=<string>group.)\$\(APP_GROUP_IDENTIFIER\)(?=\.contact</string>)',
+        r'(?<=<string>)\$\(APP_GROUP_IDENTIFIER\)(?=</string>)',
       ),
     ],
   };

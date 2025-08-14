@@ -46,7 +46,7 @@ custom: # Custom properties to make workflows cleaner
       script: . utils/ci/codemagic/bin/build_for_android.sh
     - &update_ios_signing_for_current_brand
       name: Updating iOS project files to use the appropriate signing information for the current brand
-      script: dart utils/ci/codemagic/update_ios_signing_for_brand.dart $IOS_TEAM_ID $BUNDLE_ID
+      script: dart utils/ci/codemagic/update_ios_signing_for_brand.dart $IOS_TEAM_ID $BUNDLE_ID $APP_GROUP_IDENTIFIER
     - &build_for_ios
       name: Building application (.ipa) for iOS
       script: . utils/ci/codemagic/bin/build_for_ios.sh
