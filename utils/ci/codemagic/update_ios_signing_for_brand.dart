@@ -30,7 +30,7 @@ void main(List<String> arguments) async {
       RegExp(
         r'(?<=PRODUCT_BUNDLE_IDENTIFIER = )[\w.]+(?=\.CallDirectoryExtension;|;)',
       ),
-      RegExp(r'(?<=<string>group.)[\w.]+(?=\.contact</string>)'),
+      RegExp(r'(?<=<string>)\$\(APP_GROUP_IDENTIFIER\)(?=</string>)'),
     ],
   };
 
