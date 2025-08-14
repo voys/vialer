@@ -46,7 +46,7 @@ custom: # Custom properties to make workflows cleaner
       script: . utils/ci/codemagic/bin/build_for_android.sh
     - &update_ios_signing_for_current_brand
       name: Updating iOS project files to use the appropriate signing information for the current brand
-      script: dart utils/ci/codemagic/update_ios_signing_for_brand.dart $IOS_TEAM_ID $BUNDLE_ID
+      script: dart utils/ci/codemagic/update_ios_signing_for_brand.dart $IOS_TEAM_ID $BUNDLE_ID $APP_GROUP_IDENTIFIER
     - &build_for_ios
       name: Building application (.ipa) for iOS
       script: . utils/ci/codemagic/bin/build_for_ios.sh
@@ -93,18 +93,23 @@ custom: # Custom properties to make workflows cleaner
     vialer_env_vars: &brand_config_vialer_env_vars
       BRAND: vialer
       BUNDLE_ID: "com.voipgrid.vialer"
+      APP_GROUP_IDENTIFIER: "group.com.voipgrid.vialer.contacts"
     staging_env_vars: &brand_config_staging_env_vars
       BRAND: vialerStaging
       BUNDLE_ID: "com.voipgrid.vialer"
+      APP_GROUP_IDENTIFIER: "group.com.voipgrid.vialer.contacts"
     voys_env_vars: &brand_config_voys_env_vars
       BRAND: voys
       BUNDLE_ID: "com.voys.app"
+      APP_GROUP_IDENTIFIER: "group.com.voys.app.contact"
     verbonden_env_vars: &brand_config_verbonden_env_vars
       BRAND: verbonden
       BUNDLE_ID: "nl.verbonden.app"
+      APP_GROUP_IDENTIFIER: "group.nl.verbonden.app.contacts"
     annabel_env_vars: &brand_config_annabel_env_vars
       BRAND: annabel
       BUNDLE_ID: "com.bellenmetannabel.app"
+      APP_GROUP_IDENTIFIER: "group.com.bellenmetannabel.app.contacts"
   # Production and beta environment variables.
   release_env_vars: &release_env_vars
     IOS_SIGNING_TYPE: "IOS_APP_STORE"
