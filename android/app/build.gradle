@@ -2,7 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services" version "4.3.10" apply false
+    id "com.google.gms.google-services" version "4.4.0" apply false
 }
 
 def thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease = []
@@ -52,7 +52,9 @@ instead.
 }
 
 android {
-    compileSdkVersion 34
+    namespace brand.appId
+    compileSdkVersion 35
+    ndkVersion = "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -67,7 +69,7 @@ android {
     defaultConfig {
         applicationId brand.appId
         minSdkVersion 26
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -75,10 +77,11 @@ android {
 
     buildFeatures {
         compose true
+        buildConfig true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.2'
+        kotlinCompilerExtensionVersion '1.5.3'
     }
 
     signingConfigs {
@@ -101,15 +104,16 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+    
 
     buildFeatures {
         viewBinding true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
