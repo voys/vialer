@@ -105,6 +105,8 @@ class AuthRepository with Loggable {
         statusCode: e.response.statusCode,
         error: e.response.error.toString(),
       );
+    } on NeedToChangePasswordException {
+      rethrow;
     } catch (e) {
       logger.severe('Failed to retrieve user: $e');
       throw FailedToRetrieveUserException();
