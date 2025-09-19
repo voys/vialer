@@ -46,6 +46,10 @@ class Middleware(
     override fun tokenReceived(token: String) {
         prefs.pushToken = token
 
+        segment.track("push-token-received", mapOf(
+            "push-token" to maskPushToken(token)
+        ))
+
         val middlewareCredentials = middlewareCredentials
 
         if (middlewareCredentials == null) {
@@ -228,6 +232,14 @@ class Middleware(
         Request.Builder().url(url).addHeader("Authorization", "Token $email:$token")
 
     private fun log(message: String) = logger.writeLog("NATIVE-MIDDLEWARE: $message")
+
+    private fun maskPushToken(token: String): String {
+        return if (token.length > 6) {
+            "*".repeat(token.length - 6) + token.takeLast(6)
+        } else {
+            "*".repeat(token.length)
+        }
+    }
 
     private val middlewareCredentials
         get() = prefs.user?.let { user ->
