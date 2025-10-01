@@ -1,6 +1,11 @@
-import groovy.json.JsonSlurper
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services" version "4.4.0" apply false
+}
 
-def thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease = [];
+def thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease = []
 if (project.hasProperty('dart-defines')) {
     thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease = project.property('dart-defines')
             .split(',')
@@ -16,11 +21,6 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -51,13 +51,10 @@ instead.
     brand.appId = 'com.voipgrid.vialer'
 }
 
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 34
+    namespace "com.voipgrid.vialer"
+    compileSdkVersion 35
+    ndkVersion = "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -72,7 +69,7 @@ android {
     defaultConfig {
         applicationId brand.appId
         minSdkVersion 26
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -80,10 +77,11 @@ android {
 
     buildFeatures {
         compose true
+        buildConfig true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.2'
+        kotlinCompilerExtensionVersion '1.5.3'
     }
 
     signingConfigs {
@@ -106,19 +104,20 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+    
 
     buildFeatures {
         viewBinding true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
-task generateNativeValues(type:Exec) {
+task generateNativeValues(type: Exec) {
     workingDir '../..'
 
     println 'Generating native values..'
@@ -133,7 +132,6 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.play:app-update-ktx:2.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

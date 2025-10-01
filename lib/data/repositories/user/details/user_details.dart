@@ -1,4 +1,5 @@
 // ignore_for_file: unused_element
+// ignore_for_file: unused_element_parameter
 import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
