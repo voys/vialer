@@ -68,6 +68,7 @@ ios/Runner/Assets.xcassets/AppIcon.appiconset/*
 ios/Flutter/Brand.xcconfig
 ios/Flutter/Env.xcconfig
 ios/Flutter/thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease.xcconfig
+ios/Flutter/ephemeral
 
 release_notes_*.txt
 

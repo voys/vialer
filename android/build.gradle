@@ -1,17 +1,3 @@
-buildscript {
-    ext.kotlin_version = '1.8.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.10'
-    }
-}
-
 allprojects {
     repositories {
         google()
@@ -19,6 +5,35 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+
+// MVIALER-226: Google Play requires targetSdkVersion 35+ by Aug 31, 2025
+// Upgrading from targetSdkVersion 34 to 35 required Android Gradle Plugin 8.1.4+ which uses Java 17
+// Some Flutter plugins still default to older Java versions causing build failures
+// This configuration forces all subprojects to use consistent Java 17 to prevent version conflicts
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            project.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+        
+        project.tasks.withType(JavaCompile) {
+            sourceCompatibility = '17'
+            targetCompatibility = '17'
+        }
+        
+        project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
+}
+
 
 rootProject.buildDir = '../build'
 subprojects {
