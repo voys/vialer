@@ -52,7 +52,7 @@ instead.
 }
 
 android {
-    namespace brand.appId
+    namespace "com.voipgrid.vialer"
     compileSdkVersion 35
     ndkVersion = "27.0.12077973"
 
