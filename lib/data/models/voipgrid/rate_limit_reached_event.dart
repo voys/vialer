@@ -5,7 +5,7 @@ import '../event/event_bus.dart';
 part 'rate_limit_reached_event.freezed.dart';
 
 @freezed
-class RateLimitReachedEvent
+abstract class RateLimitReachedEvent
     with _$RateLimitReachedEvent
     implements EventBusEvent {
   const factory RateLimitReachedEvent({
