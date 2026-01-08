@@ -7,7 +7,7 @@ part 'temporary_redirect.freezed.dart';
 part 'temporary_redirect.g.dart';
 
 @freezed
-class TemporaryRedirect with _$TemporaryRedirect {
+abstract class TemporaryRedirect with _$TemporaryRedirect {
   const factory TemporaryRedirect({
     required DateTime endsAt,
     required TemporaryRedirectDestination destination,
@@ -19,7 +19,7 @@ class TemporaryRedirect with _$TemporaryRedirect {
 }
 
 @freezed
-class TemporaryRedirectDestination with _$TemporaryRedirectDestination {
+abstract class TemporaryRedirectDestination with _$TemporaryRedirectDestination {
   const factory TemporaryRedirectDestination.voicemail(
     VoicemailAccount voicemailAccount,
   ) = Voicemail;

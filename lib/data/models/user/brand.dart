@@ -5,7 +5,7 @@ part 'brand.freezed.dart';
 part 'brand.g.dart';
 
 @freezed
-class Brand with _$Brand {
+abstract class Brand with _$Brand {
   const factory Brand({
     required String identifier,
     required String appId,

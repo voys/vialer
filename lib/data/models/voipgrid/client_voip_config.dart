@@ -6,7 +6,7 @@ part 'client_voip_config.freezed.dart';
 part 'client_voip_config.g.dart';
 
 @freezed
-class ClientVoipConfig with _$ClientVoipConfig {
+abstract class ClientVoipConfig with _$ClientVoipConfig {
   const factory ClientVoipConfig({
     @JsonKey(name: 'MIDDLEWARE', fromJson: _middlewareUrlFromJson)
     required Uri middlewareUrl,

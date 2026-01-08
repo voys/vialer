@@ -28,7 +28,7 @@ extension AudioProblemsString on CallAudioProblem {
 }
 
 @freezed
-class CallFeedbackResult with _$CallFeedbackResult {
+abstract class CallFeedbackResult with _$CallFeedbackResult {
   const factory CallFeedbackResult({
     required double? rating,
     required CallProblem? problem,

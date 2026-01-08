@@ -26,7 +26,7 @@ class GetResgateAuthentication extends UseCase {
 }
 
 @freezed
-class ResgateAuthentication with _$ResgateAuthentication {
+abstract class ResgateAuthentication with _$ResgateAuthentication {
   const factory ResgateAuthentication({
     required Uri url,
     required String token,

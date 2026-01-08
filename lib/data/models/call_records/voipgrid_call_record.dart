@@ -4,7 +4,7 @@ part 'voipgrid_call_record.g.dart';
 part 'voipgrid_call_record.freezed.dart';
 
 @freezed
-class VoipgridCallRecord with _$VoipgridCallRecord {
+abstract class VoipgridCallRecord with _$VoipgridCallRecord {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory VoipgridCallRecord({
     required String id,
@@ -23,7 +23,7 @@ class VoipgridCallRecord with _$VoipgridCallRecord {
 }
 
 @freezed
-class CallRecordFromDetail with _$CallRecordFromDetail {
+abstract class CallRecordFromDetail with _$CallRecordFromDetail {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CallRecordFromDetail({
     required String type,
@@ -39,7 +39,7 @@ class CallRecordFromDetail with _$CallRecordFromDetail {
 }
 
 @freezed
-class CallRecordToDetail with _$CallRecordToDetail {
+abstract class CallRecordToDetail with _$CallRecordToDetail {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CallRecordToDetail({
     required String type,
@@ -53,7 +53,7 @@ class CallRecordToDetail with _$CallRecordToDetail {
 }
 
 @freezed
-class CallRecordVoipAccount with _$CallRecordVoipAccount {
+abstract class CallRecordVoipAccount with _$CallRecordVoipAccount {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CallRecordVoipAccount({
     required int id,
@@ -68,7 +68,7 @@ class CallRecordVoipAccount with _$CallRecordVoipAccount {
 }
 
 @freezed
-class CallRecordFixedDestination with _$CallRecordFixedDestination {
+abstract class CallRecordFixedDestination with _$CallRecordFixedDestination {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CallRecordFixedDestination({
     required int id,
