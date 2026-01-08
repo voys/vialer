@@ -163,7 +163,8 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
 
     if (widget.enabled) {
       widget.onDestinationChanged(_destination!);
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.settings.list.calling.availability.screenReader
             .ringingDevice
             .selection(_text(context)),

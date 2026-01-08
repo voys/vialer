@@ -104,7 +104,8 @@ class _CallActionButtons extends StatelessWidget {
 
   void _toggleDialPad(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () async {
-      await SemanticsService.announce(
+      await SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.call.ongoing.actions.keypad.semanticPostPress,
         Directionality.of(context),
       );
@@ -307,7 +308,11 @@ class _ActionButtonState extends State<_ActionButton> {
       // On Android we have to do it manually.
       if (context.isAndroid) {
         unawaited(
-          SemanticsService.announce(_semanticLabel, Directionality.of(context)),
+          SemanticsService.sendAnnouncement(
+            View.of(context),
+            _semanticLabel,
+            Directionality.of(context),
+          ),
         );
       }
     }
@@ -398,7 +403,8 @@ class _AudioRouteButton extends StatelessWidget {
     }
 
     unawaited(
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.call.ongoing.actions.audioRoute.semanticPostPress,
         Directionality.of(context),
       ),
