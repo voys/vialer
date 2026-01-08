@@ -76,7 +76,7 @@ dependencies:
       url: https://github.com/jeremynorman89/resclient-dart.git
       ref: main
   expandable_page_view: ^1.2.0
-  upgrader: ^10.3.0
+  upgrader: ^12.3.0
 
   riverpod_annotation: any
   meta: any
