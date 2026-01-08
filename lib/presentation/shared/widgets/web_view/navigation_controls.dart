@@ -13,13 +13,13 @@ class NavigationControls extends StatelessWidget {
 
   Future<void> _onBackButtonPressed() async {
     if (await _webViewController!.canGoBack()) {
-      unawaited(_webViewController!.goBack());
+      unawaited(_webViewController.goBack());
     }
   }
 
   Future<void> _onForwardButtonPressed() async {
     if (await _webViewController!.canGoForward()) {
-      unawaited(_webViewController!.goForward());
+      unawaited(_webViewController.goForward());
     }
   }
 
