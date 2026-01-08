@@ -7,6 +7,7 @@ import 'package:vialer/presentation/features/dialer/controllers/t9/riverpod.dart
 import 'package:vialer/presentation/features/dialer/controllers/t9/state.dart';
 import 'package:vialer/presentation/util/contact.dart';
 
+import '../../../../../../data/models/colltacts/colltact.dart';
 import '../../../../../../data/models/colltacts/t9_colltact.dart';
 import '../../../../../../domain/usecases/metrics/track_t9_usage.dart';
 import '../../../colltacts/widgets/colltact_list/avatar.dart';
