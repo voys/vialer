@@ -43,7 +43,7 @@ dependencies:
   logging: ^1.2.0
   get_it: ^9.2.0
   dartx: ^1.2.0
-  connectivity_plus: ^5.0.2
+  connectivity_plus: ^7.0.0
   flutter_inappwebview: ^6.1.5
   json_annotation: ^4.8.1
   flutter_rating_bar: ^4.0.1
