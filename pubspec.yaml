@@ -63,7 +63,7 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_riverpod: ^3.1.0
   flutter_contacts: ^1.1.7+1
-  connection_network_type: ^0.0.1
+  connection_network_type: ^1.0.0
   timer_builder: ^2.0.0
   gap: ^3.0.1
   injectable: ^2.7.1
