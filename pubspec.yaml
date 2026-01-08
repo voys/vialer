@@ -6,8 +6,8 @@ description: >-
 version: 7.0.0
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: 3.32.5
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: 3.38.5
 
 dependencies:
   flutter:
