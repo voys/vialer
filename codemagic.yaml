@@ -38,6 +38,7 @@ custom: # Custom properties to make workflows cleaner
     - &release_to_sentry
       name: Creating a new release in Sentry
       script: . utils/ci/codemagic/bin/release_to_sentry.sh
+      ignore_failure: true
     - &flutter_test
       name: Running unit tests
       script: flutter test
