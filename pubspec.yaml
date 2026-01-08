@@ -58,7 +58,7 @@ dependencies:
   watcher: ^1.1.0
   freezed_annotation: ^3.1.0
   collection: ^1.18.0
-  flutter_platform_widgets: ^6.1.0
+  flutter_platform_widgets: ^9.0.0
   search_highlight_text: ^1.0.0+2
   auto_size_text: ^3.0.0
   flutter_riverpod: ^3.1.0

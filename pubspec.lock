@@ -612,10 +612,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_platform_widgets
-      sha256: c483c0591d845d2adb84e341a1cfb746f1a8a7aff4c72a5957772446020601f4
+      sha256: "22a86564cb6cc0b93637c813ca91b0b1f61c2681a31e0f9d77590c1fa9f12020"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.0"
+    version: "9.0.0"
   flutter_rating_bar:
     dependency: "direct main"
     description:
