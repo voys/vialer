@@ -1223,9 +1223,11 @@ packages:
   res_client:
     dependency: "direct main"
     description:
-      path: "../resclient-dart"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: bef067921902f498dfbe08cd7eb17e2889e0575c
+      url: "https://github.com/jeremynorman89/resclient-dart.git"
+    source: git
     version: "0.8.6"
   riverpod:
     dependency: transitive

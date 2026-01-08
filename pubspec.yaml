@@ -72,7 +72,9 @@ dependencies:
   device_info_plus: ^9.1.2
   country_codes: ^3.3.0
   res_client:
-    path: ../resclient-dart
+    git:
+      url: https://github.com/jeremynorman89/resclient-dart.git
+      ref: main
   expandable_page_view: ^1.0.17
   upgrader: ^10.3.0
 
