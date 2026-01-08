@@ -30,21 +30,21 @@ abstract class MiddlewareService extends ChopperService {
     );
   }
 
-  @Delete(path: 'android-device')
+  @DELETE(path: 'android-device')
   Future<Response<String>> deleteAndroidDevice({
     @Field() required String token,
     @Field('sip_user_id') required String sipUserId,
     @Field() required String app,
   });
 
-  @Delete(path: 'apns-device')
+  @DELETE(path: 'apns-device')
   Future<Response<String>> deleteAppleDevice({
     @Field() required String token,
     @Field('sip_user_id') required String sipUserId,
     @Field() required String app,
   });
 
-  @Post(path: 'call-response')
+  @POST(path: 'call-response')
   Future<Response<Map<String, dynamic>>> callResponse({
     @Field('unique_key') required String uniqueKey,
     @Field() required String available,
