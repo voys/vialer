@@ -18,7 +18,7 @@ dependencies:
   font_awesome_flutter:
     hosted: https://onepub.dev/api/xhopsdavuh/
     version: ^10.7.0
-  flutter_bloc: ^8.1.4
+  flutter_bloc: ^9.1.1
   provider: ^6.1.5
   equatable: ^2.0.5
   chopper: ^8.5.0
