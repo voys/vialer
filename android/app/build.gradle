@@ -1,8 +1,9 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "org.jetbrains.kotlin.plugin.compose"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services" version "4.3.10" apply false
+    id "com.google.gms.google-services"
 }
 
 def thanksFlutterTeamToBreakBestWayToManageEnvironmentVariableOnYourLatestRelease = []
@@ -52,22 +53,24 @@ instead.
 }
 
 android {
-    compileSdkVersion 34
+    namespace brand.appId
+    compileSdk 36
+    ndkVersion "28.2.13676358"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         main.res.srcDirs += "src/${brand.identifier}/res"
     }
 
-    lintOptions {
+    lint {
         disable 'InvalidPackage'
         checkReleaseBuilds false
     }
 
     defaultConfig {
         applicationId brand.appId
-        minSdkVersion 26
-        targetSdkVersion 34
+        minSdk 26
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -75,10 +78,7 @@ android {
 
     buildFeatures {
         compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.2'
+        buildConfig true
     }
 
     signingConfigs {
@@ -101,15 +101,15 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     buildFeatures {
         viewBinding true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -167,5 +167,3 @@ configurations.all {
     exclude group: "com.amplitude", module: "android-sdk"
     exclude group: "com.segment.analytics.android.integrations", module: "amplitude"
 }
-
-apply plugin: 'com.google.gms.google-services'
