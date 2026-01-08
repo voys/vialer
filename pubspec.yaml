@@ -69,7 +69,7 @@ dependencies:
   injectable: ^2.7.1
   dev: ^1.0.0
   injectable_generator: ^2.9.0
-  device_info_plus: ^9.1.2
+  device_info_plus: ^12.3.0
   country_codes: ^3.3.0
   res_client:
     git:
