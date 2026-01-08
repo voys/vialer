@@ -94,8 +94,9 @@ class BusinessAvailabilityRepository with Loggable {
   }
 }
 
-@freezed
-class _TemporaryRedirectResponse with _$TemporaryRedirectResponse {
+@Freezed(toJson: false, fromJson: false)
+abstract class _TemporaryRedirectResponse with _$TemporaryRedirectResponse {
+  @JsonSerializable()
   const factory _TemporaryRedirectResponse({
     required String id,
     @JsonKey(fromJson: _dateTimeFromJson) required DateTime end,
