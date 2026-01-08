@@ -111,7 +111,7 @@ class _EditOutgoingNumberDialogState extends State<EditOutgoingNumberDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField(
-            value: items.map((item) => item.value).contains(_value)
+            initialValue: items.map((item) => item.value).contains(_value)
                 ? _value
                 : null,
             items: items,
