@@ -17,7 +17,7 @@ class ColorsGenerator extends Generator {
     buffer.writeln('$_generatedClassName($_className v) : ');
 
     try {
-      final colors = library.colorsClass.constructors.first.parameters;
+      final colors = library.colorsClass.constructors.first.formalParameters;
 
       colors.forEach((element) {
         buffer.writeln('${element.name} = Color(v.${element.name})');
