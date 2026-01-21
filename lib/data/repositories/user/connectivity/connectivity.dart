@@ -8,29 +8,27 @@ class ConnectivityRepository {
   Future<ConnectivityType> get currentType {
     return Connectivity()
         .checkConnectivity()
-        .then((result) => result.toDomainEntity());
+        .then((results) => results.toDomainEntity());
   }
 
   Stream<ConnectivityType> get statusStream {
     return Connectivity()
         .onConnectivityChanged
-        .map((result) => result.toDomainEntity());
+        .map((results) => results.toDomainEntity());
   }
 }
 
-extension ConnectivityTypeMapper on ConnectivityResult {
+extension ConnectivityTypeMapper on List<ConnectivityResult> {
   ConnectivityType toDomainEntity() {
-    switch (this) {
-      case ConnectivityResult.mobile:
-        return ConnectivityType.mobile;
-      case ConnectivityResult.vpn:
-      case ConnectivityResult.ethernet:
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.other:
-        return ConnectivityType.wifi;
-      case ConnectivityResult.bluetooth:
-      case ConnectivityResult.none:
-        return ConnectivityType.none;
+    if (contains(ConnectivityResult.mobile)) {
+      return ConnectivityType.mobile;
     }
+    if (contains(ConnectivityResult.wifi) ||
+        contains(ConnectivityResult.ethernet) ||
+        contains(ConnectivityResult.vpn) ||
+        contains(ConnectivityResult.other)) {
+      return ConnectivityType.wifi;
+    }
+    return ConnectivityType.none;
   }
 }

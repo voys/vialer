@@ -24,7 +24,9 @@ class ErrorTrackingRepository with Loggable {
 
     logger.logSentryEvent(event, willBeSentToSentry: shouldSend);
 
-    return shouldSend ? event.copyWith(user: SentryUser(id: user?.uuid)) : null;
+    if (!shouldSend) return null;
+    event.user = SentryUser(id: user?.uuid);
+    return event;
   }
 
   Future<void> run(

@@ -21,7 +21,7 @@ abstract class PhoneNumberService extends ChopperService {
         ),
       );
 
-  @Get(path: 'normalise/{number}')
+  @GET(path: 'normalise/{number}')
   Future<Response<Map<String, dynamic>>> validate(
     @Path('number') String number, {
     @Query('accept_extension') bool acceptExtension = true,

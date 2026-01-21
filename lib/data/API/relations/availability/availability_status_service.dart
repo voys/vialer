@@ -17,20 +17,20 @@ abstract class UserAvailabilityService extends ChopperService {
       ChopperClient(
         baseUrl: brand.availabilityServiceUrl,
         converter: JsonConverter(),
-        interceptors: <RequestInterceptor>[
+        interceptors: [
           const AuthorizationInterceptor(onlyModernAuth: true),
         ],
       ),
     );
   }
 
-  @Get(path: 'clients/{clientUuid}/users/{userUuid}/status')
+  @GET(path: 'clients/{clientUuid}/users/{userUuid}/status')
   Future<Response<Map<String, dynamic>>> getAvailabilityStatus({
     @Path() required String clientUuid,
     @Path() required String userUuid,
   });
 
-  @Post(path: 'clients/{clientUuid}/users/{userUuid}/status')
+  @POST(path: 'clients/{clientUuid}/users/{userUuid}/status')
   Future<Response<Map<String, dynamic>>> changeAvailabilityStatus(
     @Body() Map<String, dynamic> body, {
     @Path() required String clientUuid,

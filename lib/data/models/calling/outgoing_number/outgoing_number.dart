@@ -8,7 +8,7 @@ part 'outgoing_number.g.dart';
 @Freezed(equal: false)
 sealed class OutgoingNumber with _$OutgoingNumber {
   const OutgoingNumber._();
-  const factory OutgoingNumber() = _OutgoingNumber;
+  const factory OutgoingNumber.empty() = EmptyOutgoingNumber;
   const factory OutgoingNumber.unsuppressed(
     String number, {
     String? description,

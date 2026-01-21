@@ -80,7 +80,8 @@ class _CallFeedbackState extends State<CallFeedback> {
       // stage.
       if (_stage == CallFeedbackStage.rateCall &&
           !_storage.isUsingScreenReader) {
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           context.msg.main.call.feedback.rating.semantics
               .callRatingDialogDismissal,
           Directionality.of(context),

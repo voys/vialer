@@ -51,7 +51,7 @@ class BrandTheme {
     primaryColorDark: colors.primaryDark,
     primaryColorLight: colors.primaryLight,
     appBarTheme: AppBarTheme(
-      color: colors.appBarBackground,
+      backgroundColor: colors.appBarBackground,
       titleTextStyle: TextStyle(
         color: colors.appBarForeground,
         fontSize: 24,

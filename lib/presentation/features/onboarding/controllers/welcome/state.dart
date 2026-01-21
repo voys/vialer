@@ -5,6 +5,6 @@ import '../../../../../../data/models/user/user.dart';
 part 'state.freezed.dart';
 
 @freezed
-class WelcomeState with _$WelcomeState {
+abstract class WelcomeState with _$WelcomeState {
   const factory WelcomeState({User? user}) = _WelcomeState;
 }

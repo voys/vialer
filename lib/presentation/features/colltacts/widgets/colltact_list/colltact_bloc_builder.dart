@@ -39,7 +39,7 @@ class ColltactBlocBuilder extends StatelessWidget {
 }
 
 @freezed
-class ColltactBlocBuilderContainer with _$ColltactBlocBuilderContainer {
+abstract class ColltactBlocBuilderContainer with _$ColltactBlocBuilderContainer {
   const factory ColltactBlocBuilderContainer({
     required ContactsCubit contactsCubit,
     required ContactsState contactsState,

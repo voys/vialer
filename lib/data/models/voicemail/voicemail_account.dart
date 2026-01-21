@@ -4,7 +4,7 @@ part 'voicemail_account.freezed.dart';
 part 'voicemail_account.g.dart';
 
 @freezed
-class VoicemailAccount with _$VoicemailAccount {
+abstract class VoicemailAccount with _$VoicemailAccount {
   const VoicemailAccount._();
 
   const factory VoicemailAccount({

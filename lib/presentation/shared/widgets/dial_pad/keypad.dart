@@ -317,7 +317,8 @@ class _KeypadValueButtonState extends State<KeypadValueButton> {
     if (context.isAndroid ||
         (context.isIOS && widget.replaceWithSecondaryValueOnLongPress)) {
       unawaited(
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           widget.primaryValue,
           Directionality.of(context),
         ),
@@ -344,7 +345,8 @@ class _KeypadValueButtonState extends State<KeypadValueButton> {
     );
 
     unawaited(
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.dialer.button.value
             .replacedWithHint(widget.secondaryValue!),
         Directionality.of(context),

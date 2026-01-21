@@ -8,7 +8,7 @@ part 'user_availability_changed.freezed.dart';
 part 'user_availability_changed.g.dart';
 
 @freezed
-class UserAvailabilityChangedPayload
+abstract class UserAvailabilityChangedPayload
     with _$UserAvailabilityChangedPayload
     implements ResgatePayload {
   const UserAvailabilityChangedPayload._();
@@ -29,7 +29,10 @@ class UserAvailabilityChangedPayload
     /// be the preferred status when showing what the current user has chosen.
     @JsonKey(fromJson: _availabilityFromJson)
     required ColleagueAvailabilityStatus userStatus,
-    @JsonKey(fromJson: _colleagueContextFromJson)
+    @JsonKey(
+      fromJson: _colleagueContextFromJson,
+      toJson: _colleagueContextToJson,
+    )
     required List<ColleagueContext> context,
 
     /// The list of selected destinations, currently we only support a single
@@ -74,6 +77,16 @@ List<ColleagueContext> _colleagueContextFromJson(List<dynamic> json) => json
     .nonNulls
     .toList();
 
+List<String> _colleagueContextToJson(List<ColleagueContext> contexts) =>
+    contexts
+        .map(
+          (context) => context.map(
+            ringing: (_) => 'ringing',
+            inCall: (_) => 'in_call',
+          ),
+        )
+        .toList();
+
 ColleagueDestinationType _colleagueDestinationTypeFromJson(String type) =>
     switch (type) {
       'app_account' => ColleagueDestinationType.app,
@@ -83,7 +96,7 @@ ColleagueDestinationType _colleagueDestinationTypeFromJson(String type) =>
     };
 
 @freezed
-class SelectedDestination with _$SelectedDestination {
+abstract class SelectedDestination with _$SelectedDestination {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SelectedDestination({
     @JsonKey(name: 'portal_id') required int destinationId,

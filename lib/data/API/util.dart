@@ -16,7 +16,7 @@ import '../models/user/user.dart';
 import '../models/voipgrid/rate_limit_reached_event.dart';
 import 'authentication/unauthorized_api_response.dart';
 
-class AuthorizationInterceptor implements chopper.RequestInterceptor {
+class AuthorizationInterceptor implements chopper.Interceptor {
   const AuthorizationInterceptor({
     this.forcedLegacyAuthPaths = const [],
     this.user,
@@ -49,9 +49,13 @@ class AuthorizationInterceptor implements chopper.RequestInterceptor {
   final bool onlyModernAuth;
 
   @override
-  FutureOr<chopper.Request> onRequest(chopper.Request request) {
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    var request = chain.request;
+
     if (request.alreadyHasAuthorizationHeader) {
-      return request;
+      return chain.proceed(request);
     }
 
     final user = this.user ?? GetStoredUserUseCase()();
@@ -72,7 +76,7 @@ class AuthorizationInterceptor implements chopper.RequestInterceptor {
         useLegacyAuth = false;
       }
 
-      return request.copyWith(
+      request = request.copyWith(
         headers: Map.of(request.headers)
           ..addAll({
             'Authorization': useLegacyAuth
@@ -80,15 +84,15 @@ class AuthorizationInterceptor implements chopper.RequestInterceptor {
                 : 'Bearer ${user.token}',
           }),
       );
-    } else {
-      return request;
     }
+
+    return chain.proceed(request);
   }
 }
 
 /// Certain legacy URLs require a trailing-slash at the end, to maintain
 /// consistency with other URLs this will be added via this request interceptor.
-class TrailingSlashRequestInterceptor implements chopper.RequestInterceptor {
+class TrailingSlashRequestInterceptor implements chopper.Interceptor {
   static const _urls = [
     '/api/permission/apitoken',
     '/api/permission/mobile_number',
@@ -101,10 +105,15 @@ class TrailingSlashRequestInterceptor implements chopper.RequestInterceptor {
   ];
 
   @override
-  FutureOr<chopper.Request> onRequest(Request request) =>
-      _shouldAppendTrailingSlash(request)
-          ? request.copyWith(uri: Uri.parse("${request.uri}/"))
-          : request;
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) {
+    var request = chain.request;
+    if (_shouldAppendTrailingSlash(request)) {
+      request = request.copyWith(uri: Uri.parse("${request.uri}/"));
+    }
+    return chain.proceed(request);
+  }
 
   bool _shouldAppendTrailingSlash(Request request) =>
       _urls.contains(request.uri.toString()) ||
@@ -113,34 +122,41 @@ class TrailingSlashRequestInterceptor implements chopper.RequestInterceptor {
           .isNotEmpty;
 }
 
-/// When you use an empty @Get() or @Post() method in Chopper, it will append
+/// When you use an empty @GET() or @POST() method in Chopper, it will append
 /// a trailing slash. This is usually fine for GET requests because the web
 /// server will redirect automatically, but redirects don't happen automatically
 /// for POST requests.
 ///
-/// Adding this interceptor will allow you to use empty @Post() annotations
+/// Adding this interceptor will allow you to use empty @POST() annotations
 /// when you don't need anything more than the [baseUrl].
-class PreventAppendingTrailingSlashInterceptor
-    implements chopper.RequestInterceptor {
+class PreventAppendingTrailingSlashInterceptor implements chopper.Interceptor {
   @override
-  FutureOr<chopper.Request> onRequest(Request request) => request.copyWith(
-        uri: Uri.parse(request.url.toString().withoutTrailingSlash),
-      );
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) {
+    final request = chain.request.copyWith(
+      uri: Uri.parse(chain.request.url.toString().withoutTrailingSlash),
+    );
+    return chain.proceed(request);
+  }
 }
 
 /// We want to log out any users if they encounter as 401 response as this
 /// suggests that we do not have a valid token, this will fire the appropriate
 /// event so action can be taken.
-class UnauthorizedResponseInterceptor implements chopper.ResponseInterceptor {
+class UnauthorizedResponseInterceptor implements chopper.Interceptor {
   UnauthorizedResponseInterceptor({
     this.unauthorizedStatusCodes = const [401],
   });
 
   final List<int> unauthorizedStatusCodes;
-  final _eventBus = dependencyLocator<EventBus>();
+  late final _eventBus = dependencyLocator<EventBus>();
 
   @override
-  FutureOr<chopper.Response<dynamic>> onResponse(Response<dynamic> response) {
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    final response = await chain.proceed(chain.request);
     final statusCode = response.statusCode;
 
     if (_isUnauthorized(statusCode)) {
@@ -159,11 +175,14 @@ class UnauthorizedResponseInterceptor implements chopper.ResponseInterceptor {
       unauthorizedStatusCodes.contains(statusCode);
 }
 
-class RateLimitReachedInterceptor implements chopper.ResponseInterceptor {
-  final _eventBus = dependencyLocator<EventBus>();
+class RateLimitReachedInterceptor implements chopper.Interceptor {
+  late final _eventBus = dependencyLocator<EventBus>();
 
   @override
-  FutureOr<chopper.Response<dynamic>> onResponse(Response<dynamic> response) {
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    final response = await chain.proceed(chain.request);
     final statusCode = response.statusCode;
 
     if (_isRateLimited(statusCode)) {
@@ -181,10 +200,12 @@ class RateLimitReachedInterceptor implements chopper.ResponseInterceptor {
   bool _isRateLimited(int statusCode) => statusCode == 429;
 }
 
-class SubmitUnexpectedFailedRequestsToSentry
-    implements chopper.ResponseInterceptor {
+class SubmitUnexpectedFailedRequestsToSentry implements chopper.Interceptor {
   @override
-  FutureOr<chopper.Response<dynamic>> onResponse(Response<dynamic> response) {
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    final response = await chain.proceed(chain.request);
     final statusCode = response.statusCode;
 
     if (!statusCode.shouldSubmitStatusCodeToSentry) return response;
@@ -232,14 +253,14 @@ class JsonConverter extends chopper.JsonConverter {
   }
 }
 
-Iterable<dynamic> get globalInterceptors => [
+Iterable<chopper.Interceptor> get globalInterceptors => [
       SubmitUnexpectedFailedRequestsToSentry(),
       ClientHeaderInterceptor(),
     ];
 
 /// Adds certain headers to requests allowing the back-end to properly identify
 /// the client.
-class ClientHeaderInterceptor implements chopper.RequestInterceptor {
+class ClientHeaderInterceptor implements chopper.Interceptor {
   static const _prefix = 'X-Client';
 
   late final _brand = GetBrand()();
@@ -248,14 +269,19 @@ class ClientHeaderInterceptor implements chopper.RequestInterceptor {
   final Map<String, String> _cachedClientHeaders = {};
 
   @override
-  FutureOr<chopper.Request> onRequest(Request request) async {
+  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    var request = chain.request;
+
     if (_cachedClientHeaders.isNotEmpty) {
-      return request.copyWith(
+      request = request.copyWith(
         headers: {
           ..._cachedClientHeaders,
           ...request.headers,
         },
       );
+      return chain.proceed(request);
     }
 
     final packageInfo = await PackageInfo.fromPlatform();
@@ -273,7 +299,7 @@ class ClientHeaderInterceptor implements chopper.RequestInterceptor {
       '$_prefix-Brand': _brand.identifier,
     });
 
-    return onRequest(request);
+    return intercept(chain);
   }
 }
 

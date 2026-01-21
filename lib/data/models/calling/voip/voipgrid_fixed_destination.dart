@@ -8,7 +8,7 @@ part 'voipgrid_fixed_destination.freezed.dart';
 part 'voipgrid_fixed_destination.g.dart';
 
 @freezed
-class VoipgridFixedDestination extends VoipgridDestination
+abstract class VoipgridFixedDestination extends VoipgridDestination
     with _$VoipgridFixedDestination {
   const factory VoipgridFixedDestination({
     @override @JsonIdConverter() int? id,

@@ -1,5 +1,4 @@
 {
-  "originHash" : "fdaa19c347ee07c982cd1f30ffbe7c2b05ac67f885bfda8ef6aca350c6095139",
   "pins" : [
     {
       "identity" : "csqlite",
@@ -14,8 +13,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/open-voip-alliance/iOS-Phone-Lib.git",
       "state" : {
-        "revision" : "1f4ffb7d25f0ade69dd825fb6be83db671f8ba69",
-        "version" : "0.1.15"
+        "revision" : "f0b475055aba80e31bbfcfb23664a0aedc7b31ee",
+        "version" : "0.1.18"
       }
     },
     {
@@ -46,5 +45,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

@@ -10,7 +10,7 @@ import '../../../../../data/models/user/user.dart';
 part 'state.freezed.dart';
 
 @freezed
-class SettingsState with _$SettingsState {
+abstract class SettingsState with _$SettingsState {
   const factory SettingsState({
     required User user,
     BuildInfo? buildInfo,

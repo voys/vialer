@@ -34,7 +34,8 @@ class _ConnectivityAlertState extends State<ConnectivityAlert> {
     if (state is Disconnected) {
       final message = context.msg.connectivity.noConnection.message;
 
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         message,
         Directionality.of(context),
         assertiveness: Assertiveness.assertive,

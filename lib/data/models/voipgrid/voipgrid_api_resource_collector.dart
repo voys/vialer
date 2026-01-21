@@ -107,8 +107,9 @@ class VoipgridApiResourceCollector with Loggable {
   }
 }
 
-@freezed
-class _PaginatedVoipgridApiResponse with _$PaginatedVoipgridApiResponse {
+@Freezed(toJson: false, fromJson: false)
+abstract class _PaginatedVoipgridApiResponse with _$PaginatedVoipgridApiResponse {
+  @JsonSerializable()
   const factory _PaginatedVoipgridApiResponse({
     required String? next,
     required List<dynamic> items,

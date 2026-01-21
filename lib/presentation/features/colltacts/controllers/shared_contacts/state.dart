@@ -5,7 +5,7 @@ import '../../../../../../data/models/colltacts/shared_contacts/shared_contact.d
 part 'state.freezed.dart';
 
 @freezed
-class SharedContactsState with _$SharedContactsState {
+abstract class SharedContactsState with _$SharedContactsState {
   const factory SharedContactsState.loading() = LoadingSharedContacts;
 
   const factory SharedContactsState.loaded({

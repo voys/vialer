@@ -6,7 +6,7 @@ import '../../../../../../data/models/colltacts/t9_colltact.dart';
 part 'state.freezed.dart';
 
 @freezed
-class T9ColltactsState with _$T9ColltactsState {
+abstract class T9ColltactsState with _$T9ColltactsState {
   const factory T9ColltactsState.loading() = LoadingColltacts;
   const factory T9ColltactsState.loaded(
     List<Colltact> colltacts,

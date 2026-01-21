@@ -7,7 +7,7 @@ import '../user.dart';
 part 'logged_in_user_was_refreshed.freezed.dart';
 
 @freezed
-class LoggedInUserWasRefreshed
+abstract class LoggedInUserWasRefreshed
     with _$LoggedInUserWasRefreshed
     implements EventBusEvent {
   const factory LoggedInUserWasRefreshed({
