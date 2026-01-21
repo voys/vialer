@@ -29,11 +29,11 @@ class UserDetailsRepository with Loggable {
   }
 }
 
-@freezed
-class UserDetails with _$UserDetails {
+@Freezed(toJson: false)
+abstract class UserDetails with _$UserDetails {
   const UserDetails._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
   const factory UserDetails({
     required String firstName,
     required String lastName,
@@ -54,8 +54,8 @@ class UserDetails with _$UserDetails {
       ].map((e) => e.toDestination()).toList();
 }
 
-@freezed
-class _AppAccount with _$AppAccount {
+@Freezed(toJson: false, fromJson: false)
+abstract class _AppAccount with _$AppAccount {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _AppAccount({
     String? mobileNumber,
@@ -67,8 +67,8 @@ class _AppAccount with _$AppAccount {
       _$AppAccountFromJson(json);
 }
 
-@freezed
-class _WebphoneAccount with _$WebphoneAccount {
+@Freezed(toJson: false, fromJson: false)
+abstract class _WebphoneAccount with _$WebphoneAccount {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _WebphoneAccount({
     _VoipAccountDestination? voipAccount,
@@ -78,8 +78,8 @@ class _WebphoneAccount with _$WebphoneAccount {
       _$WebphoneAccountFromJson(json);
 }
 
-@freezed
-class _Destinations with _$Destinations {
+@Freezed(toJson: false, fromJson: false)
+abstract class _Destinations with _$Destinations {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _Destinations({
     @Default([]) Iterable<_VoipAccountDestination> voipAccounts,
@@ -130,8 +130,8 @@ sealed class _Destination with _$Destination {
       _$DestinationFromJson(json);
 }
 
-@freezed
-class _SelectedDestination with _$SelectedDestination {
+@Freezed(toJson: false, fromJson: false)
+abstract class _SelectedDestination with _$SelectedDestination {
   const _SelectedDestination._();
 
   @JsonSerializable(fieldRename: FieldRename.snake)

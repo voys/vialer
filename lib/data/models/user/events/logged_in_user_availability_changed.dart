@@ -8,7 +8,7 @@ part 'logged_in_user_availability_changed.freezed.dart';
 
 /// We've received an availability update for the logged-in user.
 @freezed
-class LoggedInUserAvailabilityChanged
+abstract class LoggedInUserAvailabilityChanged
     with _$LoggedInUserAvailabilityChanged
     implements EventBusEvent {
   const factory LoggedInUserAvailabilityChanged({

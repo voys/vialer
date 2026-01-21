@@ -5,7 +5,7 @@ import '../../../../../../data/models/business_availability/temporary_redirect/t
 part 'state.freezed.dart';
 
 @freezed
-class TemporaryRedirectState with _$TemporaryRedirectState {
+abstract class TemporaryRedirectState with _$TemporaryRedirectState {
   const factory TemporaryRedirectState.none(
     Iterable<TemporaryRedirectDestination> availableRedirectDestinations,
   ) = None;

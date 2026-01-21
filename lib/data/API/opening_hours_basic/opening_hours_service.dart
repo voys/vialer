@@ -26,7 +26,7 @@ abstract class OpeningHoursService extends ChopperService {
     );
   }
 
-  @Get(path: '{clientUuid}/openinghours')
+  @GET(path: '{clientUuid}/openinghours')
   Future<Response<Map<String, dynamic>>> getOpeningHoursModules({
     @Path() required String clientUuid,
   });

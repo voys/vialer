@@ -5,7 +5,7 @@ import '../../../../../data/models/onboarding/step.dart';
 part 'state.freezed.dart';
 
 @freezed
-class OnboardingState with _$OnboardingState {
+abstract class OnboardingState with _$OnboardingState {
   const factory OnboardingState({
     /// All steps to go through in the onboarding process. Steps may be
     /// added later on during the onboarding process.

@@ -5,7 +5,7 @@ import '../../../../../../data/models/calling/outgoing_number/outgoing_number.da
 part 'state.freezed.dart';
 
 @freezed
-class ConfirmState with _$ConfirmState {
+abstract class ConfirmState with _$ConfirmState {
   const factory ConfirmState({
     required bool showConfirmPage,
     required OutgoingNumber outgoingNumber,

@@ -6,7 +6,7 @@ import 'survey_trigger.dart';
 part 'survey.freezed.dart';
 
 @freezed
-class Survey with _$Survey {
+abstract class Survey with _$Survey {
   @Assert('questions.isNotEmpty')
   factory Survey({
     required SurveyId id,

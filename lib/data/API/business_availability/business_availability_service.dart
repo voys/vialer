@@ -44,25 +44,25 @@ abstract class BusinessAvailabilityService extends ChopperService {
     );
   }
 
-  @Get(path: '{clientUuid}/temporary-redirect')
+  @GET(path: '{clientUuid}/temporary-redirect')
   Future<Response<Map<String, dynamic>>> getTemporaryRedirect({
     @Path() required String clientUuid,
   });
 
-  @Post(path: '{clientUuid}/temporary-redirect')
+  @POST(path: '{clientUuid}/temporary-redirect')
   Future<Response<Map<String, dynamic>>> setTemporaryRedirect(
     @Path() String clientUuid,
     @Body() Map<String, dynamic> body,
   );
 
-  @Put(path: '{clientUuid}/temporary-redirect/{temporaryRedirectId}')
+  @PUT(path: '{clientUuid}/temporary-redirect/{temporaryRedirectId}')
   Future<Response<Map<String, dynamic>>> updateTemporaryRedirect(
     @Path() String clientUuid,
     @Path() String temporaryRedirectId,
     @Body() Map<String, dynamic> body,
   );
 
-  @Delete(path: '{clientUuid}/temporary-redirect/{temporaryRedirectId}')
+  @DELETE(path: '{clientUuid}/temporary-redirect/{temporaryRedirectId}')
   Future<Response<Map<String, dynamic>>> deleteTemporaryRedirect(
     @Path() String clientUuid,
     @Path() String temporaryRedirectId,

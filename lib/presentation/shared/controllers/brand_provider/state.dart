@@ -5,6 +5,6 @@ import '../../../../data/models/user/brand.dart';
 part 'state.freezed.dart';
 
 @freezed
-class BrandProviderState with _$BrandProviderState {
+abstract class BrandProviderState with _$BrandProviderState {
   const factory BrandProviderState(Brand brand) = _BrandProviderState;
 }

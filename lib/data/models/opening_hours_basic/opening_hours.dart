@@ -7,7 +7,7 @@ part 'opening_hours.g.dart';
 part 'opening_hours.freezed.dart';
 
 @freezed
-class OpeningHoursModule with _$OpeningHoursModule {
+abstract class OpeningHoursModule with _$OpeningHoursModule {
   const factory OpeningHoursModule({
     required String id,
     required String name,
@@ -22,7 +22,7 @@ class OpeningHoursModule with _$OpeningHoursModule {
 }
 
 @freezed
-class OpeningHours with _$OpeningHours {
+abstract class OpeningHours with _$OpeningHours {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory OpeningHours({
     required int dayOfWeek,
@@ -43,7 +43,7 @@ TimeOfDay? _timeFromJson(String? time) => time != null
 String? _timeToJson(TimeOfDay? time) => time?.formattedTime;
 
 @freezed
-class Holiday with _$Holiday {
+abstract class Holiday with _$Holiday {
   const factory Holiday({
     required String id,
     required String country,

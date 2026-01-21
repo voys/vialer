@@ -7,7 +7,7 @@ part 'unauthorized_api_response.freezed.dart';
 /// An unauthorized (typically 401) response was received when attempting to
 /// contact the API.
 @freezed
-class UnauthorizedApiResponseEvent
+abstract class UnauthorizedApiResponseEvent
     with _$UnauthorizedApiResponseEvent
     implements EventBusEvent {
   const factory UnauthorizedApiResponseEvent({

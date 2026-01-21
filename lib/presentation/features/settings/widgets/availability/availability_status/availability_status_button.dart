@@ -72,7 +72,8 @@ class AvailabilityStatusButton extends StatelessWidget {
   ) {
     if (enabled) {
       onStatusChanged(type);
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.settings.list.calling.availability.screenReader.status
             .selection(text),
         Directionality.of(context),

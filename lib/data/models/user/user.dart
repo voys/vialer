@@ -16,7 +16,7 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @Freezed(copyWith: false)
-class User with _$User {
+abstract class User with _$User {
   const User._();
 
   const factory User({

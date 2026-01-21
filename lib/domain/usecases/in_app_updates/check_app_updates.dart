@@ -10,7 +10,7 @@ class CheckAppUpdatesUseCase extends UseCase {
       final onUpdateTypeKnownCompleter = Completer<bool>();
       final onDownloadedCompleter = Completer<void>();
 
-      AndroidFlexibleUpdateHandler.setup(
+      AndroidFlexibleUpdateHandler.setUp(
         _AndroidFlexibleUpdateHandler(
           onUpdateTypeKnown: onUpdateTypeKnownCompleter.complete,
           onDownloaded: onDownloadedCompleter.complete,

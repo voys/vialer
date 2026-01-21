@@ -6,7 +6,7 @@ part 'shared_contact.freezed.dart';
 part 'shared_contact.g.dart';
 
 @freezed
-class SharedContact with _$SharedContact {
+abstract class SharedContact with _$SharedContact {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SharedContact({
     required String? id,
@@ -50,7 +50,7 @@ class SharedContact with _$SharedContact {
 }
 
 @freezed
-class SharedContactPhoneNumber with _$SharedContactPhoneNumber {
+abstract class SharedContactPhoneNumber with _$SharedContactPhoneNumber {
   const SharedContactPhoneNumber._();
 
   @JsonSerializable(fieldRename: FieldRename.snake)

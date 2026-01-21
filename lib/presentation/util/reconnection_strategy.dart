@@ -49,7 +49,7 @@ class ReconnectionStrategy {
 }
 
 @freezed
-class RetryPattern with _$RetryPattern {
+abstract class RetryPattern with _$RetryPattern {
   const factory RetryPattern({
     /// The initial delay, before this no retry attempts are made
     /// and future attempts are based on mutating this value.

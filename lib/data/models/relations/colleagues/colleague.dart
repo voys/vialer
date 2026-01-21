@@ -6,7 +6,7 @@ part 'colleague.freezed.dart';
 part 'colleague.g.dart';
 
 @freezed
-class Colleague with _$Colleague {
+abstract class Colleague with _$Colleague {
   /// A Voipgrid user which we fully support, including their current
   /// availability and context.
   const factory Colleague({
@@ -24,7 +24,7 @@ class Colleague with _$Colleague {
     /// in a meeting (NYI) but also in a call, then this would show them as
     /// being in a call even if the meeting is more recent.
     ColleagueDestination? destination,
-  }) = _Colleague;
+  }) = ConnectedColleague;
 
   const Colleague._();
 
@@ -94,7 +94,7 @@ enum ColleagueAvailabilityStatus {
 
 /// The destination that we can call to reach the given colleague.
 @freezed
-class ColleagueDestination with _$ColleagueDestination {
+abstract class ColleagueDestination with _$ColleagueDestination {
   const factory ColleagueDestination({
     required String number,
     required ColleagueDestinationType type,
@@ -115,7 +115,7 @@ enum ColleagueDestinationType {
 /// (e.g. that their phone is currently ringing), including any
 /// associated relevant data (e.g. the number that is calling them).
 @freezed
-class ColleagueContext with _$ColleagueContext {
+abstract class ColleagueContext with _$ColleagueContext {
   const ColleagueContext._();
 
   const factory ColleagueContext.ringing() = Ringing;

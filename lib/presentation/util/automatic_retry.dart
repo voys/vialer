@@ -124,7 +124,7 @@ class RetrySchedule {
 /// Contains the result of an individual task, the task must provide both the
 /// [AutomaticRetryTaskResult] and the data that it should output.
 @freezed
-class AutomaticRetryTaskOutput<T> with _$AutomaticRetryTaskOutput<T> {
+abstract class AutomaticRetryTaskOutput<T> with _$AutomaticRetryTaskOutput<T> {
   const factory AutomaticRetryTaskOutput({
     required T data,
     required AutomaticRetryTaskResult result,

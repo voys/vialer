@@ -5,7 +5,7 @@ import 'colleague.dart';
 part 'availability_update.freezed.dart';
 
 @freezed
-class AvailabilityUpdate with _$AvailabilityUpdate {
+abstract class AvailabilityUpdate with _$AvailabilityUpdate {
   const factory AvailabilityUpdate({
     required ColleagueAvailabilityStatus availabilityStatus,
     required List<ColleagueContext> context,

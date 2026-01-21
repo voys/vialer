@@ -1,5 +1,6 @@
 package com.voipgrid.vialer
 
+import com.voipgrid.vialer.BuildConfig
 import LoggedInElsewhereNotification
 import android.content.Context
 import android.os.Build

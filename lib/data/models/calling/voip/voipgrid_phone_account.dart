@@ -8,7 +8,7 @@ part 'voipgrid_phone_account.freezed.dart';
 part 'voipgrid_phone_account.g.dart';
 
 @freezed
-class VoipgridPhoneAccount extends VoipgridDestination
+abstract class VoipgridPhoneAccount extends VoipgridDestination
     with _$VoipgridPhoneAccount {
   const factory VoipgridPhoneAccount({
     @JsonKey(name: 'account_id') required int accountId,

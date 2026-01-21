@@ -8,7 +8,7 @@ part 'state.freezed.dart';
 sealed class NoticeState with _$NoticeState {
   const NoticeState._();
 
-  const factory NoticeState.NoNotice() = NoNotice;
+  const factory NoticeState.noNotice() = NoNotice;
   const factory NoticeState.noticeDismissed() = NoticeDismissed;
   const factory NoticeState.microphonePermissionDeniedNotice() =
       MicrophonePermissionDeniedNotice;

@@ -38,8 +38,8 @@ class PhoneNumberRepository with Loggable {
   }
 }
 
-@freezed
-class _PhoneNumberValidationResponse with _$PhoneNumberValidationResponse {
+@Freezed(toJson: false, fromJson: false)
+abstract class _PhoneNumberValidationResponse with _$PhoneNumberValidationResponse {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _PhoneNumberValidationResponse({
     // These properties are only used when creating via JSON.

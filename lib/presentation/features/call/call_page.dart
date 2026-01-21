@@ -207,18 +207,21 @@ class _CallPageState extends State<_CallPage>
   void _announceStateChanged(BuildContext context, CallerState state) {
     if (state is AttendedTransferComplete) {
       Future.delayed(const Duration(milliseconds: 500), () async {
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           context.msg.main.call.transfer.complete.message,
           Directionality.of(context),
         );
       });
     } else if (state is Calling && state.isTransferAborted) {
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.call.transfer.abort.message,
         Directionality.of(context),
       );
     } else if (state is FinishedCalling) {
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.call.ended.message,
         Directionality.of(context),
       );
@@ -263,7 +266,8 @@ class _CallPageState extends State<_CallPage>
 
     // TODO: Use correct phone number pronunciation.
     Future.delayed(const Duration(seconds: 1), () async {
-      await SemanticsService.announce(
+      await SemanticsService.sendAnnouncement(
+        View.of(context),
         context.msg.main.call.ongoing.actions.transfer
             .semanticPostPress(callerName),
         Directionality.of(context),

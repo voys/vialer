@@ -6,7 +6,7 @@ import '../../../../../data/models/relations/user_availability_status.dart';
 part 'state.freezed.dart';
 
 @freezed
-class UserAvailabilityStatusState with _$UserAvailabilityStatusState {
+abstract class UserAvailabilityStatusState with _$UserAvailabilityStatusState {
   const factory UserAvailabilityStatusState(
     UserAvailabilityStatus status, {
     Destination? currentDestination,

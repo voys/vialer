@@ -6,7 +6,7 @@ import 'colltact.dart';
 part 't9_colltact.freezed.dart';
 
 @freezed
-class T9Colltact with _$T9Colltact {
+abstract class T9Colltact with _$T9Colltact {
   const factory T9Colltact({
     required Colltact colltact,
     required Item relevantPhoneNumber,

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'question.freezed.dart';
 
 @freezed
-class Question with _$Question {
+abstract class Question with _$Question {
   @Assert('answers.length == 5')
   factory Question({
     required int id,

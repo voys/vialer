@@ -240,7 +240,8 @@ class _DeleteButtonState extends State<_DeleteButton> {
       );
 
       unawaited(
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           context.msg.main.dialer.button.delete.deletedHint(
             deleted,
             deleted.characters.length,
@@ -269,14 +270,16 @@ class _DeleteButtonState extends State<_DeleteButton> {
     // the native dialer.
     if (deletedSingleDigit) {
       unawaited(
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           context.msg.main.dialer.button.delete.deletedHint(digits, digitCount),
           Directionality.of(context),
         ),
       );
     } else {
       unawaited(
-        SemanticsService.announce(
+        SemanticsService.sendAnnouncement(
+          View.of(context),
           context.msg.main.dialer.button.delete.deletedAllHint,
           Directionality.of(context),
         ),

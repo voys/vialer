@@ -5,7 +5,7 @@ part 'device.freezed.dart';
 part 'device.g.dart';
 
 @freezed
-class DevicePayload with _$DevicePayload implements ResgatePayload {
+abstract class DevicePayload with _$DevicePayload implements ResgatePayload {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory DevicePayload({
     required int accountId,

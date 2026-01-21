@@ -4,7 +4,7 @@ part 'app_account.freezed.dart';
 part 'app_account.g.dart';
 
 @freezed
-class AppAccount with _$AppAccount {
+abstract class AppAccount with _$AppAccount {
   const factory AppAccount({
     @JsonKey(name: 'appaccount_account_id', fromJson: _sipUserIdFromJson)
     required String sipUserId,

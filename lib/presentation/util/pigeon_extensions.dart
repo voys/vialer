@@ -12,7 +12,7 @@ class _NativeToFlutterListener implements NativeToFlutter {
 
 extension NativeToFlutterSetup on NativeToFlutter {
   static void onLaunchDialerAndPopulateNumber(void Function(String) callback) =>
-      NativeToFlutter.setup(
+      NativeToFlutter.setUp(
         _NativeToFlutterListener(onLaunchDialerAndPopulateNumber: callback),
       );
 }

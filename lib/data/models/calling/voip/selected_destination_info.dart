@@ -4,7 +4,7 @@ part 'selected_destination_info.freezed.dart';
 part 'selected_destination_info.g.dart';
 
 @freezed
-class SelectedDestinationInfo with _$SelectedDestinationInfo {
+abstract class SelectedDestinationInfo with _$SelectedDestinationInfo {
   const factory SelectedDestinationInfo({
     required int id,
     @JsonKey(name: 'fixeddestination') int? fixedDestinationId,

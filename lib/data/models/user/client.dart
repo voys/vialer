@@ -11,7 +11,7 @@ part 'client.freezed.dart';
 part 'client.g.dart';
 
 @Freezed(copyWith: false)
-class Client with _$Client {
+abstract class Client with _$Client {
   const Client._();
 
   const factory Client({

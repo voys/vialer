@@ -26,6 +26,6 @@ abstract class FeatureAnnouncementsService extends ChopperService {
     );
   }
 
-  @Head(path: 'feature-announcements?interface=mobile')
+  @HEAD(path: 'feature-announcements?interface=mobile')
   Future<Response<void>> getUnreadAnnouncements();
 }

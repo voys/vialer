@@ -6,7 +6,7 @@ import '../../../../../../data/models/colltacts/contact.dart';
 part 'state.freezed.dart';
 
 @freezed
-class ContactsState with _$ContactsState {
+abstract class ContactsState with _$ContactsState {
   const factory ContactsState.loading() = LoadingContacts;
 
   const factory ContactsState.loaded({

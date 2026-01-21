@@ -155,7 +155,7 @@ enum CallerType {
 }
 
 @freezed
-class CallParty with _$CallParty {
+abstract class CallParty with _$CallParty {
   const factory CallParty({
     required String number,
     required CallerType type,
