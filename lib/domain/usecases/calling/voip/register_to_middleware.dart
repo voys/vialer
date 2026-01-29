@@ -1,8 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:vialer/domain/usecases/calling/voip/unregister_to_middleware.dart';
+import 'package:vialer/global.dart';
 
-import '../../../../presentation/util/pigeon.dart';
 import '../../../../data/repositories/legacy/storage.dart';
+import '../../../../presentation/util/pigeon.dart';
 import '../../authentication/get_is_logged_in_somewhere_else.dart';
 import '../../use_case.dart';
 import '../../user/get_logged_in_user.dart';
@@ -29,11 +30,13 @@ class RegisterToMiddlewareUseCase extends UseCase {
     }
 
     if (_getUser().appAccount?.sipUserId == null) {
+      _trackNotPossible('no-sip-user-id');
       logger.info('Registration cancelled: No SIP user ID set');
       return;
     }
 
     if (_storageRepository.pushToken == null) {
+      _trackNotPossible('no-token');
       logger.info('Registration cancelled: No token');
       return;
     }
@@ -41,6 +44,11 @@ class RegisterToMiddlewareUseCase extends UseCase {
     if (_getHasVoipEnabled()) {
       logger.info('Register to middleware natively');
       _middleware.register(_storageRepository.pushToken!);
+    } else {
+      _trackNotPossible('voip-not-enabled');
     }
   }
+
+  void _trackNotPossible(String event) =>
+      track('middleware-registration-not-possible-$event');
 }
