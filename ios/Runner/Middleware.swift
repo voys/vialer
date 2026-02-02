@@ -36,6 +36,12 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     }
 
     public func tokenReceived(token: String) {
+        flutterSharedPreferences.pushToken = token
+
+        segment.track(event: "push-token-received", properties: [
+            "push-token": maskPushToken(token)
+        ])
+
         let sandbox = Bundle.main.infoDictionary?["Sandbox"] as? String
         let data = [
             "name": middlewareCredentials.email,
@@ -68,8 +74,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
                 self.logger.writeLog("Registration failed: response code was \(String(describing: statusCode))")
            }
         }
-
-        flutterSharedPreferences.pushToken = token
     }
 
     public func respond(payload: PKPushPayload, available: Bool, reason: NativeMiddlewareUnavailableReason?) {
@@ -177,7 +181,14 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
 
         return request
     }
-    
+
+    private func maskPushToken(_ token: String) -> String {
+        guard token.count > 6 else { return String(repeating: "*", count: token.count) }
+        let maskedPortion = String(repeating: "*", count: token.count - 6)
+        let lastSix = String(token.suffix(6))
+        return maskedPortion + lastSix
+    }
+
     func register(token: String) throws {
         self.tokenReceived(token: token)
     }

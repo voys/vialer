@@ -1,0 +1,1 @@
+- iOS: Fixed an issue where the speaker would be disabled at the start of a call
