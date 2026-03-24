@@ -6,7 +6,7 @@
   "callDirectoryExtension": "com.voys.app.CallDirectoryExtension",
   "url": "https://freedom.voys.nl",
   "aboutUrl": "https://www.voys.nl/hulp/toestellen/voys-4g-app/",
-  "middlewareUrl": "https://vialerpush.voipgrid.nl",
+  "middlewareUrl": "https://vmex.eu-production.holodeck.voys.nl",
   "voipgridUrl": "https://partner.voys.co",
   "sipUrl": "sip.encryptedsip.com",
   "businessAvailabilityUrl": "https://api.eu-production.holodeck.voys.nl/business-availability/clients/",
