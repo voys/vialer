@@ -5,7 +5,7 @@
   "callDirectoryExtension": "nl.verbonden.app.CallDirectoryExtension",
   "appName": "Verbonden",
   "url": "https://partner.voys.co",
-  "middlewareUrl": "https://vialerpush.voipgrid.nl",
+  "middlewareUrl": "https://vmex.eu-production.holodeck.voys.nl",
   "voipgridUrl": "https://partner.voys.co",
   "sipUrl": "sip.encryptedsip.com",
   "businessAvailabilityUrl": "https://api.eu-production.holodeck.voys.nl/business-availability/clients/",

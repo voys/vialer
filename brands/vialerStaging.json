@@ -5,7 +5,7 @@
   "callDirectoryExtension": "com.voipgrid.vialer.CallDirectoryExtension",
   "appName": "Vialer Staging",
   "url": "https://staging.voipgrid.nl",
-  "middlewareUrl": "https://vialerpush-staging.voipgrid.nl",
+  "middlewareUrl": "https://vmex.eu-staging.holodeck.voys.nl",
   "voipgridUrl": "https://staging.voipgrid.nl",
   "sipUrl": "staging.encryptedsip.com",
   "businessAvailabilityUrl": "https://api.eu-staging.holodeck.voys.nl/business-availability/clients/",
