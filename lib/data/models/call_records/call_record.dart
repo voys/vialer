@@ -19,6 +19,7 @@ sealed class CallRecord with _$CallRecord {
     required DateTime date,
     required CallParty caller,
     required CallParty destination,
+    String? summary,
   }) = CallRecordWithoutContact;
 
   /// CallRecord with a contact that relates to the [destination].
@@ -33,6 +34,7 @@ sealed class CallRecord with _$CallRecord {
     required CallParty caller,
     required CallParty destination,
     Contact? contact,
+    String? summary,
   }) = CallRecordWithContact;
 
   const factory CallRecord.client({
@@ -49,6 +51,7 @@ sealed class CallRecord with _$CallRecord {
     required bool didTargetLoggedInUser,
     required bool wasInitiatedByColleague,
     required bool wasInitiatedByLoggedInUser,
+    String? summary,
   }) = ClientCallRecord;
 
   const factory CallRecord.clientWithContact({
@@ -67,6 +70,7 @@ sealed class CallRecord with _$CallRecord {
     required bool wasInitiatedByLoggedInUser,
     Contact? callerContact,
     Contact? destinationContact,
+    String? summary,
   }) = ClientCallRecordWithContact;
 
   bool get wasMissed => !answered;
@@ -100,59 +104,49 @@ sealed class CallRecord with _$CallRecord {
 
 extension WithContact on CallRecord {
   CallRecordWithContact withContact(Contact? contact) => CallRecordWithContact(
-        id: id,
-        callType: callType,
-        callDirection: callDirection,
-        answered: answered,
-        answeredElsewhere: answeredElsewhere,
-        duration: duration,
-        date: date,
-        caller: caller,
-        destination: destination,
-        contact: contact,
-      );
+    id: id,
+    callType: callType,
+    callDirection: callDirection,
+    answered: answered,
+    answeredElsewhere: answeredElsewhere,
+    duration: duration,
+    date: date,
+    caller: caller,
+    destination: destination,
+    contact: contact,
+    summary: summary,
+  );
 }
 
 extension ClientWithContact on ClientCallRecord {
   ClientCallRecordWithContact withContact({
     Contact? callerContact,
     Contact? destinationContact,
-  }) =>
-      ClientCallRecordWithContact(
-        id: id,
-        callType: callType,
-        callDirection: callDirection,
-        answered: answered,
-        answeredElsewhere: answeredElsewhere,
-        duration: duration,
-        date: date,
-        caller: caller,
-        destination: destination,
-        wasInitiatedByColleague: wasInitiatedByColleague,
-        wasInitiatedByLoggedInUser: wasInitiatedByLoggedInUser,
-        didTargetColleague: didTargetColleague,
-        didTargetLoggedInUser: didTargetLoggedInUser,
-        callerContact: callerContact,
-        destinationContact: destinationContact,
-      );
+  }) => ClientCallRecordWithContact(
+    id: id,
+    callType: callType,
+    callDirection: callDirection,
+    answered: answered,
+    answeredElsewhere: answeredElsewhere,
+    duration: duration,
+    date: date,
+    caller: caller,
+    destination: destination,
+    wasInitiatedByColleague: wasInitiatedByColleague,
+    wasInitiatedByLoggedInUser: wasInitiatedByLoggedInUser,
+    didTargetColleague: didTargetColleague,
+    didTargetLoggedInUser: didTargetLoggedInUser,
+    callerContact: callerContact,
+    destinationContact: destinationContact,
+    summary: summary,
+  );
 }
 
-enum Direction {
-  inbound,
-  outbound,
-}
+enum Direction { inbound, outbound }
 
-enum CallType {
-  colleague,
-  outside,
-}
+enum CallType { colleague, outside }
 
-enum CallerType {
-  webphone,
-  app,
-  account,
-  other,
-}
+enum CallerType { webphone, app, account, other }
 
 @freezed
 abstract class CallParty with _$CallParty {

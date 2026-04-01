@@ -94,6 +94,20 @@ class RecentItemPopupMenu extends StatelessWidget {
             title: Text(context.msg.main.recent.list.item.popupMenu.call),
           ),
         ),
+        if (callRecord.summary != null)
+          PopupMenuItem<RecentCallMenuAction>(
+            value: RecentCallMenuAction.aiSummary,
+            child: ListTile(
+              leading: Container(
+                width: 24,
+                alignment: Alignment.center,
+                child: const FaIcon(FontAwesomeIcons.solidSparkles, size: 20),
+              ),
+              title: Text(
+                context.msg.main.recent.list.item.popupMenu.aiCallSummary.title,
+              ),
+            ),
+          ),
       ],
       icon: FaIcon(
         FontAwesomeIcons.ellipsisVertical,
@@ -105,10 +119,7 @@ class RecentItemPopupMenu extends StatelessWidget {
 }
 
 class _CallParties extends StatelessWidget {
-  const _CallParties({
-    required this.title,
-    required this.callParties,
-  });
+  const _CallParties({required this.title, required this.callParties});
 
   final String title;
   final List<CallParty> callParties;
@@ -138,17 +149,11 @@ class _CallParties extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           callParties.map((party) => _text(party, context)).join(' & '),
-          style: const TextStyle(
-            fontSize: _callFromFontSize,
-          ),
+          style: const TextStyle(fontSize: _callFromFontSize),
         ),
       ],
     );
   }
 }
 
-enum RecentCallMenuAction {
-  copy,
-  call,
-  none,
-}
+enum RecentCallMenuAction { copy, call, aiSummary, none }
