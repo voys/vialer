@@ -15,13 +15,15 @@ extension FromVoipgridCallRecord on VoipgridCallRecord {
       date: startTime,
       caller: _mapCaller(from),
       destination: _mapDestination(to),
+      summary: summary,
     );
   }
 
   ClientCallRecord toClientCallRecord(List<int> userPhoneAccounts) {
     final isTargetLoggedInUser = userPhoneAccounts.contains(to.voipAccount?.id);
-    final wasInitiatedByLoggedInUser =
-        userPhoneAccounts.contains(from.voipAccount?.id);
+    final wasInitiatedByLoggedInUser = userPhoneAccounts.contains(
+      from.voipAccount?.id,
+    );
 
     return ClientCallRecord(
       id: id,
@@ -38,6 +40,7 @@ extension FromVoipgridCallRecord on VoipgridCallRecord {
       wasInitiatedByColleague:
           !wasInitiatedByLoggedInUser && from.voipAccount != null,
       wasInitiatedByLoggedInUser: wasInitiatedByLoggedInUser,
+      summary: summary,
     );
   }
 }

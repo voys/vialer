@@ -9,10 +9,12 @@ import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/util/phone_number.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
+import '../../../../../domain/util/call_record_extensions.dart';
+import '../../../../../global.dart';
 import '../../../resources/localizations.dart';
-import '../../../shared/widgets/avatar.dart';
-import '../../../util/color.dart';
 import '../../../util/contact.dart';
+import 'call_details_bottom_sheet.dart';
+import 'call_record_avatar.dart';
 import 'popup_menu.dart';
 
 class RecentCallItem extends StatelessWidget {
@@ -55,11 +57,26 @@ class _RecentCallItemTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final callRecord = this.callRecord;
 
+    Widget title;
     if (_shouldRenderAsInternalCall) {
-      return _InternalCall(callRecord as ClientCallRecordWithContact);
+      title = _InternalCall(callRecord as ClientCallRecordWithContact);
+    } else {
+      title = PhoneNumberText(child: Text(callRecord.displayLabel));
     }
 
-    return PhoneNumberText(child: Text(callRecord.displayLabel));
+    if (!callRecord.shouldShowAiSummary) return title;
+
+    return Row(
+      children: [
+        Flexible(child: title),
+        const SizedBox(width: 6),
+        FaIcon(
+          FontAwesomeIcons.solidSparkles,
+          size: 12,
+          color: context.brand.theme.colors.grey6,
+        ),
+      ],
+    );
   }
 }
 
@@ -68,10 +85,7 @@ class _InternalCall extends StatelessWidget {
 
   final ClientCallRecordWithContact callRecord;
 
-  String _callPartyText({
-    required String number,
-    String? name,
-  }) =>
+  String _callPartyText({required String number, String? name}) =>
       name.isNullOrBlank ? number : '$name ($number)';
 
   @override
@@ -80,7 +94,8 @@ class _InternalCall extends StatelessWidget {
 
     final caller = _callPartyText(
       number: callRecord.destination.number,
-      name: callRecord.destinationContact?.displayName ??
+      name:
+          callRecord.destinationContact?.displayName ??
           callRecord.destination.name,
     );
 
@@ -107,10 +122,7 @@ class _InternalCall extends StatelessWidget {
 }
 
 class _WidthAdjustedText extends StatelessWidget {
-  const _WidthAdjustedText(
-    this.text, {
-    this.style,
-  });
+  const _WidthAdjustedText(this.text, {this.style});
 
   final String text;
   final TextStyle? style;
@@ -119,21 +131,14 @@ class _WidthAdjustedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: PhoneNumberText(
-        child: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-          style: style,
-        ),
+        child: Text(text, overflow: TextOverflow.ellipsis, style: style),
       ),
     );
   }
 }
 
 class _RecentCallItemBody extends StatelessWidget {
-  const _RecentCallItemBody({
-    required this.title,
-    required this.subtitle,
-  });
+  const _RecentCallItemBody({required this.title, required this.subtitle});
 
   final Widget title;
   final Widget subtitle;
@@ -142,11 +147,7 @@ class _RecentCallItemBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        title,
-        const SizedBox(height: 2),
-        subtitle,
-      ],
+      children: [title, const SizedBox(height: 2), subtitle],
     );
   }
 }
@@ -166,13 +167,31 @@ class _RecentCallItemContainer extends StatelessWidget {
 
   final Widget child;
 
-  void _onPopupMenuItemPress(RecentCallMenuAction action) {
+  void _onPopupMenuItemPress(
+    BuildContext context,
+    RecentCallMenuAction action,
+  ) {
     switch (action) {
       case RecentCallMenuAction.copy:
         onCopyPressed();
         break;
       case RecentCallMenuAction.call:
         onCallPressed();
+        break;
+      case RecentCallMenuAction.callDetails:
+        if (callRecord.shouldShowAiSummary) {
+          track('ai-call-summary-opened', callRecord.asTrackingProperties);
+        }
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          showDragHandle: true,
+          backgroundColor: context.brand.theme.colors.grey7,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.7,
+          ),
+          builder: (_) => CallDetailsBottomSheet(callRecord: callRecord),
+        );
         break;
       case RecentCallMenuAction.none:
         return;
@@ -185,7 +204,7 @@ class _RecentCallItemContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-      leading: !callRecord.isClientCall ? _RecentItemAvatar(callRecord) : null,
+      leading: !callRecord.isClientCall ? CallRecordAvatar(callRecord) : null,
       title: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: onCallPressed,
@@ -195,36 +214,13 @@ class _RecentCallItemContainer extends StatelessWidget {
       onTap: _emptyOnTapToKeepSplash,
       trailing: RecentItemPopupMenu(
         callRecord: callRecord,
-        onPopupMenuItemPress: _onPopupMenuItemPress,
+        onPopupMenuItemPress: (action) =>
+            _onPopupMenuItemPress(context, action),
       ),
     );
   }
 }
 
-class _RecentItemAvatar extends StatelessWidget {
-  const _RecentItemAvatar(this.callRecord);
-
-  final CallRecord callRecord;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExcludeSemantics(
-      child: Avatar(
-        name: callRecord.displayLabel,
-        backgroundColor: calculateColorForPhoneNumber(
-          context,
-          callRecord.thirdPartyNumber,
-        ),
-        showFallback: callRecord is CallRecordWithContact &&
-            (callRecord as CallRecordWithContact).contact?.displayName == null,
-        image: callRecord is CallRecordWithContact
-            ? (callRecord as CallRecordWithContact).contact?.avatar
-            : null,
-        fallback: const Text('#'),
-      ),
-    );
-  }
-}
 
 class _RecentItemSubtitle extends StatelessWidget {
   const _RecentItemSubtitle(this.callRecord);
@@ -267,20 +263,14 @@ class _RecentItemSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = Icon(
-      _icon(context),
-      color: _iconColor(context),
-      size: 16,
-    );
+    final icon = Icon(_icon(context), color: _iconColor(context), size: 16);
 
     return Column(
       children: [
         Row(
           children: <Widget>[
             if (callRecord.isIncomingAndAnsweredElsewhere)
-              _Mirrored(
-                child: icon,
-              )
+              _Mirrored(child: icon)
             else
               icon,
             const SizedBox(width: 8),
@@ -300,18 +290,18 @@ class _RecentItemSubtitleText extends StatelessWidget {
   String get _time => DateFormat.Hm().format(callRecord.date.toLocal());
 
   String get _duration => prettyDuration(
-        callRecord.duration,
-        abbreviated: true,
-        delimiter: ' ',
-        spacer: '',
-      );
+    callRecord.duration,
+    abbreviated: true,
+    delimiter: ' ',
+    spacer: '',
+  );
 
   String get _durationForSemantics => prettyDuration(
-        callRecord.duration,
-        abbreviated: false,
-        delimiter: ' ',
-        spacer: ' ',
-      );
+    callRecord.duration,
+    abbreviated: false,
+    delimiter: ' ',
+    spacer: ' ',
+  );
 
   String _callPartyText(CallParty party) {
     if (party.name == null ||
@@ -377,10 +367,7 @@ class _RecentItemSubtitleText extends StatelessWidget {
     }
   }
 
-  String _text(
-    BuildContext context, {
-    bool forSemantics = false,
-  }) {
+  String _text(BuildContext context, {bool forSemantics = false}) {
     final duration = forSemantics ? _durationForSemantics : _duration;
 
     if (callRecord.isInbound) {
@@ -411,16 +398,10 @@ class _RecentItemSubtitleText extends StatelessWidget {
       return Row(
         children: [
           if (subject != null) ...[
-            _WidthAdjustedText(
-              subject,
-              style: textStyle,
-            ),
+            _WidthAdjustedText(subject, style: textStyle),
             const Text(' '),
           ],
-          Text(
-            _buildClientCallText(context),
-            style: textStyle,
-          ),
+          Text(_buildClientCallText(context), style: textStyle),
         ],
       );
     }
@@ -506,8 +487,8 @@ class RecentCallHeader extends StatelessWidget {
     final prefix = headerDate.isToday
         ? '${context.msg.main.recent.list.headers.today} - '
         : headerDate.wasYesterday
-            ? '${context.msg.main.recent.list.headers.yesterday} - '
-            : '';
+        ? '${context.msg.main.recent.list.headers.yesterday} - '
+        : '';
 
     return '$prefix$date';
   }
@@ -517,9 +498,7 @@ class RecentCallHeader extends StatelessWidget {
     final color = context.brand.theme.colors.grey4;
     final date = this.date.toLocal();
 
-    final divider = Expanded(
-      child: Divider(height: 1, color: color),
-    );
+    final divider = Expanded(child: Divider(height: 1, color: color));
 
     return Semantics(
       explicitChildNodes: true,
@@ -542,9 +521,7 @@ class RecentCallHeader extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         _text(context, headerDate: date),
-                        style: TextStyle(
-                          color: color,
-                        ),
+                        style: TextStyle(color: color),
                       ),
                     ),
                     divider,
@@ -598,10 +575,8 @@ extension RenderType on CallRecord {
 }
 
 extension on ClientCallRecord {
-  CallRecordRenderType get renderType => withContact(
-        callerContact: null,
-        destinationContact: null,
-      ).renderType;
+  CallRecordRenderType get renderType =>
+      withContact(callerContact: null, destinationContact: null).renderType;
 }
 
 extension ClientRenderType on ClientCallRecordWithContact {
@@ -651,9 +626,14 @@ class _Mirrored extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scaleX: -1,
-      child: child,
-    );
+    return Transform.scale(scaleX: -1, child: child);
   }
+}
+
+
+extension on CallRecord {
+  Map<String, dynamic> get asTrackingProperties => {
+    'summary-length': summary?.length,
+    'call-direction': direction.name,
+  };
 }
