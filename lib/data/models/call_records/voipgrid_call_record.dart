@@ -16,6 +16,7 @@ abstract class VoipgridCallRecord with _$VoipgridCallRecord {
     required int durationInSeconds,
     required CallRecordFromDetail from,
     required CallRecordToDetail to,
+    String? summary,
   }) = _VoipgridCallRecord;
 
   factory VoipgridCallRecord.fromJson(Map<String, dynamic> json) =>

@@ -5,6 +5,7 @@ import 'package:vialer/dependency_locator.dart';
 
 import '../../../../repositories/user/details/user_details.dart';
 import '../../../calling/voip/destination.dart';
+import '../../client.dart';
 import '../../settings/call_setting.dart';
 import '../user_refresh_task_performer.dart';
 
@@ -32,6 +33,9 @@ class RefreshUserDetails extends UserRefreshTaskPerformer {
 
       return user.copyWith(
         webphoneAccountId: () => userDetails.webphone?.voipAccount?.id,
+        client: user.client.copyWith(
+          enabledModules: _enabledModules(userDetails),
+        ),
       );
     };
   }
@@ -59,4 +63,17 @@ class RefreshUserDetails extends UserRefreshTaskPerformer {
         CallSetting.useMobileNumberAsFallback,
         userDetails.app?.useMobileNumberAsFallback ?? false,
       );
+
+  List<Module> _enabledModules(UserDetails userDetails) {
+    final modules = userDetails.client?.modules;
+    if (modules == null) return [];
+
+    return [
+      if (modules.callrecording) Module.callRecording,
+      if (modules.intelligence?.transcribeCallrecordings == true)
+        Module.transcribeCallRecordings,
+      if (modules.intelligence?.summarizeCallTranscriptions == true)
+        Module.summarizeCallTranscriptions,
+    ];
+  }
 }

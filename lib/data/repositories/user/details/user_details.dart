@@ -2,7 +2,7 @@
 // ignore_for_file: unused_element_parameter
 import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart' hide Module;
 import 'package:vialer/data/API/voipgrid/voipgrid_service.dart';
 
 import '../../../../presentation/util/loggable.dart';
@@ -43,6 +43,7 @@ abstract class UserDetails with _$UserDetails {
     _AppAccount? app,
     _WebphoneAccount? webphone,
     required _Destinations destinations,
+    _ClientDetails? client,
   }) = _UserDetails;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) =>
@@ -52,6 +53,41 @@ abstract class UserDetails with _$UserDetails {
         ...destinations.fixedDestinations,
         ...destinations.voipAccounts,
       ].map((e) => e.toDestination()).toList();
+}
+
+@Freezed(toJson: false, fromJson: false)
+abstract class _ClientDetails with _$ClientDetails {
+  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+  const factory _ClientDetails({
+    _ClientModules? modules,
+  }) = __ClientDetails;
+
+  factory _ClientDetails.fromJson(Map<String, dynamic> json) =>
+      _$ClientDetailsFromJson(json);
+}
+
+@Freezed(toJson: false, fromJson: false)
+abstract class _ClientModules with _$ClientModules {
+  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+  const factory _ClientModules({
+    @Default(false) bool callrecording,
+    _IntelligenceModules? intelligence,
+  }) = __ClientModules;
+
+  factory _ClientModules.fromJson(Map<String, dynamic> json) =>
+      _$ClientModulesFromJson(json);
+}
+
+@Freezed(toJson: false, fromJson: false)
+abstract class _IntelligenceModules with _$IntelligenceModules {
+  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+  const factory _IntelligenceModules({
+    @Default(false) bool transcribeCallrecordings,
+    @Default(false) bool summarizeCallTranscriptions,
+  }) = __IntelligenceModules;
+
+  factory _IntelligenceModules.fromJson(Map<String, dynamic> json) =>
+      _$IntelligenceModulesFromJson(json);
 }
 
 @Freezed(toJson: false, fromJson: false)

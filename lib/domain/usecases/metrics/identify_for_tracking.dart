@@ -149,6 +149,8 @@ extension on SettingKey {
 extension on Client {
   Map<String, dynamic> toIdentifyProperties() => <String, dynamic>{
         'outgoing-numbers-amount': outgoingNumbers.length,
+        for (final module in Module.values)
+          'module-${module.name.paramCase}': enabledModules.contains(module),
       };
 }
 

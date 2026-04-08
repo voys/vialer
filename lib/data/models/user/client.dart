@@ -35,6 +35,7 @@ abstract class Client with _$Client {
     @Default([])
     @JsonKey(name: 'openingHours')
     Iterable<OpeningHoursModule> openingHoursModules,
+    @Default([]) List<Module> enabledModules,
   }) = _Client;
 
   Client copyWith({
@@ -47,6 +48,7 @@ abstract class Client with _$Client {
     NullableCopyWithArgument<Iterable<VoicemailAccount>> voicemailAccounts,
     NullableCopyWithArgument<TemporaryRedirect> currentTemporaryRedirect,
     NullableCopyWithArgument<Iterable<OpeningHoursModule>> openingHoursModules,
+    List<Module>? enabledModules,
   }) {
     return Client(
       id: id ?? this.id,
@@ -69,6 +71,7 @@ abstract class Client with _$Client {
         unmodified: this.openingHoursModules,
         fallback: [],
       ),
+      enabledModules: enabledModules ?? this.enabledModules,
     );
   }
 
@@ -79,11 +82,17 @@ abstract class Client with _$Client {
 
 List<Map<String, dynamic>> _outgoingNumbersToJson(
   Iterable<OutgoingNumber> numbers,
-) =>
-    numbers.map(OutgoingNumber.serializeToJson).toList();
+) => numbers.map(OutgoingNumber.serializeToJson).toList();
 
 ClientVoipConfig _clientVoipConfigFromJson(Map<String, dynamic>? json) {
   if (json == null) return ClientVoipConfig.fallback();
 
   return ClientVoipConfig.fromJson(json);
+}
+
+/// Modules that a customer can be paying for.
+enum Module {
+  callRecording,
+  transcribeCallRecordings,
+  summarizeCallTranscriptions,
 }

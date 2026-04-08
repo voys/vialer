@@ -41,18 +41,19 @@ abstract class User with _$User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  String get fullName => [firstName, preposition, lastName]
-      .where((part) => part.isNotBlank)
-      .join(' ');
+  String get fullName => [
+    firstName,
+    preposition,
+    lastName,
+  ].where((part) => part.isNotBlank).join(' ');
 
   // A user must have voip config to be able to call, if they don't then this
   // suggests that there is no app account configured.
   bool get isAllowedVoipCalling =>
       appAccount != null && appAccount.sipUserId.isNotNullOrBlank;
 
-  String? get appAccountId => appAccountUrl?.pathSegments.lastOrNullWhere(
-        (p) => p.isNotEmpty,
-      );
+  String? get appAccountId =>
+      appAccountUrl?.pathSegments.lastOrNullWhere((p) => p.isNotEmpty);
 
   bool get hasAppAccount => appAccountId != null;
 
@@ -108,4 +109,9 @@ abstract class User with _$User {
 
 extension SettingsAccess on User {
   SettingsRepository get settings => dependencyLocator<SettingsRepository>();
+}
+
+extension ModuleAccess on User {
+  bool get hasSummarizeCallTranscriptionsModule =>
+      client.enabledModules.contains(Module.summarizeCallTranscriptions);
 }
