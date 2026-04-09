@@ -45,6 +45,19 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # Workaround for segmentio/analytics-ios#1069: Xcode 26 enforces that netinet6/in6.h
+  # is a private header; remove it since netinet/in.h already covers IPv6.
+  # TODO: MVIALER-279 - Remove once Analytics pod ships a fix (PR #1070 approved but not yet merged as of April 2026).
+  seg_reachability = File.join(Dir.pwd, "Pods/Analytics/Segment/Classes/SEGReachability.m")
+  if File.exist?(seg_reachability)
+    content = File.read(seg_reachability)
+    patched = content.gsub("#import <netinet6/in6.h>\n", "")
+    if content != patched
+      File.chmod(0644, seg_reachability)
+      File.write(seg_reachability, patched)
+    end
+  end
+
   # Existing build settings
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
