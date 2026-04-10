@@ -35,6 +35,7 @@ class StylizedTextField extends StatelessWidget {
     this.bordered = false,
     this.semanticsLabel,
     this.textInputAction = TextInputAction.next,
+    this.contentPadding,
   });
 
   final TextEditingController? controller;
@@ -62,6 +63,7 @@ class StylizedTextField extends StatelessWidget {
   final bool bordered;
   final String? semanticsLabel;
   final TextInputAction textInputAction;
+  final EdgeInsetsGeometry? contentPadding;
 
   static const color = Colors.grey;
 
@@ -103,6 +105,7 @@ class StylizedTextField extends StatelessWidget {
         focusColor: color,
         filled: true,
         fillColor: Colors.white,
+        contentPadding: contentPadding,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintText: hintText,
       ),
