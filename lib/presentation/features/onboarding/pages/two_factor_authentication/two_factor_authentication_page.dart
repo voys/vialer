@@ -245,9 +245,7 @@ class _TwoFactorCodeFieldState extends State<_TwoFactorCodeField>
       node: _focusScope,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ..._buildFields(),
-        ],
+        children: _buildFields(),
       ),
     );
   }
@@ -287,6 +285,7 @@ class _TwoFactorDigitField extends StatelessWidget {
             LengthLimitingTextInputFormatter(1),
           ],
           autoCorrect: false,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 4),
           textStyle: const TextStyle(
             color: Colors.black,
             fontSize: 18,

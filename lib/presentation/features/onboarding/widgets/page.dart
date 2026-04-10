@@ -80,8 +80,9 @@ class OnboardingPageState extends State<OnboardingPage> {
 
     if (state.completed) {
       unawaited(
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.main, (_) => false),
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil(Routes.main, (_) => false),
       );
       return;
     }
@@ -123,7 +124,8 @@ class OnboardingPageState extends State<OnboardingPage> {
               listener: _onStateChange,
               buildWhen: (prev, current) =>
                   prev.currentStep.asBackgroundStyle() !=
-                  current.currentStep.asBackgroundStyle(),
+                      current.currentStep.asBackgroundStyle() ||
+                  prev.allSteps.length != current.allSteps.length,
               builder: (context, state) {
                 return Background(
                   style: state.currentStep.asBackgroundStyle(),
@@ -165,8 +167,8 @@ extension on OnboardingStep {
   /// Defines the type of background we should be using based on what onboarding
   /// step we are on.
   Style asBackgroundStyle() => switch (this) {
-        OnboardingStep.login => Style.triangle,
-        OnboardingStep.password => Style.split,
-        _ => Style.cascading,
-      };
+    OnboardingStep.login => Style.triangle,
+    OnboardingStep.password => Style.split,
+    _ => Style.cascading,
+  };
 }
