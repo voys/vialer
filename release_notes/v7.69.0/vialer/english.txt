@@ -1,0 +1,3 @@
+- Added a new call details screen which will show AI call summaries if you have the module enabled
+- Fixed a bug where you would sometimes get stuck on the welcome screen after entering a two-factor code
+- Android: You can now receive a Vialer call while on a GSM call (matching behaviour on iOS)
