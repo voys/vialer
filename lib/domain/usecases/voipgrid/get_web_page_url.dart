@@ -30,6 +30,7 @@ class GetWebPageUrlUseCase extends UseCase {
     WebPage.telephonySettings:
         '/client/{clientId}/user/{userId}/change/#tc0=user-tab-2',
     WebPage.featureAnnouncements: '/featureannouncements?interface=mobile',
+    WebPage.intelligence: '/client/{clientId}/ai/add/',
   };
 
   final _unauthenticatedPages = [WebPage.passwordReset];

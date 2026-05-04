@@ -9,4 +9,5 @@ enum WebPage {
   addVoicemail,
   telephonySettings,
   featureAnnouncements,
+  intelligence,
 }

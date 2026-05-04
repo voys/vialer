@@ -6,68 +6,100 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:vialer/domain/util/call_record_extensions.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
+import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
+import '../../../../../data/models/voipgrid/web_page.dart';
+import '../../../../../domain/usecases/user/refresh/refresh_user.dart';
+import '../../../../../data/models/user/refresh/user_refresh_task.dart';
 import '../../../resources/localizations.dart';
+import '../../../shared/pages/web_view.dart';
+import '../../../util/event_bus_listener.dart';
+import '../../settings/widgets/settings_button.dart';
 import 'call_record_avatar.dart';
 import 'item.dart';
 
-class CallDetailsBottomSheet extends StatelessWidget {
+class CallDetailsBottomSheet extends StatefulWidget {
   const CallDetailsBottomSheet({required this.callRecord, super.key});
 
   final CallRecord callRecord;
+
+  @override
+  State<CallDetailsBottomSheet> createState() => _CallDetailsBottomSheetState();
+}
+
+class _CallDetailsBottomSheetState extends State<CallDetailsBottomSheet> {
+  void _openIntelligencePortal() => WebViewPage.open(
+    context,
+    to: WebPage.intelligence,
+  ).then((_) => RefreshUser()(tasksToPerform: [UserRefreshTask.userDetails]));
 
   @override
   Widget build(BuildContext context) {
     final bottomPadding = 24 + MediaQuery.of(context).viewInsets.bottom;
     final subtitleColor = context.brand.theme.colors.grey4;
     final strings = context.msg.main.recent.list.item.popupMenu;
-    final callParties = callRecord.callPartyRows(context);
+    final callParties = widget.callRecord.callPartyRows(context);
+    final isUpsell = widget.callRecord.shouldShowAiUpsell;
+    final aiStrings = strings.aiCallSummary;
+    final aiSummary = isUpsell
+        ? aiStrings.upsell
+        : (widget.callRecord.summary ?? '');
+    final aiDoesNotExist = isUpsell ? '' : aiStrings.doesNotExist;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _CallHeader(
-          callRecord: callRecord,
-          hasCallParties: callParties.isNotEmpty,
-        ),
-        if (callParties.isNotEmpty)
-          _CallPartySection(callParties: callParties),
-        if (callRecord.summary != null)
+    return EventBusListener<LoggedInUserWasRefreshed>(
+      listener: rebuildOnEvent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _CallHeader(
+            callRecord: widget.callRecord,
+            hasCallParties: callParties.isNotEmpty,
+          ),
+          if (callParties.isNotEmpty)
+            _CallPartySection(callParties: callParties),
           _AiSummarySection(
-            summary: callRecord.summary!,
-            title: strings.aiCallSummary.title,
-            doesNotExist: strings.aiCallSummary.doesNotExist,
+            summary: aiSummary,
+            title: aiStrings.title,
+            doesNotExist: aiDoesNotExist,
           ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 12,
-            bottom: bottomPadding,
-          ),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              strings.callDetails.callId(callRecord.id),
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: subtitleColor),
+          if (isUpsell)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+              child: SettingsButton(
+                text: aiStrings.enableButton(context.brand.appName),
+                solid: false,
+                onPressed: _openIntelligencePortal,
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 24,
+              right: 24,
+              top: 12,
+              bottom: bottomPadding,
+            ),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                strings.callDetails.callId(widget.callRecord.id),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: subtitleColor),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
 class _CallHeader extends StatelessWidget {
-  const _CallHeader({
-    required this.callRecord,
-    required this.hasCallParties,
-  });
+  const _CallHeader({required this.callRecord, required this.hasCallParties});
 
   final CallRecord callRecord;
   final bool hasCallParties;
@@ -178,10 +210,7 @@ class _AiSummarySection extends StatelessWidget {
                       color: subtitleColor,
                     ),
                     const Gap(8),
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
+                    Text(title, style: Theme.of(context).textTheme.titleMedium),
                     const Spacer(),
                     if (summary.isNotEmpty)
                       GestureDetector(
