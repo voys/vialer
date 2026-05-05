@@ -190,7 +190,10 @@ class _RecentCallItemContainer extends StatelessWidget {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.7,
           ),
-          builder: (_) => CallDetailsBottomSheet(callRecord: callRecord),
+          builder: (_) => SafeArea(
+            top: false,
+            child: CallDetailsBottomSheet(callRecord: callRecord),
+          ),
         );
         break;
       case RecentCallMenuAction.none:
