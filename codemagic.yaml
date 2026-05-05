@@ -35,6 +35,9 @@ custom: # Custom properties to make workflows cleaner
     - &run_code_generators
       name: Installing flutter dependencies and generating code
       script: . utils/ci/codemagic/bin/run_code_generators.sh
+    - &install_native_dependencies
+      name: Installing native Android and iOS dependencies
+      script: . utils/ci/codemagic/bin/install_native_dependencies.sh
     - &release_to_sentry
       name: Creating a new release in Sentry
       script: . utils/ci/codemagic/bin/release_to_sentry.sh
@@ -238,6 +241,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -285,6 +289,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *verify_no_untranslated_strings
@@ -339,6 +344,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_merge_request
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -359,6 +365,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_merge_request
       - *update_gitlab_merge_request_with_build_url
       - *verify_codebase_complies_with_analysis_rules
@@ -384,6 +391,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -442,6 +450,7 @@ workflows:
       - *use_project_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_app_store
       - *verify_codebase_complies_with_analysis_rules
       - *verify_no_untranslated_strings
@@ -533,6 +542,7 @@ workflows:
       - *use_project_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_app_store
       - *verify_codebase_complies_with_analysis_rules
       - *prepare_release_notes_from_files
@@ -621,6 +631,7 @@ workflows:
       - *use_project_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_app_store
       - *verify_codebase_complies_with_analysis_rules
       - *build_for_android
@@ -651,6 +662,7 @@ workflows:
       - *use_project_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_app_store
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -679,6 +691,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -711,6 +724,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -743,6 +757,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
@@ -775,6 +790,7 @@ workflows:
       - *use_workflow_build_number
       - *prepare_environment_file
       - *run_code_generators
+      - *install_native_dependencies
       - *set_version_for_other
       - *build_for_android
       - *write_dependency_trees_to_artifacts
