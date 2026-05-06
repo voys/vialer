@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(git fetch:*)",
+      "Bash(pod --version)",
+      "Bash(gem list *)",
+      "Bash(flutter doctor *)",
+      "Bash(gem pristine *)",
+      "Bash(ruby --version)",
+      "Bash(gem --version)",
+      "Read(//opt/homebrew/Cellar/cocoapods/1.16.2_1/bin/**)",
+      "Bash(/opt/homebrew/bin/pod --version)",
+      "Bash(GEM_HOME=\"/opt/homebrew/Cellar/cocoapods/1.16.2_1/libexec\" gem list ffi)",
+      "Bash(GEM_HOME=\"/opt/homebrew/Cellar/cocoapods/1.16.2_1/libexec\" gem pristine ffi --version 1.17.0)",
+      "Bash(GEM_HOME=\"/opt/homebrew/Cellar/cocoapods/1.16.2_1/libexec\" /opt/homebrew/Cellar/cocoapods/1.16.2_1/libexec/bin/pod --version)",
+      "Bash(/opt/homebrew/opt/ruby/bin/ruby -e \"puts Gem.paths.home; puts Gem.paths.path\")",
+      "Bash(GEM_HOME=\"/opt/homebrew/Cellar/cocoapods/1.16.2_1/libexec\" /opt/homebrew/opt/ruby/bin/gem pristine ffi --version 1.17.0)",
+      "Bash(dart analyze *)",
+      "Bash(grep -E \"\\\\.dart$\")",
+      "Bash(dart run *)"
+    ]
+  }
+}
