@@ -181,6 +181,11 @@ class _RecentCallItemContainer extends StatelessWidget {
       case RecentCallMenuAction.callDetails:
         if (callRecord.shouldShowAiSummary) {
           track('ai-call-summary-opened', callRecord.asTrackingProperties);
+        } else if (callRecord.shouldShowAiUpsell) {
+          track(
+            'ai-call-summary-upsell-opened',
+            callRecord.asTrackingProperties,
+          );
         }
         showModalBottomSheet<void>(
           context: context,
@@ -223,7 +228,6 @@ class _RecentCallItemContainer extends StatelessWidget {
     );
   }
 }
-
 
 class _RecentItemSubtitle extends StatelessWidget {
   const _RecentItemSubtitle(this.callRecord);
@@ -632,7 +636,6 @@ class _Mirrored extends StatelessWidget {
     return Transform.scale(scaleX: -1, child: child);
   }
 }
-
 
 extension on CallRecord {
   Map<String, dynamic> get asTrackingProperties => {

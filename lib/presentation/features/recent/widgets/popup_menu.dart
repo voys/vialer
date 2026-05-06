@@ -4,7 +4,6 @@ import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
-import '../../../../../domain/util/call_record_extensions.dart';
 
 class RecentItemPopupMenu extends StatelessWidget {
   const RecentItemPopupMenu({
@@ -35,8 +34,7 @@ class RecentItemPopupMenu extends StatelessWidget {
                 Text(
                   context.msg.main.recent.list.item.popupMenu.callDetails.title,
                 ),
-                if (callRecord.shouldShowAiSummary)
-                  const FaIcon(FontAwesomeIcons.solidSparkles, size: 12),
+                const FaIcon(FontAwesomeIcons.solidSparkles, size: 12),
               ],
             ),
           ),
@@ -73,6 +71,4 @@ class RecentItemPopupMenu extends StatelessWidget {
   }
 }
 
-
 enum RecentCallMenuAction { copy, call, callDetails, none }
-
