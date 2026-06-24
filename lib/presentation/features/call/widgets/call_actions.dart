@@ -118,8 +118,6 @@ class _CallActionButtons extends StatelessWidget {
     // We delay the hold by 500ms, because currently holding a call causes
     // a significant frame drop which would be very noticeable during the
     // transition animation.
-    //
-    // See #955 (https://gitlab.wearespindle.com/vialer/mobile/app/-/issues/955)
     Future.delayed(const Duration(milliseconds: 500), () {
       _hold(context);
     });
