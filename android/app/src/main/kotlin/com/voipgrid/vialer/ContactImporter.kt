@@ -62,8 +62,10 @@ class ContactImporter(context: Context) : com.voipgrid.vialer.Contacts {
                 .find()
                 .shuffled()
                 .onEach {
-                    it.photoThumbnailBytes(contacts)?.let { bytes ->
-                        File(avatarDirectoryPath.avatarPath(it)).writeBytes(bytes)
+                    runCatching {
+                        it.photoThumbnailBytes(contacts)?.let { bytes ->
+                            File(avatarDirectoryPath.avatarPath(it)).writeBytes(bytes)
+                        }
                     }
                 }
 
