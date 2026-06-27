@@ -103,7 +103,7 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
         })
 
         MiddlewareRegistrar.setUp(binaryMessenger, object : MiddlewareRegistrar {
-            override fun register(token: String) = App.middleware.tokenReceived(token)
+            override fun register(token: String) = App.middleware.register(token)
         })
 
         nativeToFlutter = NativeToFlutter(binaryMessenger);
@@ -180,7 +180,7 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
 
         Firebase.messaging.token.addOnSuccessListener {
             it?.let {
-                App.middleware.tokenReceived(it)
+                App.middleware.register(it)
             }
         }
     }

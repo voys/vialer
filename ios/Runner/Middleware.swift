@@ -36,11 +36,15 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     }
 
     public func tokenReceived(token: String) {
-        flutterSharedPreferences.pushToken = token
-
         segment.track(event: "push-token-received", properties: [
             "push-token": maskPushToken(token)
         ])
+
+        try? register(token: token)
+    }
+
+    func register(token: String) throws {
+        flutterSharedPreferences.pushToken = token
 
         let sandbox = Bundle.main.infoDictionary?["Sandbox"] as? String
         let data = [
@@ -62,17 +66,15 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         request.httpBody = try! JSONSerialization.data(withJSONObject: data)
 
         AF.request(request).responseData { (response) -> Void in
-            if response.error != nil {
-                self.logger.writeLog("Registration failed: \(response.error!)")
-            }
+            let statusCode = response.response?.statusCode
+            let isSuccessful = statusCode.map { (200..<300).contains($0) } ?? false
 
-            switch response.result {
-            case .success(_):
+            if isSuccessful {
                 self.logger.writeLog("Registration successful")
-            case .failure(_):
-                let statusCode = response.response?.statusCode
+            } else {
+                self.trackRegistrationFailed(statusCode: statusCode, error: response.error?.errorDescription)
                 self.logger.writeLog("Registration failed: response code was \(String(describing: statusCode))")
-           }
+            }
         }
     }
 
@@ -120,21 +122,24 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         }
 
         AF.request(request).response { (response) -> Void in
+            let statusCode = response.response?.statusCode
+
             if response.error != nil {
                 self.logger.writeLog("Middleware respond failed: \(response.error!)")
                 track(response.error?.errorDescription ?? "error")
+                self.trackResponseFailed(payload: payload, statusCode: statusCode, error: response.error?.errorDescription, available: available, reason: unavailableReason)
                 return
             }
 
-            track(String(response.response?.statusCode ?? 0))
+            track(String(statusCode ?? 0))
 
-            switch response.result {
-                case .success(_):
-                    self.logger.writeLog("Middleware respond success: \(String(describing: callId))")
-                case .failure(_):
-                    let statusCode = response.response?.statusCode
-                    self.logger.writeLog("Middleware respond failed: response code was \(String(describing: statusCode))")
-           }
+            let isSuccessful = statusCode.map { (200..<300).contains($0) } ?? false
+            if isSuccessful {
+                self.logger.writeLog("Middleware respond success: \(String(describing: callId))")
+            } else {
+                self.trackResponseFailed(payload: payload, statusCode: statusCode, error: nil, available: available, reason: unavailableReason)
+                self.logger.writeLog("Middleware respond failed: response code was \(String(describing: statusCode))")
+            }
         }
 
         if available {
@@ -162,6 +167,24 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         return CallDetail(phoneNumber: phoneNumber, callId: callerId)
     }
 
+    private func trackRegistrationFailed(statusCode: Int?, error: String?) {
+        segment.track(event: "middleware-registration-failed", properties: [
+            "status_code" : statusCode.map { String($0) } ?? "",
+            "error" : error ?? "",
+            "middleware_url" : baseUrl,
+        ])
+    }
+
+    private func trackResponseFailed(payload: PKPushPayload, statusCode: Int?, error: String?, available: Bool, reason: String) {
+        segment.track(event: "middleware-response-failed", properties: payload.withTrackingProperties(properties: [
+            "status_code" : statusCode.map { String($0) } ?? "",
+            "error" : error ?? "",
+            "available" : String(available),
+            "unavailable_reason" : reason,
+            "middleware_url" : baseUrl,
+        ]))
+    }
+
     private func trackNotificationResult(payload: PKPushPayload, middlewareResponse: String, available: Bool, reason: String, responseTime: Int) {
         segment.track(event: "middleware-responded", properties: payload.withTrackingProperties(properties: [
             "middleware_response" : middlewareResponse,
@@ -187,10 +210,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         let maskedPortion = String(repeating: "*", count: token.count - 6)
         let lastSix = String(token.suffix(6))
         return maskedPortion + lastSix
-    }
-
-    func register(token: String) throws {
-        self.tokenReceived(token: token)
     }
 }
 

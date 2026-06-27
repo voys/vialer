@@ -45,11 +45,15 @@ class Middleware(
         }
 
     override fun tokenReceived(token: String) {
-        prefs.pushToken = token
-
         segment.track("push-token-received", mapOf(
             "push-token" to maskPushToken(token)
         ))
+
+        register(token)
+    }
+
+    fun register(token: String) {
+        prefs.pushToken = token
 
         val middlewareCredentials = middlewareCredentials
 
@@ -82,6 +86,7 @@ class Middleware(
         client.newCall(request).enqueue(
             object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
+                    trackRegistrationFailed(statusCode = null, error = e.localizedMessage)
                     log("Registration failed: ${e.localizedMessage}")
                 }
 
@@ -89,6 +94,7 @@ class Middleware(
                     when (response.isSuccessful) {
                         true -> log("Registration successful")
                         false -> {
+                            trackRegistrationFailed(statusCode = response.code, error = null)
                             log("Registration failed: response code was ${response.code}")
                         }
                     }
@@ -151,6 +157,7 @@ class Middleware(
             object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     track("error")
+                    trackResponseFailed(remoteMessage, statusCode = null, error = e.localizedMessage, available, reason)
                     log("Middleware respond Failed: with ${e.localizedMessage}")
                 }
 
@@ -159,7 +166,10 @@ class Middleware(
 
                     when (response.isSuccessful) {
                         true -> log("Middleware respond success: $callId")
-                        false -> log("Middleware respond failed: response code was ${response.code}")
+                        false -> {
+                            trackResponseFailed(remoteMessage, statusCode = response.code, error = null, available, reason)
+                            log("Middleware respond failed: response code was ${response.code}")
+                        }
                     }
                 }
             }
@@ -213,6 +223,32 @@ class Middleware(
                 "unavailable_reason" to (reason?.name ?: ""),
                 "seconds_from_call_to_responded" to responseTime.toString(),
                 "is_ignoring_battery_optimizations" to context.isIgnoringBatteryOptimizations.toString(),
+                "middleware_url" to baseUrl,
+            )
+        )
+
+    private fun trackRegistrationFailed(statusCode: Int?, error: String?) =
+        segment.track(
+            "middleware-registration-failed", mapOf(
+                "status_code" to (statusCode?.toString() ?: ""),
+                "error" to (error ?: ""),
+                "middleware_url" to baseUrl,
+            )
+        )
+
+    private fun trackResponseFailed(
+        remoteMessage: RemoteMessage,
+        statusCode: Int?,
+        error: String?,
+        available: Boolean,
+        reason: NativeMiddlewareUnavailableReason?,
+    ) =
+        segment.track(
+            "middleware-response-failed", remoteMessage.trackingProperties + mapOf(
+                "status_code" to (statusCode?.toString() ?: ""),
+                "error" to (error ?: ""),
+                "available" to available.toString(),
+                "unavailable_reason" to (reason?.name ?: ""),
                 "middleware_url" to baseUrl,
             )
         )
