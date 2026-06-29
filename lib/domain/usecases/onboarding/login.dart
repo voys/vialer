@@ -7,12 +7,10 @@ import '../metrics/track_login.dart';
 import '../use_case.dart';
 import '../user/refresh/refresh_user.dart';
 import '../user/settings/restore_cross_session_settings.dart';
-import 'mark_now_as_login_time.dart';
 
 class LoginUseCase extends UseCase {
   final _identifyForTracking = IdentifyForTrackingUseCase();
   final _trackLogin = TrackLoginUseCase();
-  final _markNowAsLoginTime = MarkNowAsLoginTimeUseCase();
   final _refreshUser = RefreshUser();
   final _restorePreviousSessionSettings = RestoreCrossSessionSettings();
 
@@ -36,8 +34,6 @@ class LoginUseCase extends UseCase {
         isLoginFromLegacyApp: credentials is ImportedLegacyAppCredentials,
       ),
     );
-
-    _markNowAsLoginTime();
 
     return true;
   }

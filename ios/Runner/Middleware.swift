@@ -10,11 +10,14 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
 
     public var baseUrl: String {
         get {
-            flutterSharedPreferences.middlewareUrl + "/api/"
+            // The hardcoded callwaker URL, picking the environment based on the
+            // existing per-flavor/per-user middleware URL.
+            let environment = flutterSharedPreferences.middlewareUrl.contains("staging")
+                ? "staging"
+                : "production"
+            return "https://api.eu-\(environment).holodeck.voys.nl/callwaker"
         }
     }
-
-    private let REGISTER_URL = "apns-device/"
 
     public var currentCallInfo: CurrentCallInfo?
 
@@ -23,7 +26,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     private var middlewareCredentials: MiddlewareCredentials {
         get {
             MiddlewareCredentials(
-                email: flutterSharedPreferences.systemUser?["email"] as? String ?? "",
                 loginToken: flutterSharedPreferences.systemUser?["token"] as? String ?? "",
                 sipUserId: (flutterSharedPreferences.systemUser?["voip"] as? [String : Any])?["appaccount_account_id"] as? String ?? ""
             )
@@ -46,31 +48,81 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     func register(token: String) throws {
         flutterSharedPreferences.pushToken = token
 
+        guard let appAccountId = Int(middlewareCredentials.sipUserId) else {
+            logger.writeLog("Registration cancelled: sipUserId is not a number")
+            return
+        }
+
+        // Generate a stable installation id on first registration if one isn't
+        // set yet; it is persisted so Dart can read it back when unregistering.
+        if flutterSharedPreferences.installationId == nil {
+            flutterSharedPreferences.installationId = UUID().uuidString.lowercased()
+        }
+
+        sendRegistration(
+            token: token,
+            apiToken: middlewareCredentials.loginToken,
+            appAccountId: appAccountId,
+            registrationToken: flutterSharedPreferences.middlewareRegistrationToken
+        )
+    }
+
+    private func sendRegistration(
+        token: String,
+        apiToken: String,
+        appAccountId: Int,
+        registrationToken: String?
+    ) {
         let sandbox = Bundle.main.infoDictionary?["Sandbox"] as? String
-        let data = [
-            "name": middlewareCredentials.email,
-            "token": token,
-            "sip_user_id": middlewareCredentials.sipUserId,
+
+        // A registration token proves a prior registration, allowing the
+        // cheaper refresh endpoint to be used instead.
+        let urlString = registrationToken != nil
+            ? "\(baseUrl)/refresh_register"
+            : "\(baseUrl)/register"
+
+        logger.writeLog("Registering to middleware: \(urlString)")
+
+        var data: [String : Any] = [
+            "platform": "ios",
+            "app_id": Bundle.main.bundleIdentifier ?? "",
+            "app_account_id": appAccountId,
+            "push_token": token,
             "os_version": UIDevice.current.systemVersion,
-            "client_version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as Any,
-            "app": Bundle.main.bundleIdentifier as Any,
-            "push_profile": "once",
-            "sandbox": (sandbox?.lowercased() == "true"),
-            "remote_notification_token": flutterSharedPreferences.remoteNotificationToken,
-            "dnd": false,
-            "app_startup_timestamp": flutterSharedPreferences.loginTime
-        ] as [String : Any]
+            "app_version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as Any,
+            "is_sandbox": (sandbox?.lowercased() == "true"),
+            "installation_id": flutterSharedPreferences.installationId ?? ""
+        ]
+        if let registrationToken = registrationToken {
+            data["registration_token"] = registrationToken
+        }
 
-        var request = createMiddlewareRequest(email: middlewareCredentials.email, token: middlewareCredentials.loginToken, url: baseUrl + REGISTER_URL)
-
+        var request = createMiddlewareRequest(token: apiToken, url: urlString)
         request.httpBody = try! JSONSerialization.data(withJSONObject: data)
 
-        AF.request(request).responseData { (response) -> Void in
+        AF.request(request).responseData { [weak self] (response) -> Void in
+            guard let self = self else { return }
             let statusCode = response.response?.statusCode
             let isSuccessful = statusCode.map { (200..<300).contains($0) } ?? false
 
             if isSuccessful {
+                if let responseData = response.data,
+                   let json = try? JSONSerialization.jsonObject(with: responseData) as? [String : Any],
+                   let newRegistrationToken = json["registration_token"] as? String {
+                    self.flutterSharedPreferences.middlewareRegistrationToken = newRegistrationToken
+                }
                 self.logger.writeLog("Registration successful")
+            } else if registrationToken != nil, [403, 404, 409].contains(statusCode ?? 0) {
+                // The stored registration token is no longer valid, fall back
+                // to a full registration.
+                self.logger.writeLog("Refresh failed with status code: \(String(describing: statusCode)), falling back to full registration")
+                self.flutterSharedPreferences.middlewareRegistrationToken = nil
+                self.sendRegistration(
+                    token: token,
+                    apiToken: apiToken,
+                    appAccountId: appAccountId,
+                    registrationToken: nil
+                )
             } else {
                 self.trackRegistrationFailed(statusCode: statusCode, error: response.error?.errorDescription)
                 self.logger.writeLog("Registration failed: response code was \(String(describing: statusCode))")
@@ -78,29 +130,59 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         }
     }
 
+    func unregister(appAccountId: Int64) throws {
+        guard let installationId = flutterSharedPreferences.installationId,
+              let registrationToken = flutterSharedPreferences.middlewareRegistrationToken else {
+            logger.writeLog("Skipping unregister: no active registration")
+            return
+        }
+
+        let urlString = "\(baseUrl)/unregister"
+        logger.writeLog("Unregistering from middleware: \(urlString)")
+
+        let data: [String : Any] = [
+            "app_account_id": appAccountId,
+            "installation_id": installationId,
+            "registration_token": registrationToken,
+        ]
+
+        var request = createMiddlewareRequest(token: middlewareCredentials.loginToken, url: urlString)
+        request.httpBody = try! JSONSerialization.data(withJSONObject: data)
+
+        AF.request(request).response { [weak self] (response) -> Void in
+            guard let self = self else { return }
+            let statusCode = response.response?.statusCode
+            let isSuccessful = statusCode.map { (200..<300).contains($0) } ?? false
+            if isSuccessful {
+                self.flutterSharedPreferences.middlewareRegistrationToken = nil
+                self.logger.writeLog("Unregister successful")
+            } else {
+                self.logger.writeLog("Unregister failed: response code was \(String(describing: statusCode))")
+            }
+        }
+    }
+
     public func respond(payload: PKPushPayload, available: Bool, reason: NativeMiddlewareUnavailableReason?) {
         let payloadDictionary = payload.dictionaryPayload as NSDictionary
-        let callId = payloadDictionary.value(forKey: "unique_key")
+        let callId = payload.callId
         let correlationId = payloadDictionary.value(forKey: "vg_cid")
-        let callStartTime = payloadDictionary.value(forKey: "message_start_time")
         let responseUrl = payload.responseUrl
         let pushResponseTime = payload.secondsSincePushWasSent
 
-        logger.writeLog("Middleware Respond: Attempting for call=\(String(describing: callId)), correlationId=\(String(describing: correlationId)), available=\(available)")
+        logger.writeLog("Middleware Respond: Attempting for call=\(callId), correlationId=\(String(describing: correlationId)), available=\(available)")
 
         if pushResponseTime > Middleware.secondsBeforeRejected {
             logger.writeLog("The response time is $pushResponseTime, it is likely we are too late for this call.")
         }
 
-        let data = [
-            "unique_key": callId,
-            "available": String(available),
-            "message_start_time": callStartTime,
-            "sip_user_id": middlewareCredentials.sipUserId,
+        let data: [String : Any] = [
+            "call_id": callId,
+            "available": available,
         ]
 
-        var request = createMiddlewareRequest(email: middlewareCredentials.email, token: middlewareCredentials.loginToken, url: responseUrl)
-
+        var request = URLRequest(url: URL(string: responseUrl)!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONSerialization.data(withJSONObject: data)
 
         let unavailableReason: String = {
@@ -157,6 +239,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         segment.track(event: "middleware-notification-received", properties: payload.withTrackingProperties(properties: [
             "seconds_from_call_to_received" : String(payload.secondsSincePushWasSent),
             "middleware_url" : baseUrl,
+            "service" : "callwaker",
         ]))
     }
 
@@ -172,6 +255,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
             "status_code" : statusCode.map { String($0) } ?? "",
             "error" : error ?? "",
             "middleware_url" : baseUrl,
+            "service" : "callwaker",
         ])
     }
 
@@ -182,6 +266,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
             "available" : String(available),
             "unavailable_reason" : reason,
             "middleware_url" : baseUrl,
+            "service" : "callwaker",
         ]))
     }
 
@@ -192,14 +277,15 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
             "unavailable_reason" : reason,
             "seconds_from_call_to_responded" : String(responseTime),
             "middleware_url" : baseUrl,
+            "service" : "callwaker",
         ]))
     }
 
-    private func createMiddlewareRequest(email: String, token: String, url: String) -> URLRequest {
+    private func createMiddlewareRequest(token: String, url: String) -> URLRequest {
         var request = URLRequest(url: NSURL(string: url)! as URL)
 
         request.httpMethod = "POST"
-        request.setValue("Token \(email):\(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         return request
@@ -214,7 +300,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
 }
 
 private struct MiddlewareCredentials {
-    let email: String
     let loginToken: String
     let sipUserId: String
 }
@@ -230,7 +315,7 @@ extension PKPushPayload {
     }
 
     var callId: String {
-        dictionaryPayload["unique_key"] as? String ?? ""
+        dictionaryPayload["call_id"] as? String ?? ""
     }
 
     var correlationId: String {

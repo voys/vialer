@@ -14,6 +14,7 @@ import org.openvoipalliance.flutterphonelib.NativeMiddleware
 import org.openvoipalliance.flutterphonelib.NativeMiddlewareUnavailableReason
 import java.io.IOException
 import java.math.BigDecimal
+import java.util.UUID
 
 class Middleware(
     private val context: Context,
@@ -39,9 +40,9 @@ class Middleware(
 
     val baseUrl: String
         get() {
-            val base = prefs.user?.client?.voip?.middlewareUrl
-                ?: context.getString(R.string.middleware_url)
-            return "$base/api"
+            val environment =
+                if (context.getString(R.string.identifier) == "vialerStaging") "staging" else "production"
+            return "https://api.eu-$environment.holodeck.voys.nl/callwaker"
         }
 
     override fun tokenReceived(token: String) {
@@ -62,24 +63,56 @@ class Middleware(
             return
         }
 
+        val appAccountId = middlewareCredentials.sipUserId.toLongOrNull()
+        if (appAccountId == null) {
+            log("Registration cancelled: sipUserId is not a number.")
+            return
+        }
+
+        // Generate a stable installation id on first registration if one isn't
+        // set yet; it is persisted so Dart can read it back when unregistering.
+        if (prefs.installationId == null) {
+            prefs.installationId = UUID.randomUUID().toString()
+        }
+
+        sendRegistration(
+            token = token,
+            apiToken = middlewareCredentials.loginToken,
+            appAccountId = appAccountId,
+            registrationToken = prefs.middlewareRegistrationToken,
+        )
+    }
+
+    private fun sendRegistration(
+        token: String,
+        apiToken: String,
+        appAccountId: Long,
+        registrationToken: String?,
+    ) {
+        // A registration token proves a prior registration, allowing the
+        // cheaper refresh endpoint to be used instead.
+        val urlString = if (registrationToken != null) {
+            "$baseUrl/refresh_register"
+        } else {
+            "$baseUrl/register"
+        }
+
+        log("Registering to middleware: $urlString")
+
         val jsonObject = JSONObject().apply {
-            put("name", middlewareCredentials.email)
-            put("token", token)
-            put("sip_user_id", middlewareCredentials.sipUserId)
+            put("platform", "android")
+            put("app_id", context.packageName)
+            put("app_account_id", appAccountId)
+            put("push_token", token)
             put("os_version", Build.VERSION.RELEASE)
-            put("client_version", BuildConfig.VERSION_NAME.split('-').first())
-            put("app", context.packageName)
-            put("dnd", false)
-            put("app_startup_timestamp", prefs.loginTime)
+            put("app_version", BuildConfig.VERSION_NAME.split('-').first())
+            put("installation_id", prefs.installationId)
+            if (registrationToken != null) put("registration_token", registrationToken)
         }
 
         val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaType())
 
-        val request = createMiddlewareRequest(
-            middlewareCredentials.email,
-            middlewareCredentials.loginToken,
-            url = "${baseUrl}/android-device/",
-        )
+        val request = createMiddlewareRequest(apiToken, url = urlString)
             .post(requestBody)
             .build()
 
@@ -91,12 +124,74 @@ class Middleware(
                 }
 
                 override fun onResponse(call: Call, response: Response) = response.use {
-                    when (response.isSuccessful) {
-                        true -> log("Registration successful")
-                        false -> {
+                    when {
+                        response.isSuccessful -> {
+                            val newRegistrationToken = response.body?.string()
+                                ?.let { runCatching { JSONObject(it).optString("registration_token") }.getOrNull() }
+                            if (!newRegistrationToken.isNullOrEmpty()) {
+                                prefs.middlewareRegistrationToken = newRegistrationToken
+                            }
+                            log("Registration successful")
+                        }
+                        registrationToken != null && response.code in listOf(403, 404, 409) -> {
+                            // The stored registration token is no longer valid,
+                            // fall back to a full registration.
+                            log("Refresh failed with status code: ${response.code}, falling back to full registration")
+                            prefs.middlewareRegistrationToken = null
+                            sendRegistration(
+                                token = token,
+                                apiToken = apiToken,
+                                appAccountId = appAccountId,
+                                registrationToken = null,
+                            )
+                        }
+                        else -> {
                             trackRegistrationFailed(statusCode = response.code, error = null)
                             log("Registration failed: response code was ${response.code}")
                         }
+                    }
+                }
+            }
+        )
+    }
+
+    fun unregister(appAccountId: Long) {
+        val installationId = prefs.installationId
+        val registrationToken = prefs.middlewareRegistrationToken
+        val apiToken = middlewareCredentials?.loginToken
+
+        if (installationId == null || registrationToken == null || apiToken == null) {
+            log("Skipping unregister: no active registration")
+            return
+        }
+
+        val urlString = "$baseUrl/unregister"
+        log("Unregistering from middleware: $urlString")
+
+        val jsonObject = JSONObject().apply {
+            put("app_account_id", appAccountId)
+            put("installation_id", installationId)
+            put("registration_token", registrationToken)
+        }
+
+        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaType())
+
+        val request = createMiddlewareRequest(apiToken, url = urlString)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(
+            object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    log("Unregister failed: ${e.localizedMessage}")
+                }
+
+                override fun onResponse(call: Call, response: Response) = response.use {
+                    if (response.isSuccessful) {
+                        prefs.middlewareRegistrationToken = null
+                        log("Unregister successful")
+                    } else {
+                        log("Unregister failed: response code was ${response.code}")
                     }
                 }
             }
@@ -111,7 +206,6 @@ class Middleware(
         val middlewareCredentials = middlewareCredentials
         val callId = remoteMessage.callId!!
         val correlationId = remoteMessage.correlationId!!
-        val callStartTime = remoteMessage.messageStartTime!!
         val pushSentTime = remoteMessage.pushSentTime
         val pushResponseTime = remoteMessage.secondsSincePushWasSent
         val responseUrl = remoteMessage.responseUrl!!
@@ -127,19 +221,14 @@ class Middleware(
             log("The response time is $pushResponseTime, it is likely we are too late for this call.")
         }
 
-        val data = FormBody.Builder().apply {
-            add("unique_key", callId)
-            add("available", available.toString())
-            add("message_start_time", callStartTime)
-            add("sip_user_id", middlewareCredentials.sipUserId)
-        }.build()
+        val data = JSONObject().apply {
+            put("call_id", callId)
+            put("available", available)
+        }
 
-        val request = createMiddlewareRequest(
-            middlewareCredentials.email,
-            middlewareCredentials.loginToken,
-            url = responseUrl,
-        )
-            .post(data)
+        val request = Request.Builder()
+            .url(responseUrl)
+            .post(data.toString().toRequestBody("application/json".toMediaType()))
             .build()
 
         // Capturing as a callback just to cut down on some code duplication.
@@ -204,6 +293,7 @@ class Middleware(
                     "seconds_from_call_to_received" to remoteMessage.secondsSincePushWasSent.toString(),
                     "is_ignoring_battery_optimizations" to context.isIgnoringBatteryOptimizations.toString(),
                     "middleware_url" to baseUrl,
+                    "service" to "callwaker",
                 )
             )
         }
@@ -224,6 +314,7 @@ class Middleware(
                 "seconds_from_call_to_responded" to responseTime.toString(),
                 "is_ignoring_battery_optimizations" to context.isIgnoringBatteryOptimizations.toString(),
                 "middleware_url" to baseUrl,
+                "service" to "callwaker",
             )
         )
 
@@ -233,6 +324,7 @@ class Middleware(
                 "status_code" to (statusCode?.toString() ?: ""),
                 "error" to (error ?: ""),
                 "middleware_url" to baseUrl,
+                "service" to "callwaker",
             )
         )
 
@@ -250,6 +342,7 @@ class Middleware(
                 "available" to available.toString(),
                 "unavailable_reason" to (reason?.name ?: ""),
                 "middleware_url" to baseUrl,
+                "service" to "callwaker",
             )
         )
 
@@ -265,8 +358,8 @@ class Middleware(
             remoteMessage.callId?.let { callIdsBeingHandled.add(it) }
         }
 
-    private fun createMiddlewareRequest(email: String, token: String, url: String) =
-        Request.Builder().url(url).addHeader("Authorization", "Token $email:$token")
+    private fun createMiddlewareRequest(token: String, url: String) =
+        Request.Builder().url(url).addHeader("Authorization", "Bearer $token")
 
     private fun log(message: String) = logger.writeLog("NATIVE-MIDDLEWARE: $message")
 
@@ -283,7 +376,6 @@ class Middleware(
             user.voip?.let { voip ->
                 MiddlewareCredentials(
                     sipUserId = voip.sipUserId,
-                    email = user.email,
                     loginToken = user.token
                 )
             }
@@ -298,7 +390,6 @@ class Middleware(
     }
 
     private data class MiddlewareCredentials(
-        val email: String,
         val loginToken: String,
         val sipUserId: String
     )
@@ -317,7 +408,7 @@ private val RemoteMessage.isLoggedInSomewhereElse
     get() = message?.startsWith("An other device has registered for the same account") == true
 
 private val RemoteMessage.callId
-    get() = data["unique_key"]
+    get() = data["call_id"]
 
 private val RemoteMessage.correlationId
     get() = data["vg_cid"]

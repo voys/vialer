@@ -26,9 +26,25 @@ class FlutterSharedPreferences(private val context: Context) {
         set(value) = prefs.edit().putBoolean(IS_LOGGED_IN_SOMEWHERE_ELSE_KEY, value)
             .apply()
 
-    // Formatted as a iso8601 string.
-    val loginTime
-        get() = prefs.getString(LOGIN_TIME_KEY, "") ?: ""
+    var installationId: String?
+        get() = prefs.getString(INSTALLATION_ID_KEY, null)
+        set(value) = prefs.edit().apply {
+            if (value != null) {
+                putString(INSTALLATION_ID_KEY, value)
+            } else {
+                remove(INSTALLATION_ID_KEY)
+            }
+        }.apply()
+
+    var middlewareRegistrationToken: String?
+        get() = prefs.getString(MIDDLEWARE_REGISTRATION_TOKEN_KEY, null)
+        set(value) = prefs.edit().apply {
+            if (value != null) {
+                putString(MIDDLEWARE_REGISTRATION_TOKEN_KEY, value)
+            } else {
+                remove(MIDDLEWARE_REGISTRATION_TOKEN_KEY)
+            }
+        }.apply()
 
     private var logs
         get() = prefs.getString(LOGS_KEY, "")
@@ -61,7 +77,9 @@ class FlutterSharedPreferences(private val context: Context) {
         private const val LOGS_KEY = "${KEY_PREFIX}logs"
         private const val IS_LOGGED_IN_SOMEWHERE_ELSE_KEY =
             "${KEY_PREFIX}is_logged_in_somewhere_else"
-        private const val LOGIN_TIME_KEY = "${KEY_PREFIX}login_time"
+        private const val INSTALLATION_ID_KEY = "${KEY_PREFIX}installation_id"
+        private const val MIDDLEWARE_REGISTRATION_TOKEN_KEY =
+            "${KEY_PREFIX}middleware_registration_token"
     }
 }
 
@@ -76,9 +94,6 @@ val Context.isIgnoringBatteryOptimizations: Boolean
 
 @JvmInline
 value class UserJson(private val json: JSONObject) {
-    val email: String
-        get() = json.getString("email")
-
     val token: String
         get() = json.getString("token")
 
