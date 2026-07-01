@@ -37,3 +37,4 @@ echo -e "1. \033[1;32mUpdate $new_directory/vialer/english.txt with the release 
 echo -e "2. \033[1;32mAdd the release notes, commit and push the release branch\033[0m"
 echo -e "\033[1;33mSuggested command:\033[0m \033[1;36mgit add --all && git commit -m \"chore: added release notes for ""$version""\" && git push origin $release_branch\033[0m\n"
 echo -e "\033[1;33mOnce the branch has been pushed, the release candidate should begin building.\033[0m\n"
+echo -e "\033[1;33mMake sure to open a merge request to merge this back into main.\033[0m\n"

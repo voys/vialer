@@ -56,6 +56,7 @@ android/app/src/main/kotlin/com/voipgrid/vialer/Pigeon.kt
 
 # Android
 local.properties
+android/build/reports/
 
 # Firebase
 google-services.json
