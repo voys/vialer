@@ -7,27 +7,17 @@ import 'package:vialer/data/models/calling/voip/unable_to_initialize_phone_lib.d
 import 'package:vialer/domain/usecases/calling/voip/prepare_voip_preferences.dart';
 
 import '../../../../dependency_locator.dart';
-import '../../../../domain/usecases/user/get_build_info.dart';
 import '../../../../presentation/util/loggable.dart';
-import '../../../API/calling/middleware/middleware_service.dart';
 import '../../../models/user/brand.dart';
 import '../../../models/user/info/build_info.dart';
 import '../../../models/user/user.dart';
 import '../../../models/voipgrid/app_account.dart';
 import '../../../models/voipgrid/client_voip_config.dart';
-import '../../legacy/storage.dart';
 
 @lazySingleton
 class VoipRepository with Loggable {
-  final _service = dependencyLocator<MiddlewareService>();
-
-  final _getBuildInfo = GetBuildInfoUseCase();
-
-  final _storageRepository = dependencyLocator<StorageRepository>();
   late final _prepareVoipPreferences =
       dependencyLocator<PrepareVoipPreferences>();
-
-  String? get _token => _storageRepository.pushToken;
 
   PhoneLib? __phoneLib;
 
@@ -218,51 +208,6 @@ class VoipRepository with Loggable {
     }
   }
 
-  Future<void> unregister(AppAccount? appAccount) async {
-    assert(appAccount?.sipUserId != null, 'No sipUserId present');
-
-    logger.info('Unregistering..');
-
-    // This is possible if the user logs out before the token has been received.
-    if (_token == null) {
-      logger.warning('No token, not unregistering');
-      return;
-    }
-
-    if (appAccount?.sipUserId == null) {
-      logger.warning('Unable to unregister without a [sipUserId]');
-      return;
-    }
-
-    final token = _token!;
-    final sipUserId = appAccount!.sipUserId;
-    final app = await _getBuildInfo().then((i) => i.packageName);
-
-    final response = Platform.isAndroid
-        ? await _service.deleteAndroidDevice(
-            token: token,
-            sipUserId: sipUserId,
-            app: app,
-          )
-        : Platform.isIOS
-            ? await _service.deleteAppleDevice(
-                token: token,
-                sipUserId: sipUserId,
-                app: app,
-              )
-            : throw UnsupportedError(
-                'Unsupported platform: ${Platform.operatingSystem}',
-              );
-
-    if (!response.isSuccessful) {
-      logger.warning(
-        'Unregistering failed: ${response.statusCode} ${response.error}',
-      );
-      return;
-    }
-
-    logger.info('Unregistered!');
-  }
 
   Future<void> answerCall() async => (await _phoneLib).actions.answer();
 

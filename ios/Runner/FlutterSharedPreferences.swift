@@ -8,7 +8,8 @@ class FlutterSharedPreferences {
     private let FLUTTER_SHARED_PREF_LOGS = "flutter.logs"
     private let FLUTTER_SHARED_PREF_IS_LOGGED_IN_SOMEWHERE_ELSE = "flutter.is_logged_in_somewhere_else"
     private let FLUTTER_SHARED_PREF_REMOTE_NOTIFICATION_TOKEN = "flutter.remote_notification_token"
-    private let FLUTTER_SHARED_PREF_LOGIN_TIME = "flutter.login_time"
+    private let FLUTTER_SHARED_PREF_INSTALLATION_ID = "flutter.installation_id"
+    private let FLUTTER_SHARED_PREF_MIDDLEWARE_REGISTRATION_TOKEN = "flutter.middleware_registration_token"
     
     private let appendLogsQueue = DispatchQueue(label: "appendLogsQueue")
 
@@ -60,10 +61,31 @@ class FlutterSharedPreferences {
         }
     }
     
-    // Formatted as a iso8601 string.
-    var loginTime: String {
+    var installationId: String? {
         get {
-            defaults.string(forKey: FLUTTER_SHARED_PREF_LOGIN_TIME) ?? ""
+            defaults.string(forKey: FLUTTER_SHARED_PREF_INSTALLATION_ID)
+        }
+        set (value) {
+            if let value = value {
+                defaults.set(value, forKey: FLUTTER_SHARED_PREF_INSTALLATION_ID)
+            } else {
+                defaults.removeObject(forKey: FLUTTER_SHARED_PREF_INSTALLATION_ID)
+            }
+            defaults.synchronize()
+        }
+    }
+
+    var middlewareRegistrationToken: String? {
+        get {
+            defaults.string(forKey: FLUTTER_SHARED_PREF_MIDDLEWARE_REGISTRATION_TOKEN)
+        }
+        set (value) {
+            if let value = value {
+                defaults.set(value, forKey: FLUTTER_SHARED_PREF_MIDDLEWARE_REGISTRATION_TOKEN)
+            } else {
+                defaults.removeObject(forKey: FLUTTER_SHARED_PREF_MIDDLEWARE_REGISTRATION_TOKEN)
+            }
+            defaults.synchronize()
         }
     }
 

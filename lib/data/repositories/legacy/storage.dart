@@ -107,13 +107,6 @@ class StorageRepository {
   set isLoggedInSomewhereElse(bool? value) =>
       _preferences.setOrRemoveBool(_isLoggedInSomewhereElseKey, value);
 
-  static const _loginTimeKey = 'login_time';
-
-  DateTime? get loginTime => _preferences.getDateTime(_loginTimeKey);
-
-  set loginTime(DateTime? value) =>
-      _preferences.setOrRemoveDateTime(_loginTimeKey, value);
-
   static const _lastCallRatingAskedTimeKey = 'last_call_rating_asked_time';
 
   DateTime? get lastCallRatingAskedTime =>

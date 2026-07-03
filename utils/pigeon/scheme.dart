@@ -131,6 +131,7 @@ abstract class GooglePlayServices {
 @HostApi()
 abstract class MiddlewareRegistrar {
   void register(String token);
+  void unregister(int appAccountId);
 }
 
 @FlutterApi()
