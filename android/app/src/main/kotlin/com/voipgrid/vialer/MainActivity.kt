@@ -104,6 +104,8 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
 
         MiddlewareRegistrar.setUp(binaryMessenger, object : MiddlewareRegistrar {
             override fun register(token: String) = App.middleware.register(token)
+            override fun unregister(appAccountId: Long) =
+                App.middleware.unregister(appAccountId)
         })
 
         nativeToFlutter = NativeToFlutter(binaryMessenger);

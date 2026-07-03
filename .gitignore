@@ -81,3 +81,7 @@ android/app/src/**/res/font/
 *.i18n.yaml
 devtools_options.yaml
 **/ios/Podfile.lock
+
+# FVM Version Cache
+.fvm/
+.fvmrc
