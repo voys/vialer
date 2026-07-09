@@ -25,12 +25,16 @@ class SharedContactForm extends StatelessWidget {
     required this.onSave,
     this.onDelete,
     this.sharedContact,
+    this.prefill,
     Key? key,
   }) : super(key: key);
 
   final String title;
   final VoidCallback onSave;
   final SharedContact? sharedContact;
+
+  /// Initial values for a new contact, without putting the form in edit mode.
+  final SharedContact? prefill;
   final VoidCallback? onDelete;
 
   @override
@@ -52,6 +56,7 @@ class SharedContactForm extends StatelessWidget {
           ),
           child: _SharedContactForm(
             sharedContact: sharedContact,
+            prefill: prefill,
             onSave: onSave,
             onDelete: onDelete,
           ),
@@ -65,12 +70,14 @@ class _SharedContactForm extends StatefulWidget {
   const _SharedContactForm({
     required this.onSave,
     this.sharedContact,
+    this.prefill,
     this.onDelete,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onSave;
   final SharedContact? sharedContact;
+  final SharedContact? prefill;
   final VoidCallback? onDelete;
 
   @override
@@ -92,8 +99,9 @@ class _SharedContactFormState extends State<_SharedContactForm> {
   void initState() {
     super.initState();
 
-    if (_isEditContactForm) {
-      _setValuesFromSharedContact(widget.sharedContact!);
+    final initialValues = widget.sharedContact ?? widget.prefill;
+    if (initialValues != null) {
+      _setValuesFromSharedContact(initialValues);
     }
   }
 

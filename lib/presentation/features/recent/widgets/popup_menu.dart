@@ -4,6 +4,7 @@ import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
+import '../../../../../domain/util/call_record_extensions.dart';
 
 class RecentItemPopupMenu extends StatelessWidget {
   const RecentItemPopupMenu({
@@ -61,6 +62,35 @@ class RecentItemPopupMenu extends StatelessWidget {
             title: Text(context.msg.main.recent.list.item.popupMenu.call),
           ),
         ),
+        if (callRecord.hasThirdPartyNumber)
+          if (callRecord.thirdPartyContact != null)
+            PopupMenuItem<RecentCallMenuAction>(
+              value: RecentCallMenuAction.viewContact,
+              child: ListTile(
+                leading: Container(
+                  width: 24,
+                  alignment: Alignment.center,
+                  child: const FaIcon(FontAwesomeIcons.user, size: 20),
+                ),
+                title: Text(
+                  context.msg.main.recent.list.item.popupMenu.viewContact,
+                ),
+              ),
+            )
+          else
+            PopupMenuItem<RecentCallMenuAction>(
+              value: RecentCallMenuAction.addSharedContact,
+              child: ListTile(
+                leading: Container(
+                  width: 24,
+                  alignment: Alignment.center,
+                  child: const FaIcon(FontAwesomeIcons.userPlus, size: 20),
+                ),
+                title: Text(
+                  context.msg.main.recent.list.item.popupMenu.addSharedContact,
+                ),
+              ),
+            ),
       ],
       icon: FaIcon(
         FontAwesomeIcons.ellipsisVertical,
@@ -71,4 +101,11 @@ class RecentItemPopupMenu extends StatelessWidget {
   }
 }
 
-enum RecentCallMenuAction { copy, call, callDetails, none }
+enum RecentCallMenuAction {
+  copy,
+  call,
+  callDetails,
+  viewContact,
+  addSharedContact,
+  none,
+}

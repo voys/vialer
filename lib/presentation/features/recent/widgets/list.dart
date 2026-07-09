@@ -132,6 +132,8 @@ class _RecentCallsListState extends State<RecentCallsList>
                 widget.onCopyPressed(callRecord.thirdPartyNumber);
                 _showSnackBar(context);
               },
+              onContactsChanged: () =>
+                  unawaited(widget.manualRefresher.refresh()),
             );
 
             if (widget.callRecords.isHeaderRequiredAt(index)) {

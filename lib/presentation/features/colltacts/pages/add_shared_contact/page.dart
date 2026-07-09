@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 
+import '../../../../../data/models/colltacts/shared_contacts/shared_contact.dart';
 import '../../controllers/shared_contact_form/cubit.dart';
 import '../../widgets/shared_contact_form/widget.dart';
 
 class AddSharedContactPage extends StatelessWidget {
   const AddSharedContactPage({
     required this.onSave,
+    this.prefill,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onSave;
+  final SharedContact? prefill;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,7 @@ class AddSharedContactPage extends StatelessWidget {
       child: SharedContactForm(
         title: context.msg.main.contacts.list.addSharedContact.title,
         onSave: onSave,
+        prefill: prefill,
       ),
     );
   }
