@@ -1,18 +1,28 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartx/dartx.dart';
 import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/util/phone_number.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
+import '../../../../../data/models/colltacts/colltact.dart';
+import '../../../../../data/models/colltacts/shared_contacts/shared_contact.dart';
+import '../../../../../data/repositories/legacy/storage.dart';
+import '../../../../../dependency_locator.dart';
 import '../../../../../domain/util/call_record_extensions.dart';
 import '../../../../../global.dart';
 import '../../../resources/localizations.dart';
 import '../../../util/contact.dart';
+import '../../colltacts/controllers/colleagues/cubit.dart';
+import '../../colltacts/controllers/shared_contacts/cubit.dart';
+import '../../colltacts/pages/add_shared_contact/page.dart';
+import '../../colltacts/widgets/details/widget.dart';
 import 'call_details_bottom_sheet.dart';
 import 'call_record_avatar.dart';
 import 'popup_menu.dart';
@@ -22,6 +32,7 @@ class RecentCallItem extends StatelessWidget {
     required this.callRecord,
     required this.onCopyPressed,
     required this.onCallPressed,
+    required this.onContactsChanged,
     super.key,
   });
 
@@ -29,6 +40,7 @@ class RecentCallItem extends StatelessWidget {
 
   final VoidCallback onCallPressed;
   final VoidCallback onCopyPressed;
+  final VoidCallback onContactsChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +48,7 @@ class RecentCallItem extends StatelessWidget {
       callRecord: callRecord,
       onCopyPressed: onCopyPressed,
       onCallPressed: onCallPressed,
+      onContactsChanged: onContactsChanged,
       child: _RecentCallItemBody(
         title: _RecentCallItemTitle(callRecord),
         subtitle: _RecentItemSubtitle(callRecord),
@@ -157,6 +170,7 @@ class _RecentCallItemContainer extends StatelessWidget {
     required this.callRecord,
     required this.onCopyPressed,
     required this.onCallPressed,
+    required this.onContactsChanged,
     required this.child,
   });
 
@@ -164,8 +178,87 @@ class _RecentCallItemContainer extends StatelessWidget {
 
   final VoidCallback onCallPressed;
   final VoidCallback onCopyPressed;
+  final VoidCallback onContactsChanged;
 
   final Widget child;
+
+  /// Dial-plans can set a variable caller name, so a name identical to the
+  /// number is ignored.
+  (String?, String?) get _prefillName {
+    final name = callRecord.thirdPartyName?.trim() ?? '';
+    if (name.isEmpty || name == callRecord.thirdPartyNumber) {
+      return (null, null);
+    }
+
+    final spaceIndex = name.indexOf(' ');
+    if (spaceIndex == -1) return (name, null);
+
+    return (
+      name.substring(0, spaceIndex),
+      name.substring(spaceIndex + 1).trim(),
+    );
+  }
+
+  void _viewContact(BuildContext context) {
+    final contact = callRecord.thirdPartyContact;
+    if (contact == null) return;
+
+    // The contact populator flattens shared contacts into [Contact], so
+    // restore the original shared contact to get the correct details page.
+    final sharedContact = dependencyLocator<StorageRepository>()
+        .sharedContacts
+        .firstOrNullWhere(
+          (shared) => shared.id != null && shared.id == contact.identifier,
+        );
+
+    final colltact = sharedContact != null
+        ? Colltact.sharedContact(sharedContact)
+        : Colltact.contact(contact);
+
+    final colleaguesCubit = context.read<ColleaguesCubit>();
+
+    unawaited(
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) => BlocProvider.value(
+            value: colleaguesCubit,
+            child: ColltactPageDetails(colltact: colltact),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _addSharedContact(BuildContext context) {
+    final (givenName, familyName) = _prefillName;
+    final sharedContactsCubit = context.read<SharedContactsCubit>();
+
+    unawaited(
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) => AddSharedContactPage(
+            prefill: SharedContact(
+              id: null,
+              givenName: givenName,
+              familyName: familyName,
+              phoneNumbers: [
+                SharedContactPhoneNumber(
+                  phoneNumberFlat: callRecord.thirdPartyNumber,
+                ),
+              ],
+            ),
+            onSave: () => unawaited(
+              sharedContactsCubit
+                  .loadSharedContacts(fullRefresh: true)
+                  .then((_) => onContactsChanged()),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   void _onPopupMenuItemPress(
     BuildContext context,
@@ -177,6 +270,12 @@ class _RecentCallItemContainer extends StatelessWidget {
         break;
       case RecentCallMenuAction.call:
         onCallPressed();
+        break;
+      case RecentCallMenuAction.viewContact:
+        _viewContact(context);
+        break;
+      case RecentCallMenuAction.addSharedContact:
+        _addSharedContact(context);
         break;
       case RecentCallMenuAction.callDetails:
         if (callRecord.shouldShowAiSummary) {
