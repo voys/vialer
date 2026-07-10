@@ -145,7 +145,12 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
                 }
                 self.logger.writeLog("Registration successful")
                 self.endRegistration()
-            } else if registrationToken != nil, [403, 404, 409].contains(statusCode ?? 0) {
+            } else if registrationToken != nil, statusCode == 409 {
+                // 409 = account registered on another device; log out.
+                self.logger.writeLog("Refresh returned 409: account registered on another device, logging out")
+                self.flutterSharedPreferences.isLoggedInSomewhereElse = true
+                self.endRegistration()
+            } else if registrationToken != nil, [403, 404].contains(statusCode ?? 0) {
                 // The stored registration token is no longer valid, fall back
                 // to a full registration. Keep the in-flight slot held: the
                 // fallback is the same registration and releases it.
@@ -265,12 +270,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     }
 
     public func inspect(payload: PKPushPayload, type: PKPushType) {
-        if payload.isLoggedInSomewhereElse {
-            logger.writeLog("User has logged in somewhere else, marking as such..")
-            flutterSharedPreferences.isLoggedInSomewhereElse = true
-            return
-        }
-
         segment.track(event: "middleware-notification-received", properties: payload.withTrackingProperties(properties: [
             "seconds_from_call_to_received" : String(payload.secondsSincePushWasSent),
             "middleware_url" : baseUrl,
@@ -340,14 +339,6 @@ private struct MiddlewareCredentials {
 }
 
 extension PKPushPayload {
-
-    var message: String {
-        dictionaryPayload["message"] as? String ?? ""
-    }
-
-    var isLoggedInSomewhereElse: Bool {
-        message.hasPrefix("An other device has registered for the same account")
-    }
 
     var callId: String {
         dictionaryPayload["call_id"] as? String ?? ""
