@@ -1,7 +1,6 @@
 package com.voipgrid.vialer
 
 import com.voipgrid.vialer.BuildConfig
-import LoggedInElsewhereNotification
 import android.content.Context
 import android.os.Build
 import com.google.firebase.messaging.RemoteMessage
@@ -22,7 +21,6 @@ class Middleware(
     private val logger: Logger,
     private val prefs: FlutterSharedPreferences,
     private val segment: Segment,
-    private val loggedInElsewhereNotification: LoggedInElsewhereNotification,
 ) : NativeMiddleware {
     private val client = OkHttpClient()
 
@@ -153,7 +151,13 @@ class Middleware(
                             log("Registration successful")
                             isRegistering.set(false)
                         }
-                        registrationToken != null && response.code in listOf(403, 404, 409) -> {
+                        registrationToken != null && response.code == 409 -> {
+                            // 409 = account registered on another device; log out.
+                            log("Refresh returned 409: account registered on another device, logging out")
+                            prefs.isLoggedInSomewhereElse = true
+                            isRegistering.set(false)
+                        }
+                        registrationToken != null && response.code in listOf(403, 404) -> {
                             // The stored registration token is no longer valid,
                             // fall back to a full registration. Keep isRegistering
                             // held: the fallback is the same in-flight registration
@@ -296,13 +300,6 @@ class Middleware(
     }
 
     override fun inspect(remoteMessage: RemoteMessage): Boolean {
-        if (remoteMessage.isLoggedInSomewhereElse) {
-            log("User has logged in somewhere else, marking as such..")
-            loggedInElsewhereNotification.show()
-            prefs.isLoggedInSomewhereElse = true
-            return false
-        }
-
         if (!remoteMessage.isCall) return false
 
         if (isCallAlreadyBeingHandled(remoteMessage)) {
@@ -423,12 +420,6 @@ class Middleware(
         val pushReceivedTime: String,
     )
 }
-
-private val RemoteMessage.message
-    get() = data["message"]
-
-private val RemoteMessage.isLoggedInSomewhereElse
-    get() = message?.startsWith("An other device has registered for the same account") == true
 
 private val RemoteMessage.callId
     get() = data["call_id"]

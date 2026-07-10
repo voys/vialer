@@ -124,30 +124,6 @@ import UserNotifications
                     error: Error) {
         logger.writeLog("Failed to register for remote notifications: \(error).")
     }
-    
-    override func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                         didReceive response: UNNotificationResponse,
-                                         withCompletionHandler completionHandler: @escaping () -> Void) {
-        if response.notification.isLoggedInSomewhereElse {
-            // User pressed the logout notification.
-            logger.writeLog("User has logged in somewhere else, marking as such..")
-            
-            flutterSharedPreferences.isLoggedInSomewhereElse = true
-        }
-        
-        completionHandler()
-    }
-
-    override func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Only called when the app is in the foreground
-        if notification.isLoggedInSomewhereElse {
-            logger.writeLog("User has logged in somewhere else, marking as such..")
-
-            flutterSharedPreferences.isLoggedInSomewhereElse = true
-        }
-       
-        completionHandler([.alert])
-    }
 }
 
 extension AppDelegate {
@@ -197,12 +173,3 @@ extension String {
     }
 }
 
-extension UNNotification {
-    var message: String {
-        request.content.body
-    }
-
-    var isLoggedInSomewhereElse: Bool {
-        message.hasPrefix("An other device has registered for the same account")
-    }
-}

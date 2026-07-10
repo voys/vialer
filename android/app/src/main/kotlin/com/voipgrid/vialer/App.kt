@@ -1,6 +1,5 @@
 package com.voipgrid.vialer
 
-import LoggedInElsewhereNotification
 import com.voipgrid.vialer.logging.Logger
 import io.flutter.app.FlutterApplication
 import org.openvoipalliance.flutterphonelib.startPhoneLib
@@ -17,7 +16,6 @@ class App : FlutterApplication() {
             logger,
             prefs,
             segment,
-            LoggedInElsewhereNotification(this),
         )
 
         registerActivityLifecycleCallbacks(activityMonitor)
