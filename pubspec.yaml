@@ -15,9 +15,22 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_phone_lib: 0.0.45
+  # This points to our fork of the Font Awesome Flutter library which includes our pro-icons so must
+  # be kept private.
+
+  # To access this without SSH authentication (i.e. CI/CD pipelines) we must rewrite
+  # the URL (see `utils/ci/codemagic/bin/configure_font_awesome_gitlab_access.sh` for more info)
+  # which requires a Gitlab access token.
+
+  # `FONT_AWESOME_GITLAB_ACCESS_TOKEN` expires every year, next time on Fri 9 Jul 2027.
+
+  # 1. Issue a new token: mobile/libraries/font-awesome/-/settings/access_tokens
+  # 2. Update Gitlab CI/CD variables: /groups/mobile/-/settings/ci_cd#ci-variables
+  # 3. Update Codemagic variables: Global variables and secrets -> `team_shared_environment`
   font_awesome_flutter:
-    hosted: https://onepub.dev/api/xhopsdavuh/
-    version: ^10.7.0
+    git:
+      url: git@gitlab.wearespindle.com:mobile/libraries/font-awesome.git
+      ref: eb90afc093999b8b6092cf62df52f550127d4a67
   flutter_bloc: ^9.1.1
   provider: ^6.1.5
   equatable: ^2.0.8

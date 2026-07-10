@@ -32,6 +32,9 @@ custom: # Custom properties to make workflows cleaner
     - &track_new_version
       name: Track the release of a new version
       script: dart utils/ci/codemagic/track_new_version.dart
+    - &configure_font_awesome_gitlab_access
+      name: Configuring GitLab access for the private Font Awesome package
+      script: . utils/ci/codemagic/bin/configure_font_awesome_gitlab_access.sh
     - &run_code_generators
       name: Installing flutter dependencies and generating code
       script: . utils/ci/codemagic/bin/run_code_generators.sh
@@ -242,6 +245,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -291,6 +295,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -347,6 +352,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -369,6 +375,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -396,6 +403,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -456,6 +464,7 @@ workflows:
     scripts:
       - *use_project_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -549,6 +558,7 @@ workflows:
     scripts:
       - *use_project_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -639,6 +649,7 @@ workflows:
     scripts:
       - *use_project_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -671,6 +682,7 @@ workflows:
     scripts:
       - *use_project_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -701,6 +713,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -735,6 +748,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -769,6 +783,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
@@ -803,6 +818,7 @@ workflows:
     scripts:
       - *use_workflow_build_number
       - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *mirror_linphone_sdk
       - *install_native_dependencies
