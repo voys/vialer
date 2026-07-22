@@ -89,6 +89,8 @@ class _SharedContactFormState extends State<_SharedContactForm> {
   String? lastName;
   String? company;
 
+  final _formKey = GlobalKey<FormState>();
+
   Map<UniqueKey?, String> phoneNumbers = {};
   List<UniqueKey> _deletablePhoneNumberFields = [];
 
@@ -176,7 +178,6 @@ class _SharedContactFormState extends State<_SharedContactForm> {
         }
       },
       builder: (context, state) {
-        final _formKey = GlobalKey<FormState>();
         final cubit = context.read<SharedContactFormCubit>();
 
         if (state is InProgress) {
