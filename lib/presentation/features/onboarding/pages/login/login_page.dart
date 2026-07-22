@@ -6,8 +6,11 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:vialer/data/repositories/env.dart';
+import 'package:vialer/dependency_locator.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
+import 'package:vialer/presentation/util/debug.dart';
 
 import '../../../../../../domain/usecases/user/launch_privacy_policy.dart';
 import '../../../../../../domain/usecases/user/launch_sign_up.dart';
@@ -44,6 +47,17 @@ class _LoginPageState extends State<LoginPage>
   final _passwordController = TextEditingController();
 
   bool _hidePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    if (inDebugMode) {
+      final env = dependencyLocator<EnvRepository>();
+      _emailController.text = env.devUsername;
+      _passwordController.text = env.devPassword;
+    }
+  }
 
   /// Navigates to the password forgotten page.
   ///
