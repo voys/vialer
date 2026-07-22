@@ -62,35 +62,36 @@ class RecentItemPopupMenu extends StatelessWidget {
             title: Text(context.msg.main.recent.list.item.popupMenu.call),
           ),
         ),
-        if (callRecord.hasThirdPartyNumber)
-          if (callRecord.thirdPartyContact != null)
-            PopupMenuItem<RecentCallMenuAction>(
-              value: RecentCallMenuAction.viewContact,
-              child: ListTile(
-                leading: Container(
-                  width: 24,
-                  alignment: Alignment.center,
-                  child: const FaIcon(FontAwesomeIcons.user, size: 20),
-                ),
-                title: Text(
-                  context.msg.main.recent.list.item.popupMenu.viewContact,
-                ),
+        if (callRecord.thirdPartyContact != null)
+          PopupMenuItem<RecentCallMenuAction>(
+            value: RecentCallMenuAction.viewContact,
+            child: ListTile(
+              leading: Container(
+                width: 24,
+                alignment: Alignment.center,
+                child: const FaIcon(FontAwesomeIcons.user, size: 20),
               ),
-            )
-          else
-            PopupMenuItem<RecentCallMenuAction>(
-              value: RecentCallMenuAction.addSharedContact,
-              child: ListTile(
-                leading: Container(
-                  width: 24,
-                  alignment: Alignment.center,
-                  child: const FaIcon(FontAwesomeIcons.userPlus, size: 20),
-                ),
-                title: Text(
-                  context.msg.main.recent.list.item.popupMenu.addSharedContact,
-                ),
+              title: Text(
+                context.msg.main.recent.list.item.popupMenu.viewContact,
               ),
             ),
+          )
+        else
+          PopupMenuItem<RecentCallMenuAction>(
+            value: RecentCallMenuAction.addSharedContact,
+            enabled: !callRecord.isAnonymous,
+            child: ListTile(
+              enabled: !callRecord.isAnonymous,
+              leading: Container(
+                width: 24,
+                alignment: Alignment.center,
+                child: const FaIcon(FontAwesomeIcons.userPlus, size: 20),
+              ),
+              title: Text(
+                context.msg.main.recent.list.item.popupMenu.addSharedContact,
+              ),
+            ),
+          ),
       ],
       icon: FaIcon(
         FontAwesomeIcons.ellipsisVertical,
