@@ -39,6 +39,10 @@ class EnvRepository {
 
   String get tag => get('TAG');
 
+  String get devUsername => get('DEV_USERNAME');
+
+  String get devPassword => get('DEV_PASSWORD');
+
   bool get iosSandboxPushNotifications =>
       get('ENABLE_IOS_SANDBOX_PUSH_NOTIFICATIONS').toBool();
 
