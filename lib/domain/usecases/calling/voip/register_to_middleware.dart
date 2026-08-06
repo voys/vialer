@@ -71,23 +71,44 @@ class RegisterToMiddlewareUseCase extends UseCase {
     final environment =
         GetBrand()().identifier == 'vialerStaging' ? 'staging' : 'production';
     final device = Platform.isAndroid ? 'android-device' : 'apns-device';
-    final url =
-        Uri.parse('https://vmex.eu-$environment.holodeck.voys.nl/api/$device');
 
+    final urls = [
+      'https://vmex.eu-$environment.holodeck.voys.nl/api/$device',
+      'https://vmex.za-$environment.holodeck.voys.nl/api/$device',
+    ];
+
+    for (final url in urls) {
+      await _deleteLegacyRegistration(
+        url: url,
+        email: user.email,
+        token: token,
+        sipUserId: sipUserId,
+        pushToken: pushToken,
+      );
+    }
+  }
+
+  Future<void> _deleteLegacyRegistration({
+    required String url,
+    required String email,
+    required String token,
+    required String sipUserId,
+    required String pushToken,
+  }) async {
     try {
       final app = (await PackageInfo.fromPlatform()).packageName;
 
       final response = await http.delete(
-        url,
-        headers: {'Authorization': 'Token ${user.email}:$token'},
+        Uri.parse(url),
+        headers: {'Authorization': 'Token $email:$token'},
         body: {'token': pushToken, 'sip_user_id': sipUserId, 'app': app},
       );
 
       logger.info(
-        'Legacy middleware unregister responded: ${response.statusCode}',
+        'Legacy middleware unregister ($url) responded: ${response.statusCode}',
       );
     } catch (e) {
-      logger.warning('Legacy middleware unregister failed: $e');
+      logger.warning('Legacy middleware unregister ($url) failed: $e');
     }
   }
 
