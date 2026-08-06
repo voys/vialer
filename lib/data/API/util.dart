@@ -6,7 +6,6 @@ import 'package:chopper/chopper.dart';
 import 'package:dartx/dartx.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:vialer/domain/usecases/user/get_brand.dart';
 
 import '../../dependency_locator.dart';
@@ -200,43 +199,9 @@ class RateLimitReachedInterceptor implements chopper.Interceptor {
   bool _isRateLimited(int statusCode) => statusCode == 429;
 }
 
-class SubmitUnexpectedFailedRequestsToSentry implements chopper.Interceptor {
-  @override
-  FutureOr<chopper.Response<BodyType>> intercept<BodyType>(
-    chopper.Chain<BodyType> chain,
-  ) async {
-    final response = await chain.proceed(chain.request);
-    final statusCode = response.statusCode;
-
-    if (!statusCode.shouldSubmitStatusCodeToSentry) return response;
-
-    final url = response.base.request?.url.path ?? '';
-    final body = response.bodyString;
-
-    if (Sentry.isEnabled) {
-      Sentry.captureMessage(
-        '$url responded with [$statusCode]',
-        level: SentryLevel.error,
-        params: [url, statusCode, body],
-      );
-    }
-
-    return response;
-  }
-}
-
 extension on Request {
   bool get alreadyHasAuthorizationHeader =>
-      headers.containsKey('Authorization');
-}
-
-extension on int {
-  bool get shouldSubmitStatusCodeToSentry {
-    if (this < 400) return false;
-
-    return ![404, 429].contains(this);
-  }
-}
+      headers.containsKey('Authorization');}
 
 class JsonConverter extends chopper.JsonConverter {
   @override
@@ -254,7 +219,6 @@ class JsonConverter extends chopper.JsonConverter {
 }
 
 Iterable<chopper.Interceptor> get globalInterceptors => [
-      SubmitUnexpectedFailedRequestsToSentry(),
       ClientHeaderInterceptor(),
     ];
 
