@@ -8,6 +8,7 @@ enum AppSetting<T extends Object> with SettingKey<T> {
   showTroubleshooting<bool>(),
   showClientCalls<bool>(),
   showOnlineColleaguesOnly<bool>(),
+  alwaysShowCallerNameInRecents<bool>(),
   hasUnreadFeatureAnnouncements<bool>(),
   enableAdvancedVoipLogging<bool>();
 
@@ -23,6 +24,7 @@ enum AppSetting<T extends Object> with SettingKey<T> {
         AppSetting.showTroubleshooting => false,
         AppSetting.showClientCalls => false,
         AppSetting.showOnlineColleaguesOnly => true,
+        AppSetting.alwaysShowCallerNameInRecents => false,
         AppSetting.hasUnreadFeatureAnnouncements => false,
         AppSetting.enableAdvancedVoipLogging => false,
       };

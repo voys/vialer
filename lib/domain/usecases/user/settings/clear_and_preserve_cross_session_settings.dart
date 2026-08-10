@@ -43,17 +43,16 @@ const preserve = [
   AppSetting.remoteLogging,
   AppSetting.showCallsInNativeRecents,
   AppSetting.showClientCalls,
+  AppSetting.alwaysShowCallerNameInRecents,
   AppSetting.showOnlineColleaguesOnly,
   AppSetting.showTroubleshooting,
 ];
 
 extension on List<Enum> {
   Settings toSettingsMap(User user) => Map.fromEntries(
-        preserve.map(
-          (key) => MapEntry(
-            key as SettingKey,
-            user.settings.get(key as SettingKey),
-          ),
-        ),
-      );
+    preserve.map(
+      (key) =>
+          MapEntry(key as SettingKey, user.settings.get(key as SettingKey)),
+    ),
+  );
 }

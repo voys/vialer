@@ -10,6 +10,7 @@ import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../data/models/user/settings/call_setting.dart';
 import '../controllers/cubit.dart';
+import '../widgets/tile/always_show_caller_name_in_recents.dart';
 import '../widgets/tile/category/advanced_settings.dart';
 import '../widgets/tile/category/audio.dart';
 import '../widgets/tile/category/calling.dart';
@@ -75,6 +76,7 @@ class AppPreferencesSubPage extends StatelessWidget {
                 RecentsCategory(
                   children: [
                     ShowClientCallsTile(user),
+                    AlwaysShowCallerNameInRecentsTile(user),
                   ],
                 ),
                 if (user.isAllowedVoipCalling)
