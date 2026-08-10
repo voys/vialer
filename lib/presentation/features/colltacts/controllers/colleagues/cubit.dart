@@ -6,7 +6,6 @@ import 'package:vialer/data/API/resgate/resgate.dart';
 import 'package:vialer/data/models/user/user.dart';
 
 import '../../../../../../data/models/colltacts/colltact.dart';
-import '../../../../../../data/models/event/event_bus.dart';
 import '../../../../../../data/models/relations/colleagues/colleague.dart';
 import '../../../../../../data/models/relations/events/colleague_list_did_change.dart';
 import '../../../../../../data/models/user/settings/app_setting.dart';
@@ -17,31 +16,32 @@ import '../../../../../../domain/usecases/relations/colleagues/should_show_colle
 import '../../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../../domain/usecases/user/settings/change_setting.dart';
 import '../../../../shared/controllers/caller/cubit.dart';
+import '../../../../util/cubit_subscriptions.dart';
 import 'state.dart';
 
 export 'state.dart';
 
-class ColleaguesCubit extends Cubit<ColleaguesState> {
+class ColleaguesCubit extends Cubit<ColleaguesState> with CubitSubscriptions {
   ColleaguesCubit(this._caller)
       : super(
           const ColleaguesState.loading(
             showOnlineColleaguesOnly: false,
           ),
         ) {
-    _eventBus
-      ..on<UserWasLoggedOutEvent>((_) async {
-        emit(
-          ColleaguesState.loading(
-            showOnlineColleaguesOnly: state.showOnlineColleaguesOnly,
-          ),
-        );
-      })
-      ..on<ColleagueListDidChangeEvent>(_colleaguesWereChanged);
+    onEventUntilCubitClosed<UserWasLoggedOutEvent>((_) async {
+      emit(
+        ColleaguesState.loading(
+          showOnlineColleaguesOnly: state.showOnlineColleaguesOnly,
+        ),
+      );
+    });
+    onEventUntilCubitClosed<ColleagueListDidChangeEvent>(
+      _colleaguesWereChanged,
+    );
   }
 
   late final _shouldShowColleagues = ShouldShowColleagues();
   final _resgate = dependencyLocator<Resgate>();
-  final _eventBus = dependencyLocator<EventBusObserver>();
   final _getUser = GetLoggedInUserUseCase();
   final _changeSetting = ChangeSettingUseCase();
 
@@ -68,8 +68,6 @@ class ColleaguesCubit extends Cubit<ColleaguesState> {
   }
 
   void _colleaguesWereChanged(ColleagueListDidChangeEvent event) {
-    if (isClosed) return;
-
     final colleagues = event.colleagues;
 
     emit(

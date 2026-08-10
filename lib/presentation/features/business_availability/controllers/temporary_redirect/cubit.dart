@@ -3,25 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../data/models/business_availability/temporary_redirect/temporary_redirect.dart';
 import '../../../../../../data/models/business_availability/temporary_redirect/temporary_redirect_did_change_event.dart';
 import '../../../../../../data/models/business_availability/temporary_redirect/temporary_redirect_exception.dart';
-import '../../../../../../data/models/event/event_bus.dart';
-import '../../../../../../dependency_locator.dart';
 import '../../../../../../domain/usecases/business_availability/temporary_redirect/cancel_current_temporary_redirect.dart';
 import '../../../../../../domain/usecases/business_availability/temporary_redirect/change_current_temporary_redirect.dart';
 import '../../../../../../domain/usecases/business_availability/temporary_redirect/setup_temporary_redirect.dart';
 import '../../../../../../domain/usecases/user/get_logged_in_user.dart';
+import '../../../../util/cubit_subscriptions.dart';
 import 'state.dart';
 
 export 'state.dart';
 
-class TemporaryRedirectCubit extends Cubit<TemporaryRedirectState> {
+class TemporaryRedirectCubit extends Cubit<TemporaryRedirectState>
+    with CubitSubscriptions {
   TemporaryRedirectCubit() : super(const TemporaryRedirectState.none([])) {
     _emitInitialState();
 
-    _eventBus.on<TemporaryRedirectDidChangeEvent>((event) {
+    onEventUntilCubitClosed<TemporaryRedirectDidChangeEvent>((event) {
       _emitInitialState(event.current);
     });
   }
-  late final _eventBus = dependencyLocator<EventBusObserver>();
   late final _startTemporaryRedirect = StartTemporaryRedirect();
   late final _changeCurrentTemporaryRedirect = ChangeCurrentTemporaryRedirect();
   late final _getUser = GetLoggedInUserUseCase();

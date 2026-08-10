@@ -6,7 +6,6 @@ import 'package:vialer/data/repositories/calling/voip/destination_repository.dar
 import 'package:vialer/presentation/features/settings/controllers/cubit.dart';
 
 import '../../../../../data/models/calling/voip/destination.dart';
-import '../../../../../data/models/event/event_bus.dart';
 import '../../../../../data/models/relations/user_availability_status.dart';
 import '../../../../../data/models/user/events/logged_in_user_availability_changed.dart';
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
@@ -18,28 +17,30 @@ import '../../../../../dependency_locator.dart';
 import '../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../domain/usecases/user/get_stored_user.dart';
 import '../../../features/settings/widgets/availability/ringing_device/widget.dart';
+import '../../../util/cubit_subscriptions.dart';
 import 'state.dart';
 
 export 'state.dart';
 
-class UserAvailabilityStatusCubit extends Cubit<UserAvailabilityStatusState> {
+class UserAvailabilityStatusCubit extends Cubit<UserAvailabilityStatusState>
+    with CubitSubscriptions {
   UserAvailabilityStatusCubit(this._settingsCubit)
       : super(UserAvailabilityStatusState(UserAvailabilityStatus.offline)) {
-    _eventBus
-      ..on<LoggedInUserAvailabilityChanged>(
-        (event) => unawaited(
-          check(
-            availability: event.userAvailabilityStatus,
-            isRingingDeviceOffline: event.isRingingDeviceOffline,
-          ),
+    onEventUntilCubitClosed<LoggedInUserAvailabilityChanged>(
+      (event) => unawaited(
+        check(
+          availability: event.userAvailabilityStatus,
+          isRingingDeviceOffline: event.isRingingDeviceOffline,
         ),
-      )
-      ..on<LoggedInUserWasRefreshed>((_) => unawaited(check()))
-      ..on<UserDevicesChanged>((_) => unawaited(check()));
+      ),
+    );
+    onEventUntilCubitClosed<LoggedInUserWasRefreshed>(
+      (_) => unawaited(check()),
+    );
+    onEventUntilCubitClosed<UserDevicesChanged>((_) => unawaited(check()));
   }
 
   final SettingsCubit _settingsCubit;
-  late final _eventBus = dependencyLocator<EventBusObserver>();
   late final _relationsWebSocket = dependencyLocator<Resgate>();
   late final _destinations = dependencyLocator<DestinationRepository>();
   late final _availabilityStatusRepository =

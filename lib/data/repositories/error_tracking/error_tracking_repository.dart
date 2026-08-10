@@ -38,6 +38,7 @@ class ErrorTrackingRepository with Loggable {
       (options) => options
         ..dsn = dsn
         ..sampleRate = 0.5
+        ..captureFailedRequests = false
         ..beforeSend = (event, hint) => _beforeSend(event, user, hint: hint),
       appRunner: appRunner,
     );

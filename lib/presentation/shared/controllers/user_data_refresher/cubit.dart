@@ -11,12 +11,13 @@ import '../../../../../domain/usecases/calling/voip/register_to_middleware.dart'
 import '../../../../../domain/usecases/onboarding/is_onboarded.dart';
 import '../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../domain/usecases/user/refresh/refresh_user.dart';
+import '../../../util/cubit_subscriptions.dart';
 import 'state.dart';
 
 export 'state.dart';
 
 class UserDataRefresherCubit extends Cubit<UserDataRefresherState>
-    with Loggable {
+    with Loggable, CubitSubscriptions {
   UserDataRefresherCubit() : super(const NotRefreshing());
   final _isOnboarded = IsOnboarded();
   final _getLoggedInUser = GetLoggedInUserUseCase();
