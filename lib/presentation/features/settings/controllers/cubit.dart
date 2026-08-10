@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vialer/data/models/user/connectivity/connectivity_type.dart';
 import 'package:vialer/data/models/user/settings/app_setting.dart';
 import 'package:vialer/domain/usecases/user/settings/change_setting.dart';
+import 'package:vialer/presentation/util/cubit_subscriptions.dart';
 import 'package:vialer/presentation/util/loggable.dart';
 import 'package:vialer/presentation/util/pigeon.dart';
 
-import '../../../../../data/models/event/event_bus.dart';
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
 import '../../../../../data/models/user/events/user_devices_changed.dart';
 import '../../../../../data/models/user/permissions/permission.dart';
@@ -35,23 +35,23 @@ import 'state.dart';
 
 export 'state.dart';
 
-class SettingsCubit extends Cubit<SettingsState> with Loggable {
+class SettingsCubit extends Cubit<SettingsState>
+    with Loggable, CubitSubscriptions {
   SettingsCubit() : super(SettingsState(user: GetLoggedInUserUseCase()())) {
     _emitUpdatedState();
-    _eventBus
-      ..on<LoggedInUserWasRefreshed>(
-        (event) => _emitUpdatedState(user: event.current),
-      )
-      ..on<UserDevicesChanged>((_) => _emitUpdatedState())
-      ..on<RateLimitReachedEvent>((event) {
-        _isRateLimited = true;
+    onEventUntilCubitClosed<LoggedInUserWasRefreshed>(
+      (event) => _emitUpdatedState(user: event.current),
+    );
+    onEventUntilCubitClosed<UserDevicesChanged>((_) => _emitUpdatedState());
+    onEventUntilCubitClosed<RateLimitReachedEvent>((event) {
+      _isRateLimited = true;
+      _emitUpdatedState();
+      _rateLimitTimer?.cancel();
+      _rateLimitTimer = Timer(rateLimitDuration, () {
+        _isRateLimited = false;
         _emitUpdatedState();
-
-        Timer(rateLimitDuration, () {
-          _isRateLimited = false;
-          _emitUpdatedState();
-        });
       });
+    });
   }
 
   final _getBuildInfo = GetBuildInfoUseCase();
@@ -69,9 +69,10 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
   late final _sharedContacts = SharedContacts();
 
   final _storageRepository = dependencyLocator<StorageRepository>();
-  final _eventBus = dependencyLocator<EventBusObserver>();
 
   final List<_SettingChangeRequest> _changesBeingProcessed = [];
+
+  Timer? _rateLimitTimer;
 
   bool _isRateLimited = false;
   static const rateLimitDuration = Duration(seconds: 60);
@@ -80,39 +81,36 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
       .where((request) => !request.hasTimedOut)
       .isNotEmpty;
 
-  void _emitUpdatedState({
-    User? user,
-  }) {
-    unawaited(
-      () async {
-        user = user ?? _getUser();
+  void _emitUpdatedState({User? user}) {
+    unawaited(() async {
+      user = user ?? _getUser();
 
-        // We don't want to emit any refresh changes while we're in the progress
-        // of changing remote settings or the user isn't logged in (anymore).
-        if ((_isUpdatingRemote && !_isRateLimited) || user == null) {
-          return;
-        }
+      // We don't want to emit any refresh changes while we're in the progress
+      // of changing remote settings or the user isn't logged in (anymore).
+      if ((_isUpdatingRemote && !_isRateLimited) || user == null) {
+        return;
+      }
 
-        emit(
-          SettingsState(
-            user: user!,
-            buildInfo: await _getBuildInfo(),
-            hasIgnoreBatteryOptimizationsPermission: await _getPermissionStatus(
-              permission: Permission.ignoreBatteryOptimizations,
-            ).then((status) => status.wasGranted),
-            isCallDirectoryExtensionEnabled: Platform.isIOS
-                ? await _sharedContacts.isCallDirectoryExtensionEnabled()
-                : false,
-            availableDestinations: _storageRepository.availableDestinations,
-            isApplyingChanges: _isUpdatingRemote,
-            isRateLimited: _isRateLimited,
-            recentOutgoingNumbers: _storageRepository.recentOutgoingNumbers,
-            hasUnreadFeatureAnnouncements:
-                user!.settings.get(AppSetting.hasUnreadFeatureAnnouncements),
+      emit(
+        SettingsState(
+          user: user!,
+          buildInfo: await _getBuildInfo(),
+          hasIgnoreBatteryOptimizationsPermission: await _getPermissionStatus(
+            permission: Permission.ignoreBatteryOptimizations,
+          ).then((status) => status.wasGranted),
+          isCallDirectoryExtensionEnabled: Platform.isIOS
+              ? await _sharedContacts.isCallDirectoryExtensionEnabled()
+              : false,
+          availableDestinations: _storageRepository.availableDestinations,
+          isApplyingChanges: _isUpdatingRemote,
+          isRateLimited: _isRateLimited,
+          recentOutgoingNumbers: _storageRepository.recentOutgoingNumbers,
+          hasUnreadFeatureAnnouncements: user!.settings.get(
+            AppSetting.hasUnreadFeatureAnnouncements,
           ),
-        );
-      }(),
-    );
+        ),
+      );
+    }());
   }
 
   static const _remoteSettings = [
@@ -134,14 +132,14 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
   /// Checks if any of the settings in the current request can be changed by
   /// calling [canChangeRemoteSetting] on each one.
   Future<bool> canChangeRemoteSettings(Iterable<SettingKey> keys) =>
-      Future.wait(keys.map((key) async => canChangeRemoteSetting(key)))
-          .then((value) => value.all((canChange) => canChange));
+      Future.wait(
+        keys.map((key) async => canChangeRemoteSetting(key)),
+      ).then((value) => value.all((canChange) => canChange));
 
   Future<SettingChangeResult> changeSetting<T extends Object>(
     SettingKey<T> key,
     T value,
-  ) =>
-      changeSettings({key: value}).then((results) => results.first);
+  ) => changeSettings({key: value}).then((results) => results.first);
 
   Future<List<SettingChangeResult>> changeSettings(Settings settings) async {
     // We're going to track any requests to update remote and then make sure
@@ -156,11 +154,7 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
 
     for (final entry in settings.entries) {
       results.add(
-        await ChangeSettingUseCase()(
-          entry.key,
-          entry.value,
-          force: true,
-        ),
+        await ChangeSettingUseCase()(entry.key, entry.value, force: true),
       );
     }
     _changesBeingProcessed.remove(changeRequest);
@@ -175,10 +169,8 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
   }
 
   void requestBatteryPermission() => unawaited(
-        _requestPermission(
-          permission: Permission.ignoreBatteryOptimizations,
-        ),
-      );
+    _requestPermission(permission: Permission.ignoreBatteryOptimizations),
+  );
 
   Future<void> sendSavedLogsToRemote() => _sendSavedLogsToRemote();
 
@@ -197,6 +189,12 @@ class SettingsCubit extends Cubit<SettingsState> with Loggable {
 
   Future<void> directUserToConfigureCallDirectoryExtension() =>
       _sharedContacts.directUserToConfigureCallDirectoryExtension();
+
+  @override
+  Future<void> close() async {
+    _rateLimitTimer?.cancel();
+    await super.close();
+  }
 }
 
 class _SettingChangeRequest {

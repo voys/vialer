@@ -9,35 +9,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vialer/presentation/util/loggable.dart';
 
 import '../../../../../data/models/business_availability/temporary_redirect/temporary_redirect_did_change_event.dart';
-import '../../../../../data/models/event/event_bus.dart';
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
 import '../../../../../data/models/user/permissions/permission.dart' as os;
 import '../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../data/repositories/voipgrid/user_permissions.dart';
-import '../../../../../dependency_locator.dart';
 import '../../../../../domain/usecases/onboarding/request_permission.dart';
 import '../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../domain/usecases/user/get_permission_status.dart';
 import '../../../../../domain/usecases/user/settings/open_settings.dart';
 import '../../../../../presentation/util/pigeon.dart';
+import '../../../util/cubit_subscriptions.dart';
 import '../../widgets/caller.dart';
 import 'state.dart';
 
 export 'state.dart';
 
-class NoticeCubit extends Cubit<NoticeState> with Loggable {
+class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
   NoticeCubit(this._caller) : super(const NoNotice()) {
     unawaited(check());
-    _eventBus
-      ..on<TemporaryRedirectDidChangeEvent>((_) => unawaited(check()))
-      ..on<LoggedInUserWasRefreshed>((_) => unawaited(check()));
+    onEventUntilCubitClosed<TemporaryRedirectDidChangeEvent>(
+      (_) => unawaited(check()),
+    );
+    onEventUntilCubitClosed<LoggedInUserWasRefreshed>(
+      (_) => unawaited(check()),
+    );
   }
 
   late final _getPermissionStatus = GetPermissionStatusUseCase();
   late final _requestPermission = RequestPermissionUseCase();
   late final _openAppSettings = OpenSettingsAppUseCase();
   late final _getUser = GetLoggedInUserUseCase();
-  late final _eventBus = dependencyLocator<EventBusObserver>();
   late final _googlePlayServices = GooglePlayServices();
 
   final CallerCubit _caller;

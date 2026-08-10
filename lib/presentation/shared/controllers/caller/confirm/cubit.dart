@@ -8,13 +8,15 @@ import '../../../../../../data/models/user/settings/call_setting.dart';
 import '../../../../../../domain/usecases/calling/call_through/get_call_through_region_number.dart';
 import '../../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../../domain/usecases/user/settings/change_setting.dart';
+import '../../../../util/cubit_subscriptions.dart';
 import '../../../../util/loggable.dart';
 import '../../../widgets/caller.dart';
 import 'state.dart';
 
 export 'state.dart';
 
-class ConfirmCubit extends Cubit<ConfirmState> with Loggable {
+class ConfirmCubit extends Cubit<ConfirmState>
+    with Loggable, CubitSubscriptions {
   ConfirmCubit(this._caller, this._destination)
       : super(
           ConfirmState(

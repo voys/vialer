@@ -77,6 +77,7 @@ class Resgate with Loggable {
       unawaited(
         attemptReconnect('Failed to start Resgate: $e'),
       );
+      return;
     }
 
     final resgate = this._resgate!;
@@ -145,12 +146,18 @@ class Resgate with Loggable {
 
       resgate.events.forListener(entry.listener).listen(
         (event) async {
-          if (event is ModelChangedEvent) {
+          if (event is! ModelChangedEvent) return;
+
+          try {
             final item = (await resgate.get(event.rid))?.item;
 
             if (item is ResModel) {
-              _callListenerForItem(entry, item);
+              await _callListenerForItem(entry, item);
             }
+          } catch (e) {
+            logger.warning(
+              'Failed to handle Resgate event for [${event.rid}]: $e',
+            );
           }
         },
       );
@@ -172,26 +179,51 @@ class Resgate with Loggable {
 
     logger.info('Attempting connection to WS at: ${auth.url}');
 
-    final resgate = ResClient()
-      ..reconnect(auth.url)
-      ..events.handleError(_handleResgateError);
+    final resgate = ResClient();
+
+    // The client leaks errors via futures it never awaits (e.g. its version
+    // handshake and the socket's ready future), so anything not surfaced
+    // through [ResClient.reconnect]'s own future must be captured in a
+    // guarded zone to prevent it from reaching the global error handler.
+    runZonedGuarded(
+      () {
+        resgate.reconnect(auth.url).catchError((Object e) {
+          if (!completer.isCompleted) {
+            completer.completeError(ResgateConnectionException(e));
+          }
+        });
+      },
+      (e, _) => logger.warning('Uncaught Resgate error: $e'),
+    );
 
     _resgate = resgate;
 
     resgate.onConnected(() async {
-      await resgate.authenticate(auth);
+      try {
+        await resgate.authenticate(auth);
 
-      await _onConnect();
+        await _onConnect();
 
-      if (shouldUpdateListeners) {
-        await performOnEachListener((l) => l.onConnect());
+        if (shouldUpdateListeners) {
+          await performOnEachListener((l) => l.onConnect());
+        }
+
+        if (!completer.isCompleted) {
+          completer.complete(resgate);
+        }
+      } catch (e) {
+        if (!completer.isCompleted) {
+          completer.completeError(ResgateConnectionException(e));
+        }
       }
-
-      completer.complete(resgate);
     });
 
-    return completer.future;
+    // [ConnectedEvent] may never arrive, bounding the wait routes this into
+    // the reconnect path rather than hanging forever.
+    return completer.future.timeout(_connectionTimeout);
   }
+
+  static const _connectionTimeout = Duration(seconds: 15);
 
   Future<void> _disconnect({
     ResgateCloseReason reason = ResgateCloseReason.local,
@@ -202,7 +234,9 @@ class Resgate with Loggable {
     final resgate = _resgate;
     if (resgate == null) return;
     final completer = Completer<void>();
-    resgate.onDisconnected(() => completer.complete());
+    resgate.onDisconnected(() {
+      if (!completer.isCompleted) completer.complete();
+    });
     resgate.forceClose();
     _resgate = null;
     if (shouldUpdateListeners) {
@@ -230,8 +264,6 @@ class Resgate with Loggable {
     });
   }
 
-  void _handleResgateError(Object e) => logger.error('Resgate error: $e');
-
   void _cancelQueuedReconnect({bool resetAttempts = false}) {
     _reconnectTimer?.cancel();
     _reconnectTimer = null;
@@ -254,6 +286,18 @@ class Resgate with Loggable {
 }
 
 typedef ListenerCallback = Future<void> Function(ResgateListener);
+
+/// Wraps any error raised while establishing the Resgate connection, some of
+/// which aren't [Exception]s (e.g. `DisconnectedEvent`), so callers can rely
+/// on catching a single exception type.
+class ResgateConnectionException implements Exception {
+  const ResgateConnectionException(this.error);
+
+  final Object error;
+
+  @override
+  String toString() => 'ResgateConnectionException: $error';
+}
 
 /// Indicates the reason why the `_controller` has been closed.
 enum ResgateCloseReason {

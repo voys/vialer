@@ -5,20 +5,22 @@ import '../../../../../../data/repositories/metrics/metrics.dart';
 import '../../../../../data/models/colltacts/colltact_tab.dart';
 import '../../../../../data/repositories/legacy/storage.dart';
 import '../../../../../dependency_locator.dart';
+import '../../../util/cubit_subscriptions.dart';
 import '../widgets/colltact_list/util/kind.dart';
 import 'colleagues/cubit.dart';
 import 'contacts/cubit.dart';
 import 'shared_contacts/cubit.dart';
 
-class ColltactsTabsCubit extends Cubit<List<ColltactTab>> {
+class ColltactsTabsCubit extends Cubit<List<ColltactTab>>
+    with CubitSubscriptions {
   ColltactsTabsCubit(
     this.contactsCubit,
     this.colleaguesCubit,
     this.sharedContactsCubit,
   ) : super([]) {
-    contactsCubit.stream.listen((_) => _rebuildTabs());
-    colleaguesCubit.stream.listen((_) => _rebuildTabs());
-    sharedContactsCubit.stream.listen((_) => _rebuildTabs());
+    listenUntilCubitClosed(contactsCubit.stream, (_) => _rebuildTabs());
+    listenUntilCubitClosed(colleaguesCubit.stream, (_) => _rebuildTabs());
+    listenUntilCubitClosed(sharedContactsCubit.stream, (_) => _rebuildTabs());
     _rebuildTabs();
   }
 
@@ -57,10 +59,7 @@ class ColltactsTabsCubit extends Cubit<List<ColltactTab>> {
   void storeCurrentTab(int index) =>
       _storageRepository.currentColltactTab = _indexToTab(index);
 
-  void _rebuildTabs() {
-    if (isClosed) return;
-    emit(_tabs);
-  }
+  void _rebuildTabs() => emit(_tabs);
 
   bool _shouldShow({required ColltactKind kind}) => switch (kind) {
         ColltactKind.contact => true,
