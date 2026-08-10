@@ -37,7 +37,9 @@ class RecentCallsPage extends StatefulWidget {
 
 class _RecentCallsPageState extends State<RecentCallsPage> {
   final _eventBus = dependencyLocator<EventBusObserver>();
-  StreamSubscription<SettingChangedEvent<Object>>? _eventBusSubscription;
+  StreamSubscription<SettingChangedEvent<Object>>? _showClientCallsSubscription;
+  StreamSubscription<SettingChangedEvent<Object>>?
+      _alwaysShowCallerNameSubscription;
 
   final _getUser = GetLoggedInUserUseCase();
 
@@ -52,11 +54,16 @@ class _RecentCallsPageState extends State<RecentCallsPage> {
 
     unawaited(_updateShowClientCalls());
 
-    _eventBusSubscription = _eventBus.onSettingChange<bool>(
+    _showClientCallsSubscription = _eventBus.onSettingChange<bool>(
       AppSetting.showClientCalls,
       (oldValue, newValue) {
         unawaited(_updateShowClientCalls(settingValue: newValue));
       },
+    );
+
+    _alwaysShowCallerNameSubscription = _eventBus.onSettingChange<bool>(
+      AppSetting.alwaysShowCallerNameInRecents,
+      (_, __) => setState(() {}),
     );
   }
 
@@ -110,7 +117,8 @@ class _RecentCallsPageState extends State<RecentCallsPage> {
 
   @override
   void dispose() {
-    unawaited(_eventBusSubscription?.cancel());
+    unawaited(_showClientCallsSubscription?.cancel());
+    unawaited(_alwaysShowCallerNameSubscription?.cancel());
 
     super.dispose();
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../data/models/call_records/call_record.dart';
 import '../../../shared/widgets/avatar.dart';
 import '../../../util/color.dart';
-import '../../../util/contact.dart';
 import 'item.dart';
 
 class CallRecordAvatar extends StatelessWidget {
@@ -13,15 +12,16 @@ class CallRecordAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final label = callRecord.displayLabel;
+
     return ExcludeSemantics(
       child: Avatar(
-        name: callRecord.displayLabel,
+        name: label,
         backgroundColor: calculateColorForPhoneNumber(
           context,
           callRecord.thirdPartyNumber,
         ),
-        showFallback: callRecord is CallRecordWithContact &&
-            (callRecord as CallRecordWithContact).contact?.displayName == null,
+        showFallback: label == callRecord.thirdPartyNumber,
         image: callRecord is CallRecordWithContact
             ? (callRecord as CallRecordWithContact).contact?.avatar
             : null,

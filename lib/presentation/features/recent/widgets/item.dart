@@ -13,8 +13,11 @@ import 'package:vialer/presentation/util/phone_number.dart';
 import '../../../../../data/models/call_records/call_record.dart';
 import '../../../../../data/models/colltacts/colltact.dart';
 import '../../../../../data/models/colltacts/shared_contacts/shared_contact.dart';
+import '../../../../../data/models/user/settings/app_setting.dart';
+import '../../../../../data/models/user/user.dart';
 import '../../../../../data/repositories/legacy/storage.dart';
 import '../../../../../dependency_locator.dart';
+import '../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../domain/util/call_record_extensions.dart';
 import '../../../../../global.dart';
 import '../../../resources/localizations.dart';
@@ -205,8 +208,7 @@ class _RecentCallItemContainer extends StatelessWidget {
 
     // The contact populator flattens shared contacts into [Contact], so
     // restore the original shared contact to get the correct details page.
-    final sharedContact = dependencyLocator<StorageRepository>()
-        .sharedContacts
+    final sharedContact = dependencyLocator<StorageRepository>().sharedContacts
         .firstOrNullWhere(
           (shared) => shared.id != null && shared.id == contact.identifier,
         );
@@ -565,8 +567,19 @@ extension CallDestinationLabel on CallRecord {
       return thirdPartyName!;
     }
 
+    if (thirdPartyName case final name?
+        when name.isNotEmpty &&
+            isInbound &&
+            AppSetting.alwaysShowCallerNameInRecents.isEnabled) {
+      return name;
+    }
+
     return thirdPartyNumber;
   }
+}
+
+extension on AppSetting<bool> {
+  bool get isEnabled => GetLoggedInUserUseCase()().settings.get(this);
 }
 
 class RecentCallHeader extends StatelessWidget {
