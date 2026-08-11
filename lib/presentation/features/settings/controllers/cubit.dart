@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dartx/dartx.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,6 @@ import 'package:vialer/data/models/user/settings/app_setting.dart';
 import 'package:vialer/domain/usecases/user/settings/change_setting.dart';
 import 'package:vialer/presentation/util/cubit_subscriptions.dart';
 import 'package:vialer/presentation/util/loggable.dart';
-import 'package:vialer/presentation/util/pigeon.dart';
 
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
 import '../../../../../data/models/user/events/user_devices_changed.dart';
@@ -66,7 +64,6 @@ class SettingsCubit extends Cubit<SettingsState>
 
   final _refreshUser = RefreshUser();
   final _getConnectivity = GetCurrentConnectivityTypeUseCase();
-  late final _sharedContacts = SharedContacts();
 
   final _storageRepository = dependencyLocator<StorageRepository>();
 
@@ -98,9 +95,6 @@ class SettingsCubit extends Cubit<SettingsState>
           hasIgnoreBatteryOptimizationsPermission: await _getPermissionStatus(
             permission: Permission.ignoreBatteryOptimizations,
           ).then((status) => status.wasGranted),
-          isCallDirectoryExtensionEnabled: Platform.isIOS
-              ? await _sharedContacts.isCallDirectoryExtensionEnabled()
-              : false,
           availableDestinations: _storageRepository.availableDestinations,
           isApplyingChanges: _isUpdatingRemote,
           isRateLimited: _isRateLimited,
@@ -186,9 +180,6 @@ class SettingsCubit extends Cubit<SettingsState>
 
   Future<void> performEchoCancellationCalibration() =>
       _performEchoCancellationCalibration();
-
-  Future<void> directUserToConfigureCallDirectoryExtension() =>
-      _sharedContacts.directUserToConfigureCallDirectoryExtension();
 
   @override
   Future<void> close() async {

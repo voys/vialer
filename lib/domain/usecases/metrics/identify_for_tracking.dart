@@ -29,7 +29,6 @@ class IdentifyForTrackingUseCase extends UseCase {
   final _storage = dependencyLocator<StorageRepository>();
   final _getBrand = GetBrand();
   final _getUser = GetLoggedInUserUseCase();
-  late final _sharedContacts = SharedContacts();
 
   /// Add an artificial delay so we know that the user has been properly
   /// identified before sending other events.
@@ -39,23 +38,19 @@ class IdentifyForTrackingUseCase extends UseCase {
     final user = _getUser();
 
     return _metricsRepository
-        .identify(
-          user,
-          <String, dynamic>{
-            'brand': _getBrand().identifier,
-            'is-using-screen-reader': _storage.isUsingScreenReader,
-            ...await _platformIdentifyProperties(),
-            ...user.toIdentifyProperties(),
-            ...user.client.toIdentifyProperties(),
-            ..._storage.grantedVoipgridPermissions.toIdentifyProperties(),
-            ..._storage.colleagues.toIdentifyProperties(),
-            ..._storage.currentColltactTab.toIdentifyProperties(),
-            ..._storage.doNotShowOutgoingNumberSelectorOrNull
-                .toIdentifyProperties(),
-            ...await _sharedContacts.toIdentifyProperties(),
-            ...await _operatingSystemPermissionProperties(),
-          },
-        )
+        .identify(user, <String, dynamic>{
+          'brand': _getBrand().identifier,
+          'is-using-screen-reader': _storage.isUsingScreenReader,
+          ...await _platformIdentifyProperties(),
+          ...user.toIdentifyProperties(),
+          ...user.client.toIdentifyProperties(),
+          ..._storage.grantedVoipgridPermissions.toIdentifyProperties(),
+          ..._storage.colleagues.toIdentifyProperties(),
+          ..._storage.currentColltactTab.toIdentifyProperties(),
+          ..._storage.doNotShowOutgoingNumberSelectorOrNull
+              .toIdentifyProperties(),
+          ...await _operatingSystemPermissionProperties(),
+        })
         .then((_) => Future.delayed(_artificialDelay));
   }
 
@@ -94,10 +89,7 @@ extension on User {
   Map<String, dynamic> toIdentifyProperties() {
     final properties = <String, dynamic>{};
 
-    final settingsToInclude = [
-      ...AppSetting.values,
-      ...CallSetting.values,
-    ];
+    final settingsToInclude = [...AppSetting.values, ...CallSetting.values];
 
     for (final i in settingsToInclude) {
       final key = i as SettingKey<Object>;
@@ -134,9 +126,7 @@ extension on List<Colleague> {
 
 extension on ColltactTab? {
   Map<String, dynamic> toIdentifyProperties() => this != null
-      ? <String, dynamic>{
-          'colltact-tab': this!.name,
-        }
+      ? <String, dynamic>{'colltact-tab': this!.name}
       : const <String, dynamic>{};
 }
 
@@ -160,13 +150,5 @@ extension on Client {
 extension on bool? {
   Map<String, dynamic> toIdentifyProperties() => <String, dynamic>{
     if (this != null) 'do-not-show-outgoing-number-prompt': this,
-  };
-}
-
-extension on SharedContacts {
-  Future<Map<String, dynamic>> toIdentifyProperties() async => {
-    'call-directory-extension-is-enabled': Platform.isIOS
-        ? await isCallDirectoryExtensionEnabled()
-        : false,
   };
 }
