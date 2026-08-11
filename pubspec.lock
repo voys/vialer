@@ -1739,13 +1739,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  vialer_cli:
-    dependency: "direct dev"
-    description:
-      path: vialer_cli
-      relative: true
-    source: path
-    version: "0.0.0"
   vialer_generators:
     dependency: "direct dev"
     description:
