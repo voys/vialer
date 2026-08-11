@@ -23,8 +23,9 @@ class UserSubPage extends StatelessWidget {
       builder: (context, state) {
         return SettingsSubPage(
           cubit: context.watch<SettingsCubit>(),
-          title:
-              context.msg.main.settings.subPage.user.title(state.user.fullName),
+          title: context.msg.main.settings.subPage.user.title(
+            state.user.fullName,
+          ),
           child: (state) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,8 +49,8 @@ class UserSubPage extends StatelessWidget {
                   builder: (context, isKeyboardVisible) {
                     return Visibility(
                       visible: !isKeyboardVisible,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: _LogoutButton(),
                       ),
                     );
@@ -85,7 +86,7 @@ class _LogoutButtonState extends State<_LogoutButton> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable: _isLoggingOut,
-      builder: (_, isLoggingOut, __) {
+      builder: (_, isLoggingOut, _) {
         return !isLoggingOut
             ? SettingsButton(
                 text: context.msg.main.settings.buttons.logout,

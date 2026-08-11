@@ -6,15 +6,15 @@ import '../../../models/user/connectivity/connectivity_type.dart';
 @singleton
 class ConnectivityRepository {
   Future<ConnectivityType> get currentType {
-    return Connectivity()
-        .checkConnectivity()
-        .then((results) => results.toDomainEntity());
+    return Connectivity().checkConnectivity().then(
+      (results) => results.toDomainEntity(),
+    );
   }
 
   Stream<ConnectivityType> get statusStream {
-    return Connectivity()
-        .onConnectivityChanged
-        .map((results) => results.toDomainEntity());
+    return Connectivity().onConnectivityChanged.map(
+      (results) => results.toDomainEntity(),
+    );
   }
 }
 

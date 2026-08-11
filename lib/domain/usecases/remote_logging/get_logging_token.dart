@@ -12,8 +12,8 @@ class GetLoggingTokenUseCase extends UseCase {
     final token = Platform.isAndroid
         ? _envRepository.logentriesAndroidToken
         : Platform.isIOS
-            ? _envRepository.logentriesIosToken
-            : '';
+        ? _envRepository.logentriesIosToken
+        : '';
 
     if (token.isEmpty) {
       throw UnsupportedError(

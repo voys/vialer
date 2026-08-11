@@ -153,10 +153,10 @@ class _CallTransferState extends State<CallTransfer> {
                               colltact: colltact,
                               onPhoneNumberPressed: (number) =>
                                   _onColltactPhoneNumberPressed(
-                                routeContext,
-                                colltact,
-                                number,
-                              ),
+                                    routeContext,
+                                    colltact,
+                                    number,
+                                  ),
                               onEmailPressed: (_) {},
                             );
                           },

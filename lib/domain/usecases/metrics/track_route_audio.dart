@@ -11,8 +11,9 @@ class TrackRouteAudioUseCase extends UseCase {
     if (route == AudioRoute.speaker) {
       _metricsRepository.track('route-audio-speaker');
     } else if (route == AudioRoute.bluetooth) {
-      final properties =
-          bluetoothDevice != null ? {'device': bluetoothDevice} : null;
+      final properties = bluetoothDevice != null
+          ? {'device': bluetoothDevice}
+          : null;
 
       _metricsRepository.track('route-audio-bluetooth', properties);
     }

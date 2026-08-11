@@ -26,7 +26,8 @@ class _DateFieldState extends State<DateField> {
   );
   late final _timeFormat = DateFormat.Hm(context.msg.languageCode);
 
-  late DateTime _date = widget.initialDate?.toLocal() ??
+  late DateTime _date =
+      widget.initialDate?.toLocal() ??
       DateTime.now().add(const Duration(hours: 1));
 
   bool _firstEdit = true;
@@ -138,14 +139,11 @@ class _DateFieldState extends State<DateField> {
                   switch (mode) {
                     case CupertinoDatePickerMode.time:
                       _updateTime(TimeOfDay.fromDateTime(newDate));
-                      break;
                     case CupertinoDatePickerMode.monthYear:
                     case CupertinoDatePickerMode.date:
                       _updateDate(newDate);
-                      break;
                     case CupertinoDatePickerMode.dateAndTime:
                       _updateDate(newDate, withTime: true);
-                      break;
                   }
                 });
               },
@@ -160,8 +158,8 @@ class _DateFieldState extends State<DateField> {
     final mode = _firstEdit && !time
         ? CupertinoDatePickerMode.dateAndTime
         : time
-            ? CupertinoDatePickerMode.time
-            : CupertinoDatePickerMode.date;
+        ? CupertinoDatePickerMode.time
+        : CupertinoDatePickerMode.date;
 
     if (context.isIOS) {
       await _showCupertinoPicker(mode: mode);
@@ -169,14 +167,11 @@ class _DateFieldState extends State<DateField> {
       switch (mode) {
         case CupertinoDatePickerMode.time:
           await _showMaterialTimePicker();
-          break;
         case CupertinoDatePickerMode.monthYear:
         case CupertinoDatePickerMode.date:
           await _showMaterialDatePicker();
-          break;
         case CupertinoDatePickerMode.dateAndTime:
           await _showMaterialDateTimePicker();
-          break;
       }
     }
 

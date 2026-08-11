@@ -10,8 +10,8 @@ import 'category/widget.dart';
 
 class FeatureAnnouncementTile extends StatelessWidget {
   const FeatureAnnouncementTile({
-    super.key,
     required this.hasUnreadFeatureAnnouncements,
+    super.key,
   });
 
   final bool hasUnreadFeatureAnnouncements;

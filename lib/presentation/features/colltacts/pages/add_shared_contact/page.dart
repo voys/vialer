@@ -10,8 +10,8 @@ class AddSharedContactPage extends StatelessWidget {
   const AddSharedContactPage({
     required this.onSave,
     this.prefill,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onSave;
   final SharedContact? prefill;

@@ -16,20 +16,18 @@ abstract class ContactSortHostApi {
 }
 
 class NativePhoneNumber {
-  String phoneNumberFlat;
-  String phoneNumberWithoutCallingCode;
-
   NativePhoneNumber({
     required this.phoneNumberFlat,
     required this.phoneNumberWithoutCallingCode,
   });
+  String phoneNumberFlat;
+  String phoneNumberWithoutCallingCode;
 }
 
 class NativeSharedContact {
+  NativeSharedContact({required this.phoneNumbers, required this.displayName});
   List<NativePhoneNumber?> phoneNumbers;
   String displayName;
-
-  NativeSharedContact({required this.phoneNumbers, required this.displayName});
 }
 
 @HostApi()

@@ -24,16 +24,24 @@ class VersionInfoSubPage extends StatelessWidget {
 
     return SettingsSubPage(
       cubit: context.watch<SettingsCubit>(),
-      title: context.msg.main.settings.list.advancedSettings.troubleshooting
-          .versionInfo.title,
+      title: context
+          .msg
+          .main
+          .settings
+          .list
+          .advancedSettings
+          .troubleshooting
+          .versionInfo
+          .title,
       child: (state) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: BasicDividedListView(
             itemBuilder: (_, index) {
               final type = versionInfo.keys.toList()[index];
               final version = versionInfo[type]!;
-              final disabled = (type.contains('iOS') && Platform.isAndroid) ||
+              final disabled =
+                  (type.contains('iOS') && Platform.isAndroid) ||
                   (type.contains('Android') && Platform.isIOS);
 
               return ListTile(

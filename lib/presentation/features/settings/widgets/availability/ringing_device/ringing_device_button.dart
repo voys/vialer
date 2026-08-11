@@ -69,18 +69,18 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
   }
 
   List<Destination?> get _destinations => switch (widget.type) {
-        RingingDeviceType.webphone => [
-            widget.destinations.findWebphoneAccountFor(user: widget.user),
-          ],
-        RingingDeviceType.deskPhone ||
-        RingingDeviceType.unknown =>
-          widget.destinations.deskPhonesFor(user: widget.user),
-        RingingDeviceType.mobile => [
-            widget.destinations.findAppAccountFor(user: widget.user),
-          ],
-        RingingDeviceType.fixed =>
-          widget.destinations.fixedDestinationsFor(user: widget.user),
-      };
+    RingingDeviceType.webphone => [
+      widget.destinations.findWebphoneAccountFor(user: widget.user),
+    ],
+    RingingDeviceType.deskPhone || RingingDeviceType.unknown =>
+      widget.destinations.deskPhonesFor(user: widget.user),
+    RingingDeviceType.mobile => [
+      widget.destinations.findAppAccountFor(user: widget.user),
+    ],
+    RingingDeviceType.fixed => widget.destinations.fixedDestinationsFor(
+      user: widget.user,
+    ),
+  };
 
   Destination? get _destination {
     final destination = _destinations
@@ -96,8 +96,9 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
       return FontAwesomeIcons.solidTriangleExclamation;
     }
 
-    if (widget.user.ringingDevice != widget.type || !widget.enabled)
+    if (widget.user.ringingDevice != widget.type || !widget.enabled) {
       return null;
+    }
 
     return widget.isRingingDeviceOffline
         ? FontAwesomeIcons.solidTriangleExclamation
@@ -105,9 +106,8 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
   }
 
   bool get _isAtLeastOneDestinationOnline => _destinations.any(
-        (destination) =>
-            destination is PhoneAccount ? destination.isOnline : true,
-      );
+    (destination) => destination is PhoneAccount ? destination.isOnline : true,
+  );
 
   Timer? _timer;
 
@@ -137,7 +137,7 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
       context,
       // Setting a high duration as we will manually cancel this, but this will
       // make sure it doesn't hang around if something goes wrong.
-      duration: Duration(minutes: 1),
+      duration: const Duration(minutes: 1),
       icon: FaIcon(
         FontAwesomeIcons.solidTriangleExclamation,
         size: 22,
@@ -151,7 +151,7 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
         ),
       ),
       backgroundColor: context.brand.theme.colors.primaryLight,
-      contentPadding: EdgeInsets.symmetric(vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(vertical: 4),
     );
   }
 
@@ -165,7 +165,14 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
       widget.onDestinationChanged(_destination!);
       SemanticsService.sendAnnouncement(
         View.of(context),
-        context.msg.main.settings.list.calling.availability.screenReader
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .calling
+            .availability
+            .screenReader
             .ringingDevice
             .selection(_text(context)),
         Directionality.of(context),

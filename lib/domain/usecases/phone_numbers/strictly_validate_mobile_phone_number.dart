@@ -5,7 +5,7 @@ import 'package:vialer/domain/usecases/use_case.dart';
 /// more information in [ValidatePhoneNumber].
 class StrictlyValidateMobilePhoneNumber extends UseCase {
   Future<bool> call(String number) => ValidateMobilePhoneNumber()(
-        number,
-        strict: true,
-      );
+    number,
+    strict: true,
+  );
 }

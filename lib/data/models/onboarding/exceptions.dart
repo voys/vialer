@@ -3,12 +3,12 @@ import '../vialer.dart';
 class NeedToChangePasswordException extends VialerException {}
 
 class FailedToRetrieveUserException extends VialerException {
-  int? statusCode;
-  String? error;
   FailedToRetrieveUserException({
     this.statusCode,
     this.error,
   });
+  int? statusCode;
+  String? error;
 
   @override
   String toString() =>

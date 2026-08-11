@@ -80,7 +80,7 @@ class Resgate with Loggable {
       return;
     }
 
-    final resgate = this._resgate!;
+    final resgate = _resgate!;
 
     resgate.events.listen(
       (data) async {
@@ -309,12 +309,11 @@ enum ResgateCloseReason {
 }
 
 extension on ResClient {
-  Future<void> authenticate(ResgateAuthentication credentials) async =>
-      await auth(
-        'usertoken',
-        'login',
-        params: {'token': credentials.token},
-      );
+  Future<void> authenticate(ResgateAuthentication credentials) async => auth(
+    'usertoken',
+    'login',
+    params: {'token': credentials.token},
+  );
 
   // Normalizes a model or collection into a collection so we can handle both
   // of these in a similar way.
@@ -363,9 +362,9 @@ extension on ResEvent {
   /// An event that indicates that the state of Resgate is healthy, i.e. not
   /// disconnected or other errors.
   bool get isHealthyEvent => ![
-        DisconnectedEvent,
-        ClientForcedDisconnectedEvent,
-        ClientDisconnectedException,
-        InvalidMessageException,
-      ].contains(runtimeType);
+    DisconnectedEvent,
+    ClientForcedDisconnectedEvent,
+    ClientDisconnectedException,
+    InvalidMessageException,
+  ].contains(runtimeType);
 }

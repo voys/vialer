@@ -24,7 +24,6 @@ class ShouldSendSentryEvent extends UseCase {
 
 extension on List<SentryException> {
   String flatten() => map(
-        (e) =>
-            '${e.value} ${e.stackTrace?.frames.map((e) => e.absPath).join()}',
-      ).join();
+    (e) => '${e.value} ${e.stackTrace?.frames.map((e) => e.absPath).join()}',
+  ).join();
 }

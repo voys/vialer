@@ -34,19 +34,19 @@ class ColltactsTabsCubit extends Cubit<List<ColltactTab>>
   /// A virtual list of our current tabs, these will be used to render
   /// from in the widgets and allows us to easily look-up our position.
   List<ColltactTab> get _tabs => [
-        if (_shouldShow(kind: ColltactKind.contact)) ColltactTab.contacts,
-        if (_shouldShow(kind: ColltactKind.sharedContact))
-          ColltactTab.sharedContact,
-        if (_shouldShow(kind: ColltactKind.colleague)) ColltactTab.colleagues,
-      ];
+    if (_shouldShow(kind: ColltactKind.contact)) ColltactTab.contacts,
+    if (_shouldShow(kind: ColltactKind.sharedContact))
+      ColltactTab.sharedContact,
+    if (_shouldShow(kind: ColltactKind.colleague)) ColltactTab.colleagues,
+  ];
 
   void trackTabSelected(int index) => _metricsRepository.track(
-        switch (_indexToTab(index)) {
-          ColltactTab.contacts => 'contacts-tab-selected',
-          ColltactTab.sharedContact => 'shared-contacts-tab-selected',
-          ColltactTab.colleagues => 'colleague-tab-selected',
-        },
-      );
+    switch (_indexToTab(index)) {
+      ColltactTab.contacts => 'contacts-tab-selected',
+      ColltactTab.sharedContact => 'shared-contacts-tab-selected',
+      ColltactTab.colleagues => 'colleague-tab-selected',
+    },
+  );
 
   int getStoredTabAsIndex() {
     final index = _tabToIndex(
@@ -62,10 +62,10 @@ class ColltactsTabsCubit extends Cubit<List<ColltactTab>>
   void _rebuildTabs() => emit(_tabs);
 
   bool _shouldShow({required ColltactKind kind}) => switch (kind) {
-        ColltactKind.contact => true,
-        ColltactKind.sharedContact => true,
-        ColltactKind.colleague => colleaguesCubit.shouldShowColleagues,
-      };
+    ColltactKind.contact => true,
+    ColltactKind.sharedContact => true,
+    ColltactKind.colleague => colleaguesCubit.shouldShowColleagues,
+  };
 
   ColltactTab _indexToTab(int index) => _tabs[index];
 

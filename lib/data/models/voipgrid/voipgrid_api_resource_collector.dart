@@ -42,11 +42,10 @@ class VoipgridApiResourceCollector with Loggable {
   Future<List<T>> collect<T>({
     required Requester requester,
     required Deserializer<T> deserializer,
-  }) async =>
-      _makeRequest(requester)
-          .map((dynamic item) => item as Map<String, dynamic>)
-          .map(deserializer)
-          .toList();
+  }) async => _makeRequest(requester)
+      .map((dynamic item) => item as Map<String, dynamic>)
+      .map(deserializer)
+      .toList();
 
   Stream<dynamic> _makeRequest(
     Requester requester, {
@@ -108,7 +107,8 @@ class VoipgridApiResourceCollector with Loggable {
 }
 
 @Freezed(toJson: false, fromJson: false)
-abstract class _PaginatedVoipgridApiResponse with _$PaginatedVoipgridApiResponse {
+abstract class _PaginatedVoipgridApiResponse
+    with _$PaginatedVoipgridApiResponse {
   @JsonSerializable()
   const factory _PaginatedVoipgridApiResponse({
     required String? next,
@@ -123,13 +123,11 @@ abstract class _PaginatedVoipgridApiResponse with _$PaginatedVoipgridApiResponse
   factory _PaginatedVoipgridApiResponse.known({
     required List<dynamic> items,
     required bool hasMore,
-  }) =>
-      _PaginatedVoipgridApiResponse(next: hasMore ? '' : null, items: items);
+  }) => _PaginatedVoipgridApiResponse(next: hasMore ? '' : null, items: items);
 
   factory _PaginatedVoipgridApiResponse.ambiguous({
     required List<dynamic> items,
-  }) =>
-      _PaginatedVoipgridApiResponse(next: '', items: items);
+  }) => _PaginatedVoipgridApiResponse(next: '', items: items);
 
   bool get hasMore => next != null;
 }

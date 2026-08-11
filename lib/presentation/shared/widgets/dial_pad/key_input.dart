@@ -67,7 +67,7 @@ class _KeyInputState extends State<KeyInput> {
       bottom: 8,
     );
 
-    return Container(
+    return ColoredBox(
       color: context.brand.theme.colors.grey3.withValues(alpha: 0.5),
       child: VerticallyExpandedRow(
         children: [
@@ -79,9 +79,9 @@ class _KeyInputState extends State<KeyInput> {
               label: widget.controller.text.isEmpty
                   ? context.msg.main.dialer.screenReader.phoneNumberInput
                   : context.msg.main.dialer.screenReader
-                      .phoneNumberInputPopulated(
-                      widget.controller.text.phoneNumberSemanticLabel,
-                    ),
+                        .phoneNumberInputPopulated(
+                          widget.controller.text.phoneNumberSemanticLabel,
+                        ),
               child: PlatformTextField(
                 controller: widget.controller,
                 scrollController: _scrollController,
@@ -91,14 +91,14 @@ class _KeyInputState extends State<KeyInput> {
                 enableInteractiveSelection: !context.isUsingScreenReader,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 32),
-                material: (_, __) => MaterialTextFieldData(
-                  decoration: InputDecoration(
+                material: (_, _) => MaterialTextFieldData(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     filled: false,
                     contentPadding: padding,
                   ),
                 ),
-                cupertino: (_, __) => CupertinoTextFieldData(
+                cupertino: (_, _) => CupertinoTextFieldData(
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 0,
@@ -115,7 +115,7 @@ class _KeyInputState extends State<KeyInput> {
             cursorShownNotifier: widget.cursorShownNotifier,
             canDelete: widget.canDelete,
             onDeleteAll: widget.onDeleteAll,
-            padding: EdgeInsets.only(right: deleteButtonPadding),
+            padding: const EdgeInsets.only(right: deleteButtonPadding),
           ),
         ],
       ),
@@ -214,8 +214,9 @@ class _DeleteButtonState extends State<_DeleteButton> {
 
       String start, end, deleted;
       if (hasOffset) {
-        final startOffset =
-            baseOffset == extentOffset ? baseOffset - 1 : baseOffset;
+        final startOffset = baseOffset == extentOffset
+            ? baseOffset - 1
+            : baseOffset;
         start = text.substring(
           0,
           startOffset,
@@ -233,8 +234,8 @@ class _DeleteButtonState extends State<_DeleteButton> {
         selection: TextSelection.collapsed(
           offset: hasOffset || cursorShown
               ? baseOffset == extentOffset
-                  ? baseOffset - 1
-                  : baseOffset
+                    ? baseOffset - 1
+                    : baseOffset
               : -1,
         ),
       );
@@ -305,10 +306,10 @@ class _DeleteButtonState extends State<_DeleteButton> {
             curve: Curves.decelerate,
             data: Theme.of(context).copyWith(
               iconTheme: Theme.of(context).iconTheme.copyWith(
-                    color: _canDelete
-                        ? context.brand.theme.colors.grey5
-                        : context.brand.theme.colors.grey2,
-                  ),
+                color: _canDelete
+                    ? context.brand.theme.colors.grey5
+                    : context.brand.theme.colors.grey2,
+              ),
             ),
             // Must stay as `Icon` (used in a `TextField`).
             child: const Icon(

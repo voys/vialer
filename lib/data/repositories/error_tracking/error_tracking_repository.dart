@@ -49,14 +49,13 @@ extension on Logger {
   void logSentryEvent(
     SentryEvent event, {
     bool willBeSentToSentry = true,
-  }) =>
-      severe(
-        // The event id lets you look this up in Sentry so we don't need
-        // to display the entire stack trace.
-        willBeSentToSentry
-            ? 'Error [${event._sentryUrl}]: ${event.title}'
-            : 'Error not submitted to Sentry: ${event.title}',
-      );
+  }) => severe(
+    // The event id lets you look this up in Sentry so we don't need
+    // to display the entire stack trace.
+    willBeSentToSentry
+        ? 'Error [${event._sentryUrl}]: ${event.title}'
+        : 'Error not submitted to Sentry: ${event.title}',
+  );
 }
 
 extension on SentryEvent {
@@ -67,12 +66,13 @@ extension on SentryEvent {
   String get _baseUrl =>
       // Extracts our sentry URL from the [errorTrackingDsn] env var so we don't
       // need to repeat it.
-      RegExp('@([a-z\.]+)\/').firstMatch(_env.errorTrackingDsn)?.group(1) ?? '';
+      RegExp('@([a-z.]+)/').firstMatch(_env.errorTrackingDsn)?.group(1) ?? '';
 
   String get _sentryUrl {
-    final project =
-        _env.isProduction ? 'vialer-app' : 'vialer-beta-environment';
+    final project = _env.isProduction
+        ? 'vialer-app'
+        : 'vialer-beta-environment';
 
-    return 'https://${_baseUrl}/organizations/sentry/discover/$project:$eventId/';
+    return 'https://$_baseUrl/organizations/sentry/discover/$project:$eventId/';
   }
 }

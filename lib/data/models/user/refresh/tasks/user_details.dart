@@ -10,13 +10,12 @@ import '../../settings/call_setting.dart';
 import '../user_refresh_task_performer.dart';
 
 class RefreshUserDetails extends UserRefreshTaskPerformer {
+  const RefreshUserDetails();
   UserDetailsRepository get _userDetails =>
       dependencyLocator<UserDetailsRepository>();
 
   DestinationRepository get _destinations =>
       dependencyLocator<DestinationRepository>();
-
-  const RefreshUserDetails();
 
   @override
   Future<UserMutator> performUserRefreshTask(User user) async {
@@ -49,11 +48,11 @@ class RefreshUserDetails extends UserRefreshTaskPerformer {
   }
 
   void _updateSelectedDestination(UserDetails userDetails) => updateSetting(
-        CallSetting.destination,
-        (userDetails.selectedDestination?.asDestination() ??
-                Destination.notAvailable())
-            .identifier,
-      );
+    CallSetting.destination,
+    (userDetails.selectedDestination?.asDestination() ??
+            const Destination.notAvailable())
+        .identifier,
+  );
 
   void _updateDestinationList(UserDetails userDetails) =>
       _destinations.updateDestinations(userDetails.availableDestinations);

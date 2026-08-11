@@ -11,9 +11,9 @@ import 'state.dart';
 
 class SharedContactFormCubit extends Cubit<SharedContactFormState> {
   SharedContactFormCubit()
-      : super(
-          const SharedContactFormState.idle(),
-        );
+    : super(
+        const SharedContactFormState.idle(),
+      );
 
   final _createSharedContact = CreateSharedContactUseCase();
   final _deleteSharedContact = DeleteSharedContactUseCase();
@@ -82,10 +82,10 @@ class SharedContactFormCubit extends Cubit<SharedContactFormState> {
     String? company,
     List<String>? phoneNumbers,
   ) async {
-    emit(SharedContactFormState.inProgress());
+    emit(const SharedContactFormState.inProgress());
 
     try {
-      if (isEditContactForm)
+      if (isEditContactForm) {
         await _updateSharedContact(
           uuid: contactUuid,
           firstName: firstName,
@@ -93,15 +93,16 @@ class SharedContactFormCubit extends Cubit<SharedContactFormState> {
           company: company,
           phoneNumbers: phoneNumbers ?? const [],
         );
-      else
+      } else {
         await _createSharedContact(
           firstName: firstName,
           lastName: lastName,
           company: company,
           phoneNumbers: phoneNumbers ?? const [],
         );
+      }
 
-      emit(SharedContactFormState.saved());
+      emit(const SharedContactFormState.saved());
     } catch (error) {
       emit(
         SharedContactFormState.error(
@@ -117,13 +118,13 @@ class SharedContactFormCubit extends Cubit<SharedContactFormState> {
   void onDelete(
     String? sharedContactUuid,
   ) async {
-    emit(SharedContactFormState.inProgress());
+    emit(const SharedContactFormState.inProgress());
 
     try {
       await _deleteSharedContact(
         uuid: sharedContactUuid,
       );
-      emit(SharedContactFormState.deleted());
+      emit(const SharedContactFormState.deleted());
     } catch (error) {
       emit(
         SharedContactFormState.error(

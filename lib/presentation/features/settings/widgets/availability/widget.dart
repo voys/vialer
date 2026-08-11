@@ -30,8 +30,8 @@ class AvailabilitySwitcher extends StatelessWidget {
         return UserAvailabilityStatusBuilder(
           listener: (context, status, isRingingDeviceOffline) =>
               isRingingDeviceOffline
-                  ? _showSnackBar(context)
-                  : _hideSnackBar(context),
+              ? _showSnackBar(context)
+              : _hideSnackBar(context),
           builder: (context, status, isRingingDeviceOffline) {
             return SettingTile(
               padding: EdgeInsets.zero,
@@ -54,16 +54,16 @@ class AvailabilitySwitcher extends StatelessWidget {
                       isRingingDeviceOffline: isRingingDeviceOffline,
                     ),
                   ),
-                  if (state.availableDestinations.length >= 1)
+                  if (state.availableDestinations.isNotEmpty)
                     RingingDevice(
                       user: state.user,
                       destinations: state.availableDestinations,
                       onDestinationChanged: (destination) async =>
                           defaultOnSettingChanged(
-                        context,
-                        CallSetting.destination,
-                        destination.identifier,
-                      ),
+                            context,
+                            CallSetting.destination,
+                            destination.identifier,
+                          ),
                       enabled: state.shouldAllowRemoteSettings,
                       userAvailabilityStatus: status,
                       isRingingDeviceOffline: isRingingDeviceOffline,
@@ -86,7 +86,7 @@ SnackBar _buildSnackBar(BuildContext context) {
           FontAwesomeIcons.triangleExclamation,
           color: context.brand.theme.colors.userAvailabilityBusyAccent,
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Flexible(
@@ -100,6 +100,6 @@ SnackBar _buildSnackBar(BuildContext context) {
       ],
     ),
     backgroundColor: context.brand.theme.colors.userAvailabilityBusy,
-    duration: Duration(days: 365),
+    duration: const Duration(days: 365),
   );
 }

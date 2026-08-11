@@ -99,9 +99,9 @@ Future<void> writeBrandValues(Brand brand) async {
   );
 
   await builder.buildDocument().writeToAndroidResource(
-        'brand.xml',
-        brand: brand,
-      );
+    'brand.xml',
+    brand: brand,
+  );
 }
 
 Future<void> writeColorValues(Brand brand) async {
@@ -128,9 +128,9 @@ Future<void> writeColorValues(Brand brand) async {
   );
 
   await builder.buildDocument().writeToAndroidResource(
-        'colors.xml',
-        brand: brand,
-      );
+    'colors.xml',
+    brand: brand,
+  );
 }
 
 Future<void> writeLanguageValues(Brand brand) async {
@@ -138,10 +138,13 @@ Future<void> writeLanguageValues(Brand brand) async {
     final builder = createXmlBuilder();
 
     final localeOrEmpty = locale != null ? '_$locale' : '';
-    final languageStrings = loadYaml(
-      await File('lib/presentation/resources/messages$localeOrEmpty.i18n.yaml')
-          .readAsString(),
-    ) as YamlMap;
+    final languageStrings =
+        loadYaml(
+              await File(
+                'lib/presentation/resources/messages$localeOrEmpty.i18n.yaml',
+              ).readAsString(),
+            )
+            as YamlMap;
 
     void buildElementsRecursively(
       YamlMap strings, {
@@ -174,15 +177,17 @@ Future<void> writeLanguageValues(Brand brand) async {
           // parameters since if for example $appName appears twice, it should
           // be replaced with %1$s in both cases, not %1$s and then %2$s.
           final parameters = <String, String>{};
-          return value.replaceAllMapped(
-            RegExp(r'(\$[A-z0-9]+)'),
-            (match) {
-              return parameters.putIfAbsent(
-                match.group(0)!,
-                () => '%${parameters.length + 1}\$s',
-              );
-            },
-          ).replaceAll("'", r"\'");
+          return value
+              .replaceAllMapped(
+                RegExp(r'(\$[A-z0-9]+)'),
+                (match) {
+                  return parameters.putIfAbsent(
+                    match.group(0)!,
+                    () => '%${parameters.length + 1}\$s',
+                  );
+                },
+              )
+              .replaceAll("'", r"\'");
         }
 
         final sanitizedValue = sanitize(value);
@@ -256,10 +261,10 @@ Future<void> writeLanguageValues(Brand brand) async {
     );
 
     await builder.buildDocument().writeToAndroidResource(
-          'strings.xml',
-          brand: brand,
-          locale: locale,
-        );
+      'strings.xml',
+      brand: brand,
+      locale: locale,
+    );
   }
 
   await Future.wait([
@@ -273,9 +278,9 @@ Future<void> copyBrandIcons() async {
   const fileName = 'brand_icons.ttf';
 
   await File('assets/$fileName').copy(
-    await File('android/app/src/main/res/font/$fileName')
-        .create(recursive: true)
-        .then((f) => f.path),
+    await File(
+      'android/app/src/main/res/font/$fileName',
+    ).create(recursive: true).then((f) => f.path),
   );
 }
 
@@ -298,9 +303,9 @@ Future<void> copyFontAwesome() async {
     final newFontFileName = fontFileName.replaceAll('-', '_');
 
     await fontFile.copy(
-      await File('android/app/src/main/res/font/$newFontFileName')
-          .create(recursive: true)
-          .then((f) => f.path),
+      await File(
+        'android/app/src/main/res/font/$newFontFileName',
+      ).create(recursive: true).then((f) => f.path),
     );
   }
 }

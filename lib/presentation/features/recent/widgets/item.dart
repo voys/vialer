@@ -269,16 +269,12 @@ class _RecentCallItemContainer extends StatelessWidget {
     switch (action) {
       case RecentCallMenuAction.copy:
         onCopyPressed();
-        break;
       case RecentCallMenuAction.call:
         onCallPressed();
-        break;
       case RecentCallMenuAction.viewContact:
         _viewContact(context);
-        break;
       case RecentCallMenuAction.addSharedContact:
         _addSharedContact(context);
-        break;
       case RecentCallMenuAction.callDetails:
         if (callRecord.shouldShowAiSummary) {
           track('ai-call-summary-opened', callRecord.asTrackingProperties);
@@ -301,7 +297,6 @@ class _RecentCallItemContainer extends StatelessWidget {
             child: CallDetailsBottomSheet(callRecord: callRecord),
           ),
         );
-        break;
       case RecentCallMenuAction.none:
         return;
     }
@@ -406,7 +401,6 @@ class _RecentItemSubtitleText extends StatelessWidget {
 
   String get _durationForSemantics => prettyDuration(
     callRecord.duration,
-    abbreviated: false,
     delimiter: ' ',
     spacer: ' ',
   );
@@ -694,8 +688,7 @@ extension RenderType on CallRecord {
 }
 
 extension on ClientCallRecord {
-  CallRecordRenderType get renderType =>
-      withContact(callerContact: null, destinationContact: null).renderType;
+  CallRecordRenderType get renderType => withContact().renderType;
 }
 
 extension ClientRenderType on ClientCallRecordWithContact {

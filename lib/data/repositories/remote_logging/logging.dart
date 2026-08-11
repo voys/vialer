@@ -30,12 +30,13 @@ class LoggingRepository {
 
     // Source: https://emailregex.com/
     r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"
-        r'"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b'
-        r'\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]'
-        r'(?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)'
-        r'\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:'
-        r'[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b'
-        r'\x0c\x0e-\x7f])+)\])': '[REDACTED EMAIL]',
+            r'"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b'
+            r'\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]'
+            r'(?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)'
+            r'\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:'
+            r'[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b'
+            r'\x0c\x0e-\x7f])+)\])':
+        '[REDACTED EMAIL]',
 
     // ignore: unnecessary_string_escapes
     'sip:\+?\d+': 'sip:[REDACTED]',
@@ -65,12 +66,13 @@ class LoggingRepository {
 
   String _logStringOf(
     LogRecord record, {
+    required bool remote,
     String userIdentifier = '',
     String appVersion = '',
-    required bool remote,
   }) {
-    final message =
-        remote ? _anonymizationRules.apply(record.message) : record.message;
+    final message = remote
+        ? _anonymizationRules.apply(record.message)
+        : record.message;
 
     final time = '[${record.time}]';
     final version = appVersion.isNotEmpty ? '[$appVersion]' : '';
@@ -203,10 +205,10 @@ extension Logging on User {
 
 extension on Map<String, String> {
   String apply(String subject) => entries.fold(
-        subject,
-        (previousValue, element) => previousValue.replaceAll(
-          element.key,
-          element.value,
-        ),
-      );
+    subject,
+    (previousValue, element) => previousValue.replaceAll(
+      element.key,
+      element.value,
+    ),
+  );
 }

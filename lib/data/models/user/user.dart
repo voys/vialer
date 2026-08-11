@@ -17,8 +17,6 @@ part 'user.g.dart';
 
 @Freezed(copyWith: false)
 abstract class User with _$User {
-  const User._();
-
   const factory User({
     required String uuid,
     required String email,
@@ -38,6 +36,7 @@ abstract class User with _$User {
     AppAccount? appAccount,
     @Default({}) Permissions permissions,
   }) = _User;
+  const User._();
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

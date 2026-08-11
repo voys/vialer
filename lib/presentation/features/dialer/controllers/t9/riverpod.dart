@@ -29,7 +29,7 @@ class T9Colltacts extends _$T9Colltacts {
 
   @override
   T9ColltactsState build() {
-    return T9ColltactsState.loading();
+    return const T9ColltactsState.loading();
   }
 
   Future<void> loadColltactsIfAllowed() async {
@@ -39,7 +39,8 @@ class T9Colltacts extends _$T9Colltacts {
       _loadColltacts();
     } else {
       state = T9ColltactsState.noPermission(
-        dontAskAgain: status == PermissionStatus.permanentlyDenied ||
+        dontAskAgain:
+            status == PermissionStatus.permanentlyDenied ||
             (Platform.isIOS && status == PermissionStatus.denied),
       );
     }
@@ -49,7 +50,7 @@ class T9Colltacts extends _$T9Colltacts {
     if (state is NoPermission) return;
 
     if (state is! ColltactsLoaded) {
-      state = T9ColltactsState.loading();
+      state = const T9ColltactsState.loading();
     }
 
     final contacts = await _getContacts(latest: false);
@@ -131,8 +132,10 @@ class T9Colltacts extends _$T9Colltacts {
       return RegExp(inputPhoneNumber, caseSensitive: false);
     }
 
-    inputName =
-        inputName.replaceAllMapped(RegExp('.'), (m) => '[${keyMap[m[0]]}]');
+    inputName = inputName.replaceAllMapped(
+      RegExp('.'),
+      (m) => '[${keyMap[m[0]]}]',
+    );
 
     return RegExp('(\\b$inputName|$inputPhoneNumber)', caseSensitive: false);
   }
@@ -198,9 +201,9 @@ class _FilterByRegularExpressionRequest {
 
 extension on T9Colltact {
   String get nameForT9Search => removeDiacritics(colltact.name).replaceAll(
-        // Removing any of the characters a user can't input into the dialer or
-        // that doesn't have a valid T9 mapping.
-        RegExp('[^a-zA-Z0-9#+*]'),
-        '',
-      );
+    // Removing any of the characters a user can't input into the dialer or
+    // that doesn't have a valid T9 mapping.
+    RegExp('[^a-zA-Z0-9#+*]'),
+    '',
+  );
 }

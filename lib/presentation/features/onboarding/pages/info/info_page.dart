@@ -42,11 +42,12 @@ class _InfoPageState extends State<InfoPage> {
     final sizeFactor = context.sizeFactor;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 48,
-      ).copyWith(
-        bottom: 24,
-      ),
+      padding:
+          const EdgeInsets.symmetric(
+            horizontal: 48,
+          ).copyWith(
+            bottom: 24,
+          ),
       child: Column(
         children: <Widget>[
           Expanded(
@@ -66,7 +67,9 @@ class _InfoPageState extends State<InfoPage> {
                         bottom: 24,
                       ),
                       child: IconTheme(
-                        data: IconTheme.of(context).copyWith(size: 54).copyWith(
+                        data: IconTheme.of(context)
+                            .copyWith(size: 54)
+                            .copyWith(
                               color: context.brand.theme.colors.primary,
                             ),
                         child: widget.icon,
@@ -131,9 +134,9 @@ class _InfoPageState extends State<InfoPage> {
   /// See #1715 for more info.
   void _focusSemanticsOnHeader() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _headerKey.currentContext
-          ?.findRenderObject()
-          ?.sendSemanticsEvent(const FocusSemanticEvent());
+      _headerKey.currentContext?.findRenderObject()?.sendSemanticsEvent(
+        const FocusSemanticEvent(),
+      );
 
       await Future<void>.delayed(const Duration(seconds: 1));
 
@@ -153,7 +156,8 @@ extension on BuildContext {
   //
   // The default screen width value is loosely based
   // on the Nexus 5X screen width.
-  double get sizeFactor => (MediaQuery.of(this).size.width / 416)
+  double get sizeFactor =>
+      (MediaQuery.of(this).size.width / 416)
       // On bigger (or extremely small) screens, the
       // values are clamped to prevent extreme sizes.
       .clamp(0.5, 1);

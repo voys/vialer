@@ -8,6 +8,6 @@ import 'force_update_setting.dart';
 /// for more information.
 class ForceUpdateSettings extends UseCase {
   Future<void> call(Settings settings) async => settings.forEach(
-        (key, value) async => ForceUpdateSetting()(key, value),
-      );
+    (key, value) async => ForceUpdateSetting()(key, value),
+  );
 }

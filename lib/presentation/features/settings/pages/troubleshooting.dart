@@ -27,7 +27,7 @@ class TroubleshootingSubPage extends StatelessWidget {
           children: [
             TroubleshootingAudioCategory(
               children: [
-                if (state.user.settings.get(CallSetting.useVoip) == true)
+                if (state.user.settings.get(CallSetting.useVoip))
                   const EchoCancellationCalibrationTile(),
               ],
             ),

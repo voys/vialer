@@ -13,8 +13,8 @@ class AvailabilityStatusPicker extends StatelessWidget {
     required this.onStatusChanged,
     required this.user,
     required this.userAvailabilityStatus,
-    this.enabled = true,
     required this.isRingingDeviceOffline,
+    this.enabled = true,
     super.key,
   });
 

@@ -57,7 +57,8 @@ Future<String> findReleaseName(List<String> args) async {
   return branch.replaceFirst('release/', '').trim();
 }
 
-Future<String> get currentGitBranch async => Process.run(
+Future<String> get currentGitBranch async =>
+    Process.run(
       'git',
       [
         'rev-parse',

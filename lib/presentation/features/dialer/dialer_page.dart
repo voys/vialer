@@ -102,8 +102,9 @@ class _DialerPageState extends State<DialerPage>
                     ),
                     description: state is NoPermission && !state.dontAskAgain
                         ? Text(
-                            context.msg.main.dialer.noPermission
-                                .description(appName),
+                            context.msg.main.dialer.noPermission.description(
+                              appName,
+                            ),
                           )
                         : Text(
                             context.msg.main.dialer.noPermission
@@ -118,9 +119,17 @@ class _DialerPageState extends State<DialerPage>
                             : callerCubit.openAppSettings,
                         text: state is NoPermission && !state.dontAskAgain
                             ? context
-                                .msg.main.dialer.noPermission.buttonPermission
-                            : context.msg.main.dialer.noPermission
-                                .buttonOpenSettings,
+                                  .msg
+                                  .main
+                                  .dialer
+                                  .noPermission
+                                  .buttonPermission
+                            : context
+                                  .msg
+                                  .main
+                                  .dialer
+                                  .noPermission
+                                  .buttonOpenSettings,
                       ),
                     ],
                   ),

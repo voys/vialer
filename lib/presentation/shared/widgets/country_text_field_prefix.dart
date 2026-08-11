@@ -5,12 +5,12 @@ import 'package:vialer/presentation/resources/theme.dart';
 
 class CountryTextFieldPrefix extends StatelessWidget {
   const CountryTextFieldPrefix({
-    super.key,
     required this.currentCountry,
     required this.onCountrySelected,
     required this.countries,
     required this.focusNode,
     required this.controller,
+    super.key,
   });
 
   final Country? currentCountry;
@@ -44,7 +44,6 @@ class CountryTextFieldPrefix extends StatelessWidget {
       context: context,
       builder: (context) {
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
@@ -62,8 +61,9 @@ class CountryTextFieldPrefix extends StatelessWidget {
 
                       return ListTile(
                         minLeadingWidth: 10,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
                         leading: Padding(
                           padding: const EdgeInsets.only(
                             top: 2,
@@ -100,7 +100,7 @@ class CountryTextFieldPrefix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentCountry = this.currentCountry;
-    final iconSize = 16.0;
+    const iconSize = 16.0;
 
     return MaterialButton(
       minWidth: 0,
@@ -109,7 +109,7 @@ class CountryTextFieldPrefix extends StatelessWidget {
       child: currentCountry != null
           ? Text(
               currentCountry.flag,
-              style: TextStyle(fontSize: iconSize),
+              style: const TextStyle(fontSize: iconSize),
             )
           : Icon(
               context.brand.icon,

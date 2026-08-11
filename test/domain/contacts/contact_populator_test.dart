@@ -86,29 +86,27 @@ void _expectsToMatchContact({
   required String numberInCallRecord,
   required List<String> numbersInContacts,
   List<String> numbersInSharedContacts = const [],
-}) =>
-    unawaited(
-      _expectContactMatching(
-        numberInCallRecord,
-        numbersInContacts,
-        numbersInSharedContacts,
-        shouldMatch: true,
-      ),
-    );
+}) => unawaited(
+  _expectContactMatching(
+    numberInCallRecord,
+    numbersInContacts,
+    numbersInSharedContacts,
+    shouldMatch: true,
+  ),
+);
 
 void _expectsNotToMatchContact({
   required String numberInCallRecord,
   required List<String> numbersInContacts,
   List<String> numbersInSharedContacts = const [],
-}) =>
-    unawaited(
-      _expectContactMatching(
-        numberInCallRecord,
-        numbersInContacts,
-        numbersInSharedContacts,
-        shouldMatch: false,
-      ),
-    );
+}) => unawaited(
+  _expectContactMatching(
+    numberInCallRecord,
+    numbersInContacts,
+    numbersInSharedContacts,
+    shouldMatch: false,
+  ),
+);
 
 Future<void> _expectContactMatching(
   String numberInCallRecord,
@@ -126,33 +124,33 @@ Future<void> _expectContactMatching(
     shouldMatch ? isNotNull : isNull,
     reason: shouldMatch
         ? 'Unable to find match for '
-            '"$numberInCallRecord" in $numbersInContacts'
+              '"$numberInCallRecord" in $numbersInContacts'
         : 'Match found for "$numberInCallRecord" '
-            'in $numbersInContacts when one was not expected.',
+              'in $numbersInContacts when one was not expected.',
   );
 }
 
 List<CallRecord> _generateDummyCallRecordsForNumber(String number) => [
-      CallRecordWithoutContact(
-        id: 'dummyId',
-        callType: CallType.colleague,
-        callDirection: Direction.inbound,
-        answered: true,
-        answeredElsewhere: false,
-        duration: const Duration(seconds: 5),
-        date: DateTime.now(),
-        caller: CallParty(
-          name: 'CallerName',
-          number: number,
-          type: CallerType.app,
-        ),
-        destination: CallParty(
-          name: 'CallerName',
-          number: number,
-          type: CallerType.app,
-        ),
-      ),
-    ];
+  CallRecordWithoutContact(
+    id: 'dummyId',
+    callType: CallType.colleague,
+    callDirection: Direction.inbound,
+    answered: true,
+    answeredElsewhere: false,
+    duration: const Duration(seconds: 5),
+    date: DateTime.now(),
+    caller: CallParty(
+      name: 'CallerName',
+      number: number,
+      type: CallerType.app,
+    ),
+    destination: CallParty(
+      name: 'CallerName',
+      number: number,
+      type: CallerType.app,
+    ),
+  ),
+];
 
 Future<MockContactRepository> _createMockWithStoredNumbers(
   List<String> numbers,
@@ -179,25 +177,25 @@ Future<MockStorageRepository> _createMockWithStorageRepository(
 }
 
 Contact _generateDummyContact(String number) => Contact(
-      givenName: 'Foo',
-      middleName: 'Bar',
-      familyName: 'Baz',
-      chosenName: 'Fred',
-      phoneNumbers: [
-        Item(label: 'Mobile', value: number),
-      ],
-      emails: [
-        const Item(label: 'Main', value: 'foo@acme.com'),
-      ],
-      identifier: '123',
-      company: 'acme',
-      avatarPath: null,
-    );
+  givenName: 'Foo',
+  middleName: 'Bar',
+  familyName: 'Baz',
+  chosenName: 'Fred',
+  phoneNumbers: [
+    Item(label: 'Mobile', value: number),
+  ],
+  emails: [
+    const Item(label: 'Main', value: 'foo@acme.com'),
+  ],
+  identifier: '123',
+  company: 'acme',
+  avatarPath: null,
+);
 
 SharedContact _generateDummySharedContact(String number) => SharedContact(
-      givenName: 'Foo',
-      familyName: 'Baz',
-      companyName: 'acme',
-      phoneNumbers: [SharedContactPhoneNumber(phoneNumberFlat: number)],
-      id: '123',
-    );
+  givenName: 'Foo',
+  familyName: 'Baz',
+  companyName: 'acme',
+  phoneNumbers: [SharedContactPhoneNumber(phoneNumberFlat: number)],
+  id: '123',
+);

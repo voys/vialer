@@ -10,6 +10,7 @@ class BasicList extends StatelessWidget {
   const BasicList(
     this.state, {
     required this.onOutgoingNumberSelected,
+    super.key,
   });
 
   final OutgoingNumberSelectorState state;

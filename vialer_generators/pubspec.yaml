@@ -9,3 +9,6 @@ dependencies:
   source_gen: ^4.1.1
   build: any
   analyzer: any
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

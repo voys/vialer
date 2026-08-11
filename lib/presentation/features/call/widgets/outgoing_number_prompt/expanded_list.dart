@@ -15,6 +15,7 @@ class ExpandedList extends StatelessWidget {
   const ExpandedList(
     this.state, {
     required this.onOutgoingNumberSelected,
+    super.key,
   });
 
   final OutgoingNumberSelectorState state;
@@ -25,7 +26,7 @@ class ExpandedList extends StatelessWidget {
       context: context,
       builder: (_) => SimpleDialog(
         children: [
-          Container(
+          SizedBox(
             width: double.maxFinite,
             child: _AllNumbersSelectionDialog(
               state,
@@ -46,11 +47,11 @@ class ExpandedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final recentOutgoingNumbers = state.recentOutgoingNumbers
-        .filter((item) => item != state.currentOutgoingNumber);
+    final recentOutgoingNumbers = state.recentOutgoingNumbers.filter(
+      (item) => item != state.currentOutgoingNumber,
+    );
 
     return Column(
-      mainAxisSize: MainAxisSize.max,
       children: [
         if (recentOutgoingNumbers.isNotEmpty) ...[
           Subheading(context.strings.recentlyUsedNumbers.label),
@@ -139,10 +140,10 @@ class _AllNumbersSelectionDialogState
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           if (items.isNotEmpty)
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 600),
+              constraints: const BoxConstraints(maxHeight: 600),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   border: Border.all(color: context.colors.grey3),
@@ -156,7 +157,7 @@ class _AllNumbersSelectionDialogState
                     ),
                     child: ListView.builder(
                       controller: _scrollController,
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: items.length,
                       shrinkWrap: true,
                       itemBuilder: (_, index) => OutgoingNumberItem(
@@ -215,5 +216,5 @@ extension on BuildContext {
 }
 
 extension on OutgoingNumberSelectorState {
-  bool isActive(OutgoingNumber other) => this.currentOutgoingNumber == other;
+  bool isActive(OutgoingNumber other) => currentOutgoingNumber == other;
 }

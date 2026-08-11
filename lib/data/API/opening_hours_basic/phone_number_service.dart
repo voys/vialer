@@ -11,15 +11,15 @@ part 'phone_number_service.chopper.dart';
 abstract class PhoneNumberService extends ChopperService {
   @factoryMethod
   static PhoneNumberService create() => _$PhoneNumberService(
-        ChopperClient(
-          baseUrl: Uri.parse(GetBrand()().phoneNumberValidationUrl.toString()),
-          converter: JsonConverter(),
-          interceptors: [
-            const AuthorizationInterceptor(onlyModernAuth: true),
-            ...globalInterceptors,
-          ],
-        ),
-      );
+    ChopperClient(
+      baseUrl: Uri.parse(GetBrand()().phoneNumberValidationUrl.toString()),
+      converter: JsonConverter(),
+      interceptors: [
+        const AuthorizationInterceptor(onlyModernAuth: true),
+        ...globalInterceptors,
+      ],
+    ),
+  );
 
   @GET(path: 'normalise/{number}')
   Future<Response<Map<String, dynamic>>> validate(

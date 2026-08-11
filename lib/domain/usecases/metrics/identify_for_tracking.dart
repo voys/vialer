@@ -38,29 +38,31 @@ class IdentifyForTrackingUseCase extends UseCase {
   Future<void> call() async {
     final user = _getUser();
 
-    return _metricsRepository.identify(
-      user,
-      <String, dynamic>{
-        'brand': _getBrand().identifier,
-        'is-using-screen-reader': _storage.isUsingScreenReader,
-        ...await _platformIdentifyProperties(),
-        ...user.toIdentifyProperties(),
-        ...user.client.toIdentifyProperties(),
-        ..._storage.grantedVoipgridPermissions.toIdentifyProperties(),
-        ..._storage.colleagues.toIdentifyProperties(),
-        ..._storage.currentColltactTab.toIdentifyProperties(),
-        ..._storage.doNotShowOutgoingNumberSelectorOrNull
-            .toIdentifyProperties(),
-        ...await _sharedContacts.toIdentifyProperties(),
-        ...await _operatingSystemPermissionProperties(),
-      },
-    ).then((_) => Future.delayed(_artificialDelay));
+    return _metricsRepository
+        .identify(
+          user,
+          <String, dynamic>{
+            'brand': _getBrand().identifier,
+            'is-using-screen-reader': _storage.isUsingScreenReader,
+            ...await _platformIdentifyProperties(),
+            ...user.toIdentifyProperties(),
+            ...user.client.toIdentifyProperties(),
+            ..._storage.grantedVoipgridPermissions.toIdentifyProperties(),
+            ..._storage.colleagues.toIdentifyProperties(),
+            ..._storage.currentColltactTab.toIdentifyProperties(),
+            ..._storage.doNotShowOutgoingNumberSelectorOrNull
+                .toIdentifyProperties(),
+            ...await _sharedContacts.toIdentifyProperties(),
+            ...await _operatingSystemPermissionProperties(),
+          },
+        )
+        .then((_) => Future.delayed(_artificialDelay));
   }
 
   Future<Map<String, dynamic>> _platformIdentifyProperties() async => {
-        if (Platform.isAndroid)
-          'google-play-services-available': await _isPlayServicesAvailable,
-      };
+    if (Platform.isAndroid)
+      'google-play-services-available': await _isPlayServicesAvailable,
+  };
 
   Future<Map<String, dynamic>> _operatingSystemPermissionProperties() async {
     final getPermission = GetPermissionStatusUseCase();
@@ -113,14 +115,15 @@ extension on User {
 
 extension on List<String> {
   Map<String, dynamic> toIdentifyProperties() => {
-        for (final permission in this) 'voipgrid-permission-$permission': true,
-      };
+    for (final permission in this) 'voipgrid-permission-$permission': true,
+  };
 }
 
 extension on List<Colleague> {
   Map<String, dynamic> toIdentifyProperties() {
-    final result =
-        partition((colleague) => colleague is UnconnectedVoipAccount);
+    final result = partition(
+      (colleague) => colleague is UnconnectedVoipAccount,
+    );
 
     return <String, dynamic>{
       'number_of_colleagues': result[1].length,
@@ -148,21 +151,22 @@ extension on SettingKey {
 
 extension on Client {
   Map<String, dynamic> toIdentifyProperties() => <String, dynamic>{
-        'outgoing-numbers-amount': outgoingNumbers.length,
-        for (final module in Module.values)
-          'module-${module.name.paramCase}': enabledModules.contains(module),
-      };
+    'outgoing-numbers-amount': outgoingNumbers.length,
+    for (final module in Module.values)
+      'module-${module.name.paramCase}': enabledModules.contains(module),
+  };
 }
 
 extension on bool? {
   Map<String, dynamic> toIdentifyProperties() => <String, dynamic>{
-        if (this != null) 'do-not-show-outgoing-number-prompt': this,
-      };
+    if (this != null) 'do-not-show-outgoing-number-prompt': this,
+  };
 }
 
 extension on SharedContacts {
   Future<Map<String, dynamic>> toIdentifyProperties() async => {
-        'call-directory-extension-is-enabled':
-            Platform.isIOS ? await isCallDirectoryExtensionEnabled() : false,
-      };
+    'call-directory-extension-is-enabled': Platform.isIOS
+        ? await isCallDirectoryExtensionEnabled()
+        : false,
+  };
 }

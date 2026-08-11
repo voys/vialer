@@ -20,15 +20,14 @@ class UpdateMobileNumberListener extends SettingChangeListener<String>
   FutureOr<SettingChangeListenResult> applySettingsSideEffects(
     User user,
     String value,
-  ) =>
-      changeRemoteValue(
-        () async {
-          final success = await _authRepository.changeMobileNumber(value);
-          if (success) {
-            _metricsRepository.track('mobile-number-changed');
-          }
-          logger.info('Updating of mobile number succeeded: $success');
-          return success;
-        },
-      );
+  ) => changeRemoteValue(
+    () async {
+      final success = await _authRepository.changeMobileNumber(value);
+      if (success) {
+        _metricsRepository.track('mobile-number-changed');
+      }
+      logger.info('Updating of mobile number succeeded: $success');
+      return success;
+    },
+  );
 }

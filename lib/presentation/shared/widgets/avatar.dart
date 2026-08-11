@@ -93,13 +93,13 @@ class _AvatarState extends State<Avatar> {
             child: showFallback
                 ? _withStyle(widget.fallback)
                 : widget.name != null && !hasImage
-                    ? _withStyle(
-                        Text(
-                          _letters,
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      )
-                    : null, //  We show the avatar.
+                ? _withStyle(
+                    Text(
+                      _letters,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  )
+                : null, //  We show the avatar.
           ),
         ),
       ),

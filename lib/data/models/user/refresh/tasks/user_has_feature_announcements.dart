@@ -18,9 +18,9 @@ class RefreshUserHasUnreadFeatureAnnouncements
       final hasUnread = await _repository.hasUnreadFeatureAnnouncements();
 
       return (User user) => (
-            AppSetting.hasUnreadFeatureAnnouncements,
-            hasUnread,
-          );
+        AppSetting.hasUnreadFeatureAnnouncements,
+        hasUnread,
+      );
     } catch (e) {
       return null;
     }

@@ -82,7 +82,7 @@ class SettingTileCategory extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 40,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
@@ -97,7 +97,10 @@ class SettingTileCategory extends StatelessWidget {
                                 child: showBadge
                                     ? Badge(
                                         backgroundColor: context
-                                            .brand.theme.colors.settingsBadge,
+                                            .brand
+                                            .theme
+                                            .colors
+                                            .settingsBadge,
                                         smallSize: 8,
                                         child: iconWidget,
                                       )
@@ -107,7 +110,7 @@ class SettingTileCategory extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (title != null) title!,
+                        ?title,
                         if (titleText != null)
                           Semantics(
                             header: true,
@@ -151,6 +154,7 @@ class SettingLinkTileCategory extends StatelessWidget {
     required this.onTap,
     required this.text,
     required this.icon,
+    super.key,
     this.showBadge = false,
   });
 

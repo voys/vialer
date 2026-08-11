@@ -90,8 +90,9 @@ class _T9ColltactsListState extends ConsumerState<_T9ColltactsList> {
 
     _onStateChanged(context, state);
 
-    final contacts =
-        state is ColltactsLoaded ? state.filteredColltacts : <T9Colltact>[];
+    final contacts = state is ColltactsLoaded
+        ? state.filteredColltacts
+        : <T9Colltact>[];
 
     return SizedBox(
       // If the height has not been calculated yet (first frame), use the
@@ -106,8 +107,9 @@ class _T9ColltactsListState extends ConsumerState<_T9ColltactsList> {
           padding: EdgeInsets.zero,
           // In the first frame we put 1 dummy ListTile in the list, to
           // get the size we need for the list itself.
-          itemCount:
-              _height == null ? max(contacts.length, 1) : contacts.length,
+          itemCount: _height == null
+              ? max(contacts.length, 1)
+              : contacts.length,
           itemBuilder: (context, index) {
             final t9Colltact = contacts.length > index ? contacts[index] : null;
 

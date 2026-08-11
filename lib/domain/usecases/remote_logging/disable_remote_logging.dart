@@ -5,7 +5,7 @@ import '../use_case.dart';
 class DisableRemoteLoggingUseCase extends UseCase {
   final _loggingRepository = dependencyLocator<LoggingRepository>();
 
-  Future<void> call() => _loggingRepository
-      .disableRemoteLogging()
-      .then((_) => _loggingRepository.disableNativeRemoteLogging());
+  Future<void> call() => _loggingRepository.disableRemoteLogging().then(
+    (_) => _loggingRepository.disableNativeRemoteLogging(),
+  );
 }

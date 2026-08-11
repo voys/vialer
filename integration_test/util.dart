@@ -80,14 +80,14 @@ TestUser? _testUserWithoutAppAccount;
 TestUser? _testUserWithEndUserPermissions;
 
 TestUser get testUser1 => _tester1 ??= TestUser(
-      dotenv.env['TEST_USER_1_EMAIL']!,
-      dotenv.env['TEST_USER_1_PASSWORD']!,
-    );
+  dotenv.env['TEST_USER_1_EMAIL']!,
+  dotenv.env['TEST_USER_1_PASSWORD']!,
+);
 
 TestUser get testUser2 => _tester2 ??= TestUser(
-      dotenv.env['TEST_USER_2_EMAIL']!,
-      dotenv.env['TEST_USER_2_PASSWORD']!,
-    );
+  dotenv.env['TEST_USER_2_EMAIL']!,
+  dotenv.env['TEST_USER_2_PASSWORD']!,
+);
 
 TestUser get testUserWithoutAppAccount =>
     _testUserWithoutAppAccount ??= TestUser(
@@ -104,8 +104,9 @@ TestUser get testUserWithEndUserPermissions =>
 extension OnboardingPageTesting on GlobalKey<OnboardingPageState> {
   /// Returns `null` if the onboarding is finished (and the OnboardingPage
   /// is not in the widget tree anymore).
-  OnboardingStep? get currentStep => currentState?.currentPages.keys
-      .elementAt(currentState!.pageController.page!.round());
+  OnboardingStep? get currentStep => currentState?.currentPages.keys.elementAt(
+    currentState!.pageController.page!.round(),
+  );
 }
 
 extension Util on WidgetTester {

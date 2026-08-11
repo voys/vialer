@@ -35,9 +35,10 @@ class _BuildInfoTileState extends State<BuildInfoTile> {
 
       if (gainedAccess) {
         unawaited(
-          context
-              .read<SettingsCubit>()
-              .changeSetting(AppSetting.showTroubleshooting, true),
+          context.read<SettingsCubit>().changeSetting(
+            AppSetting.showTroubleshooting,
+            true,
+          ),
         );
         Navigator.of(context).pop();
       }
@@ -73,10 +74,11 @@ class _BuildInfoTileState extends State<BuildInfoTile> {
             icon: FontAwesomeIcons.circleInfo,
             titleText: !buildInfo.showDetailed
                 ? '${context.msg.main.settings.list.version} '
-                    '${buildInfo.version}'
+                      '${buildInfo.version}'
                 : null,
-            title:
-                buildInfo.showDetailed ? _DetailedBuildInfo(buildInfo) : null,
+            title: buildInfo.showDetailed
+                ? _DetailedBuildInfo(buildInfo)
+                : null,
             padBottom: true,
           ),
         );

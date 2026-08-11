@@ -241,10 +241,10 @@ class KeypadValueButton extends StatefulWidget {
     // ignore: unused_element_parameter
     this.playTone = true,
   }) : assert(
-          !replaceWithSecondaryValueOnLongPress || secondaryValue != null,
-          'secondaryValue must not be null if it should be used for replacing'
-          ' on long press',
-        );
+         !replaceWithSecondaryValueOnLongPress || secondaryValue != null,
+         'secondaryValue must not be null if it should be used for replacing'
+         ' on long press',
+       );
   static const maxSize = 80.0;
 
   final String primaryValue;
@@ -347,8 +347,9 @@ class _KeypadValueButtonState extends State<KeypadValueButton> {
     unawaited(
       SemanticsService.sendAnnouncement(
         View.of(context),
-        context.msg.main.dialer.button.value
-            .replacedWithHint(widget.secondaryValue!),
+        context.msg.main.dialer.button.value.replacedWithHint(
+          widget.secondaryValue!,
+        ),
         Directionality.of(context),
       ),
     );
@@ -360,12 +361,12 @@ class _KeypadValueButtonState extends State<KeypadValueButton> {
   Widget build(BuildContext context) {
     final secondaryValueSemanticsLabel =
         widget.separateSecondaryValueLettersForSemantics
-            ? widget.secondaryValue?.characters
-                .mapIndexed(
-                  (index, char) => index != 0 ? ' $char' : char,
-                )
-                .join()
-            : widget.secondaryValue;
+        ? widget.secondaryValue?.characters
+              .mapIndexed(
+                (index, char) => index != 0 ? ' $char' : char,
+              )
+              .join()
+        : widget.secondaryValue;
 
     return _InkWellOrResponse(
       response: !context.isIOS,

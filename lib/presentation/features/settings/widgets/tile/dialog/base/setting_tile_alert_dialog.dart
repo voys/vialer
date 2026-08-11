@@ -5,11 +5,11 @@ import 'package:vialer/presentation/resources/theme.dart';
 
 class SettingTileAlertDialog<T> extends StatelessWidget {
   const SettingTileAlertDialog({
-    super.key,
     required this.title,
-    this.description,
     required this.content,
     required this.currentValue,
+    super.key,
+    this.description,
     this.showCancelButton = true,
     this.showSaveButton = true,
     this.canSave = true,
@@ -33,7 +33,7 @@ class SettingTileAlertDialog<T> extends StatelessWidget {
         header: true,
         child: Text(title),
       ),
-      content: Container(
+      content: SizedBox(
         width: 500,
         child: Semantics(
           explicitChildNodes: true,
@@ -42,7 +42,7 @@ class SettingTileAlertDialog<T> extends StatelessWidget {
             children: [
               if (description != null) ...[
                 Text(description!),
-                Gap(20),
+                const Gap(20),
               ],
               content,
             ],
@@ -50,7 +50,7 @@ class SettingTileAlertDialog<T> extends StatelessWidget {
         ),
       ),
       actions: [
-        if (showCancelButton) _CancelButton(),
+        if (showCancelButton) const _CancelButton(),
         if (showSaveButton)
           _SaveButton(
             isEnabled: canSave,
@@ -62,7 +62,7 @@ class SettingTileAlertDialog<T> extends StatelessWidget {
 }
 
 class _SaveButton<T> extends StatelessWidget {
-  const _SaveButton({super.key, required this.isEnabled, this.value});
+  const _SaveButton({required this.isEnabled, super.key, this.value});
 
   final bool isEnabled;
   final T? value;
@@ -75,8 +75,9 @@ class _SaveButton<T> extends StatelessWidget {
       child: Text(
         context.msg.main.contacts.sharedContacts.form.saveContactButtonTitle,
       ),
-      onPressed:
-          _shouldAllowSaving ? () => Navigator.of(context).pop(value) : null,
+      onPressed: _shouldAllowSaving
+          ? () => Navigator.of(context).pop(value)
+          : null,
       style: TextButton.styleFrom(
         disabledForegroundColor: context.brand.theme.colors.grey1,
       ),

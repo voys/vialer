@@ -63,12 +63,12 @@ class ColleaguesRepository with Loggable {
         ),
       ),
       ...voipAccounts.onlyActive().map(
-            (e) => Colleague.unconnectedVoipAccount(
-              id: e['id'] as String,
-              name: e['description'] as String,
-              number: e['internal_number'] as String,
-            ),
-          ),
+        (e) => Colleague.unconnectedVoipAccount(
+          id: e['id'] as String,
+          name: e['description'] as String,
+          number: e['internal_number'] as String,
+        ),
+      ),
     ].without(user: user);
   }
 }

@@ -11,7 +11,8 @@ import '../call_setting.dart';
 import 'setting_change_listener.dart';
 
 class UpdateAvailabilityStatus
-    extends SettingChangeListener<UserAvailabilityStatus> with Loggable {
+    extends SettingChangeListener<UserAvailabilityStatus>
+    with Loggable {
   UserAvailabilityStatusRepository get _repository =>
       dependencyLocator<UserAvailabilityStatusRepository>();
 
@@ -22,8 +23,7 @@ class UpdateAvailabilityStatus
   FutureOr<SettingChangeListenResult> applySettingsSideEffects(
     User user,
     UserAvailabilityStatus value,
-  ) =>
-      _repository
-          .changeStatus(GetLoggedInUserUseCase()(), value)
-          .then((result) => result.asSettingChangeListenResult());
+  ) => _repository
+      .changeStatus(GetLoggedInUserUseCase()(), value)
+      .then((result) => result.asSettingChangeListenResult());
 }

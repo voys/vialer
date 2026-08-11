@@ -82,14 +82,13 @@ class ConsoleLoggingMetricsRepository extends MetricsRepository {
   /// properties unknowingly truncated.
   void _assertPropertiesDoNotExceed1000Characters(
     Map<String, dynamic> properties,
-  ) =>
-      properties.forEach((key, property) {
-        assert(
-          property.toString().length <= 1000,
-          'Metrics property [$key] is greater than'
-          ' 1000 characters and will therefore be truncated.',
-        );
-      });
+  ) => properties.forEach((key, property) {
+    assert(
+      property.toString().length <= 1000,
+      'Metrics property [$key] is greater than'
+      ' 1000 characters and will therefore be truncated.',
+    );
+  });
 
   void _log(String message, {Level? level}) {
     // Using log() rather than Logger as this provides nice formatting
@@ -136,11 +135,10 @@ class SegmentMetricsRepository extends MetricsRepository {
   Future<void> identify(
     User user, [
     Map<String, dynamic>? properties,
-  ]) =>
-      Segment.identify(
-        userId: user.uuid,
-        traits: properties,
-      );
+  ]) => Segment.identify(
+    userId: user.uuid,
+    traits: properties,
+  );
 
   @override
   Future<void> track(

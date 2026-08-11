@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 
 import 'messages.i18n.dart';
 import 'messages_de.i18n.dart';
-import 'messages_nl.i18n.dart';
-import 'messages_fr.i18n.dart';
 import 'messages_es.i18n.dart';
+import 'messages_fr.i18n.dart';
+import 'messages_nl.i18n.dart';
 import 'messages_pt.i18n.dart';
 
 class VialerLocalizations {

@@ -8,16 +8,16 @@ import '../../../../../util/color.dart';
 
 extension ContactColor on Contact {
   Color calculateColor(BuildContext context) => calculateColorForPhoneNumber(
-        context,
-        phoneNumbers.firstOrNull?.value ?? '0',
-      );
+    context,
+    phoneNumbers.firstOrNull?.value ?? '0',
+  );
 }
 
 extension SharedContactColor on SharedContact {
   Color calculateColor(BuildContext context) => calculateColorForPhoneNumber(
-        context,
-        numberForColor,
-      );
+    context,
+    numberForColor,
+  );
 }
 
 extension on SharedContact {

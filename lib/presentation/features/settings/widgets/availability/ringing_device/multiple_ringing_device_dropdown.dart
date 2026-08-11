@@ -51,9 +51,9 @@ class MultipleRingingDeviceDropdown extends StatelessWidget {
   /// phone account or a phone number.
   Destination? get _currentDestination =>
       user.currentDestination is PhoneAccount ||
-              user.currentDestination is PhoneNumber
-          ? user.currentDestination.toDestinationObject()
-          : null;
+          user.currentDestination is PhoneNumber
+      ? user.currentDestination.toDestinationObject()
+      : null;
 
   _MultipleRingingDeviceVisibility get _visibility {
     if (loading) return _MultipleRingingDeviceVisibility.loading;
@@ -74,14 +74,14 @@ class MultipleRingingDeviceDropdown extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: switch (_visibility) {
-          _MultipleRingingDeviceVisibility.loading => _LoadingDropdown(),
-          _MultipleRingingDeviceVisibility.offline => _OfflineDropdown(),
+          _MultipleRingingDeviceVisibility.loading => const _LoadingDropdown(),
+          _MultipleRingingDeviceVisibility.offline => const _OfflineDropdown(),
           _MultipleRingingDeviceVisibility.visible => _DestinationDropdown(
-              currentDestination: _currentDestination,
-              relevantDestinations: relevantDestinations,
-              enabled: enabled,
-              onDestinationChanged: onDestinationChanged,
-            ),
+            currentDestination: _currentDestination,
+            relevantDestinations: relevantDestinations,
+            enabled: enabled,
+            onDestinationChanged: onDestinationChanged,
+          ),
         },
       ),
     );
@@ -90,7 +90,7 @@ class MultipleRingingDeviceDropdown extends StatelessWidget {
 
 class _DestinationDropdown extends StatelessWidget {
   const _DestinationDropdown({
-    required Destination? this.currentDestination,
+    required this.currentDestination,
     required this.relevantDestinations,
     required this.enabled,
     required this.onDestinationChanged,
@@ -119,8 +119,8 @@ class _DestinationDropdown extends StatelessWidget {
       showIcon: relevantDestinations.length >= 2,
       onChanged: enabled && relevantDestinations.length >= 2
           ? (destination) => destination != null && destination.isOnline
-              ? onDestinationChanged(destination)
-              : () {}
+                ? onDestinationChanged(destination)
+                : () {}
           : null,
     );
   }
@@ -142,10 +142,9 @@ class _DestinationDropdownItem extends StatelessWidget {
     return Opacity(
       opacity: destination.isOnline ? 1 : 0.5,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           if (!destination.isOnline)
-            Container(
+            SizedBox(
               width: 28,
               child: FaIcon(
                 FontAwesomeIcons.solidTriangleExclamation,
@@ -177,7 +176,7 @@ class _LoadingDropdown extends StatelessWidget {
 }
 
 class _OfflineDropdown extends StatelessWidget {
-  const _OfflineDropdown({Key? key}) : super(key: key);
+  const _OfflineDropdown();
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +193,6 @@ class _OfflineDropdown extends StatelessWidget {
       ],
       isExpanded: true,
       showIcon: false,
-      onChanged: null,
     );
   }
 }
@@ -208,7 +206,7 @@ extension DestinationDropdown on Destination {
       notAvailable: () => context.msg.main.settings.list.calling.notAvailable,
       phoneNumber: (_, description, phoneNumber) =>
           phoneNumber == null ? '$description' : '$phoneNumber / $description',
-      phoneAccount: (_, description, __, internalNumber, isOnline) =>
+      phoneAccount: (_, description, _, internalNumber, isOnline) =>
           '$internalNumber / $description',
     );
   }

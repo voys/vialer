@@ -77,12 +77,12 @@ class Colors {
     this.userAvailabilityOfflineAccent = 0xFFFFFFFF,
     this.availabilityHeader = 0xFF2A3041,
     this.settingsBadge = 0xFFF15A29,
-  })  : onPrimaryGradient = onPrimaryGradient ?? onPrimary,
-        textButtonForeground = textButtonForeground ?? primary,
-        buttonBackground = buttonBackground ?? primaryLight,
-        buttonShade = buttonShade ?? primary,
-        appBarBackground = appBarBackground ?? primary,
-        notificationBackground = notificationBackground ?? primary;
+  }) : onPrimaryGradient = onPrimaryGradient ?? onPrimary,
+       textButtonForeground = textButtonForeground ?? primary,
+       buttonBackground = buttonBackground ?? primaryLight,
+       buttonShade = buttonShade ?? primary,
+       appBarBackground = appBarBackground ?? primary,
+       notificationBackground = notificationBackground ?? primary;
 
   /// Defaults should be left as-is.
   const Colors.vialer({
@@ -92,17 +92,17 @@ class Colors {
     int primaryLighter = 0xFFFDBA74,
     int primaryLightest = 0xFFFFEDD5,
   }) : this(
-          primary: primary,
-          primaryLighter: primaryLighter,
-          primaryDark: primaryDarkest,
-          primaryLight: primaryLightest,
-          splashScreen: primaryLightest,
-          primaryGradientStart: 0xFFFF8213,
-          primaryGradientEnd: 0xFFE94E1B,
-          buttonBackground: primary,
-          appBarForeground: primaryDarkest,
-          appBarBackground: primaryLightest,
-        );
+         primary: primary,
+         primaryLighter: primaryLighter,
+         primaryDark: primaryDarkest,
+         primaryLight: primaryLightest,
+         splashScreen: primaryLightest,
+         primaryGradientStart: 0xFFFF8213,
+         primaryGradientEnd: 0xFFE94E1B,
+         buttonBackground: primary,
+         appBarForeground: primaryDarkest,
+         appBarBackground: primaryLightest,
+       );
 
   /// Defaults should be left as-is.
   const Colors.voys({
@@ -112,16 +112,16 @@ class Colors {
     int primaryLighter = 0xFFB7B2F8,
     int primaryLightest = 0xFFF0F0FF,
   }) : this(
-          primary: primary,
-          primaryLighter: primaryLighter,
-          primaryDark: primaryDarkest,
-          primaryLight: primaryLightest,
-          splashScreen: primary,
-          primaryGradientStart: primary,
-          primaryGradientEnd: 0xFF7F67D1,
-          buttonBackground: primary,
-          buttonShade: primaryDarkest,
-        );
+         primary: primary,
+         primaryLighter: primaryLighter,
+         primaryDark: primaryDarkest,
+         primaryLight: primaryLightest,
+         splashScreen: primary,
+         primaryGradientStart: primary,
+         primaryGradientEnd: 0xFF7F67D1,
+         buttonBackground: primary,
+         buttonShade: primaryDarkest,
+       );
 
   /// Defaults should be left as-is.
   const Colors.verbonden({
@@ -131,16 +131,16 @@ class Colors {
     int primaryLighter = 0xFF8385D6,
     int primaryLightest = 0xFFD2D3FF,
   }) : this(
-          primary: primary,
-          primaryLighter: primaryLighter,
-          primaryDark: primaryDarkest,
-          primaryLight: primaryLightest,
-          splashScreen: 0xFFFFFFFF,
-          primaryGradientStart: primary,
-          primaryGradientEnd: primaryDarkest,
-          buttonBackground: primary,
-          buttonShade: primaryDarkest,
-        );
+         primary: primary,
+         primaryLighter: primaryLighter,
+         primaryDark: primaryDarkest,
+         primaryLight: primaryLightest,
+         splashScreen: 0xFFFFFFFF,
+         primaryGradientStart: primary,
+         primaryGradientEnd: primaryDarkest,
+         buttonBackground: primary,
+         buttonShade: primaryDarkest,
+       );
 
   /// Defaults should be left as-is.
   const Colors.annabel({
@@ -150,16 +150,16 @@ class Colors {
     int primaryLighter = 0xFFABA1C5,
     int primaryLightest = 0xFFEDE9F9,
   }) : this(
-          primary: primary,
-          primaryLighter: primaryLighter,
-          primaryDark: primaryDarkest,
-          primaryLight: primaryLightest,
-          splashScreen: primaryLightest,
-          primaryGradientStart: primary,
-          primaryGradientEnd: primaryDarkest,
-          buttonBackground: primary,
-          buttonShade: primaryDarkest,
-        );
+         primary: primary,
+         primaryLighter: primaryLighter,
+         primaryDark: primaryDarkest,
+         primaryLight: primaryLightest,
+         splashScreen: primaryLightest,
+         primaryGradientStart: primary,
+         primaryGradientEnd: primaryDarkest,
+         buttonBackground: primary,
+         buttonShade: primaryDarkest,
+       );
 
   final int primary;
   final int primaryDark;
@@ -250,9 +250,9 @@ extension BrandColors on Brand {
   ///
   /// To use `dart:ui` `Color`s, use `brand.theme.colors`.
   Colors get colors => select(
-        vialer: const Colors.vialer(),
-        voys: const Colors.voys(),
-        verbonden: const Colors.verbonden(),
-        annabel: const Colors.annabel(),
-      );
+    vialer: const Colors.vialer(),
+    voys: const Colors.voys(),
+    verbonden: const Colors.verbonden(),
+    annabel: const Colors.annabel(),
+  );
 }

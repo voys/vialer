@@ -40,8 +40,8 @@ class AboutTheAppSubPage extends StatelessWidget {
                   ],
                 ),
                 if (context.brand.hasSupportUrl) ...[
-                  Gap(26),
-                  SupportButton(),
+                  const Gap(26),
+                  const SupportButton(),
                 ],
               ],
             );

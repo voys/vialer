@@ -7,11 +7,11 @@ import '../../../data/models/relations/user_availability_status.dart';
 
 class BottomNavigationProfileIcon extends StatelessWidget {
   const BottomNavigationProfileIcon({
-    Key? key,
     required this.active,
+    super.key,
     this.large = false,
     this.color,
-  }) : super(key: key);
+  });
 
   final bool active;
   final bool large;
@@ -20,34 +20,32 @@ class BottomNavigationProfileIcon extends StatelessWidget {
   IconData _icon(
     UserAvailabilityStatus status,
     bool isRingingDeviceOffline,
-  ) =>
-      isRingingDeviceOffline
-          ? FontAwesomeIcons.exclamation
-          : switch (status) {
-              UserAvailabilityStatus.online => FontAwesomeIcons.solidCheck,
-              UserAvailabilityStatus.availableForColleagues =>
-                FontAwesomeIcons.solidArrowRightArrowLeft,
-              UserAvailabilityStatus.doNotDisturb =>
-                FontAwesomeIcons.solidBellSlash,
-              UserAvailabilityStatus.offline => FontAwesomeIcons.solidMinus,
-            };
+  ) => isRingingDeviceOffline
+      ? FontAwesomeIcons.exclamation
+      : switch (status) {
+          UserAvailabilityStatus.online => FontAwesomeIcons.solidCheck,
+          UserAvailabilityStatus.availableForColleagues =>
+            FontAwesomeIcons.solidArrowRightArrowLeft,
+          UserAvailabilityStatus.doNotDisturb =>
+            FontAwesomeIcons.solidBellSlash,
+          UserAvailabilityStatus.offline => FontAwesomeIcons.solidMinus,
+        };
 
   Color _color(
     BuildContext context,
     UserAvailabilityStatus status,
     bool isRingingDeviceOffline,
-  ) =>
-      isRingingDeviceOffline
-          ? context.brand.theme.colors.red1
-          : switch (status) {
-              UserAvailabilityStatus.doNotDisturb =>
-                context.brand.theme.colors.userAvailabilityUnavailableIcon,
-              UserAvailabilityStatus.offline =>
-                context.brand.theme.colors.userAvailabilityOffline,
-              UserAvailabilityStatus.online ||
-              UserAvailabilityStatus.availableForColleagues =>
-                context.brand.theme.colors.green1,
-            };
+  ) => isRingingDeviceOffline
+      ? context.brand.theme.colors.red1
+      : switch (status) {
+          UserAvailabilityStatus.doNotDisturb =>
+            context.brand.theme.colors.userAvailabilityUnavailableIcon,
+          UserAvailabilityStatus.offline =>
+            context.brand.theme.colors.userAvailabilityOffline,
+          UserAvailabilityStatus.online ||
+          UserAvailabilityStatus.availableForColleagues =>
+            context.brand.theme.colors.green1,
+        };
 
   @override
   Widget build(BuildContext context) {

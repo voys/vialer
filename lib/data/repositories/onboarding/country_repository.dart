@@ -13,8 +13,7 @@ class CountryRepository {
   }
 
   Future<Iterable<Country>> getCountries() async {
-    return CountryManager()
-        .countries
+    return CountryManager().countries
         .map((i) => i.toDomainEntity())
         .sortedBy((country) => country.name);
   }

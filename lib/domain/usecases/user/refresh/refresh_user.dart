@@ -48,7 +48,8 @@ class RefreshUser extends UseCase with Loggable {
   ) async {
     Future<User?> executeUserRefreshTasks() async {
       final storedUser = _storageRepository.user;
-      final latestUser = tasksToPerform.contains(UserRefreshTask.userCore) ||
+      final latestUser =
+          tasksToPerform.contains(UserRefreshTask.userCore) ||
               storedUser == null
           ? await _getUser(credentials)
           : storedUser;
@@ -108,8 +109,8 @@ class RefreshUser extends UseCase with Loggable {
 
     // Fetching the permissions first so future tasks will have know what they
     // have access to
-    final mutator =
-        await UserRefreshTask.voipgridUserPermissions.performer!.call(user);
+    final mutator = await UserRefreshTask.voipgridUserPermissions.performer!
+        .call(user);
 
     return mutator(user);
   }
@@ -119,16 +120,16 @@ extension on List<UserRefreshTask> {
   bool get shouldSkipSynchronization => length <= 2;
 
   Future<List<UserMutator>> performInParallel(User user) => Future.wait(
-        map(
-          (task) async {
-            final performer = task.performer;
+    map(
+      (task) async {
+        final performer = task.performer;
 
-            if (performer != null) return performer(user);
+        if (performer != null) return performer(user);
 
-            return unmutatedUser;
-          },
-        ),
-      );
+        return unmutatedUser;
+      },
+    ),
+  );
 }
 
 extension on List<UserMutator> {

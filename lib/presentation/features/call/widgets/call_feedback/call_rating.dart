@@ -30,7 +30,6 @@ class CallRating extends StatelessWidget {
             ),
             onRatingUpdate: onComplete,
             tapOnlyMode: true,
-            itemCount: 5,
             itemBuilder: (context, index) {
               return Icon(
                 FontAwesomeIcons.solidStar,

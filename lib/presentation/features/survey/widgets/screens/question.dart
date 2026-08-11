@@ -86,18 +86,21 @@ class QuestionScreen extends StatelessWidget {
                     ? () => _previous(context)
                     : null,
                 child: Text(
-                  context.msg.generic.button.previous
-                      .toUpperCaseIfAndroid(context),
+                  context.msg.generic.button.previous.toUpperCaseIfAndroid(
+                    context,
+                  ),
                 ),
               ),
             TextButton(
               onPressed: () => _next(context),
               child: Text(
                 isLastQuestion
-                    ? context.msg.generic.button.done
-                        .toUpperCaseIfAndroid(context)
-                    : context.msg.generic.button.next
-                        .toUpperCaseIfAndroid(context),
+                    ? context.msg.generic.button.done.toUpperCaseIfAndroid(
+                        context,
+                      )
+                    : context.msg.generic.button.next.toUpperCaseIfAndroid(
+                        context,
+                      ),
               ),
             ),
             const SizedBox(width: 6),
@@ -189,10 +192,10 @@ class _Choice extends StatelessWidget {
               duration: duration,
               curve: curve,
               style: DefaultTextStyle.of(context).style.copyWith(
-                    color: highlighted ? Colors.white : null,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: highlighted ? Colors.white : null,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
               child: value,
             ),
           ),

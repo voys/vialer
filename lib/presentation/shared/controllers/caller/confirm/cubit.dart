@@ -18,14 +18,14 @@ export 'state.dart';
 class ConfirmCubit extends Cubit<ConfirmState>
     with Loggable, CubitSubscriptions {
   ConfirmCubit(this._caller, this._destination)
-      : super(
-          ConfirmState(
-            showConfirmPage: true,
-            outgoingNumber: GetLoggedInUserUseCase()()
-                .settings
-                .get(CallSetting.outgoingNumber),
+    : super(
+        ConfirmState(
+          showConfirmPage: true,
+          outgoingNumber: GetLoggedInUserUseCase()().settings.get(
+            CallSetting.outgoingNumber,
           ),
-        ) {
+        ),
+      ) {
     unawaited(_emitInitialState());
   }
 
@@ -53,10 +53,10 @@ class ConfirmCubit extends Cubit<ConfirmState>
   }
 
   Future<void> call({required CallOrigin origin}) => _caller.call(
-        _destination,
-        origin: origin,
-        showingConfirmPage: true,
-      );
+    _destination,
+    origin: origin,
+    showingConfirmPage: true,
+  );
 
   void cancelCallThroughCall() {
     logger.info('Cancel call-through call');

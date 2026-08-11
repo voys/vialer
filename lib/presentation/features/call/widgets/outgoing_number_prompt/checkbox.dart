@@ -6,6 +6,7 @@ class DoNotShowAgainCheckbox extends StatelessWidget {
   const DoNotShowAgainCheckbox({
     required this.checked,
     required this.onChanged,
+    super.key,
   });
 
   final bool checked;

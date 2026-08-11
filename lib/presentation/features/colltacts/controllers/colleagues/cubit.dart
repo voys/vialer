@@ -23,11 +23,11 @@ export 'state.dart';
 
 class ColleaguesCubit extends Cubit<ColleaguesState> with CubitSubscriptions {
   ColleaguesCubit(this._caller)
-      : super(
-          const ColleaguesState.loading(
-            showOnlineColleaguesOnly: false,
-          ),
-        ) {
+    : super(
+        const ColleaguesState.loading(
+          showOnlineColleaguesOnly: false,
+        ),
+      ) {
     onEventUntilCubitClosed<UserWasLoggedOutEvent>((_) async {
       emit(
         ColleaguesState.loading(
@@ -48,9 +48,9 @@ class ColleaguesCubit extends Cubit<ColleaguesState> with CubitSubscriptions {
   final CallerCubit _caller;
 
   List<Colleague> get _colleagues => state.map(
-        loading: (_) => [],
-        loaded: (state) => state.colleagues,
-      );
+    loading: (_) => [],
+    loaded: (state) => state.colleagues,
+  );
 
   bool get shouldShowColleagues =>
       _shouldShowColleagues() &&
@@ -94,9 +94,9 @@ class ColleaguesCubit extends Cubit<ColleaguesState> with CubitSubscriptions {
   Colltact refreshColltactColleague(Colltact colltact) {
     if (state is ColleaguesLoaded && colltact is ColltactColleague) {
       final colleague = (state as ColleaguesLoaded).colleagues.firstWhereOrNull(
-            (colleague) =>
-                colleague.id == (colltact as ColltactColleague).colleague.id,
-          );
+        (colleague) =>
+            colleague.id == (colltact as ColltactColleague).colleague.id,
+      );
       if (colleague != null) colltact = Colltact.colleague(colleague);
     }
     return colltact;

@@ -37,7 +37,6 @@ void main() {
       final contact = _contact();
       final callRecord = _clientCallRecord().withContact(
         callerContact: contact,
-        destinationContact: null,
       );
 
       expect(callRecord.thirdPartyContact, contact);
@@ -47,7 +46,7 @@ void main() {
       final contact = _contact();
       final callRecord = _clientCallRecord(
         callDirection: Direction.outbound,
-      ).withContact(callerContact: null, destinationContact: contact);
+      ).withContact(destinationContact: contact);
 
       expect(callRecord.thirdPartyContact, contact);
     });

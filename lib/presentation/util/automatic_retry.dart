@@ -10,9 +10,9 @@ class AutomaticRetry with Loggable {
   AutomaticRetry({required this.schedule, this.name});
 
   factory AutomaticRetry.http(String name) => AutomaticRetry(
-        schedule: RetrySchedule.http,
-        name: name,
-      );
+    schedule: RetrySchedule.http,
+    name: name,
+  );
   final _timers = <Timer>[];
 
   /// The [schedule] provided is relative to the first time it is run, not the
@@ -131,14 +131,14 @@ abstract class AutomaticRetryTaskOutput<T> with _$AutomaticRetryTaskOutput<T> {
   }) = _AutomaticRetryTaskOutput;
 
   factory AutomaticRetryTaskOutput.success(T data) => AutomaticRetryTaskOutput(
-        data: data,
-        result: AutomaticRetryTaskResult.success,
-      );
+    data: data,
+    result: AutomaticRetryTaskResult.success,
+  );
 
   factory AutomaticRetryTaskOutput.fail(T data) => AutomaticRetryTaskOutput(
-        data: data,
-        result: AutomaticRetryTaskResult.fail,
-      );
+    data: data,
+    result: AutomaticRetryTaskResult.fail,
+  );
 }
 
 enum AutomaticRetryTaskResult {

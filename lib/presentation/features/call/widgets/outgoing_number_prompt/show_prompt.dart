@@ -18,8 +18,8 @@ Future<void> showOutgoingNumberPrompt(
     context: context,
     builder: (_) {
       return SimpleDialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 20),
-        contentPadding: EdgeInsets.symmetric(vertical: 10),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10),
         children: [
           OutgoingNumberPrompt(
             onOutgoingNumberConfigured: (outgoingNumber) => Navigator.of(

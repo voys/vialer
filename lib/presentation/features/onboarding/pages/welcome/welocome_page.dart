@@ -44,9 +44,10 @@ class _WelcomePageState extends State<WelcomePage> {
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                text: '${context.msg.onboarding.welcome.title(
-                  context.brand.appName,
-                )}\n',
+                text:
+                    '${context.msg.onboarding.welcome.title(
+                      context.brand.appName,
+                    )}\n',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w500,

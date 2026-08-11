@@ -1,18 +1,18 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/features/colltacts/controllers/shared_contact_form/state.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/shared_contact_form/util/field_row.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/shared_contact_form/widget.dart';
-import 'package:dartx/dartx.dart';
 
 import '../../controllers/shared_contact_form/cubit.dart';
 
 class PhoneNumberField extends StatefulWidget {
   const PhoneNumberField({
-    super.key,
     required this.phoneNumbers,
     required this.onValueChanged,
+    super.key,
     this.onDelete,
   });
 

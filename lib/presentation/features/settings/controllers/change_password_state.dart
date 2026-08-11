@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:vialer/dependency_locator.dart';
 import 'package:vialer/domain/usecases/authentication/change_password.dart';
 import 'package:vialer/domain/usecases/authentication/logout.dart';
 import 'package:vialer/domain/usecases/authentication/validate_password.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/messages.i18n.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'change_password_state.freezed.dart';
 
 @freezed
@@ -19,12 +20,12 @@ abstract class ChangePasswordState with _$ChangePasswordState {
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   ChangePasswordCubit()
-      : super(
-          ChangePasswordState(
-            errorOldPassword: '',
-            errorNewPassword: '',
-          ),
-        );
+    : super(
+        const ChangePasswordState(
+          errorOldPassword: '',
+          errorNewPassword: '',
+        ),
+      );
 
   late final _validatePassword = dependencyLocator<ValidatePassword>();
   late final _changePassword = ChangePasswordUseCase();

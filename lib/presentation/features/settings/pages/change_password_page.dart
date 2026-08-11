@@ -16,7 +16,7 @@ import '../controllers/cubit.dart';
 import 'settings_subpage.dart';
 
 class ChangePasswordPage extends StatelessWidget {
-  ChangePasswordPage({super.key});
+  const ChangePasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +121,10 @@ class _ChangePasswordListViewState extends State<_ChangePasswordListView> {
 
   void saveButtonHandler() async {
     if (await context.read<ChangePasswordCubit>().savePasswordHandler(
-          context: context,
-          oldPassword: oldPasswordController.text,
-          newPassword: newPasswordController.text,
-        )) {
+      context: context,
+      oldPassword: oldPasswordController.text,
+      newPassword: newPasswordController.text,
+    )) {
       unawaited(
         showDialog<void>(
           context: context,
@@ -166,22 +166,22 @@ class _FieldHeader extends StatelessWidget {
 }
 
 class _PasswordInput extends StatefulWidget {
-  final TextEditingController controller;
-  final bool newPasswordHint;
-
   const _PasswordInput(
     this.controller, {
     this.newPasswordHint = false,
   });
+  final TextEditingController controller;
+  final bool newPasswordHint;
 
   @override
   State<StatefulWidget> createState() => _PasswordInputState(
-        controller,
-        newPasswordHint,
-      );
+    controller,
+    newPasswordHint,
+  );
 }
 
 class _PasswordInputState extends State<_PasswordInput> {
+  _PasswordInputState(this.controller, this.newPasswordHint);
   final TextEditingController controller;
   final bool newPasswordHint;
 
@@ -192,8 +192,6 @@ class _PasswordInputState extends State<_PasswordInput> {
       obscure = !obscure;
     });
   }
-
-  _PasswordInputState(this.controller, this.newPasswordHint);
 
   @override
   Widget build(BuildContext context) {

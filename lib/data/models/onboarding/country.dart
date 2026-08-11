@@ -4,8 +4,6 @@ part 'country.freezed.dart';
 
 @freezed
 abstract class Country with _$Country {
-  const Country._();
-
   const factory Country({
     required String name,
 
@@ -15,10 +13,11 @@ abstract class Country with _$Country {
     /// Country calling code.
     required String callingCode,
   }) = _Country;
+  const Country._();
 
   /// Get the flag emoji based on the alpha-2 country code.
   String get flag => isoCode.toUpperCase().replaceAllMapped(
-        RegExp('[A-Z]'),
-        (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397),
-      ); // https://stackoverflow.com/a/63961112
+    RegExp('[A-Z]'),
+    (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397),
+  ); // https://stackoverflow.com/a/63961112
 }

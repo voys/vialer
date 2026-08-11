@@ -8,9 +8,8 @@ import '../use_case.dart';
 
 @injectable
 class RequestNewPassword extends UseCase {
-  final AuthRepository _authRepository;
-
   RequestNewPassword(this._authRepository);
+  final AuthRepository _authRepository;
 
   Future<bool> call({
     required String email,

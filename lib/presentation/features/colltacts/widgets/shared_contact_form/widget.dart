@@ -26,8 +26,8 @@ class SharedContactForm extends StatelessWidget {
     this.onDelete,
     this.sharedContact,
     this.prefill,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final VoidCallback onSave;
@@ -72,8 +72,7 @@ class _SharedContactForm extends StatefulWidget {
     this.sharedContact,
     this.prefill,
     this.onDelete,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onSave;
   final SharedContact? sharedContact;
@@ -92,7 +91,7 @@ class _SharedContactFormState extends State<_SharedContactForm> {
   final _formKey = GlobalKey<FormState>();
 
   Map<UniqueKey?, String> phoneNumbers = {};
-  List<UniqueKey> _deletablePhoneNumberFields = [];
+  final List<UniqueKey> _deletablePhoneNumberFields = [];
 
   int get _phoneNumberFieldsCount => _deletablePhoneNumberFields.length + 1;
   bool get _isEditContactForm => widget.sharedContact != null;
@@ -146,10 +145,11 @@ class _SharedContactFormState extends State<_SharedContactForm> {
   void _createDeletablePhoneNumberFieldsFromMap(
     SharedContactFormCubit cubit,
     BuildContext context,
-  ) =>
-      phoneNumbers.filterKeys((key) => key != null).forEach(
-            (key, value) => _addDeletablePhoneNumberField(cubit, context, key!),
-          );
+  ) => phoneNumbers
+      .filterKeys((key) => key != null)
+      .forEach(
+        (key, value) => _addDeletablePhoneNumberField(cubit, context, key!),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +214,6 @@ class _SharedContactFormState extends State<_SharedContactForm> {
                   onValueChanged: (value) => firstName = value,
                 ),
                 SharedContactFieldRow(
-                  icon: null,
                   hintText: context.strings.lastNameHintText,
                   initialValue: lastName.isNullOrEmpty ? null : lastName,
                   validator: (value) => cubit.validateText(
@@ -273,11 +272,11 @@ class _SharedContactFormState extends State<_SharedContactForm> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FaIcon(
+                                const FaIcon(
                                   FontAwesomeIcons.phonePlus,
                                   size: 16,
                                 ),
-                                Gap(12),
+                                const Gap(12),
                                 PlatformText(
                                   context.strings.addPhoneNumberButtonTitle,
                                 ),
@@ -349,8 +348,7 @@ class _ConclusionButton extends StatelessWidget {
     required this.onPressed,
     required this.backgroundColor,
     required this.textColor,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String title;
   final void Function() onPressed;
@@ -374,13 +372,11 @@ class _ConclusionButton extends StatelessWidget {
           ),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           side: BorderSide(
-            width: 1,
             color: context.brand.theme.colors.primary.withValues(alpha: 0.12),
           ),
         ),
         onPressed: onPressed,
         child: Align(
-          alignment: Alignment.center,
           child: PlatformText(
             title,
             maxLines: 1,
@@ -428,12 +424,12 @@ class _DeleteConfirmation extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    Widget binIcon = FaIcon(
+    final Widget binIcon = FaIcon(
       FontAwesomeIcons.trashCan,
       size: 20,
       color: context.brand.theme.colors.red1,
     );
-    Widget dialogTitle = Column(
+    final Widget dialogTitle = Column(
       children: [
         binIcon,
         const Gap(10),
@@ -443,19 +439,20 @@ class _DeleteConfirmation extends StatelessWidget {
       ],
     );
 
-    void Function() onDelete = () {
+    void onDelete() {
       sharedContactFormCubit.onDelete(contactUuid);
       Navigator.pop(context);
-    };
+    }
 
     return PlatformAlertDialog(
       title: dialogTitle,
       content: Text(
-        context.strings.confirmationDialog
-            .deleteContactDialogContent(contactName),
+        context.strings.confirmationDialog.deleteContactDialogContent(
+          contactName,
+        ),
       ),
-      material: (_, __) => MaterialAlertDialogData(
-        actionsPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      material: (_, _) => MaterialAlertDialogData(
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 24),
       ),
       actions: <Widget>[
         PlatformDialogAction(

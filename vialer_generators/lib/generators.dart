@@ -1,5 +1,5 @@
-import 'package:source_gen/source_gen.dart';
 import 'package:build/build.dart';
+import 'package:source_gen/source_gen.dart';
 import 'package:vialer_generators/version_info/version_info_builder.dart';
 
 import '../colors/color_generator.dart';

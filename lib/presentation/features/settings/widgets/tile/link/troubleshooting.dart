@@ -33,7 +33,13 @@ class TroubleshootingLinkTile extends StatelessWidget {
         context.msg.main.settings.list.advancedSettings.troubleshooting.title,
       ),
       description: Text(
-        context.msg.main.settings.list.advancedSettings.troubleshooting
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .advancedSettings
+            .troubleshooting
             .description,
       ),
       onTap: () => _showTroubleshootingPage(context),

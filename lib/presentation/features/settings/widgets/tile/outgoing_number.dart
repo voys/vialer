@@ -43,20 +43,25 @@ class OutgoingNumberTile extends StatelessWidget {
         SettingTile(
           description: Text(
             context
-                .msg.main.settings.list.accountInfo.businessNumber.description,
+                .msg
+                .main
+                .settings
+                .list
+                .accountInfo
+                .businessNumber
+                .description,
           ),
           childFillWidth: true,
           onTap: _hasPermission
               ? () => _launchEditOutgoingNumberDialog(context)
               : null,
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: OutgoingNumberInfo(
                   item: user.settings.get(CallSetting.outgoingNumber),
-                  textStyle: TextStyle(fontSize: 16),
-                  subtitleTextStyle: TextStyle(fontSize: 12),
+                  textStyle: const TextStyle(fontSize: 16),
+                  subtitleTextStyle: const TextStyle(fontSize: 12),
                 ),
               ),
               if (_hasPermission)

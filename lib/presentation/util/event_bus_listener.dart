@@ -11,10 +11,10 @@ import '../../dependency_locator.dart';
 /// everything is properly cleaned-up.
 class EventBusListener<T extends EventBusEvent> extends StatefulWidget {
   const EventBusListener({
-    Key? key,
     required this.listener,
     required this.child,
-  }) : super(key: key);
+    super.key,
+  });
 
   final void Function(T event) listener;
   final Widget child;

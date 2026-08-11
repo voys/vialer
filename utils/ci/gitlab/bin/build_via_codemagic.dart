@@ -75,9 +75,10 @@ Future<_CodemagicBuild> _awaitFinishedBuild({
   return build;
 }
 
-void _printCodemagicBuildUrl(String appId, String buildId) =>
-    print('For the detailed build log go to: '
-        'https://codemagic.io/app/$appId/build/$buildId');
+void _printCodemagicBuildUrl(String appId, String buildId) => print(
+  'For the detailed build log go to: '
+  'https://codemagic.io/app/$appId/build/$buildId',
+);
 
 Future<String> _startCodemagicBuild({
   required String apiToken,
@@ -85,35 +86,34 @@ Future<String> _startCodemagicBuild({
   required String workflowId,
   required String branch,
   required String gitlabMergeRequestId,
-}) async =>
-    HttpClient()
-        .postUrl(Uri.parse(_codemagicBaseUrl))
-        .then(
-          (request) {
-            request.headers.set('x-auth-token', apiToken);
-            request.headers.set('Content-Type', 'application/json');
-            request.write(
-              json.encode(
-                {
-                  'appId': appId,
-                  'workflowId': workflowId,
-                  'branch': branch,
-                  'environment': {
-                    'variables': {
-                      'GITLAB_MERGE_REQUEST_IID': gitlabMergeRequestId,
-                    },
-                  },
+}) async => HttpClient()
+    .postUrl(Uri.parse(_codemagicBaseUrl))
+    .then(
+      (request) {
+        request.headers.set('x-auth-token', apiToken);
+        request.headers.set('Content-Type', 'application/json');
+        request.write(
+          json.encode(
+            {
+              'appId': appId,
+              'workflowId': workflowId,
+              'branch': branch,
+              'environment': {
+                'variables': {
+                  'GITLAB_MERGE_REQUEST_IID': gitlabMergeRequestId,
                 },
-              ),
-            );
+              },
+            },
+          ),
+        );
 
-            return request.close();
-          },
-        )
-        .then(readResponse)
-        .then(jsonDecode)
-        .then((value) => value as Map<String, dynamic>)
-        .then((response) => response['buildId'] as String);
+        return request.close();
+      },
+    )
+    .then(readResponse)
+    .then(jsonDecode)
+    .then((value) => value as Map<String, dynamic>)
+    .then((response) => response['buildId'] as String);
 
 Future<_CodemagicBuild> _fetchCodemagicBuild({
   required String apiToken,

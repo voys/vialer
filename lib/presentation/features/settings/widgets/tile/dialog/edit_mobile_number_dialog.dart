@@ -78,7 +78,7 @@ class _EditMobileNumberDialogState extends State<EditMobileNumberDialog> {
             keyboardType: TextInputType.phone,
             autovalidateMode: AutovalidateMode.always,
             decoration: InputDecoration(
-              icon: FaIcon(FontAwesomeIcons.simCard),
+              icon: const FaIcon(FontAwesomeIcons.simCard),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.grey5,

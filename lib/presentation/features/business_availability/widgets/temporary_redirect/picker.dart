@@ -51,7 +51,8 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
   @override
   void initState() {
     super.initState();
-    _selectedDestination = widget.activeRedirect?.destination ??
+    _selectedDestination =
+        widget.activeRedirect?.destination ??
         widget.availableDestinations.firstOrNull;
 
     _untilDateNotifier.addListener(_onUntilDateChange);
@@ -67,8 +68,8 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
   Future<void> _handleAction(Future<void> Function() action) async {
     // ignore: avoid_positional_boolean_parameters
     void actionable(bool value) => setState(() {
-          _actionable = value;
-        });
+      _actionable = value;
+    });
 
     actionable(false);
 
@@ -133,7 +134,12 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
                 : [
                     DropdownMenuItem<TemporaryRedirectDestination>(
                       child: Text(
-                        context.msg.main.temporaryRedirect.dropdown.noVoicemails
+                        context
+                            .msg
+                            .main
+                            .temporaryRedirect
+                            .dropdown
+                            .noVoicemails
                             .item,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -142,8 +148,9 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
                       ),
                     ),
                   ],
-            onChanged:
-                _hasAvailableDestinations ? _changeSelectedDestination : null,
+            onChanged: _hasAvailableDestinations
+                ? _changeSelectedDestination
+                : null,
           ),
           if (!_hasAvailableDestinations) ...[
             const SizedBox(height: 8),
@@ -151,21 +158,40 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: context.msg.main.temporaryRedirect.dropdown
-                        .noVoicemails.hint.start,
+                    text: context
+                        .msg
+                        .main
+                        .temporaryRedirect
+                        .dropdown
+                        .noVoicemails
+                        .hint
+                        .start,
                   ),
-                  TextSpan(text: ' '),
+                  const TextSpan(text: ' '),
                   TextSpan(
-                    text: context.msg.main.temporaryRedirect.dropdown
-                        .noVoicemails.hint.link,
-                    style:
-                        const TextStyle(decoration: TextDecoration.underline),
+                    text: context
+                        .msg
+                        .main
+                        .temporaryRedirect
+                        .dropdown
+                        .noVoicemails
+                        .hint
+                        .link,
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
                     recognizer: TapGestureRecognizer()..onTap = _openPortal,
                   ),
-                  TextSpan(text: ' '),
+                  const TextSpan(text: ' '),
                   TextSpan(
-                    text: context.msg.main.temporaryRedirect.dropdown
-                        .noVoicemails.hint.end,
+                    text: context
+                        .msg
+                        .main
+                        .temporaryRedirect
+                        .dropdown
+                        .noVoicemails
+                        .hint
+                        .end,
                   ),
                 ],
               ),
@@ -186,15 +212,16 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
           const SizedBox(height: 16),
           SettingsButton(
             text: _mainActionText,
-            onPressed: _actionable &&
+            onPressed:
+                _actionable &&
                     _hasCorrectUntilDate &&
                     _selectedDestination != null
                 ? () async => _handleAction(
-                      () => widget.onStart(
-                        _selectedDestination!,
-                        _untilDateNotifier.value!,
-                      ),
-                    )
+                    () => widget.onStart(
+                      _selectedDestination!,
+                      _untilDateNotifier.value!,
+                    ),
+                  )
                 : null,
           ),
           if (widget.onCancel != null) ...[
@@ -213,7 +240,12 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
                   ? () => unawaited(_handleAction(widget.onStop!))
                   : null,
               text: context
-                  .msg.main.temporaryRedirect.actions.stopRedirect.labelOngoing,
+                  .msg
+                  .main
+                  .temporaryRedirect
+                  .actions
+                  .stopRedirect
+                  .labelOngoing,
               solid: false,
             ),
           ],

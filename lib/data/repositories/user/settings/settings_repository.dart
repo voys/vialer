@@ -9,14 +9,13 @@ import '../../../models/user/settings/settings.dart';
 
 @singleton
 class SettingsRepository {
+  const SettingsRepository(this._storage);
   final SharedPreferences _storage;
 
-  const SettingsRepository(this._storage);
-
   Map<SettingKey, Object?> get _defaults => {
-        ...AppSetting.defaultValues,
-        ...CallSetting.defaultValues,
-      };
+    ...AppSetting.defaultValues,
+    ...CallSetting.defaultValues,
+  };
 
   T? getOrNull<T extends Object>(SettingKey<T> key) {
     if (!has(key)) return _defaultValue(key);
@@ -34,9 +33,9 @@ class SettingsRepository {
   T get<T extends Object>(SettingKey<T> key) => getOrNull(key)!;
 
   Future<bool> change(SettingKey key, Object value) => _storage.setString(
-        key.asSharedPreferencesKey(),
-        value is String ? value : jsonEncode(key.valueToJson(value)),
-      );
+    key.asSharedPreferencesKey(),
+    value is String ? value : jsonEncode(key.valueToJson(value)),
+  );
 
   /// Checks if we have a stored, custom value. Will return FALSE even if the
   /// [get] method might return a default value.
@@ -48,9 +47,9 @@ class SettingsRepository {
 
     assert(
       defaultValue is T?,
-      'The default value for [$key] must match the type of the setting. In'
+      'The default value for [$key] must match the type of the setting. In '
       'this case the setting has a type of [${key.valueType}] but the default '
-      'value provided is [${defaultValue.runtimeType}]. Update the defaultValue'
+      'value provided is [${defaultValue.runtimeType}]. Update the defaultValue '
       'in the setting file.',
     );
 

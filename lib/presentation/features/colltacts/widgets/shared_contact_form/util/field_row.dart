@@ -8,14 +8,15 @@ import 'package:vialer/presentation/resources/theme.dart';
 
 class SharedContactFieldRow extends StatelessWidget {
   const SharedContactFieldRow({
-    this.icon,
     required this.hintText,
     required this.validator,
     required this.onValueChanged,
+    required this.initialValue,
+    super.key,
+    this.icon,
     this.isForPhoneNumber = false,
     this.isDeletable = false,
     this.onDelete,
-    required this.initialValue,
     this.controller,
   });
 
@@ -35,12 +36,12 @@ class SharedContactFieldRow extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
+            horizontal: 12,
           ),
           child: Row(
             children: <Widget>[
               Container(
-                width: 48.0,
+                width: 48,
                 alignment: Alignment.center,
                 child: FaIcon(
                   icon,
@@ -66,8 +67,8 @@ class SharedContactFieldRow extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        width: 48.0,
+                      SizedBox(
+                        width: 48,
                         child: OutlinedButton(
                           onPressed: () => onDelete!(),
                           style: OutlinedButton.styleFrom(
@@ -80,7 +81,6 @@ class SharedContactFieldRow extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             side: BorderSide(
-                              width: 1,
                               color: context.brand.theme.colors.primary
                                   .withValues(alpha: 0.12),
                             ),
@@ -96,12 +96,12 @@ class SharedContactFieldRow extends StatelessWidget {
                   ),
                 ),
               const SizedBox(
-                width: 16.0,
+                width: 16,
               ),
             ],
           ),
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: 12),
       ],
     );
   }
@@ -153,8 +153,8 @@ class _SharedContactTextFormFieldState
             focusNode: focusNode,
             keyboardType: widget.isForPhoneNumber
                 ? Platform.isIOS
-                    ? TextInputType.numberWithOptions(signed: true)
-                    : TextInputType.phone
+                      ? const TextInputType.numberWithOptions(signed: true)
+                      : TextInputType.phone
                 : TextInputType.text,
             decoration: InputDecoration(
               prefixIcon: widget.isForPhoneNumber
@@ -168,27 +168,27 @@ class _SharedContactTextFormFieldState
               hintStyle: TextStyle(color: context.brand.theme.colors.grey5),
               fillColor: Colors.white,
               filled: true,
-              contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+              contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.grey3,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.primary,
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.red1,
                 ),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.red1,
                   width: 2,

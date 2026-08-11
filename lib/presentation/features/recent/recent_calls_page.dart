@@ -39,7 +39,7 @@ class _RecentCallsPageState extends State<RecentCallsPage> {
   final _eventBus = dependencyLocator<EventBusObserver>();
   StreamSubscription<SettingChangedEvent<Object>>? _showClientCallsSubscription;
   StreamSubscription<SettingChangedEvent<Object>>?
-      _alwaysShowCallerNameSubscription;
+  _alwaysShowCallerNameSubscription;
 
   final _getUser = GetLoggedInUserUseCase();
 
@@ -63,7 +63,7 @@ class _RecentCallsPageState extends State<RecentCallsPage> {
 
     _alwaysShowCallerNameSubscription = _eventBus.onSettingChange<bool>(
       AppSetting.alwaysShowCallerNameInRecents,
-      (_, __) => setState(() {}),
+      (_, _) => setState(() {}),
     );
   }
 
@@ -81,7 +81,7 @@ class _RecentCallsPageState extends State<RecentCallsPage> {
 
   void _refreshListWithDelay() {
     //Add a small delay to allow the call to be added to the list.
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       _manualRefresher.refresh();
     });
   }

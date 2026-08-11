@@ -24,7 +24,7 @@ class LogoutOnUnauthorizedResponse extends UseCase {
   /// We only want to log the user out if they have received an unauthorized
   /// response from a specific set of urls.
   bool isUrlThatShouldTriggerLogout(String responseUrl) => const [
-        'permission/systemuser/profile',
-        'permission/apitoken',
-      ].filter((url) => responseUrl.contains(url)).isNotEmpty;
+    'permission/systemuser/profile',
+    'permission/apitoken',
+  ].filter((url) => responseUrl.contains(url)).isNotEmpty;
 }

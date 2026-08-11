@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/util/context_extensions.dart';
 
-import 'package:vialer/presentation/resources/localizations.dart';
-
 class Heading extends StatelessWidget {
-  const Heading();
+  const Heading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class Heading extends StatelessWidget {
 }
 
 class Subheading extends StatelessWidget {
-  const Subheading(this.text);
+  const Subheading(this.text, {super.key});
 
   final String text;
 
@@ -50,7 +49,7 @@ class Subheading extends StatelessWidget {
             header: true,
             child: Text(text, style: Theme.of(context).textTheme.titleSmall),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
         ],
       ),
     );

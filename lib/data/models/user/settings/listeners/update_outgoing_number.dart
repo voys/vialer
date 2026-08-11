@@ -16,11 +16,10 @@ class UpdateOutgoingNumberListener extends SettingChangeListener<OutgoingNumber>
   FutureOr<SettingChangeListenResult> applySettingsSideEffects(
     User user,
     OutgoingNumber value,
-  ) =>
-      changeRemoteValue(
-        () async => ChangeOutgoingNumber()(
-          value,
-          resetDoNotAskAgain: true,
-        ),
-      );
+  ) => changeRemoteValue(
+    () async => ChangeOutgoingNumber()(
+      value,
+      resetDoNotAskAgain: true,
+    ),
+  );
 }

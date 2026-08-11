@@ -117,7 +117,7 @@ class ConfirmPageState extends State<ConfirmPage>
     cubit.cancelCallThroughCall();
   }
 
-  Future<void> _onWillPop(bool didPop, void __) async {
+  Future<void> _onWillPop(bool didPop, void _) async {
     if (didPop) return;
     _pop();
   }
@@ -170,14 +170,20 @@ class ConfirmPageState extends State<ConfirmPage>
                             children: [
                               SizedBox(height: paragraphDistance),
                               Text(
-                                context.msg.main.dialer.confirm
-                                    .title(widget.destination),
+                                context.msg.main.dialer.confirm.title(
+                                  widget.destination,
+                                ),
                                 style: _largeStyle,
                                 textAlign: TextAlign.center,
                               ),
                               SizedBox(height: paragraphDistance),
                               Text(
-                                context.msg.main.dialer.confirm.description
+                                context
+                                    .msg
+                                    .main
+                                    .dialer
+                                    .confirm
+                                    .description
                                     .routing,
                                 style: _style,
                                 textAlign: TextAlign.center,
@@ -188,7 +194,12 @@ class ConfirmPageState extends State<ConfirmPage>
                                 Text(state.regionNumber!, style: _largeStyle),
                               SizedBox(height: paragraphDistance),
                               Text(
-                                context.msg.main.dialer.confirm.description
+                                context
+                                    .msg
+                                    .main
+                                    .dialer
+                                    .confirm
+                                    .description
                                     .recipient,
                                 style: _style,
                                 textAlign: TextAlign.center,
@@ -197,8 +208,14 @@ class ConfirmPageState extends State<ConfirmPage>
                               Text(
                                 outgoingNumber is UnsuppressedOutgoingNumber
                                     ? outgoingNumber.number
-                                    : context.msg.main.settings.list.accountInfo
-                                        .businessNumber.suppressed,
+                                    : context
+                                          .msg
+                                          .main
+                                          .settings
+                                          .list
+                                          .accountInfo
+                                          .businessNumber
+                                          .suppressed,
                                 style: _largeStyle,
                               ),
                               SizedBox(height: paragraphDistance),

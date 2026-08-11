@@ -25,7 +25,7 @@ import 'util/kind.dart';
 import 'widget.dart';
 
 class ColltactItemList extends StatelessWidget {
-  ColltactItemList(
+  const ColltactItemList(
     this.kind, {
     super.key,
   });
@@ -35,8 +35,9 @@ class ColltactItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchTerm = ColltactTabsInheritedWidget.of(context).searchTerm;
-    final bottomLettersPadding =
-        ColltactTabsInheritedWidget.of(context).bottomLettersPadding;
+    final bottomLettersPadding = ColltactTabsInheritedWidget.of(
+      context,
+    ).bottomLettersPadding;
 
     return ColltactBlocBuilder(
       builder: (container) {
@@ -71,7 +72,8 @@ class ColltactItemList extends StatelessWidget {
           }
         }
 
-        final colleaguesUpToDate = kind == ColltactKind.colleague &&
+        final colleaguesUpToDate =
+            kind == ColltactKind.colleague &&
             colleaguesState is ColleaguesLoaded &&
             colleaguesState.upToDate;
 
@@ -125,8 +127,8 @@ class ColltactItemList extends StatelessWidget {
               children: widgets,
               headerBuilder: hasLimitedContactsPermission
                   ? (_) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
+                      return const Padding(
+                        padding: EdgeInsets.only(
                           top: 16,
                           left: 12,
                           right: 12,
@@ -219,8 +221,9 @@ class ColltactItemList extends StatelessWidget {
       final firstCharacter = _firstCharacterForSorting(colltact, contactSort);
 
       /// Group letters case sensitive with or without diacritics together.
-      final groupCharacter =
-          removeDiacritics(firstCharacter ?? '').toUpperCase();
+      final groupCharacter = removeDiacritics(
+        firstCharacter ?? '',
+      ).toUpperCase();
 
       if (isInLetterGroup(groupCharacter)) {
         groupedColltacts[groupCharacter] ??= [];
@@ -254,12 +257,12 @@ class ColltactItemList extends StatelessWidget {
       contact: (contact) {
         var firstCharacter = contactSort.orderBy == OrderBy.familyName
             ? contact.familyName?.characters.firstOrNull ??
-                contact.displayName.characters.firstOrNull
+                  contact.displayName.characters.firstOrNull
             : contact.givenName?.characters.firstOrNull ??
-                contact.displayName.characters.firstOrNull;
+                  contact.displayName.characters.firstOrNull;
         if (firstCharacter.isNullOrEmpty && contact.phoneNumbers.isNotEmpty) {
-          firstCharacter =
-              contact.phoneNumbers.first.value.characters.firstOrDefault('');
+          firstCharacter = contact.phoneNumbers.first.value.characters
+              .firstOrDefault('');
         }
         return firstCharacter;
       },
@@ -274,13 +277,13 @@ class ColltactItemList extends StatelessWidget {
     bool colleaguesUpToDate,
   ) {
     return [
-      // Sort all colltacts with a letter alphabetically.
-      ...colltacts.entries
-          .filter((e) => e.key != nonLetterKey)
-          .sortedBy((e) => e.key),
-      // Place all colltacts that belong to the non-letter group at the bottom.
-      ...colltacts.entries.filter((e) => e.key == nonLetterKey),
-    ]
+          // Sort all colltacts with a letter alphabetically.
+          ...colltacts.entries
+              .filter((e) => e.key != nonLetterKey)
+              .sortedBy((e) => e.key),
+          // Place all colltacts that belong to the non-letter group at the bottom.
+          ...colltacts.entries.filter((e) => e.key == nonLetterKey),
+        ]
         .map(
           (e) => [
             GroupHeader(group: e.key),

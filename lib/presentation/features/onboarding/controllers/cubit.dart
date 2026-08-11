@@ -14,12 +14,12 @@ export 'state.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> with Loggable {
   OnboardingCubit(this._caller)
-      : super(
-          const OnboardingState(
-            currentStep: OnboardingStep.login,
-            allSteps: [OnboardingStep.login],
-          ),
-        ) {
+    : super(
+        const OnboardingState(
+          currentStep: OnboardingStep.login,
+          allSteps: [OnboardingStep.login],
+        ),
+      ) {
     unawaited(
       _getSteps().then((steps) {
         emit(

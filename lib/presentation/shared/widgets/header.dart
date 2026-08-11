@@ -22,15 +22,15 @@ class Header extends StatelessWidget {
         data: mediaQuery.copyWith(
           // Never make title bigger based on font settings.
           textScaler: mediaQuery.textScaler.clamp(
-            minScaleFactor: 0,
-            maxScaleFactor: 1.0,
+            maxScaleFactor: 1,
           ),
         ),
         child: Text(
           data,
           style: TextStyle(
             color: Theme.of(context).primaryColor,
-            fontSize: mediaQuery.size.width.clamp(0, maxWidth) /
+            fontSize:
+                mediaQuery.size.width.clamp(0, maxWidth) /
                 (maxWidth * 1.04) *
                 28, // Original font size
             fontWeight: FontWeight.bold,

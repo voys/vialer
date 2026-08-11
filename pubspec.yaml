@@ -93,6 +93,7 @@ dependencies:
 
   riverpod_annotation: any
   meta: any
+  http: any
 dev_dependencies:
   test: ^1.24.9
   integration_test:
@@ -114,7 +115,7 @@ dev_dependencies:
   freezed: ^3.2.3
   riverpod_generator: ^4.0.0
   mockito: ^5.4.4
-  austerity: ^1.3.0
+  flutter_lints: ^6.0.0
 
   # Nested package that contains all code generation, this means the configuration can be stored
   # in `vialer_generators/build.yaml`.
@@ -125,7 +126,6 @@ dev_dependencies:
     path: vialer_cli
 
   args: any
-  http: any
 dependency_overrides:
   build: ^4.0.3
 

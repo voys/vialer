@@ -14,7 +14,7 @@ import 'state.dart';
 export 'state.dart';
 
 class PasswordCubit extends Cubit<PasswordState> with Loggable {
-  PasswordCubit(this._onboarding) : super(PasswordNotChanged());
+  PasswordCubit(this._onboarding) : super(const PasswordNotChanged());
   final OnboardingCubit _onboarding;
 
   final _changePassword = ChangePasswordUseCase();
@@ -24,8 +24,8 @@ class PasswordCubit extends Cubit<PasswordState> with Loggable {
   Future<void> changePassword(String password) async {
     logger.info('Changing password');
 
-    if (await _validatePassword(password) == false) {
-      emit(PasswordNotAllowed());
+    if (!(await _validatePassword(password))) {
+      emit(const PasswordNotAllowed());
       return;
     }
 
@@ -46,14 +46,14 @@ class PasswordCubit extends Cubit<PasswordState> with Loggable {
         ),
       );
 
-      emit(PasswordChanged());
+      emit(const PasswordChanged());
     } on TwoFactorAuthenticationRequiredException {
       _onboarding.addStep(OnboardingStep.twoFactorAuthentication);
 
-      emit(PasswordChangedButTwoFactorRequired());
+      emit(const PasswordChangedButTwoFactorRequired());
     } on Exception {
       // TODO: Other state
-      emit(PasswordNotAllowed());
+      emit(const PasswordNotAllowed());
     }
   }
 }

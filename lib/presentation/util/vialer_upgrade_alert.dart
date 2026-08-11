@@ -11,7 +11,8 @@ import 'package:vialer/presentation/util/loggable.dart';
 const snackBarDuration = Duration(seconds: 15);
 
 class GentleUpdateReminder extends UpgradeAlert {
-  GentleUpdateReminder({required Widget child}) : super(child: child);
+  GentleUpdateReminder({required Widget child, super.key})
+    : super(child: child);
 
   @override
   _GentleUpdateReminder createState() => _GentleUpdateReminder();
@@ -25,15 +26,15 @@ class _GentleUpdateReminder extends UpgradeAlertState with Loggable {
 
   @override
   void showTheDialog({
-    // We are just building our own SnackBar here, we won't be using any of
-    // these parameters.
-    Key? key,
     required BuildContext context,
     required String? title,
     required String message,
     required String? releaseNotes,
     required bool barrierDismissible,
-    required UpgraderMessages messages,
+    required UpgraderMessages
+    messages, // We are just building our own SnackBar here, we won't be using any of
+    // these parameters.
+    Key? key,
   }) {
     if (inDebugMode) {
       logger.info('Skipping upgrade alert in debug mode. [$message]');

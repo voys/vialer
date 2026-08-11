@@ -130,7 +130,7 @@ class OnboardingPageState extends State<OnboardingPage> {
                 return Background(
                   style: state.currentStep.asBackgroundStyle(),
                   child: PopScope(
-                    onPopInvokedWithResult: (_, __) async => _backward(context),
+                    onPopInvokedWithResult: (_, _) async => _backward(context),
                     child: DefaultTextStyle(
                       style: const TextStyle(color: Colors.black),
                       child: IconTheme(

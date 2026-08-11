@@ -74,8 +74,10 @@ class RecentCallsCubit extends Cubit<RecentCallsState> {
       ];
     }
 
-    calls =
-        calls.distinct().sortedByDescending((record) => record.date).toList();
+    calls = calls
+        .distinct()
+        .sortedByDescending((record) => record.date)
+        .toList();
 
     emit(RecentCallsLoaded(calls, page));
   }
@@ -85,10 +87,9 @@ class RecentCallsCubit extends Cubit<RecentCallsState> {
 }
 
 class ClientCallsCubit extends RecentCallsCubit {
+  ClientCallsCubit(super.caller);
   final _getRecentClientCalls =
       dependencyLocator<GetRecentClientCallsUseCase>();
-
-  ClientCallsCubit(super.caller);
 
   @override
   Future<List<ClientCallRecordWithContact>> _fetch({required int page}) =>

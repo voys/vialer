@@ -45,8 +45,8 @@ class _PasswordPageState extends State<PasswordPage>
     if (state is PasswordChanged) {
       FocusScope.of(context).unfocus();
       context.read<OnboardingCubit>().forward(
-            password: _passwordController.text,
-          );
+        password: _passwordController.text,
+      );
     }
   }
 

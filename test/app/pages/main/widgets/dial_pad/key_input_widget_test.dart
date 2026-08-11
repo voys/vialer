@@ -7,7 +7,7 @@ import 'package:vialer/presentation/shared/widgets/brand_provider/widget.dart';
 import 'package:vialer/presentation/shared/widgets/dial_pad/key_input.dart';
 
 void main() {
-  final _fakeUrl = Uri.parse('https://fake.url');
+  final fakeUrl = Uri.parse('https://fake.url');
   final controller = TextEditingController();
   final testWidget = MaterialApp(
     locale: const Locale('en'),
@@ -23,21 +23,21 @@ void main() {
           identifier: 'vialer',
           appId: 'com.voipgrid.vialer',
           appName: 'Vialer',
-          url: _fakeUrl,
-          middlewareUrl: _fakeUrl,
-          voipgridUrl: _fakeUrl,
-          sipUrl: _fakeUrl,
-          businessAvailabilityUrl: _fakeUrl,
-          openingHoursBasicUrl: _fakeUrl,
-          resgateUrl: _fakeUrl,
-          privacyPolicyUrl: _fakeUrl,
+          url: fakeUrl,
+          middlewareUrl: fakeUrl,
+          voipgridUrl: fakeUrl,
+          sipUrl: fakeUrl,
+          businessAvailabilityUrl: fakeUrl,
+          openingHoursBasicUrl: fakeUrl,
+          resgateUrl: fakeUrl,
+          privacyPolicyUrl: fakeUrl,
           signUpUrl: null,
-          availabilityServiceUrl: _fakeUrl,
-          sharedContactsUrl: _fakeUrl,
-          phoneNumberValidationUrl: _fakeUrl,
-          featureAnnouncementsUrl: _fakeUrl,
-          supportUrl: _fakeUrl,
-          supportUrlNL: _fakeUrl,
+          availabilityServiceUrl: fakeUrl,
+          sharedContactsUrl: fakeUrl,
+          phoneNumberValidationUrl: fakeUrl,
+          featureAnnouncementsUrl: fakeUrl,
+          supportUrl: fakeUrl,
+          supportUrlNL: fakeUrl,
         ),
         child: KeyInput(
           controller: controller,

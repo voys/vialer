@@ -40,8 +40,9 @@ class ChangeOutgoingNumber extends UseCase with Loggable {
 
       _metricsRepository.track('outgoing-number-suppressed');
 
-      final result =
-          await _outgoingNumbersRepository.suppressOutgoingNumber(user: _user);
+      final result = await _outgoingNumbersRepository.suppressOutgoingNumber(
+        user: _user,
+      );
 
       conditionallyRefresh(refreshUser);
 

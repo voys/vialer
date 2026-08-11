@@ -13,8 +13,8 @@ class RefreshClientOpeningHoursModules extends ClientRefreshTaskPerformer {
     final openingHours = await GetOpeningHoursModules()();
 
     return (Client client) => client.copyWith(
-          openingHoursModules: () => openingHours,
-        );
+      openingHoursModules: () => openingHours,
+    );
   }
 
   @override

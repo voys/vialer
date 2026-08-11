@@ -24,10 +24,10 @@ abstract class VoipgridFixedDestination extends VoipgridDestination
 
   @override
   Destination toDestination() => Destination.phoneNumber(
-        id!,
-        description,
-        phoneNumber,
-      );
+    id!,
+    description,
+    phoneNumber,
+  );
 }
 
 String _normalizedPhoneNumber(String json) =>

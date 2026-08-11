@@ -12,7 +12,7 @@ export 'state.dart';
 
 class TwoFactorAuthenticationCubit extends Cubit<TwoFactorState> with Loggable {
   TwoFactorAuthenticationCubit(this._onboarding)
-      : super(const CodeNotSubmitted());
+    : super(const CodeNotSubmitted());
 
   final OnboardingCubit _onboarding;
 

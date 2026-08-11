@@ -31,28 +31,27 @@ class UserDetailsRepository with Loggable {
 
 @Freezed(toJson: false)
 abstract class UserDetails with _$UserDetails {
-  const UserDetails._();
-
   @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
   const factory UserDetails({
     required String firstName,
     required String lastName,
-    String? preposition,
     required String internalNumber,
+    required _Destinations destinations,
+    String? preposition,
     _SelectedDestination? selectedDestination,
     _AppAccount? app,
     _WebphoneAccount? webphone,
-    required _Destinations destinations,
     _ClientDetails? client,
   }) = _UserDetails;
+  const UserDetails._();
 
   factory UserDetails.fromJson(Map<String, dynamic> json) =>
       _$UserDetailsFromJson(json);
 
   List<Destination> get availableDestinations => [
-        ...destinations.fixedDestinations,
-        ...destinations.voipAccounts,
-      ].map((e) => e.toDestination()).toList();
+    ...destinations.fixedDestinations,
+    ...destinations.voipAccounts,
+  ].map((e) => e.toDestination()).toList();
 }
 
 @Freezed(toJson: false, fromJson: false)
@@ -94,8 +93,8 @@ abstract class _IntelligenceModules with _$IntelligenceModules {
 abstract class _AppAccount with _$AppAccount {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _AppAccount({
-    String? mobileNumber,
     required bool useMobileNumberAsFallback,
+    String? mobileNumber,
     _VoipAccountDestination? voipAccount,
   }) = __AppAccount;
 
@@ -128,6 +127,8 @@ abstract class _Destinations with _$Destinations {
 
 @freezed
 sealed class _Destination with _$Destination {
+  factory _Destination.fromJson(Map<String, dynamic> json) =>
+      _$DestinationFromJson(json);
   const _Destination._();
 
   @JsonSerializable(fieldRename: FieldRename.snake)
@@ -149,27 +150,22 @@ sealed class _Destination with _$Destination {
   }) = _FixedDestination;
 
   Destination toDestination() => map(
-        voipAccount: (voipAccount) => Destination.phoneAccount(
-          voipAccount.id.toInt(),
-          voipAccount.description,
-          voipAccount.accountId.toInt(),
-          voipAccount.internalNumber.toInt(),
-        ),
-        fixed: (fixed) => Destination.phoneNumber(
-          fixed.id.toInt(),
-          fixed.description,
-          fixed.phoneNumber,
-        ),
-      );
-
-  factory _Destination.fromJson(Map<String, dynamic> json) =>
-      _$DestinationFromJson(json);
+    voipAccount: (voipAccount) => Destination.phoneAccount(
+      voipAccount.id.toInt(),
+      voipAccount.description,
+      voipAccount.accountId.toInt(),
+      voipAccount.internalNumber.toInt(),
+    ),
+    fixed: (fixed) => Destination.phoneNumber(
+      fixed.id.toInt(),
+      fixed.description,
+      fixed.phoneNumber,
+    ),
+  );
 }
 
 @Freezed(toJson: false, fromJson: false)
 abstract class _SelectedDestination with _$SelectedDestination {
-  const _SelectedDestination._();
-
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _SelectedDestination({
     required String id,
@@ -178,11 +174,12 @@ abstract class _SelectedDestination with _$SelectedDestination {
     _FixedDestination? fixedDestination,
   }) = __SelectedDestination;
 
-  Destination? asDestination() => [voipAccount, fixedDestination]
-      .filterNotNull()
-      .firstOrNull
-      ?.toDestination();
-
   factory _SelectedDestination.fromJson(Map<String, dynamic> json) =>
       _$SelectedDestinationFromJson(json);
+  const _SelectedDestination._();
+
+  Destination? asDestination() => [
+    voipAccount,
+    fixedDestination,
+  ].filterNotNull().firstOrNull?.toDestination();
 }

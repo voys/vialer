@@ -16,8 +16,8 @@ class RefreshClientVoicemailAccounts extends ClientRefreshTaskPerformer {
             .getVoicemailAccounts(client);
 
     return (Client client) => client.copyWith(
-          voicemailAccounts: () => voicemailAccounts,
-        );
+      voicemailAccounts: () => voicemailAccounts,
+    );
   }
 
   @override

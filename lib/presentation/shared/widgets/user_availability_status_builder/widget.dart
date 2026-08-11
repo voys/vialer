@@ -4,24 +4,26 @@ import 'package:vialer/presentation/shared/controllers/user_availability_status_
 
 import '../../../../../data/models/relations/user_availability_status.dart';
 
-typedef UserAvailabilityStatusBuild = Widget Function(
-  BuildContext context,
-  UserAvailabilityStatus status,
-  bool isCurrentRingingDeviceOffline,
-);
+typedef UserAvailabilityStatusBuild =
+    Widget Function(
+      BuildContext context,
+      UserAvailabilityStatus status,
+      bool isCurrentRingingDeviceOffline,
+    );
 
-typedef UserAvailabilityStatusListener = void Function(
-  BuildContext context,
-  UserAvailabilityStatus status,
-  bool isCurrentRingingDeviceOffline,
-);
+typedef UserAvailabilityStatusListener =
+    void Function(
+      BuildContext context,
+      UserAvailabilityStatus status,
+      bool isCurrentRingingDeviceOffline,
+    );
 
 class UserAvailabilityStatusBuilder extends StatelessWidget {
   const UserAvailabilityStatusBuilder({
-    Key? key,
     required this.builder,
+    super.key,
     this.listener,
-  }) : super(key: key);
+  });
 
   final UserAvailabilityStatusBuild builder;
   final UserAvailabilityStatusListener? listener;
@@ -30,8 +32,10 @@ class UserAvailabilityStatusBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final listener = this.listener;
 
-    return BlocConsumer<UserAvailabilityStatusCubit,
-        UserAvailabilityStatusState>(
+    return BlocConsumer<
+      UserAvailabilityStatusCubit,
+      UserAvailabilityStatusState
+    >(
       listener: (context, state) => listener != null
           ? listener(
               context,

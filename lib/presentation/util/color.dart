@@ -7,9 +7,10 @@ Color calculateColorForPhoneNumber(BuildContext context, String phoneNumber) {
 
   const shadesCount = 6;
 
-  final lightness = (hsl.lightness -
-          ((phoneNumber.hashCode % shadesCount) - (shadesCount / 2)) * 0.2)
-      .clamp(0.2, 0.8);
+  final lightness =
+      (hsl.lightness -
+              ((phoneNumber.hashCode % shadesCount) - (shadesCount / 2)) * 0.2)
+          .clamp(0.2, 0.8);
 
   return hsl.withLightness(lightness).toColor();
 }

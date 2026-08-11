@@ -18,23 +18,24 @@ class _SelectAudioProblemsState extends State<SelectAudioProblems> {
   final selection = CallAudioProblem.values.toBoolMap();
 
   String _text(CallAudioProblem audioProblem) => switch (audioProblem) {
-        CallAudioProblem.jitter =>
-          context.msg.main.call.feedback.audioProblems.jitter,
-        CallAudioProblem.echo =>
-          context.msg.main.call.feedback.audioProblems.echo,
-        CallAudioProblem.crackling =>
-          context.msg.main.call.feedback.audioProblems.crackling,
-        CallAudioProblem.robotic =>
-          context.msg.main.call.feedback.audioProblems.robotic,
-        CallAudioProblem.tooQuiet =>
-          context.msg.main.call.feedback.audioProblems.tooQuiet,
-        CallAudioProblem.tooLoud =>
-          context.msg.main.call.feedback.audioProblems.tooLoud
-      };
+    CallAudioProblem.jitter =>
+      context.msg.main.call.feedback.audioProblems.jitter,
+    CallAudioProblem.echo => context.msg.main.call.feedback.audioProblems.echo,
+    CallAudioProblem.crackling =>
+      context.msg.main.call.feedback.audioProblems.crackling,
+    CallAudioProblem.robotic =>
+      context.msg.main.call.feedback.audioProblems.robotic,
+    CallAudioProblem.tooQuiet =>
+      context.msg.main.call.feedback.audioProblems.tooQuiet,
+    CallAudioProblem.tooLoud =>
+      context.msg.main.call.feedback.audioProblems.tooLoud,
+  };
 
   void _onDonePressed() {
-    final audioProblems =
-        selection.entries.where((e) => e.value).map((e) => e.key).toList();
+    final audioProblems = selection.entries
+        .where((e) => e.value)
+        .map((e) => e.key)
+        .toList();
 
     widget.onComplete(audioProblems);
   }
@@ -57,11 +58,12 @@ class _SelectAudioProblemsState extends State<SelectAudioProblems> {
         children: [
           ...selection.entries.map(
             (entry) => CheckboxListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ).copyWith(
-                left: 0,
-              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ).copyWith(
+                    left: 0,
+                  ),
               dense: true,
               controlAffinity: ListTileControlAffinity.leading,
               title: FittedBox(

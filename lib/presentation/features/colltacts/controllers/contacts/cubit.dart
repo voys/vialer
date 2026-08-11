@@ -56,7 +56,8 @@ class ContactsCubit extends Cubit<ContactsState> {
         contacts: contacts,
         contactSort: await _getContactSort(),
         noContactPermission: status.wasDenied,
-        dontAskAgain: status == PermissionStatus.permanentlyDenied ||
+        dontAskAgain:
+            status == PermissionStatus.permanentlyDenied ||
             (Platform.isIOS && status == PermissionStatus.denied),
       ),
     );
@@ -77,10 +78,10 @@ class ContactsCubit extends Cubit<ContactsState> {
   Colltact refreshColltactContact(Colltact colltact) {
     if (state is ContactsLoaded && colltact is ColltactContact) {
       final contact = (state as ContactsLoaded).contacts.firstWhereOrNull(
-            (contact) =>
-                contact.identifier ==
-                (colltact as ColltactContact).contact.identifier,
-          );
+        (contact) =>
+            contact.identifier ==
+            (colltact as ColltactContact).contact.identifier,
+      );
       if (contact != null) colltact = Colltact.contact(contact);
     }
     return colltact;

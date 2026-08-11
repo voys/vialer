@@ -8,11 +8,9 @@ mixin RidGenerator {
   /// rids.
   String createRid(
     String Function(String userUuid, String clientUuid) callback,
-  ) =>
-      callback(_user.uuid, _user.client.uuid);
+  ) => callback(_user.uuid, _user.client.uuid);
 
   RegExp createRidRegex(
     RegExp Function(String userUuid, String clientUuid) callback,
-  ) =>
-      callback(_user.uuid, _user.client.uuid);
+  ) => callback(_user.uuid, _user.client.uuid);
 }

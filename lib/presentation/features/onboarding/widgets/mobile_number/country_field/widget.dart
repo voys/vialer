@@ -10,6 +10,7 @@ class CountryFlagField extends StatefulWidget {
   const CountryFlagField({
     required this.controller,
     required this.focusNode,
+    super.key,
     this.initialValue,
   });
 
@@ -31,11 +32,12 @@ class CountryFlagFieldState<T extends CountryFlagField> extends State<T> {
   void _initializeStartingCountry({bool updateOnEmpty = false}) async {
     final country = await context
         .read<CountriesCubit>()
-        .chooseCountryBasedOnUser(widget.initialValue ?? null);
+        .chooseCountryBasedOnUser(widget.initialValue);
 
     _changeCountry(
       country,
-      updateTextField: widget.initialValue == null &&
+      updateTextField:
+          widget.initialValue == null &&
           (shouldModifyTextField || updateOnEmpty),
     );
   }
@@ -57,14 +59,13 @@ class CountryFlagFieldState<T extends CountryFlagField> extends State<T> {
   void _changeCountry(
     Country? country, {
     bool updateTextField = true,
-  }) =>
-      mounted
-          ? setState(() {
-              selectedCountry = country;
-              if (country == null || !updateTextField) return null;
-              widget.controller.text = '+${country.callingCode}';
-            })
-          : null;
+  }) => mounted
+      ? setState(() {
+          selectedCountry = country;
+          if (country == null || !updateTextField) return;
+          widget.controller.text = '+${country.callingCode}';
+        })
+      : null;
 
   @override
   Widget build(BuildContext context) {

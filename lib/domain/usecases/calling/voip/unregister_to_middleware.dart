@@ -12,8 +12,9 @@ class UnregisterToMiddlewareUseCase extends UseCase {
     final user = _getUser();
 
     if (appAccount != null || user.isAllowedVoipCalling) {
-      final appAccountId =
-          int.tryParse((appAccount ?? user.appAccount).sipUserId);
+      final appAccountId = int.tryParse(
+        (appAccount ?? user.appAccount).sipUserId,
+      );
       if (appAccountId == null) return;
 
       await _middleware.unregister(appAccountId);

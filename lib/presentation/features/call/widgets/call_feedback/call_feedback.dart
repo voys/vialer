@@ -82,7 +82,13 @@ class _CallFeedbackState extends State<CallFeedback> {
           !_storage.isUsingScreenReader) {
         SemanticsService.sendAnnouncement(
           View.of(context),
-          context.msg.main.call.feedback.rating.semantics
+          context
+              .msg
+              .main
+              .call
+              .feedback
+              .rating
+              .semantics
               .callRatingDialogDismissal,
           Directionality.of(context),
         );
@@ -128,19 +134,19 @@ class _CallFeedbackState extends State<CallFeedback> {
   }
 
   Widget _buildForCurrentStage() => switch (_stage) {
-        CallFeedbackStage.rateCall => CallRating(
-            onComplete: _onCallRated,
-          ),
-        CallFeedbackStage.selectCallProblem => SelectCallProblem(
-            onComplete: _onProblemSelected,
-          ),
-        CallFeedbackStage.selectAudioProblem => SelectAudioProblems(
-            onComplete: _onAudioProblemsSelected,
-          ),
-        CallFeedbackStage.thankYou => ThankYou(
-            onComplete: widget.onUserFinishedFeedbackProcess,
-          )
-      };
+    CallFeedbackStage.rateCall => CallRating(
+      onComplete: _onCallRated,
+    ),
+    CallFeedbackStage.selectCallProblem => SelectCallProblem(
+      onComplete: _onProblemSelected,
+    ),
+    CallFeedbackStage.selectAudioProblem => SelectAudioProblems(
+      onComplete: _onAudioProblemsSelected,
+    ),
+    CallFeedbackStage.thankYou => ThankYou(
+      onComplete: widget.onUserFinishedFeedbackProcess,
+    ),
+  };
 
   @override
   Widget build(BuildContext context) {

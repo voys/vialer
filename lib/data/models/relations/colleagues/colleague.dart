@@ -41,36 +41,38 @@ abstract class Colleague with _$Colleague {
       _$ColleagueFromJson(json);
 
   String? get number => map(
-        (colleague) => colleague.destination?.number,
-        unconnectedVoipAccount: (voipAccount) => voipAccount.number,
-      );
+    (colleague) => colleague.destination?.number,
+    unconnectedVoipAccount: (voipAccount) => voipAccount.number,
+  );
 
   ColleagueContext? get mostRelevantContext => map(
-        (colleague) => colleague.context.firstOrNull,
-        unconnectedVoipAccount: (_) => null,
-      );
+    (colleague) => colleague.context.firstOrNull,
+    unconnectedVoipAccount: (_) => null,
+  );
 
   bool get isAvailableOnMobileAppOrFixedDestination => map(
-        (colleague) =>
-            const [ColleagueDestinationType.app, ColleagueDestinationType.fixed]
-                .contains(colleague.destination?.type) &&
-            colleague.status == ColleagueAvailabilityStatus.unknown,
-        unconnectedVoipAccount: (_) => false,
-      );
+    (colleague) =>
+        const [
+          ColleagueDestinationType.app,
+          ColleagueDestinationType.fixed,
+        ].contains(colleague.destination?.type) &&
+        colleague.status == ColleagueAvailabilityStatus.unknown,
+    unconnectedVoipAccount: (_) => false,
+  );
 
   /// This colleague is online, this means their availability is currently
   /// known.
   bool get isOnline => map(
-        (colleague) =>
-            const [
-              ColleagueAvailabilityStatus.available,
-              ColleagueAvailabilityStatus.availableForColleagues,
-              ColleagueAvailabilityStatus.doNotDisturb,
-              ColleagueAvailabilityStatus.busy,
-            ].contains(colleague.status) ||
-            isAvailableOnMobileAppOrFixedDestination,
-        unconnectedVoipAccount: (_) => false,
-      );
+    (colleague) =>
+        const [
+          ColleagueAvailabilityStatus.available,
+          ColleagueAvailabilityStatus.availableForColleagues,
+          ColleagueAvailabilityStatus.doNotDisturb,
+          ColleagueAvailabilityStatus.busy,
+        ].contains(colleague.status) ||
+        isAvailableOnMobileAppOrFixedDestination,
+    unconnectedVoipAccount: (_) => false,
+  );
 }
 
 /// A single status that represents the availability of the colleague.
@@ -89,7 +91,7 @@ enum ColleagueAvailabilityStatus {
   /// linked to their user AND they are not SIP registered anywhere.
   offline,
 
-  availableForColleagues;
+  availableForColleagues,
 }
 
 /// The destination that we can call to reach the given colleague.
@@ -126,8 +128,8 @@ abstract class ColleagueContext with _$ColleagueContext {
       _$ColleagueContextFromJson(json);
 
   static ColleagueContext? fromServerValue(String? value) => switch (value) {
-        'in_call' => const ColleagueContext.inCall(),
-        'ringing' => const ColleagueContext.ringing(),
-        _ => null
-      };
+    'in_call' => const ColleagueContext.inCall(),
+    'ringing' => const ColleagueContext.ringing(),
+    _ => null,
+  };
 }

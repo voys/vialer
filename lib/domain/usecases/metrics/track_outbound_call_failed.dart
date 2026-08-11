@@ -10,10 +10,9 @@ class TrackOutboundCallFailedUseCase extends UseCase {
     required CallFailureReason reason,
     bool isVoip = true,
     String? message,
-  }) =>
-      _metricsRepository.track('call-outbound-failed', {
-        'reason': reason.name,
-        'voip': isVoip,
-        'message': message,
-      });
+  }) => _metricsRepository.track('call-outbound-failed', {
+    'reason': reason.name,
+    'voip': isVoip,
+    'message': message,
+  });
 }

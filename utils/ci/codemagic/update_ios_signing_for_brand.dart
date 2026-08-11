@@ -5,7 +5,7 @@ import 'dart:io';
 ///
 /// The new values must be provided as command-line arguments.
 ///
-/// Usage: dart update_ios_signing_for_brand.dart <iosTeamId> <iosBundleId> <appGroupIdentifier>
+/// Usage: `dart update_ios_signing_for_brand.dart <iosTeamId> <iosBundleId> <appGroupIdentifier>`
 void main(List<String> arguments) async {
   if (arguments.length < 3) {
     throw Exception(

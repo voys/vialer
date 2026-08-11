@@ -62,11 +62,10 @@ class AuthRepository with Loggable {
   Future<User> _getUserUsingProvidedCredentials({
     required String email,
     required String token,
-  }) =>
-      _getUser(
-        email: email,
-        token: token,
-      );
+  }) => _getUser(
+    email: email,
+    token: token,
+  );
 
   Future<User> _getUser({String? email, String? token}) async {
     assert(
@@ -76,13 +75,14 @@ class AuthRepository with Loggable {
 
     try {
       final response = await _service.getSystemUser(
-        authorization:
-            email != null && token != null ? 'Token $email:$token' : null,
+        authorization: email != null && token != null
+            ? 'Token $email:$token'
+            : null,
       );
 
-      if (response.error
-          .toString()
-          .contains('You need to change your password in the portal')) {
+      if (response.error.toString().contains(
+        'You need to change your password in the portal',
+      )) {
         throw NeedToChangePasswordException();
       }
 
@@ -93,8 +93,9 @@ class AuthRepository with Loggable {
       ForceUpdateSettings()(
         {
           CallSetting.mobileNumber: systemUser.mobileNumber ?? '',
-          CallSetting.outgoingNumber:
-              OutgoingNumber.fromJson(systemUser.outgoingCli ?? ''),
+          CallSetting.outgoingNumber: OutgoingNumber.fromJson(
+            systemUser.outgoingCli ?? '',
+          ),
         },
       );
 
@@ -177,10 +178,11 @@ class AuthRepository with Loggable {
   /// Returns a [Future] that completes with a [bool] indicating whether the request was successful or not.
   Future<bool> requestNewPassword({
     required String email,
-  }) =>
-      _service.requestNewPassword({
+  }) => _service
+      .requestNewPassword({
         'email': email,
-      }).then((response) => response.isSuccessful);
+      })
+      .then((response) => response.isSuccessful);
 
   Future<String> getAutoLoginToken() async {
     final response = await _service.getAutoLoginToken();
@@ -194,8 +196,9 @@ class AuthRepository with Loggable {
   Future<bool> changeMobileNumber(String mobileNumber) async {
     try {
       await mobileNumberRetry.run(() async {
-        final response =
-            await _service.changeMobileNumber({'mobile_nr': mobileNumber});
+        final response = await _service.changeMobileNumber({
+          'mobile_nr': mobileNumber,
+        });
 
         if (!response.isSuccessful) {
           logFailedResponse(response);
@@ -341,18 +344,18 @@ class _SystemUserResponse {
   final Uri clientUrl;
 
   User toUser() => User(
-        uuid: uuid,
-        email: email,
-        firstName: firstName,
-        preposition: preposition,
-        lastName: lastName,
-        appAccountUrl: appAccountUrl,
-        client: Client(
-          id: clientId,
-          uuid: clientUuid,
-          name: clientName,
-          url: clientUrl,
-          voip: ClientVoipConfig.fallback(),
-        ),
-      );
+    uuid: uuid,
+    email: email,
+    firstName: firstName,
+    preposition: preposition,
+    lastName: lastName,
+    appAccountUrl: appAccountUrl,
+    client: Client(
+      id: clientId,
+      uuid: clientUuid,
+      name: clientName,
+      url: clientUrl,
+      voip: ClientVoipConfig.fallback(),
+    ),
+  );
 }

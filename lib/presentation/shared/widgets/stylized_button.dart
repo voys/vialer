@@ -121,8 +121,8 @@ class StylizedButton extends StatelessWidget {
                       color: disabled
                           ? disabledForegroundColor
                           : colored
-                              ? color
-                              : Colors.white,
+                          ? color
+                          : Colors.white,
                       // Kept, in case the border width changes.
                       // ignore: avoid_redundant_argument_values
                       width: _borderWidth,
@@ -132,8 +132,8 @@ class StylizedButton extends StatelessWidget {
               color: disabled
                   ? const Color(0xFFF5F5F5)
                   : isRaised
-                      ? (colored ? color : Colors.white)
-                      : Colors.transparent,
+                  ? (colored ? color : Colors.white)
+                  : Colors.transparent,
             ),
             child: Material(
               color: Colors.transparent,
@@ -161,7 +161,7 @@ class StylizedButton extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                         child: isLoading
-                            ? _loadingIndicatorButton(
+                            ? _LoadingIndicatorButton(
                                 textColor: textColor,
                                 child: child,
                               )
@@ -179,8 +179,8 @@ class StylizedButton extends StatelessWidget {
   }
 }
 
-class _loadingIndicatorButton extends StatelessWidget {
-  const _loadingIndicatorButton({
+class _LoadingIndicatorButton extends StatelessWidget {
+  const _LoadingIndicatorButton({
     required this.textColor,
     required this.child,
   });

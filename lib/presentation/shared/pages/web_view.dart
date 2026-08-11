@@ -17,8 +17,8 @@ class WebViewPage extends StatefulWidget {
   final WebPage page;
 
   static MaterialPageRoute<void> route(WebPage page) => MaterialPageRoute(
-        builder: (context) => WebViewPage(page),
-      );
+    builder: (context) => WebViewPage(page),
+  );
 
   static Future<void> open(BuildContext context, {required WebPage to}) =>
       Navigator.of(context, rootNavigator: true).push(route(to));
@@ -32,7 +32,6 @@ class _WebViewPageState extends State<WebViewPage> {
     clearCache: true,
     useOnDownloadStart: true,
     transparentBackground: true,
-    useHybridComposition: true,
     geolocationEnabled: false,
   );
 
@@ -96,7 +95,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     initialUrlRequest: URLRequest(url: WebUri(state.url)),
                     initialSettings: _settings,
                     onWebViewCreated: _onWebViewCreated,
-                    onReceivedHttpError: (_, __, error) => _onPageLoadError(
+                    onReceivedHttpError: (_, _, error) => _onPageLoadError(
                       context,
                       error.statusCode ?? 0,
                       error.reasonPhrase ?? '',
@@ -108,9 +107,9 @@ class _WebViewPageState extends State<WebViewPage> {
                     ),
                     onPermissionRequest: (_, request) async =>
                         PermissionResponse(
-                      action: PermissionResponseAction.GRANT,
-                      resources: request.resources,
-                    ),
+                          action: PermissionResponseAction.GRANT,
+                          resources: request.resources,
+                        ),
                   ),
                   if (state is! LoadedWebView)
                     const Center(

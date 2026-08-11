@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:source_gen/source_gen.dart';
-import 'package:build/build.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:build/build.dart';
+import 'package:source_gen/source_gen.dart';
 
 /// Generates a `Colors` class that allows for easy access of colors defined
 /// in `color_values.dart` within Flutter.
 class ColorsGenerator extends Generator {
   @override
-  FutureOr<String?> generate(LibraryReader library, BuildStep step) async {
+  FutureOr<String?> generate(LibraryReader library, BuildStep buildStep) async {
     final buffer = StringBuffer();
 
     buffer.writeln("import 'dart:ui';");

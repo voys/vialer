@@ -65,17 +65,17 @@ class _DialPadState extends State<DialPad> {
                   alignment: Alignment.bottomCenter,
                   child:
                       BlocBuilder<ConnectivityCheckerCubit, ConnectivityState>(
-                    builder: (context, state) {
-                      return Keypad(
-                        controller: widget.controller,
-                        cursorShownNotifier: _cursorShownNotifier,
-                        constraints: constraints,
-                        bottomCenterButton: widget.bottomCenterButton,
-                        bottomLeftButton: widget.bottomLeftButton,
-                        bottomRightButton: widget.bottomRightButton,
-                      );
-                    },
-                  ),
+                        builder: (context, state) {
+                          return Keypad(
+                            controller: widget.controller,
+                            cursorShownNotifier: _cursorShownNotifier,
+                            constraints: constraints,
+                            bottomCenterButton: widget.bottomCenterButton,
+                            bottomLeftButton: widget.bottomLeftButton,
+                            bottomRightButton: widget.bottomRightButton,
+                          );
+                        },
+                      ),
                 ),
               );
             },

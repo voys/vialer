@@ -23,7 +23,13 @@ class ShowClientCallsTile extends StatelessWidget {
         user.hasPermission(Permission.canSeeClientCalls)
             ? context.msg.main.settings.list.calling.showClientCalls.description
             : context
-                .msg.main.settings.list.calling.showClientCalls.noPermission,
+                  .msg
+                  .main
+                  .settings
+                  .list
+                  .calling
+                  .showClientCalls
+                  .noPermission,
       ),
       child: BoolSettingValue(
         user.settings,

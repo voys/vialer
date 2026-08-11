@@ -51,53 +51,56 @@ class NoResultsPlaceholder extends StatelessWidget {
       !RegExp('[^0-9+ ]').hasMatch(searchTerm);
 
   String _title(BuildContext context) => switch (type!) {
-        NoResultsType.noOnlineColleagues =>
-          context.msg.main.colltacts.noOnline.title,
-        NoResultsType.noSearchResults =>
-          context.msg.main.colltacts.noResults.title,
-        NoResultsType.colleaguesLoading =>
-          context.msg.main.contacts.list.loadingColleagues.title,
-        NoResultsType.contactsLoading =>
-          context.msg.main.contacts.list.loadingContacts.title,
-        NoResultsType.sharedContactsLoading =>
-          context.msg.main.contacts.list.loadingSharedContacts.title,
-        NoResultsType.noContactsExist =>
-          context.msg.main.contacts.list.empty.title,
-        NoResultsType.noContactsPermission => context
-            .msg.main.contacts.list.noPermission
-            .description(context.brand.appName),
-        NoResultsType.noSharedContactsExist =>
-          context.msg.main.contacts.list.emptySharedContacts.title,
-      };
+    NoResultsType.noOnlineColleagues =>
+      context.msg.main.colltacts.noOnline.title,
+    NoResultsType.noSearchResults => context.msg.main.colltacts.noResults.title,
+    NoResultsType.colleaguesLoading =>
+      context.msg.main.contacts.list.loadingColleagues.title,
+    NoResultsType.contactsLoading =>
+      context.msg.main.contacts.list.loadingContacts.title,
+    NoResultsType.sharedContactsLoading =>
+      context.msg.main.contacts.list.loadingSharedContacts.title,
+    NoResultsType.noContactsExist => context.msg.main.contacts.list.empty.title,
+    NoResultsType.noContactsPermission =>
+      context.msg.main.contacts.list.noPermission.description(
+        context.brand.appName,
+      ),
+    NoResultsType.noSharedContactsExist =>
+      context.msg.main.contacts.list.emptySharedContacts.title,
+  };
 
   String _subtitle(BuildContext context) => switch (type!) {
-        NoResultsType.noOnlineColleagues =>
-          context.msg.main.colltacts.noOnline.subtitle,
-        NoResultsType.noSearchResults => switch (kind) {
-            ColltactKind.contact =>
-              context.msg.main.colltacts.noResults.contacts(searchTerm),
-            ColltactKind.colleague =>
-              context.msg.main.colltacts.noResults.colleagues(searchTerm),
-            ColltactKind.sharedContact =>
-              context.msg.main.colltacts.noResults.sharedContacts(searchTerm),
-          },
-        NoResultsType.colleaguesLoading =>
-          context.msg.main.contacts.list.loadingColleagues.description,
-        NoResultsType.contactsLoading =>
-          context.msg.main.contacts.list.loadingContacts.description,
-        NoResultsType.sharedContactsLoading =>
-          context.msg.main.contacts.list.loadingSharedContacts.description,
-        NoResultsType.noContactsExist =>
-          context.msg.main.contacts.list.empty.description(
-            context.brand.appName,
-          ),
-        NoResultsType.noContactsPermission => context
-            .msg.main.contacts.list.noPermission
-            .permanentDescription(context.brand.appName),
-        NoResultsType.noSharedContactsExist => context
-            .msg.main.contacts.list.emptySharedContacts
-            .description(context.brand.appName),
-      };
+    NoResultsType.noOnlineColleagues =>
+      context.msg.main.colltacts.noOnline.subtitle,
+    NoResultsType.noSearchResults => switch (kind) {
+      ColltactKind.contact => context.msg.main.colltacts.noResults.contacts(
+        searchTerm,
+      ),
+      ColltactKind.colleague => context.msg.main.colltacts.noResults.colleagues(
+        searchTerm,
+      ),
+      ColltactKind.sharedContact =>
+        context.msg.main.colltacts.noResults.sharedContacts(searchTerm),
+    },
+    NoResultsType.colleaguesLoading =>
+      context.msg.main.contacts.list.loadingColleagues.description,
+    NoResultsType.contactsLoading =>
+      context.msg.main.contacts.list.loadingContacts.description,
+    NoResultsType.sharedContactsLoading =>
+      context.msg.main.contacts.list.loadingSharedContacts.description,
+    NoResultsType.noContactsExist =>
+      context.msg.main.contacts.list.empty.description(
+        context.brand.appName,
+      ),
+    NoResultsType.noContactsPermission =>
+      context.msg.main.contacts.list.noPermission.permanentDescription(
+        context.brand.appName,
+      ),
+    NoResultsType.noSharedContactsExist =>
+      context.msg.main.contacts.list.emptySharedContacts.description(
+        context.brand.appName,
+      ),
+  };
 
   Widget? _button(BuildContext context) {
     if (type == NoResultsType.noContactsPermission) {
@@ -106,7 +109,7 @@ class NoResultsPlaceholder extends StatelessWidget {
         cubit: contactsCubit,
       );
     } else if (type == NoResultsType.noSharedContactsExist) {
-      return _CreateSharedContactButton();
+      return const _CreateSharedContactButton();
     }
 
     if (_shouldShowCallButton) {
@@ -190,17 +193,15 @@ enum NoResultsType {
 
 extension on NoResultsType {
   IconData get iconData => switch (this) {
-        NoResultsType.noSearchResults => FontAwesomeIcons.magnifyingGlass,
-        NoResultsType.colleaguesLoading ||
-        NoResultsType.contactsLoading ||
-        NoResultsType.sharedContactsLoading =>
-          FontAwesomeIcons.abacus,
-        NoResultsType.noContactsExist ||
-        NoResultsType.noSharedContactsExist ||
-        NoResultsType.noOnlineColleagues =>
-          FontAwesomeIcons.userSlash,
-        NoResultsType.noContactsPermission => FontAwesomeIcons.lock,
-      };
+    NoResultsType.noSearchResults => FontAwesomeIcons.magnifyingGlass,
+    NoResultsType.colleaguesLoading ||
+    NoResultsType.contactsLoading ||
+    NoResultsType.sharedContactsLoading => FontAwesomeIcons.abacus,
+    NoResultsType.noContactsExist ||
+    NoResultsType.noSharedContactsExist ||
+    NoResultsType.noOnlineColleagues => FontAwesomeIcons.userSlash,
+    NoResultsType.noContactsPermission => FontAwesomeIcons.lock,
+  };
 }
 
 class _ContactsPermissionButton extends StatelessWidget {

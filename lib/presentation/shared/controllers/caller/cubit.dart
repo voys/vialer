@@ -114,8 +114,9 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
         (_) {
           // We can still do these things, even if VoIP failed to start.
           checkPhonePermission();
-          _voipCallEventSubscription ??=
-              _getVoipCallEventStream().listen(_onVoipCallEvent);
+          _voipCallEventSubscription ??= _getVoipCallEventStream().listen(
+            _onVoipCallEvent,
+          );
         },
       ),
     );
@@ -217,13 +218,12 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
   Future<void> rateVoipCall({
     required CallFeedbackResult result,
     required Call call,
-  }) =>
-      _rateVoipCall(
-        feedback: result,
-        usedRoutes: _preservedCallSessionState.usedAudioRoutes,
-        mos: _preservedCallSessionState.mos,
-        call: call,
-      );
+  }) => _rateVoipCall(
+    feedback: result,
+    usedRoutes: _preservedCallSessionState.usedAudioRoutes,
+    mos: _preservedCallSessionState.mos,
+    call: call,
+  );
 
   Future<void> _callViaCallThrough(
     String destination, {
@@ -232,7 +232,7 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
   }) async {
     final shouldShowConfirmPage =
         _getUser().settings.get(AppSetting.showDialerConfirmPopup) &&
-            !showingConfirmPage;
+        !showingConfirmPage;
 
     // First request to allow to make phone calls,
     // otherwise don't show the call-through page at all.
@@ -437,8 +437,9 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
 
     // We should always be in a [CallOriginDetermined] state, but so we can
     // track if this does happen we'll add a special origin.
-    final origin =
-        state is CallOriginDetermined ? state.origin : CallOrigin.unknown;
+    final origin = state is CallOriginDetermined
+        ? state.origin
+        : CallOrigin.unknown;
 
     emit(Calling(origin: origin, voip: callSessionState));
 
@@ -446,15 +447,14 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
   }
 
   void _trackVoipCallEvent(CallSessionState callSessionState) => _trackVoipCall(
-        direction:
-            callSessionState.activeCall?.direction == CallDirection.inbound
-                ? CallDirection.inbound
-                : CallDirection.outbound,
-        usedRoutes: _preservedCallSessionState.usedAudioRoutes,
-        usedBluetoothDevices: _preservedCallSessionState.usedBluetoothDevices,
-        mos: _preservedCallSessionState.mos,
-        reason: callSessionState.activeCall?.reason,
-      );
+    direction: callSessionState.activeCall?.direction == CallDirection.inbound
+        ? CallDirection.inbound
+        : CallDirection.outbound,
+    usedRoutes: _preservedCallSessionState.usedAudioRoutes,
+    usedBluetoothDevices: _preservedCallSessionState.usedBluetoothDevices,
+    mos: _preservedCallSessionState.mos,
+    reason: callSessionState.activeCall?.reason,
+  );
 
   void _handleCallSetupEvent(
     CallerState state,
@@ -473,8 +473,9 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
     } else if (event is OutgoingCallStarted) {
       emit(
         StartingCall(
-          origin:
-              state is CallOriginDetermined ? state.origin : CallOrigin.unknown,
+          origin: state is CallOriginDetermined
+              ? state.origin
+              : CallOrigin.unknown,
           voip: callSessionState,
         ),
       );
@@ -612,9 +613,9 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
 
     final isCallRatingDue =
         _storageRepository.lastCallRatingAskedTime?.isBefore(
-              DateTime.now().subtract(_durationBetweenCallRatings),
-            ) ??
-            true;
+          DateTime.now().subtract(_durationBetweenCallRatings),
+        ) ??
+        true;
 
     if (!isCallRatingDue) return false;
 

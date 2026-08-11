@@ -13,15 +13,15 @@ abstract class BusinessAvailabilityService extends ChopperService {
   @factoryMethod
   static BusinessAvailabilityService create() {
     final brand = GetBrand()();
-    final businessAvailabilityBaseUrl =
-        brand.businessAvailabilityUrl.toString();
+    final businessAvailabilityBaseUrl = brand.businessAvailabilityUrl
+        .toString();
 
     return _$BusinessAvailabilityService(
       ChopperClient(
         baseUrl: Uri.parse(businessAvailabilityBaseUrl),
         converter: JsonConverter(),
         interceptors: [
-          AuthorizationInterceptor(onlyModernAuth: true),
+          const AuthorizationInterceptor(onlyModernAuth: true),
           ...globalInterceptors,
         ],
       ),

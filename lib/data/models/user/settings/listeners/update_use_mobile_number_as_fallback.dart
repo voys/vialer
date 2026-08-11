@@ -8,7 +8,8 @@ import '../call_setting.dart';
 import 'setting_change_listener.dart';
 
 class UpdateUseMobileNumberAsFallbackListener
-    extends SettingChangeListener<bool> with Loggable {
+    extends SettingChangeListener<bool>
+    with Loggable {
   final _authRepository = dependencyLocator<AuthRepository>();
 
   @override
@@ -18,11 +19,10 @@ class UpdateUseMobileNumberAsFallbackListener
   FutureOr<SettingChangeListenResult> applySettingsSideEffects(
     User user,
     bool value,
-  ) =>
-      changeRemoteValue(
-        () => _authRepository.setUseMobileNumberAsFallback(
-          user,
-          enable: value,
-        ),
-      );
+  ) => changeRemoteValue(
+    () => _authRepository.setUseMobileNumberAsFallback(
+      user,
+      enable: value,
+    ),
+  );
 }

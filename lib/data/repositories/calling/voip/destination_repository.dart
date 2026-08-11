@@ -32,8 +32,9 @@ class DestinationRepository with Loggable {
   Future<void> updateDestinations(Iterable<Destination> destinations) async {
     final staleDestinations = _storageRepository.availableDestinations;
 
-    _storageRepository.availableDestinations =
-        destinations.importIsOnline(staleDestinations).toList();
+    _storageRepository.availableDestinations = destinations
+        .importIsOnline(staleDestinations)
+        .toList();
   }
 
   List<Destination> get availableDestinations =>
@@ -62,55 +63,55 @@ class DestinationRepository with Loggable {
 
 extension on Destination {
   Map<String, dynamic> toPostParameters() => switch (this) {
-        PhoneAccount dest => {'phoneaccount': dest.identifier.toString()},
-        PhoneNumber dest => {'fixeddestination': dest.identifier.toString()},
-        _ => {},
-      };
+    final PhoneAccount dest => {'phoneaccount': dest.identifier.toString()},
+    final PhoneNumber dest => {'fixeddestination': dest.identifier.toString()},
+    _ => {},
+  };
 }
 
 extension on Iterable<Destination> {
   Iterable<Destination> updateIsOnline(int accountId, bool isOnline) => map(
-        (destination) => destination.map(
-          unknown: (destination) => destination,
-          notAvailable: (destination) => destination,
-          phoneNumber: (destination) => destination,
-          phoneAccount: (destination) => destination.accountId == accountId
-              ? destination.copyWith(isOnline: isOnline)
-              : destination,
-        ),
-      );
+    (destination) => destination.map(
+      unknown: (destination) => destination,
+      notAvailable: (destination) => destination,
+      phoneNumber: (destination) => destination,
+      phoneAccount: (destination) => destination.accountId == accountId
+          ? destination.copyWith(isOnline: isOnline)
+          : destination,
+    ),
+  );
 
   Iterable<Destination> importIsOnline(
     Iterable<Destination> staleDestinations,
-  ) =>
-      map((destination) {
-        if (destination is PhoneAccount) {
-          final staleDestination = staleDestinations
-              .whereType<PhoneAccount>()
-              .where((element) => element.accountId == destination.accountId)
-              .firstOrNull;
+  ) => map((destination) {
+    if (destination is PhoneAccount) {
+      final staleDestination = staleDestinations
+          .whereType<PhoneAccount>()
+          .where((element) => element.accountId == destination.accountId)
+          .firstOrNull;
 
-          if (staleDestination != null) {
-            return destination.copyWith(isOnline: staleDestination.isOnline);
-          }
-        }
+      if (staleDestination != null) {
+        return destination.copyWith(isOnline: staleDestination.isOnline);
+      }
+    }
 
-        return destination;
-      }).toList();
+    return destination;
+  }).toList();
 }
 
-extension intToDestination on int {
+extension IntToDestination on int {
   Destination asDestination() {
     late final storageRepository = dependencyLocator<StorageRepository>();
     final id = this;
 
-    if (id == Destination.notAvailable().identifier) {
-      return Destination.notAvailable();
-    } else if (id == Destination.unknown().identifier) {
-      return Destination.unknown();
+    if (id == const Destination.notAvailable().identifier) {
+      return const Destination.notAvailable();
+    } else if (id == const Destination.unknown().identifier) {
+      return const Destination.unknown();
     }
 
-    return storageRepository.availableDestinations
-        .firstWhere((destination) => id == destination.identifier);
+    return storageRepository.availableDestinations.firstWhere(
+      (destination) => id == destination.identifier,
+    );
   }
 }

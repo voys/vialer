@@ -35,8 +35,8 @@ class _AndroidFlexibleUpdateHandler implements AndroidFlexibleUpdateHandler {
   const _AndroidFlexibleUpdateHandler({
     required void Function(bool) onUpdateTypeKnown,
     required void Function() onDownloaded,
-  })  : _onUpdateTypeKnown = onUpdateTypeKnown,
-        _onDownloaded = onDownloaded;
+  }) : _onUpdateTypeKnown = onUpdateTypeKnown,
+       _onDownloaded = onDownloaded;
 
   final void Function(bool) _onUpdateTypeKnown;
   final void Function() _onDownloaded;
