@@ -122,9 +122,6 @@ dev_dependencies:
   vialer_generators:
     path: vialer_generators
 
-  vialer_cli:
-    path: vialer_cli
-
   args: any
 dependency_overrides:
   build: ^4.0.3
