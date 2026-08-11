@@ -31,7 +31,7 @@ class RemoteLoggingTile extends StatelessWidget {
         onChanged: (context, key, value) {
           // Show a popup, asking if the user wants to send their locally
           // saved logs to the remote.
-          if (value == true) {
+          if (value) {
             unawaited(
               showDialog<void>(
                 context: context,
@@ -57,10 +57,24 @@ class _RemoteLoggingSendLogsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = Text(
       context
-          .msg.main.settings.list.debug.remoteLogging.sendToRemoteDialog.title,
+          .msg
+          .main
+          .settings
+          .list
+          .debug
+          .remoteLogging
+          .sendToRemoteDialog
+          .title,
     );
     final content = Text(
-      context.msg.main.settings.list.debug.remoteLogging.sendToRemoteDialog
+      context
+          .msg
+          .main
+          .settings
+          .list
+          .debug
+          .remoteLogging
+          .sendToRemoteDialog
           .description,
     );
 
@@ -69,7 +83,14 @@ class _RemoteLoggingSendLogsDialog extends StatelessWidget {
     );
     final confirm = Text(
       context
-          .msg.main.settings.list.debug.remoteLogging.sendToRemoteDialog.confirm
+          .msg
+          .main
+          .settings
+          .list
+          .debug
+          .remoteLogging
+          .sendToRemoteDialog
+          .confirm
           .toUpperCaseIfAndroid(context),
     );
 

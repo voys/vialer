@@ -16,9 +16,8 @@ import '../../repositories/voipgrid/user_permissions.dart';
 
 @singleton
 class StorageRepository {
-  final SharedPreferences _preferences;
-
   const StorageRepository(this._preferences);
+  final SharedPreferences _preferences;
 
   // Value must stay the same, otherwise everything breaks.
   static const _userKey = 'system_user';
@@ -36,7 +35,8 @@ class StorageRepository {
     // Remove when all of the users are upgraded.
     if (json.containsKey('permissions') &&
         json['permissions'] is Map<String, dynamic>) {
-      final permissions = <Permission>{}..addAll(
+      final permissions = <Permission>{}
+        ..addAll(
           (json['permissions'] as Map<String, dynamic>).toNewPermissions(),
         );
 
@@ -136,9 +136,9 @@ class StorageRepository {
 
   Settings get previousSessionSettings =>
       _preferences.containsKey(_previousSessionSettingsKey)
-          ? jsonDecode(_preferences.getString(_previousSessionSettingsKey)!)
-              as Settings
-          : {};
+      ? jsonDecode(_preferences.getString(_previousSessionSettingsKey)!)
+            as Settings
+      : {};
 
   set previousSessionSettings(Settings? value) =>
       _preferences.setOrRemoveString(
@@ -163,9 +163,9 @@ class StorageRepository {
   }
 
   set colleagues(List<Colleague> colleagues) => _preferences.setOrRemoveString(
-        _colleaguesKey,
-        jsonEncode(colleagues),
-      );
+    _colleaguesKey,
+    jsonEncode(colleagues),
+  );
 
   static const _sharedContactsKey = 'sharedContacts';
 
@@ -191,9 +191,11 @@ class StorageRepository {
 
   static const _grantedVoipgridPermissionsKey = 'granted_voipgrid_permissions';
 
-  List<String> get grantedVoipgridPermissions => (jsonDecode(
-        _preferences.getString(_grantedVoipgridPermissionsKey) ?? '[]',
-      ) as List<dynamic>)
+  List<String> get grantedVoipgridPermissions =>
+      (jsonDecode(
+                _preferences.getString(_grantedVoipgridPermissionsKey) ?? '[]',
+              )
+              as List<dynamic>)
           .toRawPermissionsList();
 
   set grantedVoipgridPermissions(List<String> value) => _preferences
@@ -252,7 +254,7 @@ class StorageRepository {
         _recentOutgoingNumbers,
         (list) => list.map(OutgoingNumber.fromJson).toIterable(),
       ) ??
-      Iterable.empty();
+      const Iterable.empty();
 
   set recentOutgoingNumbers(Iterable<OutgoingNumber> numbers) =>
       _preferences.setOrRemoveJson<Iterable<OutgoingNumber>>(
@@ -271,11 +273,11 @@ class StorageRepository {
       _preferences.getBool(_doNotShowOutgoingNumberSelector) ?? false;
 
   set doNotShowOutgoingNumberSelector(bool value) => unawaited(
-        _preferences.setBool(
-          _doNotShowOutgoingNumberSelector,
-          value,
-        ),
-      );
+    _preferences.setBool(
+      _doNotShowOutgoingNumberSelector,
+      value,
+    ),
+  );
 
   static const _isUsingScreenReader = 'is_using_screen_reader';
 
@@ -362,9 +364,9 @@ extension on SharedPreferences {
   /// should automatically work for any Freezed model that has setup json
   /// encoding.
   void setOrRemoveObject(String key, dynamic object) => setOrRemoveString(
-        key,
-        jsonEncode(object),
-      );
+    key,
+    jsonEncode(object),
+  );
 }
 
 extension RawPermissions on List<dynamic> {

@@ -61,15 +61,16 @@ class _AlphabetListViewState extends State<AlphabetListView> {
     });
 
     final letter = _letterAtCurrentOffset(parentSize: parentSize);
-    final index = widget.children
-        .indexWhere((w) => w is GroupHeader && w.group == letter);
+    final index = widget.children.indexWhere(
+      (w) => w is GroupHeader && w.group == letter,
+    );
 
     _controller.jumpTo(index: index);
   }
 
   void _onDragCancel() => setState(() {
-        _letterMarkerVisible = false;
-      });
+    _letterMarkerVisible = false;
+  });
 
   String _letterAtCurrentOffset({required Size parentSize}) {
     final size = _sideLetterSize(parentSize);
@@ -201,7 +202,7 @@ class _SideLetter extends StatelessWidget {
         child: Text(
           letter,
           textAlign: TextAlign.center,
-          textScaler: TextScaler.linear(1),
+          textScaler: TextScaler.noScaling,
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.w500,

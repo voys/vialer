@@ -26,8 +26,8 @@ class ConnectivityCheckerCubit extends Cubit<ConnectivityState> {
       _emitBasedOnConnectivityType(await _getCurrentConnectivityType());
 
   void _emitBasedOnConnectivityType(ConnectivityType type) => emit(
-        type.isConnected ? const Connected() : const Disconnected(),
-      );
+    type.isConnected ? const Connected() : const Disconnected(),
+  );
 
   @override
   Future<void> close() async {

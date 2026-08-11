@@ -211,8 +211,10 @@ Future<void> _showInitiatingCallFailedDialog(
   message = switch (reason) {
     CallFailureReason.invalidCallState =>
       context.msg.main.call.error.voip.invalidCallState,
-    CallFailureReason.noMicrophonePermission => context.msg.main.call.error.voip
-        .noMicrophonePermission(context.brand.appName),
+    CallFailureReason.noMicrophonePermission =>
+      context.msg.main.call.error.voip.noMicrophonePermission(
+        context.brand.appName,
+      ),
     CallFailureReason.noConnectivity =>
       context.msg.main.call.error.voip.noConnectivity,
     CallFailureReason.inCall => context.msg.main.call.error.voip.inCall,
@@ -222,7 +224,7 @@ Future<void> _showInitiatingCallFailedDialog(
       context.msg.main.call.error.voip.rejectedByCallKit,
     CallFailureReason.unableToRegister =>
       context.msg.main.call.error.voip.unableToRegister,
-    CallFailureReason.unknown => context.msg.main.call.error.unknown
+    CallFailureReason.unknown => context.msg.main.call.error.unknown,
   };
 
   return _AlertDialog.show(

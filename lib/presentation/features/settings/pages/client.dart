@@ -26,8 +26,9 @@ class ClientSubPage extends StatelessWidget {
 
         return SettingsSubPage(
           cubit: cubit,
-          title:
-              context.msg.main.settings.subPage.client.title(user.client.name),
+          title: context.msg.main.settings.subPage.client.title(
+            user.client.name,
+          ),
           child: (state) {
             return ListView(
               children: [
@@ -62,19 +63,19 @@ class ClientSubPage extends StatelessWidget {
 
 extension UserPermissions on User {
   bool get canViewClientSubPage => [
-        hasPermission(Permission.canChangeTemporaryRedirect),
-        client.openingHoursModules.isNotEmpty,
-        hasPermission(Permission.canSeeClientCalls),
-        hasPermission(Permission.canViewDialPlans),
-        hasPermission(Permission.canViewStats),
-      ].hasAtLeastOne;
+    hasPermission(Permission.canChangeTemporaryRedirect),
+    client.openingHoursModules.isNotEmpty,
+    hasPermission(Permission.canSeeClientCalls),
+    hasPermission(Permission.canViewDialPlans),
+    hasPermission(Permission.canViewStats),
+  ].hasAtLeastOne;
 
   bool get canViewAtLeastOneWebView => [
-        client.openingHoursModules.isNotEmpty,
-        hasPermission(Permission.canSeeClientCalls),
-        hasPermission(Permission.canViewDialPlans),
-        hasPermission(Permission.canViewStats),
-      ].hasAtLeastOne;
+    client.openingHoursModules.isNotEmpty,
+    hasPermission(Permission.canSeeClientCalls),
+    hasPermission(Permission.canViewDialPlans),
+    hasPermission(Permission.canViewStats),
+  ].hasAtLeastOne;
 }
 
 extension on Iterable<bool> {

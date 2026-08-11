@@ -60,17 +60,16 @@ class ReleaseNotesDialog extends StatelessWidget {
 
 extension on List<String> {
   List<String> removeReleaseNotesForOtherPlatforms() => where(
-        (note) => !note
-            .toLowerCase()
-            .contains('${Platform.isIOS ? 'android' : 'ios'}:'),
-      ).toList();
+    (note) =>
+        !note.toLowerCase().contains('${Platform.isIOS ? 'android' : 'ios'}:'),
+  ).toList();
 
   List<String> removePlatformPrefix() => map(
-        (note) => note
-            .replaceFirst(
-              RegExp('(ios|android):', caseSensitive: false),
-              '',
-            )
-            .trim(),
-      ).toList();
+    (note) => note
+        .replaceFirst(
+          RegExp('(ios|android):', caseSensitive: false),
+          '',
+        )
+        .trim(),
+  ).toList();
 }

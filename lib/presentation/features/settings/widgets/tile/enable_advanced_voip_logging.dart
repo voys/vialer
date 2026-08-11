@@ -15,12 +15,24 @@ class EnableAdvancedVoipLoggingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SettingTile(
       label: Text(
-        context.msg.main.settings.list.advancedSettings
-            .enableAdvancedVoipLogging.title,
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .advancedSettings
+            .enableAdvancedVoipLogging
+            .title,
       ),
       description: Text(
-        context.msg.main.settings.list.advancedSettings
-            .enableAdvancedVoipLogging.description,
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .advancedSettings
+            .enableAdvancedVoipLogging
+            .description,
       ),
       child: BoolSettingValue(
         user.settings,

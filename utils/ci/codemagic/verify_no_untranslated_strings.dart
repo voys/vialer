@@ -70,14 +70,14 @@ extension on File {
   String get fileName => basename(path);
 
   Iterable<(String, int)> get lines => readAsLinesSync().asMap().entries.map(
-        (e) => (e.value, e.key + 1),
-      );
+    (e) => (e.value, e.key + 1),
+  );
 }
 
 extension on Map<String, List<String>> {
   Iterable<File> get messageFiles => values.flattened.map(
-        (name) => File(
-          "lib/presentation/resources/$name.yaml",
-        ),
-      );
+    (name) => File(
+      "lib/presentation/resources/$name.yaml",
+    ),
+  );
 }

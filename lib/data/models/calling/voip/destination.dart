@@ -35,11 +35,11 @@ sealed class Destination with _$Destination {
 
 extension DestinationIdentifier on Destination {
   int get identifier => map(
-        unknown: (_) => 0,
-        notAvailable: (_) => -1,
-        phoneNumber: (phoneNumber) => phoneNumber.id,
-        phoneAccount: (phoneAccount) => phoneAccount.id,
-      );
+    unknown: (_) => 0,
+    notAvailable: (_) => -1,
+    phoneNumber: (phoneNumber) => phoneNumber.id,
+    phoneAccount: (phoneAccount) => phoneAccount.id,
+  );
 }
 
 extension DestinationsList on List<Destination> {
@@ -93,11 +93,11 @@ extension DestinationsList on List<Destination> {
 
 extension IsOnline on Destination {
   bool get isOnline => map(
-        unknown: (_) => true,
-        notAvailable: (_) => true,
-        phoneNumber: (_) => true,
-        phoneAccount: (phoneAccount) => phoneAccount.isOnline,
-      );
+    unknown: (_) => true,
+    notAvailable: (_) => true,
+    phoneNumber: (_) => true,
+    phoneAccount: (phoneAccount) => phoneAccount.isOnline,
+  );
 }
 
 extension UserDestinationLookUp on Destination {
@@ -114,14 +114,16 @@ extension UserDestinationLookUp on Destination {
     final destination = switch (this) {
       Unknown() => this,
       NotAvailable() => this,
-      PhoneAccount phoneAccount => destinations
-          .whereType<PhoneAccount>()
-          .where((element) => element.accountId == phoneAccount.accountId)
-          .firstOrNull,
-      PhoneNumber phoneNumber => destinations
-          .whereType<PhoneNumber>()
-          .where((element) => element.id == phoneNumber.id)
-          .firstOrNull,
+      final PhoneAccount phoneAccount =>
+        destinations
+            .whereType<PhoneAccount>()
+            .where((element) => element.accountId == phoneAccount.accountId)
+            .firstOrNull,
+      final PhoneNumber phoneNumber =>
+        destinations
+            .whereType<PhoneNumber>()
+            .where((element) => element.id == phoneNumber.id)
+            .firstOrNull,
     };
 
     assert(

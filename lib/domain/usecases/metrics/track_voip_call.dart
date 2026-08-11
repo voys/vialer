@@ -40,13 +40,13 @@ class TrackVoipCallUseCase extends UseCase {
 extension on NetworkStatus {
   // Should be null if it's not a mobile network.
   String? toTrackString() => switch (this) {
-        NetworkStatus.mobile2G => '2G',
-        NetworkStatus.mobile3G => '3G',
-        NetworkStatus.mobile4G => '4G',
-        NetworkStatus.mobile5G => '5G',
-        NetworkStatus.otherMobile => 'other',
-        _ => null,
-      };
+    NetworkStatus.mobile2G => '2G',
+    NetworkStatus.mobile3G => '3G',
+    NetworkStatus.mobile4G => '4G',
+    NetworkStatus.mobile5G => '5G',
+    NetworkStatus.otherMobile => 'other',
+    _ => null,
+  };
 }
 
 extension CallDirectionForMetrics on CallDirection {

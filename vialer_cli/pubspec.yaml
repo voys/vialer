@@ -8,4 +8,6 @@ executables:
 dependencies:
   args: ^2.4.2
   dartx: ^1.2.0
-  austerity: ^1.2.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

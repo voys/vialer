@@ -17,8 +17,7 @@ mixin SettingKey<T extends Object> on Enum {
   static K? fromJson<K extends SettingKey>(
     String json,
     Iterable<K> all,
-  ) =>
-      all.firstWhereOrNull((k) => k.toString() == json);
+  ) => all.firstWhereOrNull((k) => k.toString() == json);
 
   @protected
   SettingValueJsonConverter<T>? get valueJsonConverter => null;

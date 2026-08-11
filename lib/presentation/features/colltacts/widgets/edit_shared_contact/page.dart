@@ -11,8 +11,8 @@ class EditSharedContactPage extends StatelessWidget {
     required this.sharedContact,
     required this.onSave,
     required this.onDelete,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final SharedContact sharedContact;
   final VoidCallback onSave;

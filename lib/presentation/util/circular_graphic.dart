@@ -3,14 +3,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 class CircularGraphic extends StatelessWidget {
-  const CircularGraphic(this.icon);
+  const CircularGraphic(this.icon, {super.key});
 
   final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    final outerCircleColor =
-        context.brand.theme.colors.primaryLight.withValues(alpha: 0.4);
+    final outerCircleColor = context.brand.theme.colors.primaryLight.withValues(
+      alpha: 0.4,
+    );
 
     return Center(
       child: Material(

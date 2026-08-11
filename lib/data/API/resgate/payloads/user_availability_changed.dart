@@ -11,8 +11,6 @@ part 'user_availability_changed.g.dart';
 abstract class UserAvailabilityChangedPayload
     with _$UserAvailabilityChangedPayload
     implements ResgatePayload {
-  const UserAvailabilityChangedPayload._();
-
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory UserAvailabilityChangedPayload({
     required String userUuid,
@@ -43,17 +41,17 @@ abstract class UserAvailabilityChangedPayload
     List<SelectedDestination> selectedDestinations,
   }) = _UserAvailabilityChangedPayload;
 
-  SelectedDestination? get selectedDestination =>
-      selectedDestinations.firstOrNull;
-
   factory UserAvailabilityChangedPayload.fromJson(Map<String, dynamic> json) =>
       _$UserAvailabilityChangedPayloadFromJson(json);
+  const UserAvailabilityChangedPayload._();
+
+  SelectedDestination? get selectedDestination =>
+      selectedDestinations.firstOrNull;
 }
 
 List<SelectedDestination> _selectedDestinationToDestinations(
   Map<String, dynamic> json,
-) =>
-    [SelectedDestination.fromJson(json)];
+) => [SelectedDestination.fromJson(json)];
 
 ColleagueAvailabilityStatus _availabilityFromJson(String? value) =>
     switch (value) {
@@ -63,7 +61,7 @@ ColleagueAvailabilityStatus _availabilityFromJson(String? value) =>
       'available_for_colleagues' =>
         ColleagueAvailabilityStatus.availableForColleagues,
       'busy' => ColleagueAvailabilityStatus.busy,
-      _ => ColleagueAvailabilityStatus.unknown
+      _ => ColleagueAvailabilityStatus.unknown,
     };
 
 List<ColleagueContext> _colleagueContextFromJson(List<dynamic> json) => json
@@ -71,7 +69,7 @@ List<ColleagueContext> _colleagueContextFromJson(List<dynamic> json) => json
       (value) => switch (value) {
         'in_call' => const ColleagueContext.inCall(),
         'ringing' => const ColleagueContext.ringing(),
-        _ => null
+        _ => null,
       },
     )
     .nonNulls
@@ -92,7 +90,7 @@ ColleagueDestinationType _colleagueDestinationTypeFromJson(String type) =>
       'app_account' => ColleagueDestinationType.app,
       'voip_account' => ColleagueDestinationType.voipAccount,
       'fixeddestination' => ColleagueDestinationType.fixed,
-      _ => ColleagueDestinationType.none
+      _ => ColleagueDestinationType.none,
     };
 
 @freezed

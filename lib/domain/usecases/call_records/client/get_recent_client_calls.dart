@@ -19,11 +19,10 @@ class GetRecentClientCallsUseCase extends UseCase {
   Future<List<ClientCallRecordWithContact>> call({
     int page = 1,
     bool onlyMissedCalls = false,
-  }) =>
-      _clientCalls
-          .getCalls(
-            page: page,
-            onlyMissedCalls: onlyMissedCalls,
-          )
-          .then((calls) => _populator.populateForClientCalls(calls));
+  }) => _clientCalls
+      .getCalls(
+        page: page,
+        onlyMissedCalls: onlyMissedCalls,
+      )
+      .then((calls) => _populator.populateForClientCalls(calls));
 }

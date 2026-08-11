@@ -20,15 +20,15 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textColor = solid ? Colors.white : context.brand.theme.colors.primary;
-    final backgroundColor =
-        solid ? context.brand.theme.colors.primary : Colors.transparent;
+    final backgroundColor = solid
+        ? context.brand.theme.colors.primary
+        : Colors.transparent;
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         backgroundColor: backgroundColor,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         side: BorderSide(
-          width: 1,
           color: context.brand.theme.colors.primary.withValues(alpha: 0.12),
         ),
       ),

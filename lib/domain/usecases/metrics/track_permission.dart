@@ -8,9 +8,8 @@ class TrackPermissionUseCase extends UseCase {
   void call({
     required String type,
     required bool granted,
-  }) =>
-      _metricsRepository.track('permission', {
-        'type': type,
-        'granted': granted,
-      });
+  }) => _metricsRepository.track('permission', {
+    'type': type,
+    'granted': granted,
+  });
 }

@@ -24,7 +24,7 @@ class RegisterDomainEventListenersUseCase extends UseCase with Loggable {
 
   void call() {
     _eventBus
-      ..on<UnauthorizedApiResponseEvent>(_logoutOnUnauthorizedResponse)
+      ..on<UnauthorizedApiResponseEvent>(_logoutOnUnauthorizedResponse.call)
       ..on<RateLimitReachedEvent>(
         (event) => _trackRateLimitedApiCalls(event.url),
       )

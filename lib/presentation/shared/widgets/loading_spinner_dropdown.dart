@@ -18,7 +18,7 @@ class LoadingSpinnerDropdown extends StatelessWidget {
         DropdownMenuItem<int>(
           value: 0,
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 24,
               height: 24,
               child: CircularProgressIndicator(
@@ -31,7 +31,6 @@ class LoadingSpinnerDropdown extends StatelessWidget {
       ],
       isExpanded: true,
       showIcon: false,
-      onChanged: null,
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' hide Colors;
-import 'package:flutter/material.dart' as MaterialColors show Colors;
+import 'package:flutter/material.dart' as material_colors show Colors;
 import 'package:vialer/presentation/resources/theme/colors.dart';
 
 import '../../../data/models/user/brand.dart';
@@ -40,11 +40,15 @@ class BrandTheme {
     borderRadius: fieldBorderRadius,
   );
 
-  late final navigationBarLabelTextStyle =
-      TextStyle(fontSize: 12, color: colors.grey6);
+  late final navigationBarLabelTextStyle = TextStyle(
+    fontSize: 12,
+    color: colors.grey6,
+  );
 
-  late final navigationBarIconThemeData =
-      IconThemeData(size: 18, color: colors.grey6);
+  late final navigationBarIconThemeData = IconThemeData(
+    size: 18,
+    color: colors.grey6,
+  );
 
   late final themeData = ThemeData(
     primaryColor: colors.primary,
@@ -68,13 +72,13 @@ class BrandTheme {
         ),
       ),
     ),
-    splashColor: MaterialColors.Colors.transparent,
+    splashColor: material_colors.Colors.transparent,
     navigationBarTheme: NavigationBarThemeData(
       indicatorColor: colors.primary,
       iconTheme: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.selected)
             ? navigationBarIconThemeData.copyWith(
-                color: MaterialColors.Colors.white,
+                color: material_colors.Colors.white,
               )
             : navigationBarIconThemeData,
       ),
@@ -107,9 +111,9 @@ extension ThemeOfBrand on Brand {
   static BrandTheme? _theme;
 
   BrandTheme get theme => _theme ??= BrandTheme(
-        FlutterColors(colors),
-        icon,
-      );
+    FlutterColors(colors),
+    icon,
+  );
 }
 
 extension BrandIcon on Brand {

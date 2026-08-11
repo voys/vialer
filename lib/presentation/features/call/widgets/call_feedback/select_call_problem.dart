@@ -51,7 +51,7 @@ class _CallProblemButton extends StatelessWidget {
       CallProblem.noAudio => strings.noAudio,
       CallProblem.audioProblem => strings.audioProblem,
       CallProblem.endedUnexpectedly => strings.endedUnexpectedly,
-      CallProblem.somethingElse => strings.somethingElse
+      CallProblem.somethingElse => strings.somethingElse,
     };
   }
 
@@ -63,7 +63,6 @@ class _CallProblemButton extends StatelessWidget {
         alignment: Alignment.centerLeft,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         side: BorderSide(
-          width: 1,
           color: context.brand.theme.colors.primary.withValues(alpha: 0.12),
         ),
       ),

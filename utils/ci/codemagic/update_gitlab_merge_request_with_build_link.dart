@@ -42,7 +42,8 @@ https://gitlab.wearespindle.com/api/v4/projects/105/merge_requests/$mergeRequest
 
   // Using a multi-line string as it is easier to read what is being produced,
   // rather than splitting it.
-  final buildInformation = '''
+  final buildInformation =
+      '''
 [Codemagic: Latest Build ($buildNumber, $_time)](https://codemagic.io/app/$projectId/build/$buildId)
 ''';
 
@@ -50,8 +51,9 @@ https://gitlab.wearespindle.com/api/v4/projects/105/merge_requests/$mergeRequest
 
   if (response.statusCode != 200) return;
 
-  final currentDescription = (jsonDecode(response.body)
-      as Map<String, dynamic>)['description'] as String;
+  final currentDescription =
+      (jsonDecode(response.body) as Map<String, dynamic>)['description']
+          as String;
 
   final newDescription = currentDescription.containsBuildInformationAlready
       ? currentDescription.replaceExistingBuildInformation(buildInformation)
@@ -77,16 +79,15 @@ Future<http.Response> _updateWithNewDescription(
   Uri url,
   Map<String, String> headers,
   String newDescription,
-) =>
-    http.put(
-      url,
-      headers: headers,
-      body: json.encode(
-        {
-          'description': newDescription,
-        },
-      ),
-    );
+) => http.put(
+  url,
+  headers: headers,
+  body: json.encode(
+    {
+      'description': newDescription,
+    },
+  ),
+);
 
 String get _time =>
-    DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now().toUtc()) + ' UTC';
+    '${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now().toUtc())} UTC';

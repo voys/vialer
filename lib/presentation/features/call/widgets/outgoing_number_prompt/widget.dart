@@ -50,8 +50,8 @@ class OutgoingNumberPrompt extends ConsumerWidget {
         ),
       ),
       child: switch (state) {
-        Failed() => _Failed(),
-        Updating() => _Updating(),
+        Failed() => const _Failed(),
+        Updating() => const _Updating(),
         Ready() => _Ready(onOutgoingNumberConfigured),
       },
     );
@@ -84,13 +84,13 @@ class _Ready extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(outgoingNumberSelectionProvider);
 
-    final callback = (OutgoingNumber outgoingNumber) => configureOutgoingNumber(
-          outgoingNumber,
-          ref,
-        );
+    void callback(OutgoingNumber outgoingNumber) => configureOutgoingNumber(
+      outgoingNumber,
+      ref,
+    );
 
     return _Layout(
-      header: Heading(),
+      header: const Heading(),
       children: [
         Column(
           children: [
@@ -107,7 +107,7 @@ class _Ready extends ConsumerWidget {
             if (!state.currentOutgoingNumber.isSuppressed) ...[
               Subheading(context.strings.suppress.title),
               OutgoingNumberItem(
-                item: OutgoingNumber.suppressed(),
+                item: const OutgoingNumber.suppressed(),
                 onOutgoingNumberSelected: callback,
                 active: false,
                 showIcon: true,
@@ -148,7 +148,7 @@ class _Updating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Information(
-      icon: Container(
+      icon: SizedBox(
         width: 24,
         height: 24,
         child: CircularProgressIndicator(color: context.colors.primary),
@@ -192,15 +192,14 @@ extension OutgoingNumberList on Iterable<OutgoingNumber> {
   List<Widget> toWidgets(
     OutgoingNumberSelectedCallback callback,
     OutgoingNumber current,
-  ) =>
-      map(
-        (item) => OutgoingNumberItem(
-          item: item,
-          onOutgoingNumberSelected: callback,
-          active: current == this,
-          showIcon: true,
-        ),
-      ).toList(growable: false);
+  ) => map(
+    (item) => OutgoingNumberItem(
+      item: item,
+      onOutgoingNumberSelected: callback,
+      active: current == item,
+      showIcon: true,
+    ),
+  ).toList(growable: false);
 }
 
 extension on BuildContext {

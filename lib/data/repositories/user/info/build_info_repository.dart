@@ -24,8 +24,9 @@ class BuildInfoRepository {
     return BuildInfo(
       version: version,
       buildNumber: info.buildNumber,
-      mergeRequestNumber:
-          mergeRequestNumber?.isNotEmpty ?? false ? mergeRequestNumber : null,
+      mergeRequestNumber: mergeRequestNumber?.isNotEmpty ?? false
+          ? mergeRequestNumber
+          : null,
       branchName: branch?.isNotEmpty ?? false ? branch : null,
       tag: tag?.isNotEmpty ?? false ? tag : null,
       packageName: info.packageName,

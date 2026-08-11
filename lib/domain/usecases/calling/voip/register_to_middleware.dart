@@ -16,6 +16,7 @@ import 'get_has_voip_enabled.dart';
 
 @injectable
 class RegisterToMiddlewareUseCase extends UseCase {
+  RegisterToMiddlewareUseCase(this._storageRepository);
   final StorageRepository _storageRepository;
 
   final _getHasVoipEnabled = GetHasVoipEnabledUseCase();
@@ -24,8 +25,6 @@ class RegisterToMiddlewareUseCase extends UseCase {
   final _getUser = GetLoggedInUserUseCase();
 
   final _middleware = MiddlewareRegistrar();
-
-  RegisterToMiddlewareUseCase(this._storageRepository);
 
   Future<void> call() async {
     if (await _isLoggedInSomewhereElse()) {
@@ -68,8 +67,9 @@ class RegisterToMiddlewareUseCase extends UseCase {
       return;
     }
 
-    final environment =
-        GetBrand()().identifier == 'vialerStaging' ? 'staging' : 'production';
+    final environment = GetBrand()().identifier == 'vialerStaging'
+        ? 'staging'
+        : 'production';
     final device = Platform.isAndroid ? 'android-device' : 'apns-device';
 
     final urls = [

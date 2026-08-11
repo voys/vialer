@@ -17,8 +17,8 @@ extension ThirdPartyCallRecord on CallRecord {
   bool get isAnonymous => thirdPartyNumber.trim().toLowerCase() == 'anonymous';
 
   Contact? get thirdPartyContact => switch (this) {
-    CallRecordWithContact record => record.contact,
-    ClientCallRecordWithContact record =>
+    final CallRecordWithContact record => record.contact,
+    final ClientCallRecordWithContact record =>
       isInbound ? record.callerContact : record.destinationContact,
     _ => null,
   };

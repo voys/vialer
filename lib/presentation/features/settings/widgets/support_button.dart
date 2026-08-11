@@ -15,7 +15,7 @@ class SupportButton extends StatelessWidget {
       child: SettingsButton(
         text: context.msg.main.settings.support.button.title,
         icon: FontAwesomeIcons.headset,
-        onPressed: LaunchSupportPage(),
+        onPressed: LaunchSupportPage().call,
       ),
     );
   }

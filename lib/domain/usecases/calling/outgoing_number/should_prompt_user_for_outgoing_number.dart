@@ -39,6 +39,6 @@ class ShouldPromptUserForOutgoingNumber extends UseCase with Loggable {
   }
 
   void _log(String reason) => logger.info(
-        'Skipping outgoing number prompt due to [$reason].',
-      );
+    'Skipping outgoing number prompt due to [$reason].',
+  );
 }

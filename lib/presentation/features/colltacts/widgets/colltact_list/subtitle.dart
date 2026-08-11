@@ -73,7 +73,7 @@ class ColltactSubtitle extends StatelessWidget {
   ) {
     final recentStatus = colleaguesUpToDate
         ? colleague.mostRelevantContextText(context) ??
-            colleague.availabilityText(context)
+              colleague.availabilityText(context)
         : context.msg.main.colleagues.status.notUpToDate;
 
     if (recentStatus == null && colleague.number != null) {
@@ -120,38 +120,37 @@ class ColltactSubtitle extends StatelessWidget {
 
 extension on Colleague {
   String? mostRelevantContextText(BuildContext context) => map(
-        (colleague) => colleague.context.firstOrNull?.text(context),
-        unconnectedVoipAccount: (_) => null,
-      );
+    (colleague) => colleague.context.firstOrNull?.text(context),
+    unconnectedVoipAccount: (_) => null,
+  );
 
   String? availabilityText(BuildContext context) => map(
-        (colleague) => colleague.isAvailableOnMobileAppOrFixedDestination
-            ? context.msg.main.colleagues.status.available
-            : colleague.status?.text(context),
-        unconnectedVoipAccount: (_) => null,
-      );
+    (colleague) => colleague.isAvailableOnMobileAppOrFixedDestination
+        ? context.msg.main.colleagues.status.available
+        : colleague.status?.text(context),
+    unconnectedVoipAccount: (_) => null,
+  );
 }
 
 extension on ColleagueContext {
   String text(BuildContext context) => when(
-        ringing: () => context.msg.main.colleagues.context.ringing,
-        inCall: () => context.msg.main.colleagues.context.inCall,
-      );
+    ringing: () => context.msg.main.colleagues.context.ringing,
+    inCall: () => context.msg.main.colleagues.context.inCall,
+  );
 }
 
 extension on ColleagueAvailabilityStatus {
   String text(BuildContext context) => switch (this) {
-        ColleagueAvailabilityStatus.doNotDisturb =>
-          context.msg.main.colleagues.status.doNotDisturb,
-        ColleagueAvailabilityStatus.offline =>
-          context.msg.main.colleagues.status.offline,
-        ColleagueAvailabilityStatus.available =>
-          context.msg.main.colleagues.status.available,
-        ColleagueAvailabilityStatus.availableForColleagues =>
-          context.msg.main.colleagues.status.availableInternally,
-        ColleagueAvailabilityStatus.busy =>
-          context.msg.main.colleagues.status.busy,
-        ColleagueAvailabilityStatus.unknown =>
-          context.msg.main.colleagues.status.unknown
-      };
+    ColleagueAvailabilityStatus.doNotDisturb =>
+      context.msg.main.colleagues.status.doNotDisturb,
+    ColleagueAvailabilityStatus.offline =>
+      context.msg.main.colleagues.status.offline,
+    ColleagueAvailabilityStatus.available =>
+      context.msg.main.colleagues.status.available,
+    ColleagueAvailabilityStatus.availableForColleagues =>
+      context.msg.main.colleagues.status.availableInternally,
+    ColleagueAvailabilityStatus.busy => context.msg.main.colleagues.status.busy,
+    ColleagueAvailabilityStatus.unknown =>
+      context.msg.main.colleagues.status.unknown,
+  };
 }

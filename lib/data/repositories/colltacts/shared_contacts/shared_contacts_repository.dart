@@ -99,8 +99,8 @@ extension on Iterable<SharedContact> {
   /// at some point. This isn't an actual contact and should therefore always
   /// be removed.
   Iterable<SharedContact> withoutNonContacts() => filterNot(
-        (contact) => contact.givenName == _unlinkedVoipAccountName,
-      );
+    (contact) => contact.givenName == _unlinkedVoipAccountName,
+  );
 }
 
 const _unlinkedVoipAccountName = '__UNLINKED_VOIP_ACCOUNTS__';

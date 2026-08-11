@@ -10,18 +10,18 @@ import 'state.dart';
 export 'state.dart';
 
 class MobileNumberCubit extends Cubit<MobileNumberState> {
-  late final _validatesPhoneNumber = StrictlyValidateMobilePhoneNumber();
-
   MobileNumberCubit()
-      : super(
-          MobileNumberState(
-            GetLoggedInUserUseCase()().settings.get(CallSetting.mobileNumber),
-          ),
-        );
+    : super(
+        MobileNumberState(
+          GetLoggedInUserUseCase()().settings.get(CallSetting.mobileNumber),
+        ),
+      );
+  late final _validatesPhoneNumber = StrictlyValidateMobilePhoneNumber();
   final _changeSetting = ChangeSettingUseCase();
 
   Future<void> changeMobileNumber(String mobileNumber) async {
-    final accepted = mobileNumber == '' ||
+    final accepted =
+        mobileNumber == '' ||
         await _changeSetting(CallSetting.mobileNumber, mobileNumber) !=
             SettingChangeResult.failed;
 

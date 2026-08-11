@@ -18,7 +18,7 @@ import 'client.dart';
 import 'user.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({required this.navigatorKey, super.key});
+  const SettingsPage({required this.navigatorKey, super.key});
 
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -86,14 +86,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           const Divider(),
                           SubPageLinkTile(
                             title: context
-                                .msg.main.settings.subPage.appPreferences.title,
+                                .msg
+                                .main
+                                .settings
+                                .subPage
+                                .appPreferences
+                                .title,
                             icon: FontAwesomeIcons.solidMobileNotch,
                             cubit: cubit,
                             pageBuilder: (_) => const AppPreferencesSubPage(),
                           ),
                           SubPageLinkTile(
-                            title: context.msg.main.settings.subPage.user
-                                .title(user.fullName),
+                            title: context.msg.main.settings.subPage.user.title(
+                              user.fullName,
+                            ),
                             icon: FontAwesomeIcons.circleUser,
                             cubit: cubit,
                             pageBuilder: (_) => const UserSubPage(),
@@ -108,7 +114,12 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           SubPageLinkTile(
                             title: context
-                                .msg.main.settings.subPage.aboutTheApp.title,
+                                .msg
+                                .main
+                                .settings
+                                .subPage
+                                .aboutTheApp
+                                .title,
                             icon: FontAwesomeIcons.circleInfo,
                             cubit: cubit,
                             pageBuilder: (_) => const AboutTheAppSubPage(),

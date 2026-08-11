@@ -12,20 +12,21 @@ class Clipboard extends _$Clipboard {
   late final _hasPhoneNumberFromClipboardUseCase =
       HasPhoneNumberFromClipboardUseCase();
 
-  ClipboardState build() => ClipboardState.initial();
+  @override
+  ClipboardState build() => const ClipboardState.initial();
 
   Future<void> getPhoneNumberFromClipboard() async {
-    state = ClipboardState.loading();
+    state = const ClipboardState.loading();
     final number = await _getPhoneNumberFromClipboardUseCase();
     state = number != null
         ? ClipboardState.success(number)
-        : ClipboardState.unavailable();
+        : const ClipboardState.unavailable();
   }
 
   Future<void> hasPhoneNumberFromClipboard() =>
       _hasPhoneNumberFromClipboardUseCase().then((hasPhoneNumber) {
-        state = hasPhoneNumber == true
-            ? ClipboardState.hasPhoneNumber()
-            : ClipboardState.unavailable();
+        state = hasPhoneNumber
+            ? const ClipboardState.hasPhoneNumber()
+            : const ClipboardState.unavailable();
       });
 }

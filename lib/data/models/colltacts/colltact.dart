@@ -20,24 +20,25 @@ sealed class Colltact with _$Colltact {
       ColltactSharedContact;
 
   String get name => switch (this) {
-        ColltactColleague colleague => colleague.colleague.name,
-        ColltactContact contact => contact.contact.displayName,
-        ColltactSharedContact sharedContact =>
-          sharedContact.contact.displayName,
-      };
+    final ColltactColleague colleague => colleague.colleague.name,
+    final ColltactContact contact => contact.contact.displayName,
+    final ColltactSharedContact sharedContact =>
+      sharedContact.contact.displayName,
+  };
 
   String Function(ContactSort) get getSortKey => when(
-        colleague: (colleague) => (_) => colleague.name.toLowerCase(),
-        contact: (contact) {
-          return (contactSort) {
-            final sortKey = contactSort.orderBy == OrderBy.familyName
-                ? contact.familyName
-                : contact.givenName ?? contact.displayName;
+    colleague: (colleague) =>
+        (_) => colleague.name.toLowerCase(),
+    contact: (contact) {
+      return (contactSort) {
+        final sortKey = contactSort.orderBy == OrderBy.familyName
+            ? contact.familyName
+            : contact.givenName ?? contact.displayName;
 
-            return sortKey?.toLowerCase() ?? '';
-          };
-        },
-        sharedContact: (sharedContact) =>
-            (_) => sharedContact.displayName.toLowerCase(),
-      );
+        return sortKey?.toLowerCase() ?? '';
+      };
+    },
+    sharedContact: (sharedContact) =>
+        (_) => sharedContact.displayName.toLowerCase(),
+  );
 }

@@ -8,11 +8,11 @@ export 'state.dart';
 
 class DialerCubit extends Cubit<DialerState> {
   DialerCubit(this._caller)
-      : super(
-          DialerState(
-            lastCalledDestination: GetLatestDialedNumberUseCase()(),
-          ),
-        );
+    : super(
+        DialerState(
+          lastCalledDestination: GetLatestDialedNumberUseCase()(),
+        ),
+      );
   final _getLatestDialedNumber = GetLatestDialedNumberUseCase();
 
   final CallerCubit _caller;

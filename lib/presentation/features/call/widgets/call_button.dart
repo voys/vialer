@@ -126,7 +126,7 @@ class CallButton extends StatelessWidget {
             backgroundColor: onPressed != null
                 ? backgroundColor
                 : context.brand.theme.colors.grey3,
-            shape: CircleBorder(),
+            shape: const CircleBorder(),
             child: FaIcon(
               icon,
               size: 24,

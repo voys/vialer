@@ -19,8 +19,7 @@ class ColltactDetailsCubit extends Cubit<ColltactDetailsState> {
   Future<void> call(
     String destination, {
     CallOrigin origin = CallOrigin.contacts,
-  }) =>
-      _caller.call(destination, origin: origin);
+  }) => _caller.call(destination, origin: origin);
 
   void mail(String destination) {
     unawaited(launchUrlString('mailto:$destination'));

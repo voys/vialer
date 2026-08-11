@@ -21,29 +21,57 @@ class SystemSubPage extends StatelessWidget {
 
         return SettingsSubPage(
           cubit: cubit,
-          title: context.msg.main.settings.list.advancedSettings.troubleshooting
-              .system.title,
+          title: context
+              .msg
+              .main
+              .settings
+              .list
+              .advancedSettings
+              .troubleshooting
+              .system
+              .title,
           child: (state) {
             return ListView(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
                 SubPageLinkTile(
-                  title: context.msg.main.settings.list.advancedSettings
-                      .troubleshooting.logs.title,
+                  title: context
+                      .msg
+                      .main
+                      .settings
+                      .list
+                      .advancedSettings
+                      .troubleshooting
+                      .logs
+                      .title,
                   icon: FontAwesomeIcons.scroll,
                   cubit: cubit,
                   pageBuilder: (_) => const LogSubPage(),
                 ),
                 SubPageLinkTile(
-                  title: context.msg.main.settings.list.advancedSettings
-                      .troubleshooting.featureFlags.title,
+                  title: context
+                      .msg
+                      .main
+                      .settings
+                      .list
+                      .advancedSettings
+                      .troubleshooting
+                      .featureFlags
+                      .title,
                   icon: FontAwesomeIcons.flag,
                   cubit: cubit,
                   pageBuilder: (_) => const FeatureFlagsSubPage(),
                 ),
                 SubPageLinkTile(
-                  title: context.msg.main.settings.list.advancedSettings
-                      .troubleshooting.versionInfo.title,
+                  title: context
+                      .msg
+                      .main
+                      .settings
+                      .list
+                      .advancedSettings
+                      .troubleshooting
+                      .versionInfo
+                      .title,
                   icon: FontAwesomeIcons.codeFork,
                   cubit: cubit,
                   pageBuilder: (_) => const VersionInfoSubPage(),

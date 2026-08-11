@@ -7,13 +7,13 @@ class TrackT9Usage extends UseCase {
   final _metricsRepository = dependencyLocator<MetricsRepository>();
 
   Future<void> call(Colltact colltact) async => _metricsRepository.track(
-        'contact-t9-selected',
-        {
-          'type': switch (colltact) {
-            ColltactColleague() => 'colleague',
-            ColltactContact() => 'contact',
-            ColltactSharedContact() => 'sharedContact',
-          },
-        },
-      );
+    'contact-t9-selected',
+    {
+      'type': switch (colltact) {
+        ColltactColleague() => 'colleague',
+        ColltactContact() => 'contact',
+        ColltactSharedContact() => 'sharedContact',
+      },
+    },
+  );
 }

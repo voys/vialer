@@ -20,26 +20,27 @@ class ColltactBlocBuilder extends StatelessWidget {
     return BlocBuilder<ContactsCubit, ContactsState>(
       builder: (context, contactsState) =>
           BlocBuilder<ColleaguesCubit, ColleaguesState>(
-        builder: (context, colleaguesState) =>
-            BlocBuilder<SharedContactsCubit, SharedContactsState>(
-          builder: (context, sharedContactsState) => builder(
-            ColltactBlocBuilderContainer(
-              contactsCubit: context.watch<ContactsCubit>(),
-              contactsState: contactsState,
-              colleaguesCubit: context.watch<ColleaguesCubit>(),
-              colleaguesState: colleaguesState,
-              sharedContactsCubit: context.watch<SharedContactsCubit>(),
-              sharedContactsState: sharedContactsState,
-            ),
+            builder: (context, colleaguesState) =>
+                BlocBuilder<SharedContactsCubit, SharedContactsState>(
+                  builder: (context, sharedContactsState) => builder(
+                    ColltactBlocBuilderContainer(
+                      contactsCubit: context.watch<ContactsCubit>(),
+                      contactsState: contactsState,
+                      colleaguesCubit: context.watch<ColleaguesCubit>(),
+                      colleaguesState: colleaguesState,
+                      sharedContactsCubit: context.watch<SharedContactsCubit>(),
+                      sharedContactsState: sharedContactsState,
+                    ),
+                  ),
+                ),
           ),
-        ),
-      ),
     );
   }
 }
 
 @freezed
-abstract class ColltactBlocBuilderContainer with _$ColltactBlocBuilderContainer {
+abstract class ColltactBlocBuilderContainer
+    with _$ColltactBlocBuilderContainer {
   const factory ColltactBlocBuilderContainer({
     required ContactsCubit contactsCubit,
     required ContactsState contactsState,

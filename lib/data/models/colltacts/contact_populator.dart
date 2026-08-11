@@ -24,7 +24,8 @@ class CallRecordContactPopulator {
     final sharedContacts = await _getSharedContactPhoneNumberMap();
 
     return callRecords.map((call) {
-      final contact = contacts.findForVariations(call.lookupVariations) ??
+      final contact =
+          contacts.findForVariations(call.lookupVariations) ??
           sharedContacts.findForVariations(call.lookupVariations);
 
       return call.withContact(contact);
@@ -44,9 +45,11 @@ class CallRecordContactPopulator {
           call.destination.number,
         );
 
-        final caller = contacts.findForVariations(callerVariations) ??
+        final caller =
+            contacts.findForVariations(callerVariations) ??
             sharedContacts.findForVariations(callerVariations);
-        final destination = contacts.findForVariations(destinationVariations) ??
+        final destination =
+            contacts.findForVariations(destinationVariations) ??
             sharedContacts.findForVariations(destinationVariations);
 
         return call.withContact(
@@ -117,23 +120,23 @@ extension on Map<String, Contact> {
 
 extension on SharedContact {
   Contact toContact() => Contact(
-        givenName: givenName,
-        middleName: '',
-        familyName: familyName,
-        chosenName: displayName,
-        avatarPath: null,
-        phoneNumbers: phoneNumbers
-            .map(
-              (e) => Item(
-                label: '',
-                value: e.phoneNumberFlat,
-              ),
-            )
-            .toList(),
-        emails: [],
-        identifier: id,
-        company: companyName,
-      );
+    givenName: givenName,
+    middleName: '',
+    familyName: familyName,
+    chosenName: displayName,
+    avatarPath: null,
+    phoneNumbers: phoneNumbers
+        .map(
+          (e) => Item(
+            label: '',
+            value: e.phoneNumberFlat,
+          ),
+        )
+        .toList(),
+    emails: [],
+    identifier: id,
+    company: companyName,
+  );
 }
 
 extension on CallRecord {

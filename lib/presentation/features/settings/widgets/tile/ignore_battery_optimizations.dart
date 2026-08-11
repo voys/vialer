@@ -22,7 +22,13 @@ class IgnoreBatteryOptimizationsTile extends StatelessWidget {
         context.msg.main.settings.list.calling.ignoreBatteryOptimizations.title,
       ),
       description: Text(
-        context.msg.main.settings.list.calling.ignoreBatteryOptimizations
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .calling
+            .ignoreBatteryOptimizations
             .description,
       ),
       child: StylizedSwitch(

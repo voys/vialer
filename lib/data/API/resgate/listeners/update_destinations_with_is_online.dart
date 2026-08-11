@@ -24,8 +24,8 @@ class UpdateDestinationWithIsOnline extends ResgateListener<DevicePayload>
 
   @override
   String get resourceToSubscribeTo => createRid(
-        (user, client) => 'availability.client.$client.user.$user.device',
-      );
+    (user, client) => 'availability.client.$client.user.$user.device',
+  );
 
   @override
   RegExp get resourceToHandle => RegExp(resourceToSubscribeTo + r'.[0-9]+$');

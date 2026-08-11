@@ -9,15 +9,14 @@ import '../../../../presentation/util/pigeon.dart';
 
 @injectable
 class PropagateSharedContacts extends UseCase with Loggable {
-  final SharedContacts _nativeSharedContacts;
-  final VoipRepository _voipRepository;
-  final GetLoggedInUserUseCase _getUser;
-
   PropagateSharedContacts(
     this._nativeSharedContacts,
     this._voipRepository,
     this._getUser,
   );
+  final SharedContacts _nativeSharedContacts;
+  final VoipRepository _voipRepository;
+  final GetLoggedInUserUseCase _getUser;
 
   Future<void> call(
     Iterable<SharedContact> previous,

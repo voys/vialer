@@ -25,9 +25,9 @@ abstract class VoipgridPhoneAccount extends VoipgridDestination
 
   @override
   Destination toDestination() => Destination.phoneAccount(
-        id!,
-        description,
-        accountId,
-        internalNumber,
-      );
+    id!,
+    description,
+    accountId,
+    internalNumber,
+  );
 }

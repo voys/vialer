@@ -72,10 +72,11 @@ class CountriesCubit extends Cubit<CountryFieldState> {
 
     // We're going to wait for the countries to be loaded before we continue
     // otherwise we won't get a result.
-    final state = (this.state is CountriesLoaded
-            ? this.state
-            : await stream.firstWhere((state) => state is CountriesLoaded))
-        as CountriesLoaded;
+    final state =
+        (this.state is CountriesLoaded
+                ? this.state
+                : await stream.firstWhere((state) => state is CountriesLoaded))
+            as CountriesLoaded;
 
     var countryCode = await _getCountryCode(queryNumber ?? mobileNumber);
 
@@ -95,10 +96,9 @@ class CountriesCubit extends Cubit<CountryFieldState> {
   String? _getCountryCode(String number) {
     if (!number.startsWith('+') && number.length <= 10) return null;
 
-    return formatNumberSync(number)
-        .split(' ')
-        .firstOrNull
-        ?.replaceFirst('+', '');
+    return formatNumberSync(
+      number,
+    ).split(' ').firstOrNull?.replaceFirst('+', '');
   }
 }
 

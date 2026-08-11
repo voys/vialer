@@ -15,12 +15,12 @@ sealed class WebViewState with _$WebViewState {
   }) = LoadWebViewError;
 
   bool get isLoaded => switch (this) {
-        LoadedUrl() || LoadedWebView() => true,
-        _ => false,
-      };
+    LoadedUrl() || LoadedWebView() => true,
+    _ => false,
+  };
 
   String get url => switch (this) {
-        LoadedUrl() || LoadedWebView() => url,
-        _ => '',
-      };
+    LoadedUrl(:final url) || LoadedWebView(:final url) => url,
+    _ => '',
+  };
 }

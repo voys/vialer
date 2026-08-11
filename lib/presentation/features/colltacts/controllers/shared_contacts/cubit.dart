@@ -21,10 +21,10 @@ class SharedContactsCubit extends Cubit<SharedContactsState>
     unawaited(loadSharedContacts());
 
     onEventUntilCubitClosed<UserWasLoggedOutEvent>((_) {
-      emit(SharedContactsState.loading());
+      emit(const SharedContactsState.loading());
     });
     onEventUntilCubitClosed<UserLoggedIn>(
-      (_) => loadSharedContacts(fullRefresh: false),
+      (_) => loadSharedContacts(),
     );
   }
 
@@ -42,22 +42,24 @@ class SharedContactsCubit extends Cubit<SharedContactsState>
       emit(const SharedContactsState.loading());
     }
 
-    _sharedContacts =
-        await _getSharedContacts(forceSharedContactsRefresh: fullRefresh);
+    _sharedContacts = await _getSharedContacts(
+      forceSharedContactsRefresh: fullRefresh,
+    );
 
     emit(SharedContactsState.loaded(sharedContacts: _sharedContacts));
   }
 
   Colltact refreshColltactSharedContact(Colltact colltact) {
     if (state is SharedContactsLoaded && colltact is ColltactSharedContact) {
-      final sharedContact =
-          (state as SharedContactsLoaded).sharedContacts.firstWhereOrNull(
-                (sharedContact) =>
-                    sharedContact.id ==
-                    (colltact as ColltactSharedContact).contact.id,
-              );
-      if (sharedContact != null)
+      final sharedContact = (state as SharedContactsLoaded).sharedContacts
+          .firstWhereOrNull(
+            (sharedContact) =>
+                sharedContact.id ==
+                (colltact as ColltactSharedContact).contact.id,
+          );
+      if (sharedContact != null) {
         colltact = Colltact.sharedContact(sharedContact);
+      }
     }
     return colltact;
   }

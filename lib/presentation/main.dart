@@ -158,29 +158,29 @@ class _AppState extends State<App> {
   /// response. For example, the user should be forced back to the onboarding
   /// screen whenever they are logged out.
   void _listenForEvents() => _eventBus.on<UserWasLoggedOutEvent>((event) {
-        final context = _navigatorKey.currentContext;
+    final context = _navigatorKey.currentContext;
 
-        if (context == null) return;
+    if (context == null) return;
 
-        late Route<dynamic> currentRoute;
+    late Route<dynamic> currentRoute;
 
-        Navigator.popUntil(context, (route) {
-          currentRoute = route;
-          return route.settings.name == Routes.onboarding;
-        });
+    Navigator.popUntil(context, (route) {
+      currentRoute = route;
+      return route.settings.name == Routes.onboarding;
+    });
 
-        // We check if we're already at the onboarding page, otherwise
-        // a GlobalKey is used twice. It's possible to be logged out
-        // while we're still onboarding. This will happen if the user starts
-        // the app but didn't finish onboarding last time.
-        if (currentRoute.settings.name == Routes.onboarding) return;
+    // We check if we're already at the onboarding page, otherwise
+    // a GlobalKey is used twice. It's possible to be logged out
+    // while we're still onboarding. This will happen if the user starts
+    // the app but didn't finish onboarding last time.
+    if (currentRoute.settings.name == Routes.onboarding) return;
 
-        unawaited(
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            Routes.onboarding,
-            (r) => false,
-          ),
-        );
-      });
+    unawaited(
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        Routes.onboarding,
+        (r) => false,
+      ),
+    );
+  });
 }

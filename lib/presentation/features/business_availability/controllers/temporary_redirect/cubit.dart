@@ -28,8 +28,9 @@ class TemporaryRedirectCubit extends Cubit<TemporaryRedirectState>
   void _emitInitialState([TemporaryRedirect? temporaryRedirect]) {
     final user = _getUser();
 
-    final availableDestinations = user.client.voicemailAccounts
-        .map(TemporaryRedirectDestination.voicemail);
+    final availableDestinations = user.client.voicemailAccounts.map(
+      TemporaryRedirectDestination.voicemail,
+    );
 
     temporaryRedirect ??= user.client.currentTemporaryRedirect;
 
@@ -48,20 +49,19 @@ class TemporaryRedirectCubit extends Cubit<TemporaryRedirectState>
   Future<void> startOrUpdateCurrentTemporaryRedirect(
     TemporaryRedirectDestination destination,
     DateTime until,
-  ) async =>
-      state.map(
-        none: (_) => destination.map(
-          voicemail: (voicemail) => _startTemporaryRedirect(
-            voicemailAccount: voicemail.voicemailAccount,
-            endingAt: until,
-          ),
-          unknown: (_) => throw UnableToRedirectToUnknownDestination(),
-        ),
-        active: (state) => _changeCurrentTemporaryRedirect(
-          temporaryRedirect: state.redirect.copyWith(
-            destination: destination,
-            endsAt: until,
-          ),
-        ),
-      );
+  ) async => state.map(
+    none: (_) => destination.map(
+      voicemail: (voicemail) => _startTemporaryRedirect(
+        voicemailAccount: voicemail.voicemailAccount,
+        endingAt: until,
+      ),
+      unknown: (_) => throw UnableToRedirectToUnknownDestination(),
+    ),
+    active: (state) => _changeCurrentTemporaryRedirect(
+      temporaryRedirect: state.redirect.copyWith(
+        destination: destination,
+        endsAt: until,
+      ),
+    ),
+  );
 }

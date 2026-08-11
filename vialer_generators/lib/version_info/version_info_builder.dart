@@ -136,6 +136,6 @@ extension on Map<String, List<String>> {
       throw StateError('Only simple 1-1 build paths are supported.');
     }
 
-    return '${keys.first.replaceAll('\$', '')}/${values.first.first}';
+    return '${keys.first.replaceAll(r'$', '')}/${values.first.first}';
   }
 }

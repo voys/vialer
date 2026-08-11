@@ -13,12 +13,11 @@ class TrackLoginUseCase extends UseCase {
   Future<void> call({
     required bool usedTwoFactor,
     required bool isLoginFromLegacyApp,
-  }) async =>
-      _metricsRepository.track('user-logged-in', {
-        'two-factor': usedTwoFactor,
-        'is-login-from-legacy-app': isLoginFromLegacyApp,
-        'is_ignoring_battery_optimizations': await _getPermissionStatus(
-          permission: Permission.ignoreBatteryOptimizations,
-        ).then((status) => status.wasGranted),
-      });
+  }) async => _metricsRepository.track('user-logged-in', {
+    'two-factor': usedTwoFactor,
+    'is-login-from-legacy-app': isLoginFromLegacyApp,
+    'is_ignoring_battery_optimizations': await _getPermissionStatus(
+      permission: Permission.ignoreBatteryOptimizations,
+    ).then((status) => status.wasGranted),
+  });
 }

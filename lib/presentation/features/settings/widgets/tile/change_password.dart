@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/features/settings/pages/change_password_page.dart';
 import 'package:vialer/presentation/features/settings/widgets/settings_button.dart';
+import 'package:vialer/presentation/resources/localizations.dart';
 
 import '../../../../../../data/models/user/user.dart';
 import 'category/widget.dart';
-import 'package:vialer/presentation/resources/localizations.dart';
 
 class ChangePasswordTile extends StatelessWidget {
   const ChangePasswordTile(this.user, {super.key});
@@ -24,7 +24,7 @@ class ChangePasswordTile extends StatelessWidget {
             context,
             MaterialPageRoute<void>(
               builder: (_) {
-                return ChangePasswordPage();
+                return const ChangePasswordPage();
               },
             ),
           ),

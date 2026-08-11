@@ -7,7 +7,7 @@ export 'state.dart';
 
 class BrandProviderCubit extends Cubit<BrandProviderState> {
   BrandProviderCubit()
-      : super(
-          BrandProviderState(GetBrand()()),
-        );
+    : super(
+        BrandProviderState(GetBrand()()),
+      );
 }

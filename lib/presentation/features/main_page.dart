@@ -81,7 +81,9 @@ class MainPageState extends ConsumerState<MainPage> {
 
     final navigator = Navigator.of(_navigatorKey.currentContext!);
 
-    while (navigator.canPop()) navigator.pop();
+    while (navigator.canPop()) {
+      navigator.pop();
+    }
   }
 
   @override
@@ -116,8 +118,9 @@ class MainPageState extends ConsumerState<MainPage> {
         listPadding: !_dialerIsPage
             ? const EdgeInsets.only(bottom: 96)
             : EdgeInsets.zero,
-        snackBarPadding:
-            !_dialerIsPage ? const EdgeInsets.only(right: 72) : EdgeInsets.zero,
+        snackBarPadding: !_dialerIsPage
+            ? const EdgeInsets.only(right: 72)
+            : EdgeInsets.zero,
       ),
       SettingsPage(navigatorKey: _navigatorKey),
     ];
@@ -136,43 +139,42 @@ class MainPageState extends ConsumerState<MainPage> {
           (child) => SurveyTriggerer(child: child),
           (child) => AppUpdateChecker.create(child: child),
           (child) => BlocProvider<SettingsCubit>(
-                create: (_) => SettingsCubit(),
+            create: (_) => SettingsCubit(),
+            child: child,
+          ),
+          (child) => MultiWidgetChildWithDependencies(
+            builder: (context) {
+              return BlocProvider<UserAvailabilityStatusCubit>(
+                create: (_) => UserAvailabilityStatusCubit(
+                  context.watch<SettingsCubit>(),
+                ),
                 child: child,
-              ),
+              );
+            },
+          ),
           (child) => MultiWidgetChildWithDependencies(
-                builder: (context) {
-                  return BlocProvider<UserAvailabilityStatusCubit>(
-                    create: (_) => UserAvailabilityStatusCubit(
-                      context.watch<SettingsCubit>(),
-                    ),
-                    child: child,
-                  );
-                },
-              ),
-          (child) => MultiWidgetChildWithDependencies(
-                builder: (context) {
-                  return BlocProvider<ColleaguesCubit>(
-                    create: (_) =>
-                        ColleaguesCubit(context.watch<CallerCubit>()),
-                    child: child,
-                  );
-                },
-              ),
+            builder: (context) {
+              return BlocProvider<ColleaguesCubit>(
+                create: (_) => ColleaguesCubit(context.watch<CallerCubit>()),
+                child: child,
+              );
+            },
+          ),
           (child) => Builder(
-                builder: (context) {
-                  return BlocProvider<ColltactsTabsCubit>(
-                    create: (_) => ColltactsTabsCubit(
-                      context.watch<ContactsCubit>(),
-                      context.watch<ColleaguesCubit>(),
-                      context.watch<SharedContactsCubit>(),
-                    ),
-                    child: child,
-                  );
-                },
-              ),
-          (child) => BuildWebSocketDependantCubitsThenConnect(
+            builder: (context) {
+              return BlocProvider<ColltactsTabsCubit>(
+                create: (_) => ColltactsTabsCubit(
+                  context.watch<ContactsCubit>(),
+                  context.watch<ColleaguesCubit>(),
+                  context.watch<SharedContactsCubit>(),
+                ),
                 child: child,
-              ),
+              );
+            },
+          ),
+          (child) => BuildWebSocketDependantCubitsThenConnect(
+            child: child,
+          ),
         ],
         Scaffold(
           resizeToAvoidBottomInset: _isOnProfilePage,
@@ -200,7 +202,7 @@ class MainPageState extends ConsumerState<MainPage> {
                           onPressed: () => unawaited(
                             Navigator.pushNamed(context, Routes.dialer),
                           ),
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           child: const Icon(
                             Icons.dialpad,
                             size: 31,
@@ -401,8 +403,8 @@ class _Keys {
 /// listening for events before we connect to the WebSocket.
 class BuildWebSocketDependantCubitsThenConnect extends StatelessWidget {
   const BuildWebSocketDependantCubitsThenConnect({
-    super.key,
     required this.child,
+    super.key,
   });
 
   final Widget child;

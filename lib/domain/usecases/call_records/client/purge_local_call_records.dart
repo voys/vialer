@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../../../presentation/util/loggable.dart';
 import '../../use_case.dart';
-import 'package:path/path.dart' as p;
 
 class RemoveLegacyClientCallRecordsFile extends UseCase with Loggable {
   /// We used to store client call records in a sqlite file, this is no longer

@@ -92,7 +92,7 @@ class ChangeSettingUseCase extends UseCase {
       return futureOrResult is Future ? await futureOrResult : futureOrResult;
     }
 
-    return SettingChangeListenResult(log: false, sync: false, failed: false);
+    return const SettingChangeListenResult(log: false);
   }
 }
 
@@ -105,5 +105,5 @@ enum SettingChangeResult {
 
 extension on SettingChangeListenResult {
   SettingChangeResult toSettingChangeResult() =>
-      this.failed ? SettingChangeResult.failed : SettingChangeResult.changed;
+      failed ? SettingChangeResult.failed : SettingChangeResult.changed;
 }

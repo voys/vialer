@@ -10,17 +10,16 @@ import '../../user/get_logged_in_user.dart';
 
 @injectable
 class GetSharedContactsUseCase extends UseCase {
-  final SharedContactsRepository _sharedContactsRepository;
-  final StorageRepository _storage;
-  final GetLoggedInUserUseCase _getUser;
-  final PropagateSharedContacts _propagateSharedContacts;
-
   GetSharedContactsUseCase(
     this._sharedContactsRepository,
     this._storage,
     this._getUser,
     this._propagateSharedContacts,
   );
+  final SharedContactsRepository _sharedContactsRepository;
+  final StorageRepository _storage;
+  final GetLoggedInUserUseCase _getUser;
+  final PropagateSharedContacts _propagateSharedContacts;
 
   Future<List<SharedContact>> call({
     bool forceSharedContactsRefresh = false,
@@ -31,8 +30,8 @@ class GetSharedContactsUseCase extends UseCase {
     final cachedSharedContacts = _storage.sharedContacts;
     final sharedContacts =
         cachedSharedContacts.isEmpty || forceSharedContactsRefresh
-            ? await _fetchSharedContacts()
-            : cachedSharedContacts;
+        ? await _fetchSharedContacts()
+        : cachedSharedContacts;
 
     _propagateSharedContacts(cachedSharedContacts, sharedContacts);
 
@@ -41,7 +40,7 @@ class GetSharedContactsUseCase extends UseCase {
 
   Future<List<SharedContact>> _fetchSharedContacts() async =>
       SynchronizedTask<List<SharedContact>>.of(this).run(
-        () async => _storage.sharedContacts =
-            await _sharedContactsRepository.getSharedContacts(_getUser()),
+        () async => _storage.sharedContacts = await _sharedContactsRepository
+            .getSharedContacts(_getUser()),
       );
 }

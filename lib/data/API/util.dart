@@ -66,8 +66,9 @@ class AuthorizationInterceptor implements chopper.Interceptor {
         if (forcedLegacyAuthPaths.any(request.url.toString().contains)) {
           useLegacyAuth = true;
         } else {
-          final pathSegments =
-              request.uri.pathSegments.where((s) => s.isNotBlank);
+          final pathSegments = request.uri.pathSegments.where(
+            (s) => s.isNotBlank,
+          );
 
           useLegacyAuth = !pathSegments.any((s) => s == 'v2');
         }
@@ -201,7 +202,8 @@ class RateLimitReachedInterceptor implements chopper.Interceptor {
 
 extension on Request {
   bool get alreadyHasAuthorizationHeader =>
-      headers.containsKey('Authorization');}
+      headers.containsKey('Authorization');
+}
 
 class JsonConverter extends chopper.JsonConverter {
   @override
@@ -219,8 +221,8 @@ class JsonConverter extends chopper.JsonConverter {
 }
 
 Iterable<chopper.Interceptor> get globalInterceptors => [
-      ClientHeaderInterceptor(),
-    ];
+  ClientHeaderInterceptor(),
+];
 
 /// Adds certain headers to requests allowing the back-end to properly identify
 /// the client.

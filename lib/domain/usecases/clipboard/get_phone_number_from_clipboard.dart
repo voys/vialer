@@ -23,6 +23,6 @@ class GetPhoneNumberFromClipboardUseCase extends UseCase {
   String _sanitizePhoneNumber(String text) => text
       .split('')
       .filter((element) => !_ignoredCharacters.contains(element))
-      .join('')
+      .join()
       .replaceFirst('+', '00');
 }

@@ -33,16 +33,16 @@ enum CallSetting<T extends Object> with SettingKey<T> {
   final SettingValueJsonConverter<T>? valueJsonConverter;
 
   static Map<CallSetting, Object?> get defaultValues => Map.fromEntries(
-        CallSetting.values.map((s) => MapEntry(s, s._defaultValue)),
-      );
+    CallSetting.values.map((s) => MapEntry(s, s._defaultValue)),
+  );
 
   Object? get _defaultValue => switch (this) {
-        CallSetting.useVoip => true,
-        CallSetting.availabilityStatus => UserAvailabilityStatus.online,
-        CallSetting.usePhoneRingtone => false,
-        CallSetting.useMobileNumberAsFallback => false,
-        CallSetting.outgoingNumber => null,
-        CallSetting.mobileNumber => null,
-        CallSetting.destination => Destination.unknown().identifier,
-      };
+    CallSetting.useVoip => true,
+    CallSetting.availabilityStatus => UserAvailabilityStatus.online,
+    CallSetting.usePhoneRingtone => false,
+    CallSetting.useMobileNumberAsFallback => false,
+    CallSetting.outgoingNumber => null,
+    CallSetting.mobileNumber => null,
+    CallSetting.destination => const Destination.unknown().identifier,
+  };
 }

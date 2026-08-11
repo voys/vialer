@@ -71,9 +71,9 @@ class ColleagueUpdateHandler
 
   Future<void> _refreshColleagues() async {
     final fetchedColleagues = await _fetchColleaguesAsSyncTask();
-    this.colleagues.addAnyNewColleagues(fetchedColleagues);
-    this.colleagues.removeAnyDeletedColleagues(fetchedColleagues);
-    this.colleagues.updateColleagueNameIfModified(fetchedColleagues);
+    colleagues.addAnyNewColleagues(fetchedColleagues);
+    colleagues.removeAnyDeletedColleagues(fetchedColleagues);
+    colleagues.updateColleagueNameIfModified(fetchedColleagues);
   }
 
   Future<List<Colleague>> _fetchColleaguesAsSyncTask() =>
@@ -97,21 +97,21 @@ class ColleagueUpdateHandler
 extension on Colleague {
   Colleague populateWithAvailability(
     UserAvailabilityChangedPayload availability,
-  ) =>
-      map(
-        (colleague) => colleague.copyWith(
-          status: availability.availability,
-          destination: ColleagueDestination(
-            number: availability.internalNumber.toString(),
-            type: availability.selectedDestination?.destinationType ??
-                ColleagueDestinationType.none,
-          ),
-          context: availability.context,
-        ),
-        // We don't get availability updates for voip accounts so we will
-        // just leave them as is.
-        unconnectedVoipAccount: (voipAccount) => voipAccount,
-      );
+  ) => map(
+    (colleague) => colleague.copyWith(
+      status: availability.availability,
+      destination: ColleagueDestination(
+        number: availability.internalNumber.toString(),
+        type:
+            availability.selectedDestination?.destinationType ??
+            ColleagueDestinationType.none,
+      ),
+      context: availability.context,
+    ),
+    // We don't get availability updates for voip accounts so we will
+    // just leave them as is.
+    unconnectedVoipAccount: (voipAccount) => voipAccount,
+  );
 }
 
 extension on List<Colleague> {
@@ -133,10 +133,10 @@ extension on List<Colleague> {
   ///
   /// This will only override the basic information and add new colleagues.
   void addAnyNewColleagues(List<Colleague> newColleagues) => addAll(
-        newColleagues.where(
-          (colleague) => findByUserUuid(colleague.id) == null,
-        ),
-      );
+    newColleagues.where(
+      (colleague) => findByUserUuid(colleague.id) == null,
+    ),
+  );
 
   void removeAnyDeletedColleagues(List<Colleague> newColleagues) {
     // Avoid a `Concurrent modification during iteration` exception
@@ -157,8 +157,8 @@ extension on List<Colleague> {
 
       if (latest == null) continue;
 
-      this.remove(colleague);
-      this.add(colleague.copyWith(name: latest.name));
+      remove(colleague);
+      add(colleague.copyWith(name: latest.name));
     }
   }
 }

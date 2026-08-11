@@ -39,29 +39,29 @@ class AvailabilityStatusButton extends StatelessWidget {
 
     return switch (type) {
       UserAvailabilityStatus.online => (
-          strings.available,
-          FontAwesomeIcons.circleCheck,
-          colors.userAvailabilityAvailableAccent,
-          colors.userAvailabilityAvailable,
-        ),
+        strings.available,
+        FontAwesomeIcons.circleCheck,
+        colors.userAvailabilityAvailableAccent,
+        colors.userAvailabilityAvailable,
+      ),
       UserAvailabilityStatus.availableForColleagues => (
-          strings.availableInternally,
-          FontAwesomeIcons.arrowRightArrowLeft,
-          colors.userAvailabilityAvailableAccent,
-          colors.userAvailabilityAvailable,
-        ),
+        strings.availableInternally,
+        FontAwesomeIcons.arrowRightArrowLeft,
+        colors.userAvailabilityAvailableAccent,
+        colors.userAvailabilityAvailable,
+      ),
       UserAvailabilityStatus.doNotDisturb => (
-          strings.doNotDisturb,
-          FontAwesomeIcons.bellSlash,
-          colors.userAvailabilityUnavailableAccent,
-          colors.userAvailabilityUnavailable,
-        ),
+        strings.doNotDisturb,
+        FontAwesomeIcons.bellSlash,
+        colors.userAvailabilityUnavailableAccent,
+        colors.userAvailabilityUnavailable,
+      ),
       UserAvailabilityStatus.offline => (
-          strings.offline,
-          FontAwesomeIcons.circleMinus,
-          colors.userAvailabilityOfflineAccent,
-          colors.userAvailabilityOffline,
-        ),
+        strings.offline,
+        FontAwesomeIcons.circleMinus,
+        colors.userAvailabilityOfflineAccent,
+        colors.userAvailabilityOffline,
+      ),
     };
   }
 
@@ -104,7 +104,7 @@ extension on UserAvailabilityStatus {
   /// that we want to handle in similar ways. This will return [true] if this
   /// status is any that should be considered as "online".
   bool get isOnlineOrSimilar => [
-        UserAvailabilityStatus.online,
-        UserAvailabilityStatus.availableForColleagues,
-      ].contains(this);
+    UserAvailabilityStatus.online,
+    UserAvailabilityStatus.availableForColleagues,
+  ].contains(this);
 }

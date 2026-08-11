@@ -32,15 +32,14 @@ sealed class NoticeState with _$NoticeState {
       IgnoreBatteryOptimizationsPermissionDeniedNotice;
 
   bool get isPermissionNotice => switch (this) {
-        MicrophonePermissionDeniedNotice() ||
-        PhonePermissionDeniedNotice() ||
-        PhoneAndMicrophonePermissionDeniedNotice() ||
-        BluetoothConnectPermissionDeniedNotice() ||
-        NotificationsPermissionDeniedNotice() ||
-        IgnoreBatteryOptimizationsPermissionDeniedNotice() =>
-          true,
-        _ => false,
-      };
+    MicrophonePermissionDeniedNotice() ||
+    PhonePermissionDeniedNotice() ||
+    PhoneAndMicrophonePermissionDeniedNotice() ||
+    BluetoothConnectPermissionDeniedNotice() ||
+    NotificationsPermissionDeniedNotice() ||
+    IgnoreBatteryOptimizationsPermissionDeniedNotice() => true,
+    _ => false,
+  };
 
   bool get shouldShow => this is! NoNotice && this is! NoticeDismissed;
 }

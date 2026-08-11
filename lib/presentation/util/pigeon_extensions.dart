@@ -1,9 +1,8 @@
 import 'package:vialer/presentation/util/pigeon.dart';
 
 class _NativeToFlutterListener implements NativeToFlutter {
-  final void Function(String) onLaunchDialerAndPopulateNumber;
-
   _NativeToFlutterListener({required this.onLaunchDialerAndPopulateNumber});
+  final void Function(String) onLaunchDialerAndPopulateNumber;
 
   @override
   void launchDialerAndPopulateNumber(String number) =>

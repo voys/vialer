@@ -74,7 +74,7 @@ class _TwoFactorAuthenticationPageState
                   color: context.brand.theme.colors.primary,
                   size: 48,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Semantics(
                   header: true,
                   child: Text(
@@ -165,8 +165,10 @@ class _TwoFactorCodeFieldState extends State<_TwoFactorCodeField>
 
   /// The amount of inputs generated is based on how many controllers we create
   /// in this list.
-  final _textEditingControllers =
-      List.generate(6, (_) => TextEditingController());
+  final _textEditingControllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
 
   /// The current code that the user has entered.
   String get _currentCode =>

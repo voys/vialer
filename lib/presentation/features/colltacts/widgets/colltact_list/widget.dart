@@ -48,7 +48,7 @@ class ColltactList extends StatelessWidget {
     return NestedNavigator(
       navigatorKey: navigatorKey,
       routes: {
-        ColltactsPageRoutes.root: (_, __) => const _ColltactList(),
+        ColltactsPageRoutes.root: (_, _) => const _ColltactList(),
         ColltactsPageRoutes.details: (context, colltact) =>
             detailsBuilder(context, colltact! as Colltact),
       },
@@ -101,9 +101,9 @@ class _ColltactPageState extends State<_ColltactList>
     if (state == AppLifecycleState.resumed) {
       unawaited(context.read<ContactsCubit>().reloadContacts());
       unawaited(
-        context
-            .read<SharedContactsCubit>()
-            .loadSharedContacts(fullRefresh: true),
+        context.read<SharedContactsCubit>().loadSharedContacts(
+          fullRefresh: true,
+        ),
       );
     }
   }
@@ -145,9 +145,8 @@ class _ColltactPageState extends State<_ColltactList>
             // of tabs we are showing has changed.
             _buildTabController(context, tabs);
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                WebSocketUnreachableNotice(),
+                const WebSocketUnreachableNotice(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SearchTextField(onChanged: _onSearchTermChanged),
@@ -158,10 +157,12 @@ class _ColltactPageState extends State<_ColltactList>
                     controller: tabController,
                     children: tabs.widgets(
                       (tab) => switch (tab) {
-                        ColltactTab.contacts =>
-                          ColltactItemList(ColltactKind.contact),
-                        ColltactTab.sharedContact => SharedContactItemList(),
-                        ColltactTab.colleagues => ColleagueItemList(),
+                        ColltactTab.contacts => const ColltactItemList(
+                          ColltactKind.contact,
+                        ),
+                        ColltactTab.sharedContact =>
+                          const SharedContactItemList(),
+                        ColltactTab.colleagues => const ColleagueItemList(),
                       },
                     ),
                   ),
@@ -187,7 +188,7 @@ class ColleagueItemList extends StatelessWidget {
         final colleaguesCubit = context.watch<ColleaguesCubit>();
         return Column(
           children: [
-            Expanded(
+            const Expanded(
               child: ColltactItemList(ColltactKind.colleague),
             ),
             BottomToggle(
@@ -247,7 +248,7 @@ class SharedContactItemList extends StatelessWidget {
           children: [
             if (sharedContactsState.isLoadedWithNoEmptyList)
               _addSharedContactButton(context, sharedContactsCubit),
-            Expanded(
+            const Expanded(
               child: ColltactItemList(ColltactKind.sharedContact),
             ),
           ],
@@ -261,11 +262,11 @@ class SharedContactItemList extends StatelessWidget {
 /// so we don't need to manually pass the data around.
 class ColltactTabsInheritedWidget extends InheritedWidget {
   const ColltactTabsInheritedWidget({
-    super.key,
     required this.searchTerm,
     required this.bottomLettersPadding,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+    super.key,
+  });
 
   final String searchTerm;
   final double bottomLettersPadding;

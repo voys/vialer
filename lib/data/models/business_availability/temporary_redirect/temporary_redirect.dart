@@ -19,7 +19,8 @@ abstract class TemporaryRedirect with _$TemporaryRedirect {
 }
 
 @freezed
-abstract class TemporaryRedirectDestination with _$TemporaryRedirectDestination {
+abstract class TemporaryRedirectDestination
+    with _$TemporaryRedirectDestination {
   const factory TemporaryRedirectDestination.voicemail(
     VoicemailAccount voicemailAccount,
   ) = Voicemail;
@@ -32,15 +33,15 @@ abstract class TemporaryRedirectDestination with _$TemporaryRedirectDestination 
 
 extension Display on TemporaryRedirectDestination {
   String get displayName => map(
-        voicemail: (voicemail) {
-          var name = voicemail.voicemailAccount.name;
+    voicemail: (voicemail) {
+      var name = voicemail.voicemailAccount.name;
 
-          if (voicemail.voicemailAccount.description.isNotNullOrBlank) {
-            name = '$name - ${voicemail.voicemailAccount.description}';
-          }
+      if (voicemail.voicemailAccount.description.isNotNullOrBlank) {
+        name = '$name - ${voicemail.voicemailAccount.description}';
+      }
 
-          return name;
-        },
-        unknown: (unknown) => '',
-      );
+      return name;
+    },
+    unknown: (unknown) => '',
+  );
 }

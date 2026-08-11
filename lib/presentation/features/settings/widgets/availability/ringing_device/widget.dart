@@ -19,8 +19,8 @@ class RingingDevice extends StatelessWidget {
     required this.destinations,
     required this.onDestinationChanged,
     required this.userAvailabilityStatus,
-    this.enabled = true,
     required this.isRingingDeviceOffline,
+    this.enabled = true,
     super.key,
   });
 
@@ -35,8 +35,7 @@ class RingingDevice extends StatelessWidget {
       ? false
       : switch (userAvailabilityStatus) {
           UserAvailabilityStatus.online ||
-          UserAvailabilityStatus.availableForColleagues =>
-            false,
+          UserAvailabilityStatus.availableForColleagues => false,
           UserAvailabilityStatus.doNotDisturb => true,
           UserAvailabilityStatus.offline => true,
         };
@@ -106,7 +105,7 @@ class RingingDevice extends StatelessWidget {
                 ),
             ],
           ),
-          if (showDeviceOfflineWarning) _CurrentDeviceOfflineWarning(),
+          if (showDeviceOfflineWarning) const _CurrentDeviceOfflineWarning(),
           MultipleRingingDeviceDropdown(
             user: user,
             destinations: destinations,
@@ -146,7 +145,6 @@ class _RingingDeviceWarning extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
@@ -163,8 +161,8 @@ class _RingingDeviceWarning extends StatelessWidget {
 extension UserRingingDevice on User {
   Destination get currentDestination =>
       settings.getOrNull(CallSetting.destination) != null
-          ? settings.get(CallSetting.destination).asDestination()
-          : Destination.unknown();
+      ? settings.get(CallSetting.destination).asDestination()
+      : const Destination.unknown();
 
   RingingDeviceType get ringingDevice {
     return currentDestination.map(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:vialer/presentation/util/context_extensions.dart';
-
 import 'package:vialer/presentation/resources/theme.dart';
+import 'package:vialer/presentation/util/context_extensions.dart';
 
 class StylizedTextField extends StatelessWidget {
   StylizedTextField({
@@ -90,8 +89,9 @@ class StylizedTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,
-                color:
-                    hasError ? context.brand.theme.colors.errorContent : color,
+                color: hasError
+                    ? context.brand.theme.colors.errorContent
+                    : color,
                 size: 16,
               )
             : prefixWidget,

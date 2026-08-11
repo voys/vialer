@@ -3,7 +3,66 @@ workflow:
     - if: $CI_MERGE_REQUEST_IID
 
 stages:
+  - static analysis
   - build and test
+
+.flutter:
+  image:
+    name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/gmeligio/flutter-android:3.38.7
+    docker:
+      # The image defaults to a non-root user, but the runner checks out the
+      # repo as root, leaving files the image's user doesn't own (e.g. pub
+      # fails to update pubspec.lock's modification time). Run as root instead.
+      user: root
+  before_script:
+    # Since we run as root, git refuses to touch the flutter-user-owned SDK.
+    - git config --global --add safe.directory "$FLUTTER_ROOT"
+  timeout: 1 hour
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"'
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "merged_result"'
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"'
+
+format:
+  extends: .flutter
+  stage: static analysis
+  before_script:
+    - !reference [ .flutter, before_script ]
+    - bash utils/ci/codemagic/bin/configure_font_awesome_gitlab_access.sh
+    # Without resolved dependencies the formatter can't resolve the
+    # analysis_options include and silently ignores the `formatter:` settings.
+    - dart pub get
+  script:
+    - dart format . --set-exit-if-changed
+
+analyze:
+  extends: .flutter
+  stage: static analysis
+  before_script:
+    - !reference [ .flutter, before_script ]
+    - bash utils/ci/codemagic/bin/configure_font_awesome_gitlab_access.sh
+    - dart pub get
+    - curl -fsSL "https://github.com/phrase/phrase-cli/releases/latest/download/phrase_linux_amd64" -o /usr/local/bin/phrase && chmod +x /usr/local/bin/phrase
+    - phrase pull -t "$PHRASE_ACCESS_TOKEN"
+    - bash utils/bin/pigeon.sh
+    - dart run build_runner build --delete-conflicting-outputs
+    - touch .env
+  script:
+    - dart analyze . --fatal-infos --fatal-warnings
+
+gitlab-ci-flutter-version-matches-codemagic:
+  stage: static analysis
+  image: dart:latest
+  script:
+    - gitlab_ci_version=$(grep -oE 'gmeligio/flutter-android:[0-9]+\.[0-9]+\.[0-9]+' .gitlab-ci.yml | cut -d':' -f2)
+    - codemagic_version=$(grep -E '^ *flutter:' codemagic.yaml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+    - echo ".gitlab-ci.yml image => $gitlab_ci_version, codemagic.yaml => $codemagic_version"
+    - |
+      if [ -z "$gitlab_ci_version" ] || [ -z "$codemagic_version" ] || [ "$gitlab_ci_version" != "$codemagic_version" ]; then
+        echo "===ERROR==="
+        echo "The Flutter version in the .gitlab-ci.yml image tag must match the flutter version in codemagic.yaml."
+        exit 1
+      fi
 
 build & test:
   image: dart:latest

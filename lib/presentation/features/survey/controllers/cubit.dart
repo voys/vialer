@@ -57,7 +57,7 @@ class SurveyCubit extends Cubit<SurveyState> with Loggable {
   final _getUser = GetLoggedInUserUseCase();
   final _changeSetting = ChangeSettingUseCase();
 
-// ignore: avoid_positional_boolean_parameters
+  // ignore: avoid_positional_boolean_parameters
   Future<void> setDontShowThisAgain(bool value) async {
     // Necessary for auto cast
     final state = this.state;

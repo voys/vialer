@@ -13,8 +13,8 @@ class RefreshClientTemporaryRedirect extends ClientRefreshTaskPerformer {
     final temporaryRedirect = await GetCurrentTemporaryRedirect()();
 
     return (Client client) => client.copyWith(
-          currentTemporaryRedirect: () => temporaryRedirect,
-        );
+      currentTemporaryRedirect: () => temporaryRedirect,
+    );
   }
 
   @override

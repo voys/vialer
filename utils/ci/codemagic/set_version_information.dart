@@ -55,13 +55,12 @@ Future<bool> _isInCorrectDirectory() => File(envPath).exists();
 Future<void> _createFileContainingSentryVersion(
   Type type,
   String version,
-) async =>
-    File(sentryVersionFilePath).writeAsString(
-      _buildVersionForSentry(
-        type,
-        version,
-      ),
-    );
+) async => File(sentryVersionFilePath).writeAsString(
+  _buildVersionForSentry(
+    type,
+    version,
+  ),
+);
 
 Future<void> _updateEnvironmentFile(Map<String, String> replacements) async {
   final envFile = File(envPath);
@@ -130,12 +129,12 @@ Future<void> _updateFileContents(
 }
 
 Future<String> _getMostRecentGitTag() => Process.run('git', [
-      'describe',
-      '--tags',
-      '--abbrev=0',
-      '--match',
-      'v*',
-    ]).then((value) => value.stdout.toString().trim().replaceFirst('v', ''));
+  'describe',
+  '--tags',
+  '--abbrev=0',
+  '--match',
+  'v*',
+]).then((value) => value.stdout.toString().trim().replaceFirst('v', ''));
 
 enum Type {
   appStore,

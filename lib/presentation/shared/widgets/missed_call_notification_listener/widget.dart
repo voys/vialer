@@ -26,11 +26,14 @@ class MissedCallNotificationPressedListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<MissedCallNotificationPressedListenerCubit>(
       create: (_) => MissedCallNotificationPressedListenerCubit(),
-      child: BlocListener<MissedCallNotificationPressedListenerCubit,
-          MissedCallNotificationPressedListenerState>(
-        listener: _onStateChanged,
-        child: child,
-      ),
+      child:
+          BlocListener<
+            MissedCallNotificationPressedListenerCubit,
+            MissedCallNotificationPressedListenerState
+          >(
+            listener: _onStateChanged,
+            child: child,
+          ),
     );
   }
 }

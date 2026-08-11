@@ -28,7 +28,7 @@ class RestrictedPermissionWarning extends StatelessWidget {
                 size: 18,
               ),
             ),
-            Gap(10),
+            const Gap(10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class RestrictedPermissionWarning extends StatelessWidget {
             ),
           ],
         ),
-        Gap(10),
+        const Gap(10),
         StylizedButton.outline(
           colored: true,
           margin: EdgeInsets.zero,

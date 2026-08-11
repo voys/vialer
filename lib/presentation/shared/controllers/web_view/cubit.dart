@@ -10,7 +10,7 @@ import '../../../util/loggable.dart';
 import 'state.dart';
 
 class WebViewCubit extends Cubit<WebViewState> with Loggable {
-  WebViewCubit(this._page) : super(LoadingUrl()) {
+  WebViewCubit(this._page) : super(const LoadingUrl()) {
     unawaited(_loadUrl());
   }
 
@@ -20,7 +20,7 @@ class WebViewCubit extends Cubit<WebViewState> with Loggable {
   final WebPage _page;
 
   void reload() {
-    emit(LoadingUrl());
+    emit(const LoadingUrl());
     unawaited(_loadUrl());
   }
 
@@ -42,7 +42,7 @@ class WebViewCubit extends Cubit<WebViewState> with Loggable {
 
       emit(LoadedUrl(url: url));
     } on AutoLoginException {
-      emit(LoadPortalUrlError());
+      emit(const LoadPortalUrlError());
     }
   }
 }

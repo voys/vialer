@@ -18,8 +18,8 @@ class NestedNavigator extends StatefulWidget {
     this.observers = const [],
     this.fullscreenDialog = false,
     super.key,
-  })  : initialRoute = initialRoute ?? routes.keys.first,
-        onWillPop = onWillPop ?? (() => SynchronousFuture(true));
+  }) : initialRoute = initialRoute ?? routes.keys.first,
+       onWillPop = onWillPop ?? (() => SynchronousFuture(true));
 
   /// Can be used to manipulate the [Navigator] directly.
   final GlobalKey<NavigatorState>? navigatorKey;
@@ -48,8 +48,10 @@ class _NestedNavigatorState extends State<NestedNavigator> {
   _NestedNavigatorState? __rootNestedNavigatorState;
 
   _NestedNavigatorState? get _rootNestedNavigatorState =>
-      __rootNestedNavigatorState ??=
-          Provider.of<_NestedNavigatorState?>(context, listen: false);
+      __rootNestedNavigatorState ??= Provider.of<_NestedNavigatorState?>(
+        context,
+        listen: false,
+      );
 
   bool get _hasRootNestedNavigator => _rootNestedNavigatorState != null;
 

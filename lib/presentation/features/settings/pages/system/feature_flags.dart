@@ -15,15 +15,22 @@ class FeatureFlagsSubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final featureFlags = Feature.values;
+    const featureFlags = Feature.values;
 
     return SettingsSubPage(
       cubit: context.watch<SettingsCubit>(),
-      title: context.msg.main.settings.list.advancedSettings.troubleshooting
-          .featureFlags.title,
+      title: context
+          .msg
+          .main
+          .settings
+          .list
+          .advancedSettings
+          .troubleshooting
+          .featureFlags
+          .title,
       child: (state) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: BasicDividedListView(
             itemBuilder: (_, index) {
               return _FeatureFlagItem(feature: featureFlags[index]);
@@ -31,8 +38,15 @@ class FeatureFlagsSubPage extends StatelessWidget {
             itemCount: featureFlags.length,
             fallback: (_) {
               return Text(
-                context.msg.main.settings.list.advancedSettings.troubleshooting
-                    .featureFlags.none,
+                context
+                    .msg
+                    .main
+                    .settings
+                    .list
+                    .advancedSettings
+                    .troubleshooting
+                    .featureFlags
+                    .none,
               );
             },
           ),
@@ -52,11 +66,11 @@ class _FeatureFlagItem extends StatelessWidget {
     return ListTile(
       title: Text(ReCase(feature.name).sentenceCase),
       trailing: hasFeature(feature)
-          ? FaIcon(
+          ? const FaIcon(
               FontAwesomeIcons.solidCircleCheck,
               color: Colors.green,
             )
-          : FaIcon(
+          : const FaIcon(
               FontAwesomeIcons.solidCircleXmark,
               color: Colors.red,
             ),

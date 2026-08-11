@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   void initState() {
     super.initState();
-    
+
     if (inDebugMode) {
       final env = dependencyLocator<EnvRepository>();
       _emailController.text = env.devUsername;
@@ -131,8 +131,9 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible) {
-        final defaultPadding =
-            Provider.of<EdgeInsets>(context).copyWith(top: 60);
+        final defaultPadding = Provider.of<EdgeInsets>(
+          context,
+        ).copyWith(top: 60);
 
         return AnimatedContainer(
           curve: _curve,
@@ -166,22 +167,38 @@ class _LoginPageState extends State<LoginPage>
                           duration: _duration,
                           height: isKeyboardVisible ? 16 : 48,
                         ),
-                        BlocBuilder<ConnectivityCheckerCubit,
-                            ConnectivityState>(
+                        BlocBuilder<
+                          ConnectivityCheckerCubit,
+                          ConnectivityState
+                        >(
                           builder: (context, connectivityState) {
                             return ErrorAlert(
-                              visible: loginState is LoginFailed ||
+                              visible:
+                                  loginState is LoginFailed ||
                                   connectivityState is Disconnected,
                               inline: false,
                               title: loginState is LoginFailed
-                                  ? context.msg.onboarding.login.error
-                                      .wrongCombination.title
+                                  ? context
+                                        .msg
+                                        .onboarding
+                                        .login
+                                        .error
+                                        .wrongCombination
+                                        .title
                                   : context.msg.connectivity.noConnection.title,
                               message: loginState is LoginFailed
-                                  ? context.msg.onboarding.login.error
-                                      .wrongCombination.message
+                                  ? context
+                                        .msg
+                                        .onboarding
+                                        .login
+                                        .error
+                                        .wrongCombination
+                                        .message
                                   : context
-                                      .msg.connectivity.noConnection.message,
+                                        .msg
+                                        .connectivity
+                                        .noConnection
+                                        .message,
                             );
                           },
                         ),
@@ -193,18 +210,24 @@ class _LoginPageState extends State<LoginPage>
                           labelText:
                               context.msg.onboarding.login.placeholder.email,
                           keyboardType: TextInputType.emailAddress,
-                          hasError: loginState is LoginFailed ||
+                          hasError:
+                              loginState is LoginFailed ||
                               (loginState is LoginNotSubmitted &&
                                   !loginState.hasValidEmailFormat),
                           autofillHints: const [AutofillHints.email],
                         ),
                         ErrorAlert(
                           key: LoginPage.keys.wrongEmailFormatError,
-                          visible: loginState is LoginNotSubmitted &&
+                          visible:
+                              loginState is LoginNotSubmitted &&
                               !loginState.hasValidEmailFormat,
                           inline: true,
                           message: context
-                              .msg.onboarding.login.error.wrongEmailFormat,
+                              .msg
+                              .onboarding
+                              .login
+                              .error
+                              .wrongEmailFormat,
                         ),
                         const SizedBox(height: 20),
                         StylizedTextField(
@@ -231,52 +254,71 @@ class _LoginPageState extends State<LoginPage>
                           labelText:
                               context.msg.onboarding.login.placeholder.password,
                           obscureText: _hidePassword,
-                          hasError: loginState is LoginFailed ||
+                          hasError:
+                              loginState is LoginFailed ||
                               (loginState is LoginNotSubmitted &&
                                   !loginState.hasValidPasswordFormat),
                           autofillHints: const [AutofillHints.password],
                         ),
                         ErrorAlert(
                           key: LoginPage.keys.wrongPasswordFormatError,
-                          visible: loginState is LoginNotSubmitted &&
+                          visible:
+                              loginState is LoginNotSubmitted &&
                               !loginState.hasValidPasswordFormat,
                           inline: true,
                           message: context
-                              .msg.onboarding.login.error.wrongPasswordFormat,
+                              .msg
+                              .onboarding
+                              .login
+                              .error
+                              .wrongPasswordFormat,
                         ),
                         const SizedBox(height: 32),
                         Column(
                           children: <Widget>[
                             SizedBox(
                               width: double.infinity,
-                              child: BlocBuilder<ConnectivityCheckerCubit,
-                                  ConnectivityState>(
-                                builder: (context, connectivityState) {
-                                  return StylizedButton.raised(
-                                    colored: true,
-                                    key: LoginPage.keys.loginButton,
-                                    onPressed: loginState is! LoggingIn &&
-                                            connectivityState is! Disconnected
-                                        ? () => _login(context)
-                                        : () => {},
-                                    isLoading: loginState is LoggingIn,
-                                    child: loginState is! LoggingIn
-                                        ? PlatformText(
-                                            context.msg.onboarding.button.login,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        : PlatformText(
-                                            context.msg.onboarding.login.button
-                                                .loggingIn,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                  );
-                                },
-                              ),
+                              child:
+                                  BlocBuilder<
+                                    ConnectivityCheckerCubit,
+                                    ConnectivityState
+                                  >(
+                                    builder: (context, connectivityState) {
+                                      return StylizedButton.raised(
+                                        colored: true,
+                                        key: LoginPage.keys.loginButton,
+                                        onPressed:
+                                            loginState is! LoggingIn &&
+                                                connectivityState
+                                                    is! Disconnected
+                                            ? () => _login(context)
+                                            : () => {},
+                                        isLoading: loginState is LoggingIn,
+                                        child: loginState is! LoggingIn
+                                            ? PlatformText(
+                                                context
+                                                    .msg
+                                                    .onboarding
+                                                    .button
+                                                    .login,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : PlatformText(
+                                                context
+                                                    .msg
+                                                    .onboarding
+                                                    .login
+                                                    .button
+                                                    .loggingIn,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                      );
+                                    },
+                                  ),
                             ),
                             const SizedBox(height: 20),
                             SizedBox(
@@ -285,7 +327,11 @@ class _LoginPageState extends State<LoginPage>
                                 colored: true,
                                 onPressed: _goToPasswordForgotten,
                                 child: PlatformText(
-                                  context.msg.onboarding.login.button
+                                  context
+                                      .msg
+                                      .onboarding
+                                      .login
+                                      .button
                                       .forgotPassword,
                                   style: TextStyle(
                                     color: context.brand.theme.colors.primary,
@@ -298,10 +344,14 @@ class _LoginPageState extends State<LoginPage>
                               TextButton(
                                 onPressed: () => LaunchSignUp()(),
                                 child: PlatformText(
-                                  context.msg.onboarding.login.button
-                                      .signUp(context.brand.appName),
+                                  context.msg.onboarding.login.button.signUp(
+                                    context.brand.appName,
+                                  ),
                                   style: TextStyle(
-                                    color: context.brand.theme.colors
+                                    color: context
+                                        .brand
+                                        .theme
+                                        .colors
                                         .userAvailabilityOffline,
                                   ),
                                 ),
@@ -311,7 +361,10 @@ class _LoginPageState extends State<LoginPage>
                               child: PlatformText(
                                 context.msg.main.settings.privacyPolicy,
                                 style: TextStyle(
-                                  color: context.brand.theme.colors
+                                  color: context
+                                      .brand
+                                      .theme
+                                      .colors
                                       .userAvailabilityOffline,
                                 ),
                               ),

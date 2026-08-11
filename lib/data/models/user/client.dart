@@ -12,8 +12,6 @@ part 'client.g.dart';
 
 @Freezed(copyWith: false)
 abstract class Client with _$Client {
-  const Client._();
-
   const factory Client({
     required int id,
     required String uuid,
@@ -37,6 +35,9 @@ abstract class Client with _$Client {
     Iterable<OpeningHoursModule> openingHoursModules,
     @Default([]) List<Module> enabledModules,
   }) = _Client;
+
+  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+  const Client._();
 
   Client copyWith({
     int? id,
@@ -74,8 +75,6 @@ abstract class Client with _$Client {
       enabledModules: enabledModules ?? this.enabledModules,
     );
   }
-
-  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
   static Map<String, dynamic>? serializeToJson(Client value) => value.toJson();
 }

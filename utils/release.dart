@@ -30,8 +30,8 @@ Future<void> main(List<String> arguments) async {
 
   _success('Release notes found');
   stdout.writeln(releaseNotes);
-  stdout.writeln('');
-  stdout.writeln('');
+  stdout.writeln();
+  stdout.writeln();
   _sleep();
 
   _info('Do you want to continue this release?');
@@ -100,7 +100,7 @@ void _error(String message) {
   exit(1);
 }
 
-void _sleep({Duration? duration = null}) =>
+void _sleep({Duration? duration}) =>
     sleep(duration ?? const Duration(seconds: 1));
 
 extension on List<String> {
@@ -118,9 +118,9 @@ extension on List<String> {
 }
 
 Future<void> _pullLatest(String version) => Process.run(
-      'git',
-      ['pull', 'origin', 'release/v$version'],
-    );
+  'git',
+  ['pull', 'origin', 'release/v$version'],
+);
 
 Future<void> _tagRelease(String version) async {
   final result = await Process.run(

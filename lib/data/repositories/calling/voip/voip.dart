@@ -108,7 +108,8 @@ class VoipRepository with Loggable {
           return ApplicationSetup(
             onMissedCallNotificationPressed: () =>
                 _missedCallNotificationPressedController.add(true),
-            userAgent: '${brand.appName} '
+            userAgent:
+                '${brand.appName} '
                 '${Platform.isAndroid ? 'Android' : 'iOS'} '
                 'v${buildInfo.version}',
           );
@@ -178,14 +179,13 @@ class VoipRepository with Loggable {
   Future<Auth> _createAuth(
     AppAccount appAccount,
     ClientVoipConfig clientConfig,
-  ) async =>
-      Auth(
-        username: appAccount.sipUserId,
-        password: appAccount.password,
-        domain: clientConfig.sipUrl.toString(),
-        port: appAccount.useEncryption ? 5061 : 5060,
-        secure: appAccount.useEncryption,
-      );
+  ) async => Auth(
+    username: appAccount.sipUserId,
+    password: appAccount.password,
+    domain: clientConfig.sipUrl.toString(),
+    port: appAccount.useEncryption ? 5061 : 5060,
+    secure: appAccount.useEncryption,
+  );
 
   // We refer to the backing field `__phoneLib` instead of
   // the getter `_phoneLib`, because if for some reason the phone lib was not
@@ -207,7 +207,6 @@ class VoipRepository with Loggable {
       await (await _phoneLib).stop();
     }
   }
-
 
   Future<void> answerCall() async => (await _phoneLib).actions.answer();
 

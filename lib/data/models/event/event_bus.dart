@@ -17,11 +17,10 @@ extension Observing on EventBusObserver {
     Function? onError,
     void Function()? onDone,
     bool? cancelOnError,
-  }) =>
-      where((dynamic event) => event is T).cast<T>().listen(
-            onData,
-            onError: onError,
-            onDone: onDone,
-            cancelOnError: cancelOnError,
-          );
+  }) => where((dynamic event) => event is T).cast<T>().listen(
+    onData,
+    onError: onError,
+    onDone: onDone,
+    cancelOnError: cancelOnError,
+  );
 }

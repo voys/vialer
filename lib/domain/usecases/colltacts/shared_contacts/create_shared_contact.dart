@@ -1,6 +1,6 @@
+import '../../../../../data/repositories/metrics/metrics.dart';
 import '../../../../data/repositories/colltacts/shared_contacts/shared_contacts_repository.dart';
 import '../../../../dependency_locator.dart';
-import '../../../../../data/repositories/metrics/metrics.dart';
 import '../../use_case.dart';
 
 class CreateSharedContactUseCase extends UseCase {

@@ -82,8 +82,9 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
 
     final user = _getUser();
 
-    final googlePlayServicesIsAvailable =
-        Platform.isAndroid ? await _googlePlayServices.isAvailable() : true;
+    final googlePlayServicesIsAvailable = Platform.isAndroid
+        ? await _googlePlayServices.isAvailable()
+        : true;
 
     if (phoneStatus.wasDenied && microphoneStatus.wasDenied) {
       emit(const PhoneAndMicrophonePermissionDeniedNotice());
@@ -107,8 +108,9 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
       emit(
         TemporaryRedirectNotice(
           temporaryRedirect: user.client.currentTemporaryRedirect!,
-          canChangeTemporaryRedirect:
-              user.hasPermission(Permission.canChangeTemporaryRedirect),
+          canChangeTemporaryRedirect: user.hasPermission(
+            Permission.canChangeTemporaryRedirect,
+          ),
         ),
       );
     } else if (!googlePlayServicesIsAvailable) {
@@ -144,16 +146,18 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
       }
 
       await check(
-        microphoneStatus:
-            permission == os.Permission.microphone ? status : null,
+        microphoneStatus: permission == os.Permission.microphone
+            ? status
+            : null,
         phoneStatus: permission == os.Permission.phone ? status : null,
         bluetoothStatus: permission == os.Permission.bluetooth ? status : null,
-        notificationsStatus:
-            permission == os.Permission.notifications ? status : null,
+        notificationsStatus: permission == os.Permission.notifications
+            ? status
+            : null,
         ignoreBatteryOptimization:
             permission == os.Permission.ignoreBatteryOptimizations
-                ? status
-                : null,
+            ? status
+            : null,
       );
 
       // No need to request more if there's no notice.

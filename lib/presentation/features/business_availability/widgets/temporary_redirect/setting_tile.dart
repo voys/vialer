@@ -29,11 +29,21 @@ class TemporaryRedirectSettingTile extends StatelessWidget {
                 SettingsButton(
                   onPressed: cubit.stopTemporaryRedirect,
                   text: context
-                      .msg.main.temporaryRedirect.actions.stopRedirect.label,
+                      .msg
+                      .main
+                      .temporaryRedirect
+                      .actions
+                      .stopRedirect
+                      .label,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  context.msg.main.temporaryRedirect.actions.stopRedirect
+                  context
+                      .msg
+                      .main
+                      .temporaryRedirect
+                      .actions
+                      .stopRedirect
                       .description,
                 ),
                 const SizedBox(height: 16),
@@ -47,17 +57,37 @@ class TemporaryRedirectSettingTile extends StatelessWidget {
                 ),
                 text: hasTemporaryRedirect
                     ? context
-                        .msg.main.temporaryRedirect.actions.changeRedirect.label
+                          .msg
+                          .main
+                          .temporaryRedirect
+                          .actions
+                          .changeRedirect
+                          .label
                     : context
-                        .msg.main.temporaryRedirect.actions.setupRedirect.label,
+                          .msg
+                          .main
+                          .temporaryRedirect
+                          .actions
+                          .setupRedirect
+                          .label,
               ),
               const SizedBox(height: 8),
               Text(
                 hasTemporaryRedirect
-                    ? context.msg.main.temporaryRedirect.actions.changeRedirect
-                        .description
-                    : context.msg.main.temporaryRedirect.actions.setupRedirect
-                        .description,
+                    ? context
+                          .msg
+                          .main
+                          .temporaryRedirect
+                          .actions
+                          .changeRedirect
+                          .description
+                    : context
+                          .msg
+                          .main
+                          .temporaryRedirect
+                          .actions
+                          .setupRedirect
+                          .description,
                 style: TextStyle(
                   color: context.brand.theme.colors.grey4,
                 ),

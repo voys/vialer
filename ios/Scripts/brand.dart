@@ -24,8 +24,9 @@ Future<void> main(List<String> arguments) async {
   // Set the correct icons.
   final assets = Directory('${root.path}/Runner/Assets.xcassets');
   final defaultIconSet = Directory('${assets.path}/AppIcon.appiconset');
-  final brandIconSet =
-      Directory('${assets.path}/AppIcon-${defines['identifier']!}.appiconset');
+  final brandIconSet = Directory(
+    '${assets.path}/AppIcon-${defines['identifier']!}.appiconset',
+  );
 
   await defaultIconSet
       .list()

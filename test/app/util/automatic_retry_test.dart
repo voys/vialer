@@ -24,20 +24,22 @@ void main() {
     await _expectMaximumAttemptsReached(automaticRetry, mock);
   });
 
-  test('Argument error is thrown if no schedule and not running immediately',
-      () async {
-    final automaticRetry = AutomaticRetry(schedule: []);
+  test(
+    'Argument error is thrown if no schedule and not running immediately',
+    () async {
+      final automaticRetry = AutomaticRetry(schedule: []);
 
-    await _expectArgumentError(
-      () => automaticRetry.run(
-        () async => const AutomaticRetryTaskOutput(
-          data: '',
-          result: AutomaticRetryTaskResult.fail,
+      await _expectArgumentError(
+        () => automaticRetry.run(
+          () async => const AutomaticRetryTaskOutput(
+            data: '',
+            result: AutomaticRetryTaskResult.fail,
+          ),
+          runImmediately: false,
         ),
-        runImmediately: false,
-      ),
-    );
-  });
+      );
+    },
+  );
 
   test('A task will retry according to schedule if it fails', () async {
     final automaticRetry = AutomaticRetry(
@@ -125,18 +127,18 @@ void main() {
 
 extension on MockDummyClass {
   void thenReturnSuccess({String value = ''}) => when(getResult()).thenReturn(
-        AutomaticRetryTaskOutput(
-          data: value,
-          result: AutomaticRetryTaskResult.success,
-        ),
-      );
+    AutomaticRetryTaskOutput(
+      data: value,
+      result: AutomaticRetryTaskResult.success,
+    ),
+  );
 
   void thenReturnFail({String value = ''}) => when(getResult()).thenReturn(
-        AutomaticRetryTaskOutput(
-          data: value,
-          result: AutomaticRetryTaskResult.fail,
-        ),
-      );
+    AutomaticRetryTaskOutput(
+      data: value,
+      result: AutomaticRetryTaskResult.fail,
+    ),
+  );
 }
 
 Future<void> _expectArgumentError(Future<String> Function() callback) =>
@@ -148,11 +150,10 @@ Future<void> _expectArgumentError(Future<String> Function() callback) =>
 Future<void> _expectMaximumAttemptsReached(
   AutomaticRetry automaticRetry,
   MockDummyClass mock,
-) async =>
-    expectLater(
-      () => automaticRetry.run(() async => mock.getResult()),
-      throwsA(isA<AutomaticRetryMaximumAttemptsReached>()),
-    );
+) async => expectLater(
+  () => automaticRetry.run(() async => mock.getResult()),
+  throwsA(isA<AutomaticRetryMaximumAttemptsReached>()),
+);
 
 // A dummy class just used so we can mock it and verify interactions, it needs
 // to be public so it can be mocked.

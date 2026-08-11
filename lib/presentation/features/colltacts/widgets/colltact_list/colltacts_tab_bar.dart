@@ -29,12 +29,15 @@ class ColltactsTabBar extends StatelessWidget {
           indicatorSize: TabBarIndicatorSize.label,
           tabs: tabs.widgets(
             (tab) => switch (tab) {
-              ColltactTab.contacts =>
-                Text(context.strings.contactsTabTitle.toUpperCase()),
-              ColltactTab.sharedContact =>
-                Text(context.strings.sharedTabTitle.toUpperCase()),
-              ColltactTab.colleagues =>
-                Text(context.strings.colleaguesTabTitle.toUpperCase()),
+              ColltactTab.contacts => Text(
+                context.strings.contactsTabTitle.toUpperCase(),
+              ),
+              ColltactTab.sharedContact => Text(
+                context.strings.sharedTabTitle.toUpperCase(),
+              ),
+              ColltactTab.colleagues => Text(
+                context.strings.colleaguesTabTitle.toUpperCase(),
+              ),
             },
           ),
         );

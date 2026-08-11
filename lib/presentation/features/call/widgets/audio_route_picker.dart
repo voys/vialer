@@ -93,14 +93,14 @@ class _AudioRouteDialogOption extends StatelessWidget {
     required this.currentRoute,
     required this.icon,
     required this.label,
-  })  : assert(
-          route is AudioRoute || route is BluetoothAudioRoute,
-          'route must be eiter AudioRoute or BluetoothAudioRoute',
-        ),
-        assert(
-          currentRoute is AudioRoute || currentRoute is BluetoothAudioRoute,
-          'currentRoute must be eiter AudioRoute or BluetoothAudioRoute',
-        );
+  }) : assert(
+         route is AudioRoute || route is BluetoothAudioRoute,
+         'route must be eiter AudioRoute or BluetoothAudioRoute',
+       ),
+       assert(
+         currentRoute is AudioRoute || currentRoute is BluetoothAudioRoute,
+         'currentRoute must be eiter AudioRoute or BluetoothAudioRoute',
+       );
   final Object route;
   final Object currentRoute;
   final Widget icon;

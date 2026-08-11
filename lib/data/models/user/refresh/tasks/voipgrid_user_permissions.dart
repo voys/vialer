@@ -20,8 +20,8 @@ class RefreshVoipgridUserPermissions extends UserRefreshTaskPerformer {
     try {
       granted = await dependencyLocator<UserPermissionsRepository>()
           .getGrantedPermissions(
-        user: user,
-      );
+            user: user,
+          );
     } on UnableToRetrievePermissionsException {
       // If we are unable to get the current permissions we should just leave
       // the current permission as it is.
@@ -30,14 +30,16 @@ class RefreshVoipgridUserPermissions extends UserRefreshTaskPerformer {
 
     final permissions = granted.toUserPermissions();
 
-    return (User user) => _applyPermissionsSideEffects(permissions, user)
-        .copyWith(permissions: permissions);
+    return (User user) => _applyPermissionsSideEffects(
+      permissions,
+      user,
+    ).copyWith(permissions: permissions);
   }
 
   User _applyPermissionsSideEffects(Permissions permissions, User user) {
     if (permissions.contains(Permission.canSeeClientCalls)) return user;
 
-    var newUser = user;
+    final newUser = user;
 
     // If client calls are enabled, we're going to disable it as the user
     // no longer has permission for it.
@@ -65,10 +67,10 @@ extension on List<VoipgridPermission> {
   };
 
   Permissions toUserPermissions() {
-    var permissions = Permissions.from(
-      this
-          .where((permission) => _mapping.containsKey(permission))
-          .map((permission) => _mapping[permission]!),
+    final permissions = Permissions.from(
+      where(
+        (permission) => _mapping.containsKey(permission),
+      ).map((permission) => _mapping[permission]!),
     );
 
     if (contains(VoipgridPermission.viewVoicemail) &&

@@ -98,8 +98,8 @@ class ConditionalMergeSemantics extends StatelessWidget {
   const ConditionalMergeSemantics({
     required this.mergeSemantics,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool mergeSemantics;
   final Widget child;

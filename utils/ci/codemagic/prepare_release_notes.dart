@@ -102,13 +102,13 @@ Future<void> main(List<String> args) async {
 /// The message files now need to be rebuilt as we have updated the .yaml
 /// files.
 Future<void> buildMessageFiles() async => Process.run('flutter', [
-      'packages',
-      'pub',
-      'run',
-      'build_runner',
-      'build',
-      '--delete-conflicting-outputs',
-    ]);
+  'packages',
+  'pub',
+  'run',
+  'build_runner',
+  'build',
+  '--delete-conflicting-outputs',
+]);
 
 /// We will now update the [messages.i18n.yaml] files with the translated
 /// release notes so they can be viewed in the app.
@@ -149,8 +149,8 @@ Future<void> generateReleaseNotesForCodemagic(File file) async {
   }
 
   final releaseNotesCharacterCount = await file.readAsString().then(
-        (content) => content.length,
-      );
+    (content) => content.length,
+  );
 
   if (releaseNotesCharacterCount >= maxAllowedCharactersInReleaseNotes) {
     throw Exception(

@@ -17,7 +17,8 @@ import '../rid_generator.dart';
 import 'listener.dart';
 
 class LoggedInUserAvailabilityChangedHandler
-    extends ResgateListener<UserAvailabilityChangedPayload> with RidGenerator {
+    extends ResgateListener<UserAvailabilityChangedPayload>
+    with RidGenerator {
   late final _refreshUser = RefreshUser();
   late final _isOnboarded = IsOnboarded();
   late final _destinations = dependencyLocator<DestinationRepository>();
@@ -31,13 +32,13 @@ class LoggedInUserAvailabilityChangedHandler
 
   @override
   String get resourceToSubscribeTo => createRid(
-        (user, client) => 'availability.client.$client',
-      );
+    (user, client) => 'availability.client.$client',
+  );
 
   @override
   RegExp get resourceToHandle => createRidRegex(
-        (user, client) => RegExp(resourceToSubscribeTo + '.user.$user' + r'$'),
-      );
+    (user, client) => RegExp('$resourceToSubscribeTo.user.$user\$'),
+  );
 
   @override
   Future<void> handle(UserAvailabilityChangedPayload payload) async {
@@ -60,11 +61,12 @@ class LoggedInUserAvailabilityChangedHandler
     SelectedDestination? selectedDestination,
   ) async {
     if (selectedDestination == null) {
-      return _updateSetting(Destination.notAvailable());
+      return _updateSetting(const Destination.notAvailable());
     }
 
-    final found = _destinations.availableDestinations
-        .findById(selectedDestination.destinationId);
+    final found = _destinations.availableDestinations.findById(
+      selectedDestination.destinationId,
+    );
 
     // We don't have this destination stored so we will have to make the API
     // request.
@@ -76,9 +78,9 @@ class LoggedInUserAvailabilityChangedHandler
   }
 
   Future<void> _updateSetting(Destination destination) => ForceUpdateSetting()(
-        CallSetting.destination,
-        destination.identifier,
-      );
+    CallSetting.destination,
+    destination.identifier,
+  );
 
   Future<void> _refreshSelectedDestinationViaApi() async {
     if (!_isOnboarded()) return;
@@ -105,6 +107,6 @@ extension on UserAvailabilityChangedPayload {
 
 extension on List<Destination> {
   Destination? findById(int id) => where(
-        (destination) => destination.identifier == id,
-      ).firstOrNull;
+    (destination) => destination.identifier == id,
+  ).firstOrNull;
 }

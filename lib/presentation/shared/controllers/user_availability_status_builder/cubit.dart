@@ -25,7 +25,7 @@ export 'state.dart';
 class UserAvailabilityStatusCubit extends Cubit<UserAvailabilityStatusState>
     with CubitSubscriptions {
   UserAvailabilityStatusCubit(this._settingsCubit)
-      : super(UserAvailabilityStatusState(UserAvailabilityStatus.offline)) {
+    : super(const UserAvailabilityStatusState(UserAvailabilityStatus.offline)) {
     onEventUntilCubitClosed<LoggedInUserAvailabilityChanged>(
       (event) => unawaited(
         check(

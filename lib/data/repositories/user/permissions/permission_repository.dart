@@ -31,32 +31,31 @@ class PermissionRepository {
 
 extension PermissionMapper on domain.Permission {
   permission_handler.Permission toThirdPartyEntity() => switch (this) {
-        domain.Permission.phone => permission_handler.Permission.phone,
-        domain.Permission.contacts => permission_handler.Permission.contacts,
-        domain.Permission.microphone =>
-          permission_handler.Permission.microphone,
-        domain.Permission.bluetooth =>
-          permission_handler.Permission.bluetoothConnect,
-        domain.Permission.ignoreBatteryOptimizations =>
-          permission_handler.Permission.ignoreBatteryOptimizations,
-        domain.Permission.notifications =>
-          permission_handler.Permission.notification,
-      };
+    domain.Permission.phone => permission_handler.Permission.phone,
+    domain.Permission.contacts => permission_handler.Permission.contacts,
+    domain.Permission.microphone => permission_handler.Permission.microphone,
+    domain.Permission.bluetooth =>
+      permission_handler.Permission.bluetoothConnect,
+    domain.Permission.ignoreBatteryOptimizations =>
+      permission_handler.Permission.ignoreBatteryOptimizations,
+    domain.Permission.notifications =>
+      permission_handler.Permission.notification,
+  };
 }
 
 extension PermissionStatusMapper on permission_handler.PermissionStatus {
   domain.PermissionStatus toDomainEntity() => switch (this) {
-        permission_handler.PermissionStatus.granted =>
-          domain.PermissionStatus.granted,
-        permission_handler.PermissionStatus.limited =>
-          domain.PermissionStatus.limited,
-        permission_handler.PermissionStatus.denied =>
-          domain.PermissionStatus.denied,
-        permission_handler.PermissionStatus.permanentlyDenied =>
-          domain.PermissionStatus.permanentlyDenied,
-        permission_handler.PermissionStatus.restricted =>
-          domain.PermissionStatus.restricted,
-        permission_handler.PermissionStatus.provisional =>
-          domain.PermissionStatus.granted,
-      };
+    permission_handler.PermissionStatus.granted =>
+      domain.PermissionStatus.granted,
+    permission_handler.PermissionStatus.limited =>
+      domain.PermissionStatus.limited,
+    permission_handler.PermissionStatus.denied =>
+      domain.PermissionStatus.denied,
+    permission_handler.PermissionStatus.permanentlyDenied =>
+      domain.PermissionStatus.permanentlyDenied,
+    permission_handler.PermissionStatus.restricted =>
+      domain.PermissionStatus.restricted,
+    permission_handler.PermissionStatus.provisional =>
+      domain.PermissionStatus.granted,
+  };
 }

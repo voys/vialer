@@ -34,8 +34,8 @@ class TemporaryRedirectPickerPage extends StatelessWidget {
   }
 
   static MaterialPageRoute<void> route() => MaterialPageRoute(
-        builder: (_) => const TemporaryRedirectPickerPage(),
-      );
+    builder: (_) => const TemporaryRedirectPickerPage(),
+  );
 }
 
 extension on BuildContext {

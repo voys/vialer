@@ -90,15 +90,15 @@ abstract class CallProcessState extends CallOriginDetermined {
 
   bool get isInBadQualityCall =>
       voipCall!.hasValidMosValue &&
-      voipCall!.currentMos < BAD_CALL_QUALITY_MOS_THRESHOLD;
+      voipCall!.currentMos < badCallQualityMosThreshold;
 
   @override
   List<Object?> get props => [
-        ...super.props,
-        origin,
-        voip,
-        isVoip,
-      ];
+    ...super.props,
+    origin,
+    voip,
+    isVoip,
+  ];
 
   CallProcessState copyWith({
     CallOrigin origin,
@@ -116,15 +116,15 @@ abstract class CallProcessState extends CallOriginDetermined {
   }
 
   Calling calling({CallSessionState? voip, bool? isTransferAborted}) => Calling(
-        origin: origin,
-        voip: voip ?? this.voip,
-        isTransferAborted: isTransferAborted ?? false,
-      );
+    origin: origin,
+    voip: voip ?? this.voip,
+    isTransferAborted: isTransferAborted ?? false,
+  );
 
   FinishedCalling finished({CallSessionState? voip}) => FinishedCalling(
-        origin: origin,
-        voip: voip ?? this.voip,
-      );
+    origin: origin,
+    voip: voip ?? this.voip,
+  );
 
   AttendedTransferStarted transferStarted({CallSessionState? voip}) =>
       AttendedTransferStarted(
@@ -160,19 +160,18 @@ class Ringing extends CallProcessState {
   const Ringing({
     required CallSessionState voip,
   }) : super(
-          origin: CallOrigin.incoming,
-          voip: voip,
-        );
+         origin: CallOrigin.incoming,
+         voip: voip,
+       );
 
   /// [origin] never gets copied (is always [CallOrigin.incoming]).
   @override
   Ringing copyWith({
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      Ringing(
-        voip: voip ?? this.voip!,
-      );
+  }) => Ringing(
+    voip: voip ?? this.voip!,
+  );
 }
 
 class StartingCall extends CallProcessState {
@@ -185,11 +184,10 @@ class StartingCall extends CallProcessState {
   StartingCall copyWith({
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      StartingCall(
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => StartingCall(
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 abstract class StartingCallFailed extends CallProcessState implements CanCall {
@@ -202,12 +200,11 @@ abstract class StartingCallFailed extends CallProcessState implements CanCall {
     Exception exception, {
     required CallOrigin origin,
     required CallSessionState? voip,
-  }) =>
-      StartingCallFailedWithException(
-        exception,
-        origin: origin,
-        voip: voip,
-      );
+  }) => StartingCallFailedWithException(
+    exception,
+    origin: origin,
+    voip: voip,
+  );
 
   /// [reason] must not be `unknown`. Use the other constructor if that's the
   /// case.
@@ -215,8 +212,7 @@ abstract class StartingCallFailed extends CallProcessState implements CanCall {
     CallFailureReason reason, {
     required CallOrigin origin,
     required bool isVoip,
-  }) =>
-      StartingCallFailedWithReason(reason, origin: origin, isVoip: isVoip);
+  }) => StartingCallFailedWithReason(reason, origin: origin, isVoip: isVoip);
 }
 
 class StartingCallFailedWithException extends StartingCallFailed {
@@ -235,12 +231,11 @@ class StartingCallFailedWithException extends StartingCallFailed {
     Exception? exception,
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      StartingCallFailedWithException(
-        exception ?? this.exception,
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => StartingCallFailedWithException(
+    exception ?? this.exception,
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 class StartingCallFailedWithReason extends StartingCallFailed {
@@ -249,9 +244,9 @@ class StartingCallFailedWithReason extends StartingCallFailed {
     required super.origin,
     super.voip,
     bool isVoip = false,
-  })  : assert(reason != CallFailureReason.unknown, 'reason must be known'),
-        _isVoip = voip != null || isVoip,
-        super._();
+  }) : assert(reason != CallFailureReason.unknown, 'reason must be known'),
+       _isVoip = voip != null || isVoip,
+       super._();
   final CallFailureReason reason;
 
   final bool _isVoip;
@@ -267,12 +262,11 @@ class StartingCallFailedWithReason extends StartingCallFailed {
     CallFailureReason? reason,
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      StartingCallFailedWithReason(
-        reason ?? this.reason,
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => StartingCallFailedWithReason(
+    reason ?? this.reason,
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 class Calling extends CallProcessState {
@@ -287,12 +281,11 @@ class Calling extends CallProcessState {
     CallOrigin? origin,
     CallSessionState? voip,
     bool? isTransferAborted,
-  }) =>
-      Calling(
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-        isTransferAborted: isTransferAborted ?? false,
-      );
+  }) => Calling(
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+    isTransferAborted: isTransferAborted ?? false,
+  );
 }
 
 class AttendedTransferStarted extends CallProcessState {
@@ -305,11 +298,10 @@ class AttendedTransferStarted extends CallProcessState {
   AttendedTransferStarted copyWith({
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      AttendedTransferStarted(
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => AttendedTransferStarted(
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 class FinishedCalling extends CallProcessState implements CanCall {
@@ -322,11 +314,10 @@ class FinishedCalling extends CallProcessState implements CanCall {
   FinishedCalling copyWith({
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      FinishedCalling(
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => FinishedCalling(
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 class AttendedTransferComplete extends FinishedCalling {
@@ -339,11 +330,10 @@ class AttendedTransferComplete extends FinishedCalling {
   AttendedTransferComplete copyWith({
     CallOrigin? origin,
     CallSessionState? voip,
-  }) =>
-      AttendedTransferComplete(
-        origin: origin ?? this.origin,
-        voip: voip ?? this.voip,
-      );
+  }) => AttendedTransferComplete(
+    origin: origin ?? this.origin,
+    voip: voip ?? this.voip,
+  );
 }
 
 enum CallOrigin {
@@ -357,11 +347,11 @@ enum CallOrigin {
 }
 
 /// The threshold below which we consider a call to be of bad quality.
-const BAD_CALL_QUALITY_MOS_THRESHOLD = 2;
+const badCallQualityMosThreshold = 2;
 
-/// A call must be below [BAD_CALL_QUALITY_MOS_THRESHOLD] for this many seconds
+/// A call must be below [badCallQualityMosThreshold] for this many seconds
 /// before it will be considered a bad quality call.
-const BAD_CALL_QUALITY_MIN_DURATION = 5;
+const badCallQualityMinDuration = 5;
 
 extension on Call? {
   bool get hasValidMosValue =>

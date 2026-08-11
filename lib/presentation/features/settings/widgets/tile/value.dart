@@ -10,11 +10,12 @@ import '../../../../resources/localizations.dart';
 import '../../../../shared/widgets/stylized_switch.dart';
 import '../../controllers/cubit.dart';
 
-typedef ValueChangedWithContext<T extends Object> = void Function(
-  BuildContext,
-  SettingKey<T>,
-  T,
-);
+typedef ValueChangedWithContext<T extends Object> =
+    void Function(
+      BuildContext,
+      SettingKey<T>,
+      T,
+    );
 
 /// If the setting cannot be changed, a dialog is shown.
 Future<void> runIfSettingCanBeChanged(
@@ -55,22 +56,20 @@ Future<void> defaultOnSettingChanged<T extends Object>(
   BuildContext context,
   SettingKey<T> key,
   T value,
-) =>
-    runIfSettingCanBeChanged(
-      context,
-      [key],
-      () => context.read<SettingsCubit>().changeSetting(key, value),
-    );
+) => runIfSettingCanBeChanged(
+  context,
+  [key],
+  () => context.read<SettingsCubit>().changeSetting(key, value),
+);
 
 Future<void> defaultOnSettingsChanged<T extends Object>(
   BuildContext context,
   Map<SettingKey, Object> settings,
-) =>
-    runIfSettingCanBeChanged(
-      context,
-      settings.keys,
-      () => context.read<SettingsCubit>().changeSettings(settings),
-    );
+) => runIfSettingCanBeChanged(
+  context,
+  settings.keys,
+  () => context.read<SettingsCubit>().changeSettings(settings),
+);
 
 class BoolSettingValue extends StatelessWidget {
   const BoolSettingValue(
@@ -87,7 +86,7 @@ class BoolSettingValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
+      padding: const EdgeInsets.only(left: 8),
       child: StylizedSwitch(
         value: settings.getOrNull(settingKey) ?? false,
         onChanged: onChanged != null
@@ -130,11 +129,11 @@ class StringSettingValue<T extends Object> extends StatelessWidget {
     GetStringValue<T>? value,
     this.bold,
     super.key,
-  })  : value = value ?? ((obj) => obj.toString()),
-        assert(
-          T == String || value != null,
-          'settingKey must be SettingKey<String> or value must be set',
-        );
+  }) : value = value ?? ((obj) => obj.toString()),
+       assert(
+         T == String || value != null,
+         'settingKey must be SettingKey<String> or value must be set',
+       );
   final SettingsRepository settings;
   final SettingKey<T> settingKey;
 

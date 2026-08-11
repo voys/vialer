@@ -54,9 +54,9 @@ class _CallActionsState extends State<CallActions> {
 
       if (currentDialPadValue != _latestDialPadValue) {
         unawaited(
-          context
-              .read<CallerCubit>()
-              .sendVoipDtmf(currentDialPadValue.characters.last),
+          context.read<CallerCubit>().sendVoipDtmf(
+            currentDialPadValue.characters.last,
+          ),
         );
         _latestDialPadValue = currentDialPadValue;
       }
@@ -190,11 +190,17 @@ class _CallActionButtons extends StatelessWidget {
                       label: state.isInTransfer
                           ? context.msg.main.call.ongoing.actions.merge
                           : context
-                              .msg.main.call.ongoing.actions.transfer.label,
+                                .msg
+                                .main
+                                .call
+                                .ongoing
+                                .actions
+                                .transfer
+                                .label,
                       onPressed: state.isActionable
                           ? () => state.isInTransfer
-                              ? _merge(context)
-                              : _transfer(context)
+                                ? _merge(context)
+                                : _transfer(context)
                           : null,
                     ),
                   ),
@@ -217,8 +223,9 @@ class _CallActionButtons extends StatelessWidget {
               const SizedBox(height: 48),
               Center(
                 child: CallButton.hangUp(
-                  onPressed:
-                      state is! FinishedCalling ? onHangUpButtonPressed : null,
+                  onPressed: state is! FinishedCalling
+                      ? onHangUpButtonPressed
+                      : null,
                 ),
               ),
               const SizedBox(height: 32),
@@ -272,8 +279,9 @@ class _ActionButtonState extends State<_ActionButton> {
   bool _active = false;
 
   String get _semanticLabel {
-    final activeLabel =
-        _active ? context.msg.generic.on : context.msg.generic.off;
+    final activeLabel = _active
+        ? context.msg.generic.on
+        : context.msg.generic.off;
     return '${widget.semanticLabel}. '
         '${widget.includeActiveStatusInSemanticLabel ? ' $activeLabel' : ''}';
   }
@@ -466,8 +474,9 @@ class _AudioRouteButton extends StatelessWidget {
   }) {
     if (!hasBluetooth) return label;
 
-    return context.msg.main.call.ongoing.actions.audioRoute
-        .semanticLabel(label);
+    return context.msg.main.call.ongoing.actions.audioRoute.semanticLabel(
+      label,
+    );
   }
 
   @override
@@ -475,7 +484,8 @@ class _AudioRouteButton extends StatelessWidget {
     return CallProcessStateBuilder(
       builder: (context, state) {
         final currentRoute = state.audioState?.currentRoute ?? AudioRoute.phone;
-        final hasBluetooth = state.audioState != null &&
+        final hasBluetooth =
+            state.audioState != null &&
             state.audioState!.availableRoutes.contains(AudioRoute.bluetooth);
 
         final label = _labelFor(
@@ -509,10 +519,10 @@ class _AudioRouteButton extends StatelessWidget {
                   } else {
                     unawaited(
                       context.read<CallerCubit>().routeAudio(
-                            currentRoute == AudioRoute.phone
-                                ? AudioRoute.speaker
-                                : AudioRoute.phone,
-                          ),
+                        currentRoute == AudioRoute.phone
+                            ? AudioRoute.speaker
+                            : AudioRoute.phone,
+                      ),
                     );
                   }
                 }
@@ -556,8 +566,9 @@ class _DialPad extends StatelessWidget {
               ),
             ),
             bottomCenterButton: CallButton.hangUp(
-              onPressed:
-                  state is! FinishedCalling ? onHangUpButtonPressed : null,
+              onPressed: state is! FinishedCalling
+                  ? onHangUpButtonPressed
+                  : null,
             ),
           ),
         );

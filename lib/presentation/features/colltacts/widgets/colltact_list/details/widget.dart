@@ -46,15 +46,16 @@ class _ColltactDetailsState extends State<ColltactDetails> {
             builder: (context, colleagueState) {
               return BlocBuilder<ContactsCubit, ContactsState>(
                 builder: (context, contactsState) {
-                  final sharedContactsCubit =
-                      context.read<SharedContactsCubit>();
+                  final sharedContactsCubit = context
+                      .read<SharedContactsCubit>();
                   final contactsCubit = context.read<ContactsCubit>();
                   final colleaguesCubit = context.read<ColleaguesCubit>();
 
                   /// Ensure we have the latest Colltact data
-                  var colltact = widget.colltact.when(
-                    colleague: (_) => colleaguesCubit
-                        .refreshColltactColleague(widget.colltact),
+                  final colltact = widget.colltact.when(
+                    colleague: (_) => colleaguesCubit.refreshColltactColleague(
+                      widget.colltact,
+                    ),
                     contact: (_) =>
                         contactsCubit.refreshColltactContact(widget.colltact),
                     sharedContact: (_) => sharedContactsCubit
@@ -73,8 +74,7 @@ class _ColltactDetailsState extends State<ColltactDetails> {
                       actions: switch (colltact) {
                         ColltactColleague() => null,
                         ColltactContact() ||
-                        ColltactSharedContact() =>
-                          widget.actions,
+                        ColltactSharedContact() => widget.actions,
                       },
                     ),
                     body: SafeArea(
@@ -125,14 +125,16 @@ class _ColltactDetailsState extends State<ColltactDetails> {
                             Expanded(
                               child: RefreshIndicator(
                                 onRefresh: () async {
-                                  if (colltact is ColltactContact)
+                                  if (colltact is ColltactContact) {
                                     context
                                         .read<ContactsCubit>()
                                         .reloadContacts();
-                                  else if (colltact is ColltactSharedContact)
+                                  } else if (colltact
+                                      is ColltactSharedContact) {
                                     context
                                         .read<SharedContactsCubit>()
                                         .loadSharedContacts(fullRefresh: true);
+                                  }
                                 },
                                 child: _DestinationsList(
                                   colltact: colltact,

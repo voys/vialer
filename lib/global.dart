@@ -11,5 +11,5 @@ import 'data/repositories/metrics/metrics.dart';
 /// will be ignored.
 void track(String eventName, [Map<String, dynamic>? properties]) =>
     dependencyLocator.isRegistered<MetricsRepository>()
-        ? dependencyLocator<MetricsRepository>().track(eventName, properties)
-        : null;
+    ? dependencyLocator<MetricsRepository>().track(eventName, properties)
+    : null;

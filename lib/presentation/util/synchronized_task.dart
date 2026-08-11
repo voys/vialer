@@ -11,8 +11,7 @@ class SynchronizedTask<T> with Loggable {
   factory SynchronizedTask.named(
     String name, [
     SynchronizedTaskMode mode = SynchronizedTaskMode.single,
-  ]) =>
-      SynchronizedTask._(name, mode);
+  ]) => SynchronizedTask._(name, mode);
 
   /// Generate a named task based on the name of the class being passed into,
   /// this makes it cleaner to generate a [SynchronizedTask] that matches

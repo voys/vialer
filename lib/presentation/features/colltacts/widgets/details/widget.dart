@@ -84,9 +84,9 @@ class _ColltactPageDetailsState extends State<ColltactPageDetails>
     ColltactDetailsCubit colltactDetailsCubit,
     SharedContactsCubit sharedContactsCubit,
   ) {
-    if (colltact is ColltactContact)
+    if (colltact is ColltactContact) {
       unawaited(colltactDetailsCubit.edit(colltact));
-    else if (colltact is ColltactSharedContact)
+    } else if (colltact is ColltactSharedContact) {
       unawaited(
         Navigator.push(
           context,
@@ -104,6 +104,7 @@ class _ColltactPageDetailsState extends State<ColltactPageDetails>
           ),
         ),
       );
+    }
   }
 
   @override
@@ -119,33 +120,33 @@ class _ColltactPageDetailsState extends State<ColltactPageDetails>
               create: (_) => ColltactDetailsCubit(context.watch<CallerCubit>()),
               child: BlocBuilder<SharedContactsCubit, SharedContactsState>(
                 builder: (context, sharedContactsState) {
-                  final colltactDetailsCubit =
-                      context.read<ColltactDetailsCubit>();
-                  final sharedContactsCubit =
-                      context.read<SharedContactsCubit>();
+                  final colltactDetailsCubit = context
+                      .read<ColltactDetailsCubit>();
+                  final sharedContactsCubit = context
+                      .read<SharedContactsCubit>();
 
                   /// Ensure we have the latest sharedContact data
-                  var colltact = sharedContactsCubit
+                  final colltact = sharedContactsCubit
                       .refreshColltactSharedContact(widget.colltact);
 
                   return ColltactDetails(
                     colltact: colltact,
                     onPhoneNumberPressed: (destination) =>
                         showOutgoingNumberPrompt(
-                      context,
-                      destination,
-                      (_) => unawaited(
-                        colltactDetailsCubit.call(
+                          context,
                           destination,
-                          origin: switch (colltact) {
-                            ColltactColleague() => CallOrigin.colleagues,
-                            ColltactContact() => CallOrigin.contacts,
-                            ColltactSharedContact() =>
-                              CallOrigin.sharedContacts,
-                          },
+                          (_) => unawaited(
+                            colltactDetailsCubit.call(
+                              destination,
+                              origin: switch (colltact) {
+                                ColltactColleague() => CallOrigin.colleagues,
+                                ColltactContact() => CallOrigin.contacts,
+                                ColltactSharedContact() =>
+                                  CallOrigin.sharedContacts,
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                     onEmailPressed: colltactDetailsCubit.mail,
                     actions: [
                       Padding(
@@ -166,9 +167,9 @@ class _ColltactPageDetailsState extends State<ColltactPageDetails>
                                     ),
                                   ),
                                 )
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: const FaIcon(FontAwesomeIcons.pen),
+                              : const Padding(
+                                  padding: EdgeInsets.only(top: 12),
+                                  child: FaIcon(FontAwesomeIcons.pen),
                                 ),
                         ),
                       ),

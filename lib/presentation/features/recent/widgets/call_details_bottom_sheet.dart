@@ -11,9 +11,9 @@ import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../data/models/call_records/call_record.dart';
 import '../../../../../data/models/user/events/logged_in_user_was_refreshed.dart';
+import '../../../../../data/models/user/refresh/user_refresh_task.dart';
 import '../../../../../data/models/voipgrid/web_page.dart';
 import '../../../../../domain/usecases/user/refresh/refresh_user.dart';
-import '../../../../../data/models/user/refresh/user_refresh_task.dart';
 import '../../../resources/localizations.dart';
 import '../../../shared/pages/web_view.dart';
 import '../../../util/event_bus_listener.dart';
@@ -308,7 +308,7 @@ extension on CallRecord {
   }
 
   String get callMetadata {
-    final localDate = this.date.toLocal();
+    final localDate = date.toLocal();
     final formattedDate = DateFormat.yMd(Platform.localeName).format(localDate);
     final formattedTime = DateFormat.Hm().format(localDate);
     final formattedDuration = prettyDuration(

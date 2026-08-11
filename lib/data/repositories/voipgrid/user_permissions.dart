@@ -48,8 +48,8 @@ class UserPermissionsRepository with Loggable {
     final grantedPermissions = body['permissions'] as List<dynamic>;
 
     // Storing the raw permissions so we can submit these to metrics later.
-    _storage.grantedVoipgridPermissions =
-        grantedPermissions.toRawPermissionsList();
+    _storage.grantedVoipgridPermissions = grantedPermissions
+        .toRawPermissionsList();
 
     return grantedPermissions
         .map(

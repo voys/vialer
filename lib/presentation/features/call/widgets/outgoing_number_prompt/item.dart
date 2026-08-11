@@ -11,6 +11,7 @@ class OutgoingNumberItem extends StatelessWidget {
     required this.item,
     required this.onOutgoingNumberSelected,
     required this.active,
+    super.key,
     this.highlight = false,
     this.padding = EdgeInsets.zero,
     this.showIcon = false,
@@ -44,7 +45,6 @@ class OutgoingNumberItem extends StatelessWidget {
           children: [
             Expanded(
               child: Row(
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   if (showIcon)
                     Container(
@@ -70,7 +70,7 @@ class OutgoingNumberItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                  SizedBox(width: 14),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: OutgoingNumberInfo(item: item),
                   ),
@@ -94,8 +94,8 @@ class OutgoingNumberItem extends StatelessWidget {
 
 class OutgoingNumberInfo extends StatelessWidget {
   const OutgoingNumberInfo({
-    super.key,
     required this.item,
+    super.key,
     this.textStyle,
     this.subtitleTextStyle,
   });
@@ -121,7 +121,8 @@ class OutgoingNumberInfo extends StatelessWidget {
                 : item.descriptionOrEmpty,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: subtitleTextStyle ??
+            style:
+                subtitleTextStyle ??
                 Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
           ),
       ],

@@ -4,7 +4,7 @@ typedef ParentWidgetBuilder = Widget Function(Widget child);
 
 class MultiWidgetParent extends StatelessWidget {
   MultiWidgetParent(this.children, this.lastChild, {super.key})
-      : assert(children.isNotEmpty, 'children must not be empty');
+    : assert(children.isNotEmpty, 'children must not be empty');
 
   final List<ParentWidgetBuilder> children;
   final Widget lastChild;
@@ -23,8 +23,8 @@ class MultiWidgetParent extends StatelessWidget {
 /// initialized.
 class MultiWidgetChildWithDependencies extends StatelessWidget {
   const MultiWidgetChildWithDependencies({
-    super.key,
     required this.builder,
+    super.key,
   });
 
   final Widget Function(BuildContext) builder;

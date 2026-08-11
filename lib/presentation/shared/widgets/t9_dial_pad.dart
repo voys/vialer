@@ -1,9 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/shared/controllers/dial_pad/riverpod.dart';
 import 'package:vialer/presentation/shared/controllers/dial_pad/state.dart';
 import 'package:vialer/presentation/shared/widgets/suggestion_chip.dart';
@@ -124,9 +125,9 @@ class _T9DialPadState extends ConsumerState<T9DialPad>
 
   @override
   Widget build(BuildContext context) {
-    final _clipboardState = ref.watch(clipboardProvider);
-    final _shouldShowPhoneNumberSuggestionChip =
-        _phoneNumberSuggestionChipEnabled && _clipboardState is HasPhoneNumber;
+    final clipboardState = ref.watch(clipboardProvider);
+    final shouldShowPhoneNumberSuggestionChip =
+        _phoneNumberSuggestionChipEnabled && clipboardState is HasPhoneNumber;
 
     ref.listen<ClipboardState>(clipboardProvider, (
       ClipboardState? previousState,
@@ -145,13 +146,12 @@ class _T9DialPadState extends ConsumerState<T9DialPad>
               Stack(
                 children: [
                   T9ColltactsListView(controller: controller),
-                  if (_shouldShowPhoneNumberSuggestionChip) ...[
+                  if (shouldShowPhoneNumberSuggestionChip) ...[
                     Positioned(
                       bottom: 10,
                       left: 0,
                       right: 0,
                       child: Align(
-                        alignment: Alignment.center,
                         child: _PhoneNumberSuggestionChip(
                           onSelected: _selectPhoneNumberSuggestionChip,
                         ),
@@ -167,14 +167,14 @@ class _T9DialPadState extends ConsumerState<T9DialPad>
             ] else ...[
               SafeArea(
                 child: SizedBox(
-                  height: (_shouldShowPhoneNumberSuggestionChip) ? 0 : 58,
+                  height: shouldShowPhoneNumberSuggestionChip ? 0 : 58,
                 ),
               ),
-              if (_shouldShowPhoneNumberSuggestionChip) ...[
+              if (shouldShowPhoneNumberSuggestionChip) ...[
                 _PhoneNumberSuggestionChip(
                   onSelected: _selectPhoneNumberSuggestionChip,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               ],
@@ -227,8 +227,9 @@ class _DialerPrimaryButton extends StatelessWidget {
     return Center(
       child: CallButton(
         onPressed: onPressed,
-        backgroundColor:
-            onPressed != null ? color : context.brand.theme.colors.grey3,
+        backgroundColor: onPressed != null
+            ? color
+            : context.brand.theme.colors.grey3,
         icon: icon,
         constraints: BoxConstraints(
           minWidth: minSize,
@@ -241,9 +242,8 @@ class _DialerPrimaryButton extends StatelessWidget {
 }
 
 class _PhoneNumberSuggestionChip extends StatelessWidget {
+  const _PhoneNumberSuggestionChip({required this.onSelected});
   final VoidCallback onSelected;
-
-  _PhoneNumberSuggestionChip({required this.onSelected});
 
   @override
   Widget build(BuildContext context) {

@@ -114,12 +114,20 @@ class _NoticeState extends State<_Notice>
       BluetoothConnectPermissionDeniedNotice() =>
         strings.bluetoothConnect.content(app),
       NotificationsPermissionDeniedNotice() => strings.notifications.content,
-      NoAppAccountNotice state => state.hasPermissionToChangeAppAccount
-          ? strings.noAppAccount.content(app)
-          : strings.noAppAccount.noPermission.content,
+      final NoAppAccountNotice state =>
+        state.hasPermissionToChangeAppAccount
+            ? strings.noAppAccount.content(app)
+            : strings.noAppAccount.noPermission.content,
       NoGooglePlayServices() => strings.noGooglePlayServices.content,
-      IgnoreBatteryOptimizationsPermissionDeniedNotice() => context.msg.main
-          .settings.list.calling.ignoreBatteryOptimizations.description,
+      IgnoreBatteryOptimizationsPermissionDeniedNotice() =>
+        context
+            .msg
+            .main
+            .settings
+            .list
+            .calling
+            .ignoreBatteryOptimizations
+            .description,
       _ => strings.phoneAndMicrophone.content(app),
     };
 
@@ -151,8 +159,13 @@ class _NoticeState extends State<_Notice>
                           ),
                         ),
                         child: Text(
-                          context.msg.main.temporaryRedirect.actions
-                              .changeRedirect.label
+                          context
+                              .msg
+                              .main
+                              .temporaryRedirect
+                              .actions
+                              .changeRedirect
+                              .label
                               .toUpperCaseIfAndroid(context),
                         ),
                       ),
@@ -161,8 +174,9 @@ class _NoticeState extends State<_Notice>
                     TextButton(
                       onPressed: cubit.dismiss,
                       child: Text(
-                        context.msg.generic.button.close
-                            .toUpperCaseIfAndroid(context),
+                        context.msg.generic.button.close.toUpperCaseIfAndroid(
+                          context,
+                        ),
                       ),
                     ),
                     if (state is NoAppAccountNotice &&
@@ -198,7 +212,10 @@ class _NoticeState extends State<_Notice>
                               else if (state
                                   is IgnoreBatteryOptimizationsPermissionDeniedNotice)
                                 Permission.ignoreBatteryOptimizations
-                              else ...[Permission.phone, Permission.microphone],
+                              else ...[
+                                Permission.phone,
+                                Permission.microphone,
+                              ],
                             ],
                           ),
                         ),

@@ -8,8 +8,8 @@ import '../../../data/models/calling/outgoing_number/outgoing_number.dart';
 class FormattedPhoneNumber extends StatelessWidget {
   const FormattedPhoneNumber(
     this.number, {
-    this.style,
     required this.formattedNumber,
+    this.style,
     super.key,
   });
 
@@ -82,7 +82,10 @@ class PhoneNumberText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(child is Text || content != null);
+    assert(
+      child is Text || content != null,
+      'child must be a Text widget or content must be provided',
+    );
 
     return Semantics(
       label: _semanticsLabel,
@@ -111,9 +114,9 @@ class PhoneNumberText extends StatelessWidget {
 const _ignoredCharacters = [')', '('];
 
 extension PhoneNumberSemantics on String {
-  String get phoneNumberSemanticLabel => split('')
-      .filter((element) => !_ignoredCharacters.contains(element))
-      .join(' ');
+  String get phoneNumberSemanticLabel => split(
+    '',
+  ).filter((element) => !_ignoredCharacters.contains(element)).join(' ');
 
   String get asSemanticsLabelIfPhoneNumber =>
       looksLikePhoneNumber ? phoneNumberSemanticLabel : this;

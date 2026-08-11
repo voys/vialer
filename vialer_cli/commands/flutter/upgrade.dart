@@ -56,6 +56,7 @@ class UpgradeFlutter extends Command<void> {
   @override
   final invocation = 'flutter-upgrade --version=3.16.0 --ticket-id=1345';
 
+  @override
   Future<void> run() async {
     await _checkInCorrectDirectory();
 

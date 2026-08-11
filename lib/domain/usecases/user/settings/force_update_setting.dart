@@ -18,6 +18,5 @@ class ForceUpdateSetting extends UseCase {
   Future<void> call<T extends Object>(
     SettingKey<T> key,
     T value,
-  ) async =>
-      _settingsRepository.change(key, value);
+  ) async => _settingsRepository.change(key, value);
 }

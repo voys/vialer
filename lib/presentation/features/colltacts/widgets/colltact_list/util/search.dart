@@ -5,10 +5,10 @@ import '../../../../../../../data/models/colltacts/colltact.dart';
 
 extension ColltactSearch on Colltact {
   bool matchesSearchTerm(String term) => switch (this) {
-        ColltactContact colltact => colltact.matchesSearchTerm(term),
-        ColltactSharedContact colltact => colltact.matchesSearchTerm(term),
-        ColltactColleague colltact => colltact.matchesSearchTerm(term),
-      };
+    final ColltactContact colltact => colltact.matchesSearchTerm(term),
+    final ColltactSharedContact colltact => colltact.matchesSearchTerm(term),
+    final ColltactColleague colltact => colltact.matchesSearchTerm(term),
+  };
 }
 
 extension on ColltactContact {
@@ -23,7 +23,10 @@ extension on ColltactContact {
     }
 
     if (contact.phoneNumbers.any(
-      (number) => number.value.toLowerCase().replaceAll(' ', '').contains(
+      (number) => number.value
+          .toLowerCase()
+          .replaceAll(' ', '')
+          .contains(
             term.formatForPhoneNumberQuery(),
           ),
     )) {
@@ -40,9 +43,9 @@ extension on ColltactSharedContact {
     if (contact.companyName?.toLowerCase().contains(term) ?? false) return true;
 
     for (final number in contact.phoneNumbers) {
-      if (number.phoneNumberFlat
-          .toLowerCase()
-          .contains(term.formatForPhoneNumberQuery())) {
+      if (number.phoneNumberFlat.toLowerCase().contains(
+        term.formatForPhoneNumberQuery(),
+      )) {
         return true;
       }
     }
@@ -55,7 +58,10 @@ extension on ColltactColleague {
   bool matchesSearchTerm(String term) {
     if (colleague.name.toLowerCase().contains(term)) return true;
 
-    if ((colleague.number ?? '').toLowerCase().replaceAll(' ', '').contains(
+    if ((colleague.number ?? '')
+        .toLowerCase()
+        .replaceAll(' ', '')
+        .contains(
           term.formatForPhoneNumberQuery(),
         )) {
       return true;

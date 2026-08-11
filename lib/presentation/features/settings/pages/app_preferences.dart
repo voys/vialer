@@ -93,7 +93,7 @@ class AppPreferencesSubPage extends StatelessWidget {
                 if (state.showTroubleshooting)
                   AdvancedSettingsCategory(
                     children: [
-                      TroubleshootingLinkTile(),
+                      const TroubleshootingLinkTile(),
                       if (Platform.isAndroid)
                         EnableAdvancedVoipLoggingTile(user),
                     ],

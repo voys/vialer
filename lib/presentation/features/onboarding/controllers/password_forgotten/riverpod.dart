@@ -13,7 +13,8 @@ class PasswordForgotten extends _$PasswordForgotten {
   late final _requestNewPassword = dependencyLocator<RequestNewPassword>();
   late final _validateEmail = dependencyLocator<ValidateEmail>();
 
-  PasswordForgottenState build() => PasswordForgottenState.initial();
+  @override
+  PasswordForgottenState build() => const PasswordForgottenState.initial();
 
   Future<void> requestNewPassword(String email) async {
     logger.info('Requesting new password');
@@ -27,11 +28,11 @@ class PasswordForgotten extends _$PasswordForgotten {
       return;
     }
 
-    state = PasswordForgottenState.loading();
+    state = const PasswordForgottenState.loading();
 
     final success = await _requestNewPassword(email: email);
     state = success
-        ? PasswordForgottenState.success()
-        : PasswordForgottenState.failure();
+        ? const PasswordForgottenState.success()
+        : const PasswordForgottenState.failure();
   }
 }

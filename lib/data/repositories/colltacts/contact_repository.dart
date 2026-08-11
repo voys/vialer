@@ -145,7 +145,8 @@ class ContactRepository with Loggable {
 }
 
 extension on Iterable<Contact> {
-  Iterable<Contact> attachAvatarPaths(Directory avatarPath) => filter(
+  Iterable<Contact> attachAvatarPaths(Directory avatarPath) =>
+      filter(
         (contact) => contact.identifier.isNotNullOrBlank,
       ).map(
         (contact) => contact.copyWith(

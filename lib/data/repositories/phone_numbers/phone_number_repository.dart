@@ -23,23 +23,25 @@ class PhoneNumberRepository with Loggable {
     );
 
     if (httpResponse.statusCode == 400) {
-      return ValidationResult.invalid();
+      return const ValidationResult.invalid();
     }
 
     if (!httpResponse.isSuccessful) {
       logFailedResponse(httpResponse, name: 'Validate phone number');
-      return ValidationResult.invalid();
+      return const ValidationResult.invalid();
     }
 
-    final response =
-        _PhoneNumberValidationResponse.fromJson(httpResponse.body!);
+    final response = _PhoneNumberValidationResponse.fromJson(
+      httpResponse.body!,
+    );
 
     return response.toValidationResult();
   }
 }
 
 @Freezed(toJson: false, fromJson: false)
-abstract class _PhoneNumberValidationResponse with _$PhoneNumberValidationResponse {
+abstract class _PhoneNumberValidationResponse
+    with _$PhoneNumberValidationResponse {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory _PhoneNumberValidationResponse({
     // These properties are only used when creating via JSON.
@@ -73,7 +75,7 @@ sealed class ValidationResult with _$ValidationResult {
 
 extension on _PhoneNumberValidationResponse {
   ValidationResult toValidationResult() {
-    if (!this.isValid) return ValidationResult.invalid();
+    if (!isValid) return const ValidationResult.invalid();
 
     return ValidationResult.valid(
       pretty: phoneNumberPretty!,
@@ -93,9 +95,9 @@ enum PhoneNumberType {
   unknown;
 
   static PhoneNumberType fromServerValue(String value) => switch (value) {
-        'Mobile' => mobile,
-        'Internal' => internal,
-        'Fixed' => fixed,
-        _ => unknown,
-      };
+    'Mobile' => mobile,
+    'Internal' => internal,
+    'Fixed' => fixed,
+    _ => unknown,
+  };
 }

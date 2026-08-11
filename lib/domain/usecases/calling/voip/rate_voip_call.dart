@@ -41,10 +41,10 @@ class RateVoipCallUseCase extends UseCase {
   /// the combination of routes used. This is to provide
   /// alternative ways to view the events in a dashboard.
   String _createAudioRouteString(Set<AudioRoute> routes) => [
-        if (routes.contains(AudioRoute.phone)) 'phone',
-        if (routes.contains(AudioRoute.speaker)) 'speaker',
-        if (routes.contains(AudioRoute.bluetooth)) 'bluetooth',
-      ].join('|');
+    if (routes.contains(AudioRoute.phone)) 'phone',
+    if (routes.contains(AudioRoute.speaker)) 'speaker',
+    if (routes.contains(AudioRoute.bluetooth)) 'bluetooth',
+  ].join('|');
 }
 
 extension Mapping on List<CallAudioProblem> {
@@ -52,10 +52,9 @@ extension Mapping on List<CallAudioProblem> {
   /// [CallAudioProblem] as the key and a bool as the value.
   Map<CallAudioProblem, bool> toBoolMap({
     bool defaultValue = false,
-  }) =>
-      {
-        for (final e in CallAudioProblem.values) e: defaultValue,
-      };
+  }) => {
+    for (final e in CallAudioProblem.values) e: defaultValue,
+  };
 
   /// Convert to a map with the key as the short string of
   /// [CallAudioProblem] and the given boolean value.

@@ -52,7 +52,9 @@ class TemporaryRedirectExplanation extends StatelessWidget {
 
 extension on DateTime? {
   String toTemporaryRedirectFormat() => this != null
-      ? DateFormat('EEEE d-M-y HH:mm', Platform.localeName)
-          .format(this!.toLocal())
+      ? DateFormat(
+          'EEEE d-M-y HH:mm',
+          Platform.localeName,
+        ).format(this!.toLocal())
       : '??';
 }

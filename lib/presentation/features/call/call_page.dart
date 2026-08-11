@@ -107,8 +107,9 @@ class _CallPageState extends State<_CallPage>
 
   /// The [Duration] that the call must be below the minimum quality threshold
   /// before we show a warning to the user.
-  static const _poorQualityMinimumDuration =
-      Duration(seconds: BAD_CALL_QUALITY_MIN_DURATION);
+  static const _poorQualityMinimumDuration = Duration(
+    seconds: badCallQualityMinDuration,
+  );
 
   bool isNotifyingUserAboutBadQualityCall = false;
 
@@ -151,8 +152,10 @@ class _CallPageState extends State<_CallPage>
   void _dismissCallPage(BuildContext context, {Duration? after}) {
     void dismiss() {
       if (mounted) {
-        Navigator.of(context, rootNavigator: true)
-            .popUntil((route) => route.isFirst);
+        Navigator.of(
+          context,
+          rootNavigator: true,
+        ).popUntil((route) => route.isFirst);
       }
     }
 
@@ -174,8 +177,10 @@ class _CallPageState extends State<_CallPage>
           cubit.shouldRequestCallRating()) {
         Timer(const Duration(seconds: 1), () {
           if (mounted) {
-            _requestCallRating(context, state)
-                .then((_) => _dismissCallPage(context));
+            _requestCallRating(
+              context,
+              state,
+            ).then((_) => _dismissCallPage(context));
           }
         });
       } else {
@@ -247,16 +252,16 @@ class _CallPageState extends State<_CallPage>
   void _submitCallRating(
     CallFeedbackResult result,
     FinishedCalling state,
-  ) =>
-      unawaited(
-        context.read<CallerCubit>().rateVoipCall(
-              result: result,
-              call: state.voipCall!,
-            ),
-      );
+  ) => unawaited(
+    context.read<CallerCubit>().rateVoipCall(
+      result: result,
+      call: state.voipCall!,
+    ),
+  );
 
   void _transfer() {
-    final callerName = context
+    final callerName =
+        context
             .read<CallerCubit>()
             .processState
             .voip
@@ -268,8 +273,9 @@ class _CallPageState extends State<_CallPage>
     Future.delayed(const Duration(seconds: 1), () async {
       await SemanticsService.sendAnnouncement(
         View.of(context),
-        context.msg.main.call.ongoing.actions.transfer
-            .semanticPostPress(callerName),
+        context.msg.main.call.ongoing.actions.transfer.semanticPostPress(
+          callerName,
+        ),
         Directionality.of(context),
       );
     });
@@ -355,7 +361,7 @@ class _CallPageState extends State<_CallPage>
                 ),
                 AnimatedVisibility(
                   visible: isNotifyingUserAboutBadQualityCall,
-                  child: SizedBox(height: 100),
+                  child: const SizedBox(height: 100),
                 ),
               ],
             );
@@ -413,7 +419,7 @@ class _CallHeader extends StatelessWidget {
                 horizontal: 16,
                 vertical: 4,
               ),
-              child: _CallDuration(),
+              child: const _CallDuration(),
             ),
             const Gap(12),
           ],

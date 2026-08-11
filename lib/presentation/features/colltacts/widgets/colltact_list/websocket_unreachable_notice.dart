@@ -20,8 +20,8 @@ class WebSocketUnreachableNotice extends StatelessWidget {
           final colleaguesCubit = context.watch<ColleaguesCubit>();
           final showWebSocketUnreachableNotice =
               colleaguesCubit.shouldShowColleagues &&
-                  state is ColleaguesLoaded &&
-                  !state.upToDate;
+              state is ColleaguesLoaded &&
+              !state.upToDate;
 
           return AnimatedVisibility(
             visible: showWebSocketUnreachableNotice,
@@ -31,8 +31,9 @@ class WebSocketUnreachableNotice extends StatelessWidget {
                 context.msg.main.colleagues.websocketUnreachableNotice.title,
               ),
               content: Text(
-                context.msg.main.colleagues.websocketUnreachableNotice
-                    .content(context.brand.appName),
+                context.msg.main.colleagues.websocketUnreachableNotice.content(
+                  context.brand.appName,
+                ),
               ),
             ),
           );

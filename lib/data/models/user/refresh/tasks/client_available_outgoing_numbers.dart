@@ -12,7 +12,7 @@ class RefreshClientAvailableOutgoingNumbers extends ClientRefreshTaskPerformer {
         .getOutgoingNumbersAvailableToClient(client);
 
     return (Client client) => client.copyWith(
-          outgoingNumbers: () => outgoingNumbers,
-        );
+      outgoingNumbers: () => outgoingNumbers,
+    );
   }
 }

@@ -16,10 +16,9 @@ class OutgoingNumbersRepository with Loggable {
 
   Future<Iterable<OutgoingNumber>> getOutgoingNumbersAvailableToClient(
     Client client,
-  ) =>
-      _fetchAllAvailableNumbers(
-        clientUuid: client.uuid,
-      ).distinct().toList();
+  ) => _fetchAllAvailableNumbers(
+    clientUuid: client.uuid,
+  ).distinct().toList();
 
   Future<bool> changeOutgoingNumber({
     required User user,
@@ -53,13 +52,12 @@ class OutgoingNumbersRepository with Loggable {
 
   Future<bool> suppressOutgoingNumber({
     required User user,
-  }) =>
-      changeOutgoingNumber(
-        user: user,
-        // The API expects us to use `suppress` formatted like this, despite
-        // other APIs returning `suppressed` elsewhere.
-        number: 'suppress',
-      );
+  }) => changeOutgoingNumber(
+    user: user,
+    // The API expects us to use `suppress` formatted like this, despite
+    // other APIs returning `suppressed` elsewhere.
+    number: 'suppress',
+  );
 
   /// The results we get from the API are paginated, this will go through each
   /// page and return a stream of numbers.

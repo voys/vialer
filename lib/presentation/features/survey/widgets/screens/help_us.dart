@@ -69,15 +69,17 @@ class HelpUsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () => _dismiss(context),
                   child: Text(
-                    context.msg.generic.button.noThanks
-                        .toUpperCaseIfAndroid(context),
+                    context.msg.generic.button.noThanks.toUpperCaseIfAndroid(
+                      context,
+                    ),
                   ),
                 ),
                 TextButton(
                   onPressed: () => _next(context),
                   child: Text(
-                    context.msg.generic.button.yes
-                        .toUpperCaseIfAndroid(context),
+                    context.msg.generic.button.yes.toUpperCaseIfAndroid(
+                      context,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),

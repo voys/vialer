@@ -63,8 +63,8 @@ extension on String? {
   static const truthy = ['1', 'true'];
 
   bool toBool() => truthy.any(
-        (truthy) => truthy.toLowerCase() == this?.toLowerCase(),
-      );
+    (truthy) => truthy.toLowerCase() == this?.toLowerCase(),
+  );
 }
 
 /// Determine if the app is in production, this means that it is a build

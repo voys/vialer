@@ -13,19 +13,19 @@ enum AppSetting<T extends Object> with SettingKey<T> {
   enableAdvancedVoipLogging<bool>();
 
   static Map<AppSetting, Object?> get defaultValues => Map.fromEntries(
-        AppSetting.values.map((e) => MapEntry(e, e._defaultValue)),
-      );
+    AppSetting.values.map((e) => MapEntry(e, e._defaultValue)),
+  );
 
   Object? get _defaultValue => switch (this) {
-        AppSetting.remoteLogging => false,
-        AppSetting.showDialerConfirmPopup => true,
-        AppSetting.showSurveys => true,
-        AppSetting.showCallsInNativeRecents => true,
-        AppSetting.showTroubleshooting => false,
-        AppSetting.showClientCalls => false,
-        AppSetting.showOnlineColleaguesOnly => true,
-        AppSetting.alwaysShowCallerNameInRecents => false,
-        AppSetting.hasUnreadFeatureAnnouncements => false,
-        AppSetting.enableAdvancedVoipLogging => false,
-      };
+    AppSetting.remoteLogging => false,
+    AppSetting.showDialerConfirmPopup => true,
+    AppSetting.showSurveys => true,
+    AppSetting.showCallsInNativeRecents => true,
+    AppSetting.showTroubleshooting => false,
+    AppSetting.showClientCalls => false,
+    AppSetting.showOnlineColleaguesOnly => true,
+    AppSetting.alwaysShowCallerNameInRecents => false,
+    AppSetting.hasUnreadFeatureAnnouncements => false,
+    AppSetting.enableAdvancedVoipLogging => false,
+  };
 }

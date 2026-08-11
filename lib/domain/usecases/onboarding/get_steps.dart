@@ -23,10 +23,10 @@ class GetOnboardingStepsUseCase extends UseCase {
   };
 
   Future<List<OnboardingStep>> call() async => [
-        OnboardingStep.login,
-        ...await _generatePermissionSteps(),
-        OnboardingStep.welcome,
-      ];
+    OnboardingStep.login,
+    ...await _generatePermissionSteps(),
+    OnboardingStep.welcome,
+  ];
 
   Future<List<OnboardingStep>> _generatePermissionSteps() async {
     final steps = <OnboardingStep>[];

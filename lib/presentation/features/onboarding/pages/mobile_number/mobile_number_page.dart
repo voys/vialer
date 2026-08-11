@@ -59,9 +59,9 @@ class _MobileNumberPageState extends State<MobileNumberPage> {
 
   void _onContinueButtonPressed(BuildContext context) {
     unawaited(
-      context
-          .read<MobileNumberCubit>()
-          .changeMobileNumber(_mobileNumberController.text),
+      context.read<MobileNumberCubit>().changeMobileNumber(
+        _mobileNumberController.text,
+      ),
     );
   }
 
@@ -75,11 +75,12 @@ class _MobileNumberPageState extends State<MobileNumberPage> {
           return KeyboardVisibilityBuilder(
             builder: (context, isKeyboardVisible) {
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 48,
-                ).copyWith(
-                  bottom: 24,
-                ),
+                padding:
+                    const EdgeInsets.symmetric(
+                      horizontal: 48,
+                    ).copyWith(
+                      bottom: 24,
+                    ),
                 child: Center(
                   child: Column(
                     children: [
@@ -95,7 +96,7 @@ class _MobileNumberPageState extends State<MobileNumberPage> {
                             color: context.brand.theme.colors.primary,
                             size: 48,
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           if (!isKeyboardVisible)
                             Semantics(
                               header: true,
@@ -127,8 +128,14 @@ class _MobileNumberPageState extends State<MobileNumberPage> {
                       const SizedBox(height: 24),
                       ErrorAlert(
                         visible: state is MobileNumberNotAccepted,
-                        message: context.msg.main.settings.list.accountInfo
-                            .mobileNumber.help,
+                        message: context
+                            .msg
+                            .main
+                            .settings
+                            .list
+                            .accountInfo
+                            .mobileNumber
+                            .help,
                         inline: false,
                       ),
                       StylizedTextField(
@@ -158,7 +165,7 @@ class _MobileNumberPageState extends State<MobileNumberPage> {
                           context.msg.onboarding.mobileNumber.info,
                         ),
                       ),
-                      if (isKeyboardVisible) SizedBox(height: 16),
+                      if (isKeyboardVisible) const SizedBox(height: 16),
                       Expanded(
                         child: Column(
                           mainAxisAlignment: isKeyboardVisible

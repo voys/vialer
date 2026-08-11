@@ -58,8 +58,8 @@ abstract class CallRecordVoipAccount with _$CallRecordVoipAccount {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CallRecordVoipAccount({
     required int id,
-    String? description,
     required String internalNumber,
+    String? description,
     String? outgoingName,
     String? outgoingNumber,
   }) = _CallRecordVoipAccount;

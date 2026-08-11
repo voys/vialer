@@ -36,8 +36,8 @@ abstract class CallFeedbackResult with _$CallFeedbackResult {
   }) = _CallFeedbackResult;
 
   factory CallFeedbackResult.fresh() => const CallFeedbackResult(
-        rating: null,
-        problem: null,
-        audioProblems: null,
-      );
+    rating: null,
+    problem: null,
+    audioProblems: null,
+  );
 }

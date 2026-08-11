@@ -192,8 +192,7 @@ class UserAvatar extends StatelessWidget {
 
     return switch (status) {
       ColleagueAvailabilityStatus.available ||
-      ColleagueAvailabilityStatus.availableForColleagues =>
-        available,
+      ColleagueAvailabilityStatus.availableForColleagues => available,
       ColleagueAvailabilityStatus.doNotDisturb => unavailable,
       ColleagueAvailabilityStatus.busy => busy,
       ColleagueAvailabilityStatus.offline => offline,

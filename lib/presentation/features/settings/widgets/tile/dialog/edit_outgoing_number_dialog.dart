@@ -10,16 +10,15 @@ import '../../../../../util/phone_number.dart';
 import '../../../../call/widgets/outgoing_number_prompt/item.dart';
 
 class EditOutgoingNumberDialog extends StatefulWidget {
+  const EditOutgoingNumberDialog({
+    required this.initialValue,
+    required this.user,
+    super.key,
+    this.recentOutgoingNumbers = const Iterable<OutgoingNumber>.empty(),
+  });
   final OutgoingNumber initialValue;
   final User user;
   final Iterable<OutgoingNumber> recentOutgoingNumbers;
-
-  const EditOutgoingNumberDialog({
-    super.key,
-    required this.initialValue,
-    required this.user,
-    this.recentOutgoingNumbers = const Iterable<OutgoingNumber>.empty(),
-  });
 
   @override
   State<EditOutgoingNumberDialog> createState() =>
@@ -37,12 +36,13 @@ class _EditOutgoingNumberDialogState extends State<EditOutgoingNumberDialog> {
 
     // No duplicates allowed in a dropdown, so remove the recent outgoing
     // numbers from the available numbers.
-    final availableOutgoingNumbers = widget.user.client.outgoingNumbers
-        .where((number) => !recentOutgoingNumbers.contains(number));
+    final availableOutgoingNumbers = widget.user.client.outgoingNumbers.where(
+      (number) => !recentOutgoingNumbers.contains(number),
+    );
 
     final items = [
-      DropdownMenuItem<OutgoingNumber>(
-        value: const OutgoingNumber.suppressed(),
+      const DropdownMenuItem<OutgoingNumber>(
+        value: OutgoingNumber.suppressed(),
         child: OutgoingNumberInfo(
           item: OutgoingNumber.suppressed(),
         ),
@@ -55,8 +55,15 @@ class _EditOutgoingNumberDialogState extends State<EditOutgoingNumberDialog> {
             fit: BoxFit.scaleDown,
             child: PhoneNumberText(
               child: Text(
-                context.msg.main.settings.list.accountInfo.businessNumber
-                    .section.recently,
+                context
+                    .msg
+                    .main
+                    .settings
+                    .list
+                    .accountInfo
+                    .businessNumber
+                    .section
+                    .recently,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -82,8 +89,15 @@ class _EditOutgoingNumberDialogState extends State<EditOutgoingNumberDialog> {
             fit: BoxFit.scaleDown,
             child: PhoneNumberText(
               child: Text(
-                context.msg.main.settings.list.accountInfo.businessNumber
-                    .section.other,
+                context
+                    .msg
+                    .main
+                    .settings
+                    .list
+                    .accountInfo
+                    .businessNumber
+                    .section
+                    .other,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -120,7 +134,7 @@ class _EditOutgoingNumberDialogState extends State<EditOutgoingNumberDialog> {
             padding: EdgeInsets.zero,
             onChanged: (value) => setState(() => _currentValue = value),
             decoration: InputDecoration(
-              icon: FaIcon(FontAwesomeIcons.phoneArrowRight),
+              icon: const FaIcon(FontAwesomeIcons.phoneArrowRight),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: context.brand.theme.colors.grey5,

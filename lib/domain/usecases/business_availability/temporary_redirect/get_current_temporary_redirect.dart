@@ -43,6 +43,6 @@ mixin TemporaryRedirectEventBroadcaster {
 
 extension on TemporaryRedirect? {
   TemporaryRedirectDidChangeEvent asEvent() => TemporaryRedirectDidChangeEvent(
-        current: this,
-      );
+    current: this,
+  );
 }

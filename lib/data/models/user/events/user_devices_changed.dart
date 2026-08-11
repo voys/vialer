@@ -6,7 +6,9 @@ import '../../calling/voip/destination.dart';
 part 'user_devices_changed.freezed.dart';
 
 @freezed
-abstract class UserDevicesChanged with _$UserDevicesChanged implements EventBusEvent {
+abstract class UserDevicesChanged
+    with _$UserDevicesChanged
+    implements EventBusEvent {
   const factory UserDevicesChanged(List<Destination> destinations) =
       _UserDevicesChanged;
 }

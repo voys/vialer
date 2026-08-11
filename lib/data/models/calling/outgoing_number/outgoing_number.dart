@@ -7,6 +7,13 @@ part 'outgoing_number.g.dart';
 
 @Freezed(equal: false)
 sealed class OutgoingNumber with _$OutgoingNumber {
+  factory OutgoingNumber.fromNumber(String number) => number == _suppressed
+      ? const OutgoingNumber.suppressed()
+      : OutgoingNumber.unsuppressed(number);
+
+  factory OutgoingNumber.fromJson(dynamic json) => json is String
+      ? OutgoingNumber.fromNumber(json)
+      : _$OutgoingNumberFromJson(json as Map<String, dynamic>);
   const OutgoingNumber._();
   const factory OutgoingNumber.empty() = EmptyOutgoingNumber;
   const factory OutgoingNumber.unsuppressed(
@@ -37,14 +44,6 @@ sealed class OutgoingNumber with _$OutgoingNumber {
     return self is UnsuppressedOutgoingNumber ? self.number : '';
   }
 
-  factory OutgoingNumber.fromNumber(String number) => number == _suppressed
-      ? OutgoingNumber.suppressed()
-      : OutgoingNumber.unsuppressed(number);
-
-  factory OutgoingNumber.fromJson(dynamic json) => json is String
-      ? OutgoingNumber.fromNumber(json)
-      : _$OutgoingNumberFromJson(json as Map<String, dynamic>);
-
   static Map<String, dynamic> serializeToJson(OutgoingNumber outgoingNumber) =>
       outgoingNumber.toJson();
 
@@ -66,6 +65,7 @@ sealed class OutgoingNumber with _$OutgoingNumber {
     return false;
   }
 
+  @override
   int get hashCode => valueOrEmpty.hashCode;
 }
 

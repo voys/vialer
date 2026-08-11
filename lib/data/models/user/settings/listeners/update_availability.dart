@@ -45,8 +45,9 @@ class UpdateDestinationListener extends SettingChangeListener<int>
   }
 
   Future<void> _track(User user, Destination destination) async {
-    final destinationId =
-        destination is PhoneAccount ? destination.id.toString() : null;
+    final destinationId = destination is PhoneAccount
+        ? destination.id.toString()
+        : null;
 
     final isOffline = destination is NotAvailable;
     final isFixedDestination = destination is PhoneNumber;

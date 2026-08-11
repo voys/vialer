@@ -43,8 +43,9 @@ class GetBrand extends UseCase {
         const String.fromEnvironment('resgateUrl'),
       ),
       supportUrl: supportUrl.isNotNullOrBlank ? Uri.parse(supportUrl) : null,
-      supportUrlNL:
-          supportUrlNL.isNotNullOrBlank ? Uri.parse(supportUrlNL) : null,
+      supportUrlNL: supportUrlNL.isNotNullOrBlank
+          ? Uri.parse(supportUrlNL)
+          : null,
     );
   }
 }

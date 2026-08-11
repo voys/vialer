@@ -61,10 +61,10 @@ class AppUpdateCheckerCubit extends Cubit<AppUpdateState> {
   void completeFlexibleUpdate() => unawaited(_completeFlexibleUpdate());
 
   Future<void> _emitBasedOnRelease(bool hasNewRelease) async => emit(
-        hasNewRelease
-            ? NewUpdateWasInstalled(
-                await _getBuildInfo().then((buildInfo) => buildInfo.version),
-              )
-            : const AppWasNotUpdated(),
-      );
+    hasNewRelease
+        ? NewUpdateWasInstalled(
+            await _getBuildInfo().then((buildInfo) => buildInfo.version),
+          )
+        : const AppWasNotUpdated(),
+  );
 }

@@ -15,14 +15,14 @@ abstract class SharedContactsService extends ChopperService {
   @factoryMethod
   static SharedContactsService create() {
     final baseUrl = GetBrand()().sharedContactsUrl;
-    final placeholder = _AddClientIdToRequestPath.placeholder;
+    const placeholder = _AddClientIdToRequestPath.placeholder;
 
     return _$SharedContactsService(
       ChopperClient(
-        baseUrl: Uri.parse('${baseUrl}/clients/$placeholder/contacts'),
+        baseUrl: Uri.parse('$baseUrl/clients/$placeholder/contacts'),
         converter: JsonConverter(),
         interceptors: [
-          AuthorizationInterceptor(onlyModernAuth: true),
+          const AuthorizationInterceptor(onlyModernAuth: true),
           ...globalInterceptors,
           _AddClientIdToRequestPath(),
           PreventAppendingTrailingSlashInterceptor(),
@@ -64,9 +64,9 @@ class _AddClientIdToRequestPath implements Interceptor {
     final request = chain.request.copyWith(
       uri: Uri.parse(
         chain.request.url.toString().replaceFirst(
-              placeholder,
-              GetLoggedInUserUseCase()().client.uuid,
-            ),
+          placeholder,
+          GetLoggedInUserUseCase()().client.uuid,
+        ),
       ),
     );
     return chain.proceed(request);

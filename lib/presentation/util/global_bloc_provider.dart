@@ -30,43 +30,43 @@ class GlobalBlocProvider extends StatelessWidget {
     return MultiWidgetParent(
       [
         (child) => Caller.create(
-              navigatorKey: navigatorKey,
-              child: child,
-            ),
+          navigatorKey: navigatorKey,
+          child: child,
+        ),
         (child) => ConnectivityChecker.create(child: child),
         (child) => MissedCallNotificationPressedListener(
-              onMissedCallNotificationPressed: () =>
-                  App.navigateTo(MainPageTab.recents),
-              child: child,
-            ),
+          onMissedCallNotificationPressed: () =>
+              App.navigateTo(MainPageTab.recents),
+          child: child,
+        ),
         (child) => BlocProvider<TemporaryRedirectCubit>(
-              create: (_) => TemporaryRedirectCubit(),
-              child: child,
-            ),
+          create: (_) => TemporaryRedirectCubit(),
+          child: child,
+        ),
         (child) => Builder(
-              builder: (context) {
-                return BlocProvider<SharedContactsCubit>(
-                  create: (_) => SharedContactsCubit(
-                    context.watch<CallerCubit>(),
-                  ),
-                  child: child,
-                );
-              },
-            ),
-        (child) => Builder(
-              builder: (context) {
-                return BlocProvider<ContactsCubit>(
-                  create: (_) => ContactsCubit(context.watch<CallerCubit>()),
-                  child: child,
-                );
-              },
-            ),
-        (child) => Builder(
-              builder: (context) => BlocProvider<CountriesCubit>(
-                create: (_) => CountriesCubit(),
-                child: child,
+          builder: (context) {
+            return BlocProvider<SharedContactsCubit>(
+              create: (_) => SharedContactsCubit(
+                context.watch<CallerCubit>(),
               ),
-            ),
+              child: child,
+            );
+          },
+        ),
+        (child) => Builder(
+          builder: (context) {
+            return BlocProvider<ContactsCubit>(
+              create: (_) => ContactsCubit(context.watch<CallerCubit>()),
+              child: child,
+            );
+          },
+        ),
+        (child) => Builder(
+          builder: (context) => BlocProvider<CountriesCubit>(
+            create: (_) => CountriesCubit(),
+            child: child,
+          ),
+        ),
       ],
       child,
     );

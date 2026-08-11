@@ -42,9 +42,8 @@ abstract class SettingsState with _$SettingsState {
   SettingsState withChanged(
     User user, {
     bool isApplyingChanges = false,
-  }) =>
-      copyWith(
-        user: user,
-        isApplyingChanges: isApplyingChanges,
-      );
+  }) => copyWith(
+    user: user,
+    isApplyingChanges: isApplyingChanges,
+  );
 }

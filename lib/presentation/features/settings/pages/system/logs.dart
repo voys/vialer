@@ -25,11 +25,18 @@ class LogSubPage extends StatelessWidget {
 
         return SettingsSubPage(
           cubit: cubit,
-          title: context.msg.main.settings.list.advancedSettings.troubleshooting
-              .logs.title,
+          title: context
+              .msg
+              .main
+              .settings
+              .list
+              .advancedSettings
+              .troubleshooting
+              .logs
+              .title,
           child: (state) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: BasicDividedListView(
                 itemBuilder: (_, index) {
                   return Text(logs[index]);
@@ -37,8 +44,15 @@ class LogSubPage extends StatelessWidget {
                 itemCount: logs.length,
                 fallback: (_) {
                   return Text(
-                    context.msg.main.settings.list.advancedSettings
-                        .troubleshooting.logs.none,
+                    context
+                        .msg
+                        .main
+                        .settings
+                        .list
+                        .advancedSettings
+                        .troubleshooting
+                        .logs
+                        .none,
                   );
                 },
               ),
@@ -54,6 +68,7 @@ class BasicDividedListView extends StatelessWidget {
   const BasicDividedListView({
     required this.itemBuilder,
     required this.itemCount,
+    super.key,
     this.fallback,
   });
 
@@ -72,7 +87,7 @@ class BasicDividedListView extends StatelessWidget {
         return itemBuilder(context, index);
       },
       separatorBuilder: (context, index) {
-        return Divider();
+        return const Divider();
       },
       itemCount: itemCount,
     );

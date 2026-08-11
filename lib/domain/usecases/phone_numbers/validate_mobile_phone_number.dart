@@ -7,10 +7,9 @@ class ValidateMobilePhoneNumber extends UseCase {
   Future<bool> call(
     String number, {
     bool strict = false,
-  }) =>
-      ValidatePhoneNumber()(
-        number,
-        validTypes: [PhoneNumberType.mobile],
-        strict: strict,
-      );
+  }) => ValidatePhoneNumber()(
+    number,
+    validTypes: [PhoneNumberType.mobile],
+    strict: strict,
+  );
 }
