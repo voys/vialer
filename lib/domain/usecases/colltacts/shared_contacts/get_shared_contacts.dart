@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:vialer/domain/usecases/colltacts/shared_contacts/propagate_shared_contacts.dart';
 
 import '../../../../data/models/colltacts/shared_contacts/shared_contact.dart';
 import '../../../../data/repositories/colltacts/shared_contacts/shared_contacts_repository.dart';
@@ -14,28 +13,20 @@ class GetSharedContactsUseCase extends UseCase {
     this._sharedContactsRepository,
     this._storage,
     this._getUser,
-    this._propagateSharedContacts,
   );
+
   final SharedContactsRepository _sharedContactsRepository;
   final StorageRepository _storage;
   final GetLoggedInUserUseCase _getUser;
-  final PropagateSharedContacts _propagateSharedContacts;
 
   Future<List<SharedContact>> call({
     bool forceSharedContactsRefresh = false,
-    bool onlyCached = false,
   }) async {
-    if (onlyCached) return _storage.sharedContacts;
-
     final cachedSharedContacts = _storage.sharedContacts;
-    final sharedContacts =
-        cachedSharedContacts.isEmpty || forceSharedContactsRefresh
-        ? await _fetchSharedContacts()
+
+    return cachedSharedContacts.isEmpty || forceSharedContactsRefresh
+        ? _fetchSharedContacts()
         : cachedSharedContacts;
-
-    _propagateSharedContacts(cachedSharedContacts, sharedContacts);
-
-    return sharedContacts;
   }
 
   Future<List<SharedContact>> _fetchSharedContacts() async =>
