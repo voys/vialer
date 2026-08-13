@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vialer/data/models/user/user.dart';
-import 'package:vialer/presentation/features/settings/widgets/tile/call_directory_extension.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/enable_advanced_voip_logging.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
@@ -35,8 +34,6 @@ class AppPreferencesSubPage extends StatelessWidget {
       builder: (context, state) {
         final user = state.user;
         final useVoip = user.settings.get(CallSetting.useVoip);
-        final isCallDirectoryExtensionEnabled =
-            state.isCallDirectoryExtensionEnabled;
         final hasIgnoreOptimizationsPermission =
             state.hasIgnoreBatteryOptimizationsPermission;
         final cubit = context.watch<SettingsCubit>();
@@ -63,13 +60,6 @@ class AppPreferencesSubPage extends StatelessWidget {
                             hasIgnoreOptimizationsPermission,
                         onChanged: (enabled) =>
                             cubit.requestBatteryPermission(),
-                      ),
-                    if (context.isIOS)
-                      CallDirectoryExtensionTile(
-                        isCallDirectoryExtensionEnabled:
-                            isCallDirectoryExtensionEnabled,
-                        onChanged: (_) =>
-                            cubit.directUserToConfigureCallDirectoryExtension(),
                       ),
                   ],
                 ),

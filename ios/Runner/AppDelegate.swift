@@ -81,7 +81,6 @@ import UserNotifications
         CallScreenBehaviorSetup.setUp(binaryMessenger: controller.binaryMessenger, api: CallScreenBehaviorApi())
         TonesSetup.setUp(binaryMessenger: controller.binaryMessenger, api: SystemTones())
         ContactsSetup.setUp(binaryMessenger: controller.binaryMessenger, api: ContactImporter(logger: logger))
-        SharedContactsSetup.setUp(binaryMessenger: controller.binaryMessenger, api:  SharedContactsApi())
         MiddlewareRegistrarSetup.setUp(binaryMessenger: controller.binaryMessenger, api: middleware)
         nativeToFlutter = NativeToFlutter(binaryMessenger: controller.binaryMessenger)
         NativeClipboardSetup.setUp(binaryMessenger: controller.binaryMessenger, api: NativeClipboardApi())
