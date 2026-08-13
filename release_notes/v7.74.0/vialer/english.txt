@@ -1,0 +1,2 @@
+- Added a setting to always show the caller name in the recent calls list (by default they are hidden for external callers because variable callernames can make them difficult to read)
+- Calls will no longer be matched to shared contacts (i.e. contactbook) in the app, instead relying on the platform-level Caller ID Lookup. This should make the app more consistent with the Webphone and Desk Phones and prevent some situations where the variable callername is not visible for calls.
