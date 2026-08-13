@@ -96,12 +96,6 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
             }
         })
 
-        SharedContacts.setUp(binaryMessenger, object : SharedContacts {
-            override fun processSharedContacts(contacts: List<NativeSharedContact>) {}
-            override fun isCallDirectoryExtensionEnabled(callback: (Result<Boolean>) -> Unit) = callback(Result.success(false))
-            override fun directUserToConfigureCallDirectoryExtension() {}
-        })
-
         MiddlewareRegistrar.setUp(binaryMessenger, object : MiddlewareRegistrar {
             override fun register(token: String) = App.middleware.register(token)
             override fun unregister(appAccountId: Long) =

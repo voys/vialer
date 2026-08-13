@@ -1,8 +1,6 @@
 {
   "identifier": "annabel",
   "appId": "com.bellenmetannabel.app",
-  "appGroup": "group.com.bellenmetannabel.app.contacts",
-  "callDirectoryExtension": "com.bellenmetannabel.app.CallDirectoryExtension",
   "appName": "ANNAbel",
   "url": "https://partner.voys.co",
   "middlewareUrl": "https://vmex.eu-production.holodeck.voys.nl",

@@ -1,9 +1,6 @@
 import 'package:pigeon/pigeon.dart';
 
-enum OrderBy {
-  givenName,
-  familyName,
-}
+enum OrderBy { givenName, familyName }
 
 class ContactSort {
   OrderBy? orderBy;
@@ -13,37 +10,6 @@ class ContactSort {
 // ignore:one_member_abstracts
 abstract class ContactSortHostApi {
   ContactSort getSorting();
-}
-
-class NativePhoneNumber {
-  NativePhoneNumber({
-    required this.phoneNumberFlat,
-    required this.phoneNumberWithoutCallingCode,
-  });
-  String phoneNumberFlat;
-  String phoneNumberWithoutCallingCode;
-}
-
-class NativeSharedContact {
-  NativeSharedContact({required this.phoneNumbers, required this.displayName});
-  List<NativePhoneNumber?> phoneNumbers;
-  String displayName;
-}
-
-@HostApi()
-// ignore:one_member_abstracts
-abstract class SharedContacts {
-  void processSharedContacts(List<NativeSharedContact> contacts);
-
-  /// Check if Vialer is currently set a call identification app, which means
-  /// the call directory extension has been enabled.
-  @async
-  bool isCallDirectoryExtensionEnabled();
-
-  /// Will direct the user to iOS settings, as close as possible to the page
-  /// where the user can set Vialer as a call identification app. The exact
-  /// place this directs to may differ depending on iOS version.
-  void directUserToConfigureCallDirectoryExtension();
 }
 
 /// Allow logging to be performed natively, this allows us to bypass the
