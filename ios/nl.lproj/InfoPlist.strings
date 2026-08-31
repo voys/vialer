@@ -1,3 +1,5 @@
 NSContactsUsageDescription = "Bel gemakkelijk de contacten op je telefoon rechtstreeks vanuit deze app. Je contacten worden nooit naar onze servers geüpload of met derden gedeeld.";
 NSMicrophoneUsageDescription = "Hiermee zorg je ervoor dat degene met wie je belt jou kan horen.";
 NSBluetoothPeripheralUsageDescription = "Zodat je bijvoorbeeld met je Bluetooth-headset kunt bellen.";
+NSCameraUsageDescription = "We hebben toegang tot je camera nodig zodat je foto's aan feedback kunt toevoegen.";
+NSPhotoLibraryUsageDescription = "We hebben toegang tot je fotobibliotheek nodig zodat je afbeeldingen aan feedback kunt toevoegen.";

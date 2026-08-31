@@ -13,6 +13,15 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
+subprojects {
+    configurations.configureEach {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'androidx.test' && details.requested.name == 'runner') {
+                details.useVersion '1.2.0'
+            }
+        }
+    }
+}
 
 
 tasks.register("clean", Delete) {

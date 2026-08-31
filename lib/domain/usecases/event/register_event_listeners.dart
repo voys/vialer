@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../../../data/API/authentication/unauthorized_api_response.dart';
+import '../../../data/API/authentication/user_logged_in.dart';
 import '../../../data/models/event/event_bus.dart';
 import '../../../data/models/user/events/logged_in_user_was_refreshed.dart';
 import '../../../data/models/user/settings/setting_changed.dart';
@@ -9,6 +10,9 @@ import '../../../dependency_locator.dart';
 import '../../../presentation/util/loggable.dart';
 import '../../usecases/metrics/identify_for_tracking.dart';
 import '../authentication/logout_on_unauthorized_response.dart';
+import '../authentication/user_was_logged_out.dart';
+import '../feedback/gleap/clear_gleap_identity.dart';
+import '../feedback/gleap/identify_gleap_user.dart';
 import '../use_case.dart';
 import '../user/handle_app_account_change.dart';
 import '../voipgrid/track_rate_limited_api_calls.dart';
@@ -21,25 +25,29 @@ class RegisterDomainEventListenersUseCase extends UseCase with Loggable {
   final _logoutOnUnauthorizedResponse = LogoutOnUnauthorizedResponse();
   final _trackRateLimitedApiCalls = TrackRateLimitedApiCalls();
   final _handleAppAccountChange = HandleAppAccountChange();
+  final _identifyGleapUser = IdentifyGleapUser();
+  final _clearGleapIdentity = ClearGleapIdentity();
 
   void call() {
     _eventBus
       ..on<UnauthorizedApiResponseEvent>(_logoutOnUnauthorizedResponse.call)
+      ..on<UserLoggedIn>((event) => unawaited(_identifyGleapUser(event.user)))
+      ..on<UserWasLoggedOutEvent>((_) => unawaited(_clearGleapIdentity()))
       ..on<RateLimitReachedEvent>(
         (event) => _trackRateLimitedApiCalls(event.url),
       )
       ..on<SettingChangedEvent>((_) => unawaited(_identifyForTracking()))
-      ..on<LoggedInUserWasRefreshed>(
-        (event) {
-          if (!event.isFirstTime) {
-            unawaited(
-              _handleAppAccountChange(
-                previous: event.previous.appAccount,
-                current: event.current.appAccount,
-              ),
-            );
-          }
-        },
-      );
+      ..on<LoggedInUserWasRefreshed>((event) {
+        unawaited(_identifyGleapUser(event.current));
+
+        if (!event.isFirstTime) {
+          unawaited(
+            _handleAppAccountChange(
+              previous: event.previous.appAccount,
+              current: event.current.appAccount,
+            ),
+          );
+        }
+      });
   }
 }

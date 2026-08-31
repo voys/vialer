@@ -224,6 +224,7 @@ workflows:
         - vialer_upload_keystore_credentials
         - vialer_playstore_credentials
         - vialer_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_vialer_env_vars
@@ -267,6 +268,7 @@ workflows:
         - vialer_upload_keystore_credentials
         - vialer_playstore_credentials
         - vialer_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_vialer_env_vars
@@ -450,6 +452,7 @@ workflows:
         - vialer_upload_keystore_credentials
         - vialer_playstore_credentials
         - vialer_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *release_env_vars
@@ -489,6 +492,7 @@ workflows:
         - voys_playstore_credentials
         - voys_upload_keystore_credentials
         - voys_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *release_env_vars
@@ -542,6 +546,7 @@ workflows:
         - vialer_upload_keystore_credentials
         - vialer_playstore_credentials
         - vialer_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_vialer_env_vars
@@ -579,6 +584,7 @@ workflows:
         - voys_playstore_credentials
         - voys_upload_keystore_credentials
         - voys_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_voys_env_vars
@@ -632,6 +638,7 @@ workflows:
         - vialer_upload_keystore_credentials
         - vialer_playstore_credentials
         - vialer_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_vialer_env_vars
@@ -699,6 +706,7 @@ workflows:
         - voys_upload_keystore_credentials
         - voys_playstore_credentials
         - voys_ios_appstore_credentials
+        - voys_gleap
       <<: *config_environment
       vars:
         <<: *brand_config_voys_env_vars
