@@ -90,6 +90,7 @@ dependencies:
       ref: main
   expandable_page_view: ^1.2.0
   upgrader: ^12.3.0
+  gleap_sdk: ^16.4.5
 
   riverpod_annotation: any
   meta: any

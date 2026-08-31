@@ -7,8 +7,10 @@ import 'package:vialer/presentation/features/settings/widgets/tile/feature_annou
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/util/brand.dart';
 
+import '../../../../domain/usecases/feedback/gleap/open_gleap_feedback_form.dart';
 import '../controllers/cubit.dart';
 import '../widgets/tile/build_info.dart';
+import '../widgets/tile/gleap_feedback.dart';
 import '../widgets/tile/privacy_policy.dart';
 import 'settings_subpage.dart';
 
@@ -17,6 +19,8 @@ class AboutTheAppSubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGleapAvailable = OpenGleapFeedbackForm().isAvailable;
+
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         final cubit = context.watch<SettingsCubit>();
@@ -35,11 +39,12 @@ class AboutTheAppSubPage extends StatelessWidget {
                           state.hasUnreadFeatureAnnouncements,
                     ),
                     const PrivacyPolicyTile(),
+                    if (isGleapAvailable) const GleapFeedbackTile(),
                     if (state.buildInfo != null)
                       BuildInfoTile(state.buildInfo!),
                   ],
                 ),
-                if (context.brand.hasSupportUrl) ...[
+                if (!isGleapAvailable && context.brand.hasSupportUrl) ...[
                   const Gap(26),
                   const SupportButton(),
                 ],

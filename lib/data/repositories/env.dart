@@ -33,6 +33,10 @@ class EnvRepository {
 
   String get segmentIosKey => get('SEGMENT_IOS_KEY');
 
+  String get gleapApiKey => get('GLEAP_API_KEY');
+
+  String get gleapFormId => get('GLEAP_FORM_ID');
+
   String get mergeRequest => get('MERGE_REQUEST');
 
   String get branch => get('BRANCH');

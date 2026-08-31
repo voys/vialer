@@ -16,6 +16,7 @@ import '../domain/usecases/authentication/user_was_logged_out.dart';
 import '../domain/usecases/call_records/client/purge_local_call_records.dart';
 import '../domain/usecases/calling/voip/apply_destination_migration.dart';
 import '../domain/usecases/event/register_event_listeners.dart';
+import '../domain/usecases/feedback/gleap/initialize_gleap.dart';
 import '../domain/usecases/metrics/initialize_metric_collection.dart';
 import '../domain/usecases/metrics/periodically_identify_for_tracking.dart';
 import '../domain/usecases/onboarding/apply_onboarding_migration.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
 
   ApplyOnboardingMigration()();
   unawaited(InitializeMetricCollection()());
+  unawaited(InitializeGleap()());
   RegisterDomainEventListenersUseCase()();
   unawaited(EnableConsoleLoggingUseCase()());
   unawaited(EnableRemoteLoggingIfNeededUseCase()());
