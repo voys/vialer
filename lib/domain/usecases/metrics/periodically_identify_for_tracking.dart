@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import '../../../data/repositories/legacy/storage.dart';
 import '../../../dependency_locator.dart';
+import '../feedback/gleap/identify_gleap_user.dart';
 import '../use_case.dart';
 import '../user/get_stored_user.dart';
 import 'identify_for_tracking.dart';
@@ -7,6 +10,7 @@ import 'identify_for_tracking.dart';
 class PeriodicallyIdentifyForTracking extends UseCase {
   final _storageRepository = dependencyLocator<StorageRepository>();
   final _identifyForMetrics = IdentifyForTrackingUseCase();
+  final _identifyGleapUser = IdentifyGleapUser();
   final _getUser = GetStoredUserUseCase();
 
   Future<void> call() async {
@@ -17,6 +21,7 @@ class PeriodicallyIdentifyForTracking extends UseCase {
 
     if (lastIdentifyTime.isReadyForTracking) {
       _storageRepository.lastPeriodicIdentifyTime = DateTime.now();
+      unawaited(_identifyGleapUser());
       return _identifyForMetrics();
     }
   }
