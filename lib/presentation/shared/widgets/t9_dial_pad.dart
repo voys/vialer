@@ -30,7 +30,7 @@ class T9DialPad extends ConsumerStatefulWidget {
   });
 
   final void Function(String number)? onCallButtonPressed;
-  final IconData callButtonIcon;
+  final FaIconData callButtonIcon;
   final Color callButtonColor;
   final String callButtonSemanticsHint;
   final TextEditingController? controller;
@@ -211,7 +211,7 @@ class _DialerPrimaryButton extends StatelessWidget {
   });
 
   final VoidCallback? onPressed;
-  final IconData icon;
+  final FaIconData icon;
   final Color color;
   final String semanticsHint;
 

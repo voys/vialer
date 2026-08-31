@@ -432,7 +432,7 @@ class _AudioRouteButton extends StatelessWidget {
     }
   }
 
-  IconData _iconFor({
+  FaIconData _iconFor({
     required BuildContext context,
     required bool hasBluetooth,
     required AudioRoute currentRoute,

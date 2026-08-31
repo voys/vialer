@@ -287,24 +287,23 @@ Future<void> copyBrandIcons() async {
 Future<void> copyFontAwesome() async {
   final packageConfig = (await findPackageConfig(Directory.current))!;
 
-  const fontFileNames = [
-    'fa-regular-400.ttf',
-    'fa-solid-900.ttf',
-  ];
+  const fontFileNames = {
+    'Font-Awesome-7-Pro-Regular-400.otf': 'fa_regular_400.ttf',
+    'Font-Awesome-7-Pro-Solid-900.otf': 'fa_solid_900.ttf',
+  };
 
-  for (final fontFileName in fontFileNames) {
+  for (final MapEntry(key: sourceFontFileName, value: targetFontFileName)
+      in fontFileNames.entries) {
     final fontFile = File.fromUri(
       packageConfig.packages
           .firstWhere((p) => p.name == 'font_awesome_flutter')
           .root
-          .resolve('lib/fonts/$fontFileName'),
+          .resolve('lib/fonts/$sourceFontFileName'),
     );
-
-    final newFontFileName = fontFileName.replaceAll('-', '_');
 
     await fontFile.copy(
       await File(
-        'android/app/src/main/res/font/$newFontFileName',
+        'android/app/src/main/res/font/$targetFontFileName',
       ).create(recursive: true).then((f) => f.path),
     );
   }

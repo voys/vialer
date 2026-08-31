@@ -252,6 +252,12 @@ analyzer:
     - lib/**.freezed.dart
     - test/**.mocks.dart
     - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 formatter:
   trailing_commas: preserve

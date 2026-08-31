@@ -330,7 +330,7 @@ class _RecentItemSubtitle extends StatelessWidget {
 
   final CallRecord callRecord;
 
-  IconData _icon(BuildContext context) {
+  FaIconData _icon(BuildContext context) {
     if (callRecord.renderType == CallRecordRenderType.internalCall) {
       return FontAwesomeIcons.arrowRightArrowLeft;
     }
@@ -366,7 +366,7 @@ class _RecentItemSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = Icon(_icon(context), color: _iconColor(context), size: 16);
+    final icon = FaIcon(_icon(context), color: _iconColor(context), size: 16);
 
     return Column(
       children: [

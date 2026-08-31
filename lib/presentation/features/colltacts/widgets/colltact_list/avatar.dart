@@ -200,7 +200,7 @@ class UserAvatar extends StatelessWidget {
     };
   }
 
-  IconData _icon() {
+  FaIconData _icon() {
     final context = relevantContext;
 
     if (context != null) {

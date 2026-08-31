@@ -59,7 +59,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
         excludeSemantics: true,
         child: SearchBar(
           controller: _searchController,
-          leading: Icon(
+          leading: FaIcon(
             FontAwesomeIcons.magnifyingGlass,
             size: 20,
             color: context.brand.theme.colors.grey4,

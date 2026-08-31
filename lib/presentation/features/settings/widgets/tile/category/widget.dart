@@ -18,7 +18,7 @@ class SettingTileCategory extends StatelessWidget {
   });
 
   // Not a Widget to keep it in line with the title, also no real need for it.
-  final IconData icon;
+  final FaIconData icon;
 
   // String instead of Widget, because we need to call .toUppercaseOnAndroid
   // every time.
@@ -160,7 +160,7 @@ class SettingLinkTileCategory extends StatelessWidget {
 
   final VoidCallback onTap;
   final String text;
-  final IconData icon;
+  final FaIconData icon;
   final bool showBadge;
 
   @override

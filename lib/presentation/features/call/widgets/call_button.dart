@@ -16,7 +16,7 @@ class CallButton extends StatelessWidget {
 
   final VoidCallback? onPressed;
   final Color backgroundColor;
-  final IconData icon;
+  final FaIconData icon;
   final Object? heroTag;
   final BoxConstraints constraints;
   final String semanticsHint;

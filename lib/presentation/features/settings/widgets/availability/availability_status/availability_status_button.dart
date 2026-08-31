@@ -24,7 +24,7 @@ class AvailabilityStatusButton extends StatelessWidget {
   final StatusChangeCallback onStatusChanged;
   final bool isRingingDeviceOffline;
 
-  (String, IconData, Color, Color) _styling(BuildContext context) {
+  (String, FaIconData, Color, Color) _styling(BuildContext context) {
     final strings = context.msg.main.colleagues.status;
     final colors = context.brand.theme.colors;
 

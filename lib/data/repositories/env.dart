@@ -33,6 +33,10 @@ class EnvRepository {
 
   String get segmentIosKey => get('SEGMENT_IOS_KEY');
 
+  String get gleapApiKey => get('GLEAP_API_KEY');
+
+  String get gleapFormId => get('GLEAP_FORM_ID');
+
   String get mergeRequest => get('MERGE_REQUEST');
 
   String get branch => get('BRANCH');
@@ -56,7 +60,7 @@ class EnvRepository {
 
 extension on String? {
   /// These values are considered "truthy" in the environment file, meaning
-  /// they will resolve to [true] when an environment variable is cast
+  /// they will resolve to `true` when an environment variable is cast
   /// to a boolean.
   ///
   /// These will all be downcased before comparing so case is irrelevant.

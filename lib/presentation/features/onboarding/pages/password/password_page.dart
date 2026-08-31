@@ -113,7 +113,7 @@ class _PasswordPageState extends State<PasswordPage>
                         switchOutCurve: Curves.decelerate.flipped,
                         child: IconButton(
                           key: ValueKey(_hidePassword),
-                          icon: Icon(
+                          icon: FaIcon(
                             _hidePassword
                                 ? FontAwesomeIcons.eyeSlash
                                 : FontAwesomeIcons.eye,

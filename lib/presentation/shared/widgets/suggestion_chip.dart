@@ -8,7 +8,7 @@ class SuggestionChip extends StatelessWidget {
     required this.onSelected,
     super.key,
   });
-  final IconData icon;
+  final FaIconData icon;
   final String label;
   final VoidCallback onSelected;
 

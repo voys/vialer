@@ -13,7 +13,7 @@ class StylizedDialog extends StatelessWidget {
     this.closeButtonText,
     super.key,
   }) : actions = actions ?? [];
-  final IconData headerIcon;
+  final FaIconData headerIcon;
 
   final String title;
 

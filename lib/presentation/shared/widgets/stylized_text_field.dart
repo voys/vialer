@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/util/context_extensions.dart';
 
@@ -41,7 +42,7 @@ class StylizedTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final bool obscureText;
   final TextInputType? keyboardType;
-  final IconData? prefixIcon;
+  final FaIconData? prefixIcon;
   final Widget? prefixWidget;
   final Widget? suffix;
   final String? labelText;
@@ -87,7 +88,7 @@ class StylizedTextField extends StatelessWidget {
       enabled: enabled,
       decoration: InputDecoration(
         prefixIcon: prefixIcon != null
-            ? Icon(
+            ? FaIcon(
                 prefixIcon,
                 color: hasError
                     ? context.brand.theme.colors.errorContent

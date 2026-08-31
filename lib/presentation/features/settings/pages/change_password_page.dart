@@ -210,7 +210,7 @@ class _PasswordInputState extends State<_PasswordInput> {
         switchOutCurve: Curves.decelerate.flipped,
         child: IconButton(
           key: ValueKey(obscure),
-          icon: Icon(
+          icon: FaIcon(
             obscure ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
             size: 16,
             color: context.brand.theme.colors.infoText,

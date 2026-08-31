@@ -21,8 +21,8 @@ class AvailabilityButton extends StatelessWidget {
 
   final VoidCallback? onPressed;
   final bool isActive;
-  final IconData? leadingIcon;
-  final IconData? trailingIcon;
+  final FaIconData? leadingIcon;
+  final FaIconData? trailingIcon;
   final String text;
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;

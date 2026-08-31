@@ -30,7 +30,7 @@ dependencies:
   font_awesome_flutter:
     git:
       url: git@gitlab.wearespindle.com:mobile/libraries/font-awesome.git
-      ref: eb90afc093999b8b6092cf62df52f550127d4a67
+      ref: 93e5777a48f1a804559acec3b4cf2dc14d9b5b1b
   flutter_bloc: ^9.1.1
   provider: ^6.1.5
   equatable: ^2.0.8
@@ -90,6 +90,7 @@ dependencies:
       ref: main
   expandable_page_view: ^1.2.0
   upgrader: ^12.3.0
+  gleap_sdk: ^16.4.5
 
   riverpod_annotation: any
   meta: any

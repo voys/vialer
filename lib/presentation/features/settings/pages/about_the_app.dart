@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:vialer/data/models/user/brand.dart';
+import 'package:vialer/domain/usecases/user/launch_support_page.dart';
 import 'package:vialer/presentation/features/settings/widgets/support_button.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/feature_announcement.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
-import 'package:vialer/presentation/util/brand.dart';
 
 import '../controllers/cubit.dart';
 import '../widgets/tile/build_info.dart';
@@ -17,6 +16,8 @@ class AboutTheAppSubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final launchSupportPage = LaunchSupportPage();
+
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         final cubit = context.watch<SettingsCubit>();
@@ -39,7 +40,7 @@ class AboutTheAppSubPage extends StatelessWidget {
                       BuildInfoTile(state.buildInfo!),
                   ],
                 ),
-                if (context.brand.hasSupportUrl) ...[
+                if (launchSupportPage.isAvailable) ...[
                   const Gap(26),
                   const SupportButton(),
                 ],

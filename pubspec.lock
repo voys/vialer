@@ -678,11 +678,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: eb90afc093999b8b6092cf62df52f550127d4a67
-      resolved-ref: eb90afc093999b8b6092cf62df52f550127d4a67
+      ref: "93e5777a48f1a804559acec3b4cf2dc14d9b5b1b"
+      resolved-ref: "93e5777a48f1a804559acec3b4cf2dc14d9b5b1b"
       url: "git@gitlab.wearespindle.com:mobile/libraries/font-awesome.git"
     source: git
-    version: "10.7.0"
+    version: "11.0.0"
   freezed:
     dependency: "direct dev"
     description:
@@ -736,6 +736,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.2.0"
+  gleap_sdk:
+    dependency: "direct main"
+    description:
+      name: gleap_sdk
+      sha256: ce9f07ce78e16209ce8952743ba5950cc48f35aba52261a6fce72d555cc5bbdc
+      url: "https://pub.dev"
+    source: hosted
+    version: "16.4.5"
   glob:
     dependency: "direct dev"
     description:
