@@ -64,6 +64,45 @@ gitlab-ci-flutter-version-matches-codemagic:
         exit 1
       fi
 
+# Verifies the support and privacy policy URLs configured for each brand
+# still resolve. Only warns (allow_failure) since an outage of an external
+# site shouldn't block merging.
+check-brand-urls:
+  stage: static analysis
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/python:3.12
+  allow_failure: true
+  script:
+    - |
+      python3 - <<'PY'
+      import glob
+      import json
+      import sys
+      import urllib.request
+
+      failed = False
+      for path in sorted(glob.glob("brands/*.json")):
+          with open(path) as file:
+              config = json.load(file)
+          brand = config.get("identifier", path)
+          for key in ("supportUrl", "supportUrlNL", "privacyPolicyUrl"):
+              url = config.get(key, "")
+              if not url:
+                  print(f"[{brand}] {key} not set, skipping")
+                  continue
+              # Some sites reject requests without a browser-like user agent.
+              request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      print(f"[{brand}] {key} OK ({response.status}): {url}")
+              except Exception as error:
+                  print(f"WARNING: [{brand}] {key} failed ({error}): {url}")
+                  failed = True
+
+      if failed:
+          print("One or more brand URLs did not resolve (see warnings above).")
+          sys.exit(1)
+      PY
+
 build & test:
   image: dart:latest
   stage: build and test
