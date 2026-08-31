@@ -48,7 +48,9 @@
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>So you can make calls with your Bluetooth headset, for example.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We do not use the camera in any way.</string>
+	<string>We need access to your camera so you can attach photos to feedback.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library so you can attach images to feedback.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

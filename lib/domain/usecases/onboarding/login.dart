@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../../data/models/onboarding/login_credentials.dart';
 import '../../../data/models/user/refresh/user_refresh_task.dart';
+import '../feedback/gleap/identify_gleap_user.dart';
 import '../metrics/identify_for_tracking.dart';
 import '../metrics/track_login.dart';
 import '../use_case.dart';
@@ -10,6 +11,7 @@ import '../user/settings/restore_cross_session_settings.dart';
 
 class LoginUseCase extends UseCase {
   final _identifyForTracking = IdentifyForTrackingUseCase();
+  final _identifyGleapUser = IdentifyGleapUser();
   final _trackLogin = TrackLoginUseCase();
   final _refreshUser = RefreshUser();
   final _restorePreviousSessionSettings = RestoreCrossSessionSettings();
@@ -43,6 +45,7 @@ class LoginUseCase extends UseCase {
     required bool isLoginFromLegacyApp,
   }) async {
     await _identifyForTracking();
+    await _identifyGleapUser();
     await _trackLogin(
       usedTwoFactor: usedTwoFactor,
       isLoginFromLegacyApp: isLoginFromLegacyApp,

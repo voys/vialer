@@ -9,6 +9,8 @@ import '../../../dependency_locator.dart';
 import '../../../presentation/util/loggable.dart';
 import '../../usecases/metrics/identify_for_tracking.dart';
 import '../authentication/logout_on_unauthorized_response.dart';
+import '../authentication/user_was_logged_out.dart';
+import '../feedback/gleap/clear_gleap_identity.dart';
 import '../use_case.dart';
 import '../user/handle_app_account_change.dart';
 import '../voipgrid/track_rate_limited_api_calls.dart';
@@ -21,25 +23,25 @@ class RegisterDomainEventListenersUseCase extends UseCase with Loggable {
   final _logoutOnUnauthorizedResponse = LogoutOnUnauthorizedResponse();
   final _trackRateLimitedApiCalls = TrackRateLimitedApiCalls();
   final _handleAppAccountChange = HandleAppAccountChange();
+  final _clearGleapIdentity = ClearGleapIdentity();
 
   void call() {
     _eventBus
       ..on<UnauthorizedApiResponseEvent>(_logoutOnUnauthorizedResponse.call)
+      ..on<UserWasLoggedOutEvent>((_) => unawaited(_clearGleapIdentity()))
       ..on<RateLimitReachedEvent>(
         (event) => _trackRateLimitedApiCalls(event.url),
       )
       ..on<SettingChangedEvent>((_) => unawaited(_identifyForTracking()))
-      ..on<LoggedInUserWasRefreshed>(
-        (event) {
-          if (!event.isFirstTime) {
-            unawaited(
-              _handleAppAccountChange(
-                previous: event.previous.appAccount,
-                current: event.current.appAccount,
-              ),
-            );
-          }
-        },
-      );
+      ..on<LoggedInUserWasRefreshed>((event) {
+        if (!event.isFirstTime) {
+          unawaited(
+            _handleAppAccountChange(
+              previous: event.previous.appAccount,
+              current: event.current.appAccount,
+            ),
+          );
+        }
+      });
   }
 }
