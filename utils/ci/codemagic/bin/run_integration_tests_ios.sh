@@ -9,7 +9,7 @@ brew tap wix/brew && brew trust wix/brew && brew install applesimutils
 xcrun simctl shutdown all
 latestRuntime="$(xcrun simctl list runtimes | grep -o -E 'iOS [0-9.]*' | sort -r | head -n1 | tr -d '[:space:]')"
 testDevice=$(xcrun simctl create integration-test-simulator com.apple.CoreSimulator.SimDeviceType.iPhone-14-Pro "$latestRuntime")
-xcrun simctl boot "$testDevice"
+xcrun simctl bootstatus "$testDevice" -b
 # shellcheck disable=SC2044
 for filename in $(find "integration_test/tests" -name "*.dart"); do
   flutter install --use-application-binary=build/ios/ipa/Vialer.ipa -d "$testDevice"
