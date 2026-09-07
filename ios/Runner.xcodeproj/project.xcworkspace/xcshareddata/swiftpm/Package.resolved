@@ -9,15 +9,6 @@
       }
     },
     {
-      "identity" : "ios-phone-lib",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/open-voip-alliance/iOS-Phone-Lib.git",
-      "state" : {
-        "revision" : "f0b475055aba80e31bbfcfb23664a0aedc7b31ee",
-        "version" : "0.1.18"
-      }
-    },
-    {
       "identity" : "linphone-sdk-swift-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://gitlab.linphone.org/BC/public/linphone-sdk-swift-ios.git",

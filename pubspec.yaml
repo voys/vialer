@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_phone_lib: 0.0.45
+  flutter_phone_lib: 1.0.1
   # This points to our fork of the Font Awesome Flutter library which includes our pro-icons so must
   # be kept private.
 
