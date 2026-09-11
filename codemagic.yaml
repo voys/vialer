@@ -97,6 +97,10 @@ custom: # Custom properties to make workflows cleaner
     cache:
       cache_paths:
         - $HOME/Library/Caches/CocoaPods
+        - $HOME/.gradle/caches
+        - $HOME/.pub-cache
+        - $HOME/spm_cache
+        - $HOME/linphone-sdk-swift-ios-mirror.git
   brand_config: # Specific configuration that should be applied to a workflow when building for this brand
     vialer_env_vars: &brand_config_vialer_env_vars
       BRAND: vialer
