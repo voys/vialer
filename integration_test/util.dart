@@ -14,6 +14,8 @@ import 'package:vialer/presentation/features/onboarding/widgets/page.dart';
 import 'package:vialer/presentation/main.dart' as app;
 import 'package:vialer/presentation/main.dart';
 
+import 'permission_mock.dart';
+
 Future<void> runTest(
   List<String> name,
   WidgetTesterCallback test,
@@ -21,6 +23,8 @@ Future<void> runTest(
   assert(name.isNotEmpty, 'name must not be empty');
 
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  mockPermissionsForIOS();
 
   unawaited(app.main());
 
@@ -109,15 +113,50 @@ extension OnboardingPageTesting on GlobalKey<OnboardingPageState> {
   );
 }
 
+const _pumpUntilTimeout = Duration(seconds: 30);
+
 extension Util on WidgetTester {
-  Future<void> waitForOnboardingIntroAnimation() =>
-      pumpAndSettle(const Duration(seconds: 10));
+  /// Pump until [condition] holds.
+  ///
+  /// [pumpAndSettle] cannot be used to wait for this app: it only returns once
+  /// no frames are scheduled, and the websocket pushing availability updates
+  /// keeps scheduling them, so it blocks until its own 10 minute timeout.
+  Future<void> pumpUntil(
+    bool Function() condition, {
+    Duration timeout = _pumpUntilTimeout,
+    String? reason,
+  }) async {
+    const interval = Duration(milliseconds: 100);
+    var elapsed = Duration.zero;
+
+    while (!condition()) {
+      if (elapsed >= timeout) {
+        throw TestFailure(reason ?? 'Condition not met within $timeout');
+      }
+      await pump(interval);
+      elapsed += interval;
+    }
+  }
+
+  Future<void> pumpUntilFound(
+    Finder finder, {
+    Duration timeout = _pumpUntilTimeout,
+    String? reason,
+  }) => pumpUntil(
+    () => any(finder),
+    timeout: timeout,
+    reason: reason ?? 'Expected to find $finder within $timeout',
+  );
+
+  Future<void> waitForOnboardingIntroAnimation() => pumpUntilFound(
+    find.byKey(LoginPage.keys.emailField).hitTestable(),
+    reason: 'Expected the login page to become interactive',
+  );
 
   /// Go through the onboarding process, by default as [testUser1].
   ///
   /// This method will return once the main page is shown.
   Future<void> completeOnboarding({TestUser? as}) async {
-    // Await intro animation and letting the app initialize.
     await waitForOnboardingIntroAnimation();
 
     final user = as ?? testUser1;
@@ -132,24 +171,35 @@ extension Util on WidgetTester {
       user.password,
     );
 
-    const pageTransitionDuration = Duration(milliseconds: 2500);
-
-    await tap(find.byKey(LoginPage.keys.loginButton));
-    await pumpAndSettle(pageTransitionDuration);
-
-    await tap(find.byKey(MobileNumberPage.keys.continueButton));
-    await pumpAndSettle(pageTransitionDuration);
-
     OnboardingStep? onboardingStep() => OnboardingPage.keys.page.currentStep;
 
-    // Go through call, contacts and microphone permission pages.
-    while (onboardingStep() != null &&
-        onboardingStep() != OnboardingStep.welcome) {
+    await tap(find.byKey(LoginPage.keys.loginButton));
+    await pumpUntil(
+      () => onboardingStep() == OnboardingStep.mobileNumber,
+      timeout: const Duration(seconds: 60),
+      reason: 'Expected to reach the mobile number step after logging in',
+    );
+
+    await tap(find.byKey(MobileNumberPage.keys.continueButton));
+    await pumpUntil(
+      () => onboardingStep() != OnboardingStep.mobileNumber,
+      reason: 'Expected to advance past the mobile number step',
+    );
+
+    // Go through call, contacts and microphone permission pages. Each tap must
+    // land on a different page, otherwise permission_handler rejects the second
+    // request as one already being in progress.
+    var step = onboardingStep();
+    while (step != null && step != OnboardingStep.welcome) {
       await tap(find.byKey(InfoPage.keys.continueButton));
-      await pumpAndSettle(pageTransitionDuration);
+      await pumpUntil(
+        () => onboardingStep() != step,
+        reason: 'Expected to advance past $step',
+      );
+      step = onboardingStep();
     }
 
-    await pumpAndSettle(const Duration(seconds: 2));
+    await pump(const Duration(seconds: 2));
   }
 
   Future<void> navigateTo(MainPageTab tab) async {

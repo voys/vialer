@@ -3,9 +3,6 @@ if [ ! -f "build/ios/ipa/Vialer.ipa" ]; then
     echo "Error: You must run the build_ipa script before running iOS integration tests"
     exit 1
 fi
-# Required when running on Codemagic to fix some build issues.
-export HOMEBREW_NO_INSTALL_CLEANUP=1
-brew tap wix/brew && brew trust wix/brew && brew install applesimutils
 xcrun simctl shutdown all
 latestRuntime="$(xcrun simctl list runtimes | grep -o -E 'iOS [0-9.]*' | sort -r | head -n1 | tr -d '[:space:]')"
 testDevice=$(xcrun simctl create integration-test-simulator com.apple.CoreSimulator.SimDeviceType.iPhone-14-Pro "$latestRuntime")
@@ -29,7 +26,5 @@ fi
 
 # shellcheck disable=SC2044
 for filename in $(find "integration_test/tests" -name "*.dart"); do
-  flutter install --use-application-binary=build/ios/ipa/Vialer.ipa -d "$testDevice"
-  applesimutils --booted --bundle com.voipgrid.vialer --setPermissions contacts=YES,microphone=YES,notifications=YES
   flutter drive -t "$filename" --driver test_driver/integration_test.dart -d "$testDevice" --dart-define-from-file="brands/$BRAND.json"
 done
