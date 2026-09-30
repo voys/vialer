@@ -194,9 +194,27 @@ class VoipRepository with Loggable {
   // and close it if it's initialized, otherwise we do nothing.
   Future<void> close() async {
     await _eventsSubscription?.cancel();
+    await _unregister();
     await __phoneLib?.close();
     __phoneLib = null;
     _hasStartedCompleter = Completer<bool>();
+  }
+
+  /// [PhoneLib.close] doesn't wait for the server, so without this the SIP
+  /// registration could stay active until it expires.
+  Future<void> _unregister() async {
+    final phoneLib = __phoneLib;
+    if (phoneLib == null ||
+        !_hasStartedCompleter.isCompleted ||
+        !await hasStarted) {
+      return;
+    }
+
+    try {
+      await phoneLib.unregister();
+    } on Exception catch (e) {
+      logger.warning('Unable to unregister from SIP: $e');
+    }
   }
 
   Future<void> call(String number) async =>

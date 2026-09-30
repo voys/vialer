@@ -92,7 +92,7 @@ custom: # Custom properties to make workflows cleaner
     instance_type: mac_mini_m2
     environment: &config_environment
       flutter: 3.47.4
-      xcode: 26
+      xcode: 26.5.1
       cocoapods: 1.16.2
     cache:
       cache_paths:
