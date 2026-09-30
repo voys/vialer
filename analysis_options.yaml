@@ -252,6 +252,8 @@ analyzer:
     - lib/**.freezed.dart
     - test/**.mocks.dart
     - build/**
+    - android/**
+    - ios/**
 
 formatter:
   trailing_commas: preserve

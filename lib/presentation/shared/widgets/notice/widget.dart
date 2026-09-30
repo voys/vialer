@@ -55,7 +55,7 @@ class _NoticeState extends State<_Notice>
     }
   }
 
-  IconData _iconFor(NoticeState state) {
+  FaIconData _iconFor(NoticeState state) {
     if (state is PhonePermissionDeniedNotice) {
       return FontAwesomeIcons.phoneXmark;
     } else if (state is MicrophonePermissionDeniedNotice) {

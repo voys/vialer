@@ -130,6 +130,7 @@ class Resgate with Loggable {
 
       if (!entry.listener.shouldHandle(payload)) return;
 
+      // ignore: unawaited_return_in_try_block
       return entry.listener.handle(payload);
     } catch (e) {
       logger.warning(

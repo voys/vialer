@@ -13,7 +13,7 @@ class SettingsButton extends StatelessWidget {
   });
 
   final String text;
-  final IconData? icon;
+  final FaIconData? icon;
   final VoidCallback? onPressed;
   final bool solid;
 

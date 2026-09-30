@@ -20,7 +20,7 @@ class SharedContactFieldRow extends StatelessWidget {
     this.controller,
   });
 
-  final IconData? icon;
+  final FaIconData? icon;
   final String hintText;
   final String? Function(String?) validator;
   final void Function(String) onValueChanged;

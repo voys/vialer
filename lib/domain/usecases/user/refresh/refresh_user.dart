@@ -36,6 +36,7 @@ class RefreshUser extends UseCase with Loggable {
 
   Future<User?> _getUser(LoginCredentials? credentials) async {
     try {
+      // ignore: unawaited_return_in_try_block
       return _auth.getUserFromCredentials(credentials);
     } on Exception {
       return null;

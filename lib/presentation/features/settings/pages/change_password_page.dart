@@ -211,7 +211,7 @@ class _PasswordInputState extends State<_PasswordInput> {
         child: IconButton(
           key: ValueKey(obscure),
           icon: Icon(
-            obscure ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
+            (obscure ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye).data,
             size: 16,
             color: context.brand.theme.colors.infoText,
           ),

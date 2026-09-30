@@ -287,12 +287,15 @@ Future<void> copyBrandIcons() async {
 Future<void> copyFontAwesome() async {
   final packageConfig = (await findPackageConfig(Directory.current))!;
 
-  const fontFileNames = [
-    'fa-regular-400.ttf',
-    'fa-solid-900.ttf',
-  ];
+  // Maps package font files to Android resource names, which must stay stable
+  // because they're referenced as `R.font.*` in Kotlin.
+  const fontFileNames = {
+    'Font-Awesome-7-Pro-Regular-400.otf': 'fa_regular_400.otf',
+    'Font-Awesome-7-Pro-Solid-900.otf': 'fa_solid_900.otf',
+  };
 
-  for (final fontFileName in fontFileNames) {
+  for (final MapEntry(key: fontFileName, value: newFontFileName)
+      in fontFileNames.entries) {
     final fontFile = File.fromUri(
       packageConfig.packages
           .firstWhere((p) => p.name == 'font_awesome_flutter')
@@ -300,7 +303,12 @@ Future<void> copyFontAwesome() async {
           .resolve('lib/fonts/$fontFileName'),
     );
 
-    final newFontFileName = fontFileName.replaceAll('-', '_');
+    // Older checkouts still have the .ttf copy, which would clash with the
+    // .otf under the same resource name.
+    final staleTtf = File(
+      'android/app/src/main/res/font/${newFontFileName.replaceAll('.otf', '.ttf')}',
+    );
+    if (staleTtf.existsSync()) await staleTtf.delete();
 
     await fontFile.copy(
       await File(

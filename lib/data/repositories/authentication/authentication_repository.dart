@@ -50,6 +50,7 @@ class AuthRepository with Loggable {
     }
 
     try {
+      // ignore: unawaited_return_in_try_block
       return _getUserUsingStoredCredentials();
     } on FailedToRetrieveUserException {
       return null;

@@ -192,7 +192,7 @@ enum NoResultsType {
 }
 
 extension on NoResultsType {
-  IconData get iconData => switch (this) {
+  FaIconData get iconData => switch (this) {
     NoResultsType.noSearchResults => FontAwesomeIcons.magnifyingGlass,
     NoResultsType.colleaguesLoading ||
     NoResultsType.contactsLoading ||

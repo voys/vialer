@@ -17,7 +17,7 @@ class BottomNavigationProfileIcon extends StatelessWidget {
   final bool large;
   final Color? color;
 
-  IconData _icon(
+  FaIconData _icon(
     UserAvailabilityStatus status,
     bool isRingingDeviceOffline,
   ) => isRingingDeviceOffline
