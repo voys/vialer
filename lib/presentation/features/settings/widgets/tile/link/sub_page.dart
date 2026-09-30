@@ -18,7 +18,7 @@ class SubPageLinkTile extends StatelessWidget {
   });
 
   final String title;
-  final IconData icon;
+  final FaIconData icon;
   final SettingsCubit cubit;
   final WidgetBuilder pageBuilder;
 

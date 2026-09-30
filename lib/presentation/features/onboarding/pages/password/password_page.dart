@@ -114,9 +114,10 @@ class _PasswordPageState extends State<PasswordPage>
                         child: IconButton(
                           key: ValueKey(_hidePassword),
                           icon: Icon(
-                            _hidePassword
-                                ? FontAwesomeIcons.eyeSlash
-                                : FontAwesomeIcons.eye,
+                            (_hidePassword
+                                    ? FontAwesomeIcons.eyeSlash
+                                    : FontAwesomeIcons.eye)
+                                .data,
                             color: context.brand.theme.colors.infoText,
                             size: 16,
                           ),

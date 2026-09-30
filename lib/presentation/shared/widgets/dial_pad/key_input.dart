@@ -312,8 +312,8 @@ class _DeleteButtonState extends State<_DeleteButton> {
               ),
             ),
             // Must stay as `Icon` (used in a `TextField`).
-            child: const Icon(
-              FontAwesomeIcons.deleteLeft,
+            child: Icon(
+              FontAwesomeIcons.deleteLeft.data,
               size: _DeleteButton.size,
             ),
           ),

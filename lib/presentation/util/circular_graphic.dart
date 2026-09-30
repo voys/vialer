@@ -5,7 +5,7 @@ import 'package:vialer/presentation/resources/theme.dart';
 class CircularGraphic extends StatelessWidget {
   const CircularGraphic(this.icon, {super.key});
 
-  final IconData icon;
+  final FaIconData icon;
 
   @override
   Widget build(BuildContext context) {

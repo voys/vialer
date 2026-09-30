@@ -32,7 +32,7 @@ class CallRating extends StatelessWidget {
             tapOnlyMode: true,
             itemBuilder: (context, index) {
               return Icon(
-                FontAwesomeIcons.solidStar,
+                FontAwesomeIcons.solidStar.data,
                 color: context.brand.theme.colors.primary,
                 semanticLabel: switch (index) {
                   0 =>

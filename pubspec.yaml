@@ -6,8 +6,8 @@ description: >-
 version: 7.0.0
 
 environment:
-  sdk: ">=3.9.0 <4.0.0"
-  flutter: ">=3.38.5 <4.0.0"
+  sdk: '>=3.11.0 <4.0.0'
+  flutter: '>=3.47.0 <3.48.0'
 
 dependencies:
   flutter:
@@ -30,7 +30,7 @@ dependencies:
   font_awesome_flutter:
     git:
       url: git@gitlab.wearespindle.com:mobile/libraries/font-awesome.git
-      ref: eb90afc093999b8b6092cf62df52f550127d4a67
+      ref: 93e5777a48f1a804559acec3b4cf2dc14d9b5b1b
   flutter_bloc: ^9.1.1
   provider: ^6.1.5
   equatable: ^2.0.8

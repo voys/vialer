@@ -60,7 +60,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
         child: SearchBar(
           controller: _searchController,
           leading: Icon(
-            FontAwesomeIcons.magnifyingGlass,
+            FontAwesomeIcons.magnifyingGlass.data,
             size: 20,
             color: context.brand.theme.colors.grey4,
           ),

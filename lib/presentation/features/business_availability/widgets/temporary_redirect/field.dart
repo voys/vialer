@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:vialer/presentation/resources/theme.dart';
 
@@ -11,7 +12,7 @@ class Field extends StatelessWidget {
     super.key,
   });
 
-  final IconData icon;
+  final FaIconData icon;
   final String text;
   final bool hasError;
   final VoidCallback onTap;
@@ -37,7 +38,7 @@ class Field extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  icon,
+                  icon.data,
                   size: 16,
                 ),
                 const SizedBox(width: 8),

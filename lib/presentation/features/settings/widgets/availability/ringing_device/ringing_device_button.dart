@@ -54,7 +54,7 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
     }
   }
 
-  IconData get _icon {
+  FaIconData get _icon {
     switch (widget.type) {
       case RingingDeviceType.webphone:
         return FontAwesomeIcons.desktop;
@@ -91,7 +91,7 @@ class _RingingDeviceButtonState extends State<RingingDeviceButton> {
     return destination != null ? destination : _destinations.firstOrNull;
   }
 
-  IconData? get _trailingIcon {
+  FaIconData? get _trailingIcon {
     if (_isWarningAboutOfflineRingingDevice) {
       return FontAwesomeIcons.solidTriangleExclamation;
     }
