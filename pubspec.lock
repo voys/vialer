@@ -764,10 +764,10 @@ packages:
     dependency: "direct main"
     description:
       name: gleap_sdk
-      sha256: ce9f07ce78e16209ce8952743ba5950cc48f35aba52261a6fce72d555cc5bbdc
+      sha256: "99e5b9ef05d7ef3e3ee42076da30cc54da9e9861df8b145c4ed63a4d9034e9dc"
       url: "https://pub.dev"
     source: hosted
-    version: "16.4.5"
+    version: "19.3.1"
   glob:
     dependency: "direct dev"
     description:
