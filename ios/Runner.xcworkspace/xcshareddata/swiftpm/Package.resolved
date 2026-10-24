@@ -11,7 +11,7 @@
     {
       "identity" : "linphone-sdk-swift-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://gitlab.linphone.org/BC/public/linphone-sdk-swift-ios.git",
+      "location" : "https://github.com/BelledonneCommunications/linphone-sdk-swift-ios.git",
       "state" : {
         "revision" : "2d65f089792cb91c50f51dc26417c7d4c0ebb988",
         "version" : "5.4.24"
@@ -29,10 +29,10 @@
     {
       "identity" : "swinject",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JohannesNevels/Swinject.git",
+      "location" : "https://github.com/Swinject/Swinject.git",
       "state" : {
-        "revision" : "a6fc20519781c1c4f64a00b76200c51116a8e8b8",
-        "version" : "2.9.2"
+        "revision" : "b685b549fe4d8ae265fc7a2f27d0789720425d69",
+        "version" : "2.10.0"
       }
     }
   ],
