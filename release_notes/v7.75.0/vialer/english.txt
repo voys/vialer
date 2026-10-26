@@ -1,0 +1,4 @@
+- Android: Fixed an issue where incoming calls would not work due to an Android native audio library crash
+- Android: Increased target SDK from 35 to 36
+- iOS: Fixed a visual bug where unholding a call would appear to quickly change the audio source
+- We will now properly SIP unregister when logging out so users will immediately appear offline (rather than after the registration expires)

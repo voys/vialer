@@ -48,6 +48,8 @@ class _CallFeedbackState extends State<CallFeedback> {
 
   late final _storage = dependencyLocator<StorageRepository>();
 
+  Timer? _autoDismissTimer;
+
   /// The current stage that should be rendered, this is determined by the
   /// data within the [_result] object.
   CallFeedbackStage get _stage {
@@ -74,11 +76,12 @@ class _CallFeedbackState extends State<CallFeedback> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 10), () {
+    _autoDismissTimer = Timer(const Duration(seconds: 10), () {
       // The call feedback should only be automatically dismissed if the user
       // doesn't want to engage with it, therefore they are still on the first
       // stage.
-      if (_stage == CallFeedbackStage.rateCall &&
+      if (mounted &&
+          _stage == CallFeedbackStage.rateCall &&
           !_storage.isUsingScreenReader) {
         SemanticsService.sendAnnouncement(
           View.of(context),
@@ -95,6 +98,12 @@ class _CallFeedbackState extends State<CallFeedback> {
         widget.onUserFinishedFeedbackProcess();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _autoDismissTimer?.cancel();
+    super.dispose();
   }
 
   void _onCallRated(double rating) {
