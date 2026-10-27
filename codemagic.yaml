@@ -811,3 +811,34 @@ workflows:
       - dependency_tree/flutter.txt
       - dependency_tree/android.txt
       - dependency_tree/combined.txt
+  native-swift-ui-voys:
+    name: Native SwiftUI app (Voys, development .ipa)
+    <<: *config
+    environment:
+      groups:
+        - configuration
+        - team_shared_environment
+        - diagnostics
+        - voys_ios_appstore_credentials
+      <<: *config_environment
+      vars:
+        <<: *brand_config_voys_env_vars
+        NATIVE_SCHEME: Voys
+        IOS_SIGNING_TYPE: "IOS_APP_DEVELOPMENT"
+        ENABLE_IOS_SANDBOX_PUSH_NOTIFICATIONS: "true"
+        IS_PRODUCTION: "false"
+    triggering:
+      cancel_previous_builds: true
+      events:
+        - push
+      branch_patterns:
+        - pattern: native-swift-app
+          include: true
+    scripts:
+      - *use_workflow_build_number
+      - name: Building the native SwiftUI app (.ipa) for iOS
+        script: . utils/ci/codemagic/bin/build_native_ios.sh
+    # No publishing section on purpose: the .ipa is only an artifact, never sent to TestFlight or the App Store.
+    artifacts:
+      - native-swift-ui/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log

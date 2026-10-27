@@ -80,3 +80,14 @@ client-wide, missed filter, call details), device contacts, shared contacts (add
 colleagues with live presence over Resgate, availability status and ringing device, app
 preferences, user settings (mobile number, business number, change password), about, logout,
 `vialercall://` URL scheme and Siri call intents.
+
+## CI (Codemagic)
+
+The `native-swift-ui-voys` workflow in the repo's `codemagic.yaml` builds a development-signed
+Voys `.ipa` on every push to `native-swift-app` (and on demand) via
+`utils/ci/codemagic/bin/build_native_ios.sh`: it writes the `.env` from Codemagic's variables, runs
+xcodegen, fetches development signing files for `com.voys.app` and archives the `Release-Voys`
+configuration. The `.ipa` is kept only as a build artifact and installs on devices registered to
+the team; the workflow has no publishing step, so nothing goes to TestFlight or the App Store.
+Strings are built from the committed `Localizable.xcstrings`; run the Phrase pull locally when they
+change.
