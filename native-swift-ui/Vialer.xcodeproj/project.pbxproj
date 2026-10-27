@@ -1,0 +1,2039 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		006C5434F8DFD3A8CCBF6AB0 /* CallDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC2D0232C712EBC92FD136E /* CallDirection.swift */; };
+		01131FEF124BD84AB92E6FA2 /* CallInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C27B0E10C033C200C9EC9B4 /* CallInfoProvider.swift */; };
+		011F6E280E6B622306E75205 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C8B4DC4D2322CD8F0ECB4 /* Container.swift */; };
+		0A98BED24CC0301B5236400D /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028D350BB20A65B4DC65772D /* LogLevel.swift */; };
+		0B454583A1631A2165C0CDBB /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AA6E61D6796E146BF982F0 /* Env.swift */; };
+		0DD233504CE3629EF257760F /* Banners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F567C0C3413B522DD4BDBF8 /* Banners.swift */; };
+		0E69D20809B40C7D29947271 /* AudioRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC61A279F03A1DD69926093 /* AudioRoute.swift */; };
+		0EDBE5BDA1DA1C8A96A69B33 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5629461D8A0A017D4915FE /* Builder.swift */; };
+		11E248051388BAD2F0FAA450 /* VoIPLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6470000E5912C32C3DF88106 /* VoIPLib.swift */; };
+		14E0B4EEE34EADFCC5F00A30 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E8A7E11E0F83CD61E1EC4D /* AudioManager.swift */; };
+		1520C47C00BEDBA462E4A824 /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5C7E75DEA7116D50AA7077FB /* ringback.wav */; };
+		1615A2360F368F260329EE6B /* PlatformIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F82F0DAC42C4295D657C8F /* PlatformIntegrator.swift */; };
+		17B82983135E6DC21C0F1547 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB11D120D3040DF12800A51 /* Components.swift */; };
+		18E2E5B0A800EB1051086AF7 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4FFD38DFCE09776B795996 /* MainTabView.swift */; };
+		1B22FD8E9E9E2EEB53C1EBDD /* FeatureFlagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905CEF242EC54A0751C407 /* FeatureFlagsView.swift */; };
+		1B70BDBBFD4B2A4E89E05508 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7937634D93CFE2FB6A0301EC /* Localizable.xcstrings */; };
+		1ECFB6EF6EE2673580225E6E /* CallFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A0C7029948AF9B98740F1 /* CallFeedbackView.swift */; };
+		241A497C2A8881B5FF168051 /* BusinessAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E91E73AC76014F46F60E5 /* BusinessAvailability.swift */; };
+		25DEA5A8FA6C63B8C0D99C5B /* ClientSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6FB8A90B1DC49B7485AD42 /* ClientSettingsView.swift */; };
+		260E0984DF26A7CD46715F56 /* LinphoneRegistrationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE100093885E272749305E6 /* LinphoneRegistrationListener.swift */; };
+		26655EBF5E305582B8FBB3B8 /* HolodeckAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC39A55C3ADA16F638E940D3 /* HolodeckAPIs.swift */; };
+		2CB13E8A375B7403A34B9F3C /* ConnectivityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361B9683EAA045E979AF26B9 /* ConnectivityMonitor.swift */; };
+		2CB1A3444089DABB7BA05885 /* CallSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECF90088708899163D39BF4 /* CallSessionState.swift */; };
+		2F21763657763429BA41A7EE /* PIL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830D189243FCBA7E4DB6A40A /* PIL.swift */; };
+		32C24399683F437C3C0DCA94 /* IOSCallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B876DE1A4690E4DE202F0 /* IOSCallKit.swift */; };
+		35FD5E25BE211982C306ED72 /* DialerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18972A74620316C21C772FAA /* DialerView.swift */; };
+		3CD071A5E9ED38C4C4973848 /* ColltactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98946D33402B6FFE98C0B8B /* ColltactsView.swift */; };
+		3E198EDF499E401FC67F4A1F /* ColltactsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245E375EECEC2629FF5C333 /* ColltactsStore.swift */; };
+		42062CDE47115FA1BB135F8E /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B5C5F733F4F0CBE6D27D45 /* Destination.swift */; };
+		4556C18BB89AA93D21D19C5D /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A40A093D4F0D94E83AE3D5 /* SessionManager.swift */; };
+		4627ABF93FD0F3197322FCA7 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBDFC4237DBFE3132C1569B /* Localization.swift */; };
+		4B0179DC31E787D8A45B2B37 /* LinphoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE440A5BB607F205CEB4A39 /* LinphoneManager.swift */; };
+		4CF5961B3D242B678389B274 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612DA764EFE3B4C53A82E92F /* Survey.swift */; };
+		4EFDE8B1A1F9ECB3BECBE41C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580466296A111DCAD8F43B5D /* Auth.swift */; };
+		5034640E1665A3C42475B1AE /* MissedCallNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1615C1D01851CAE64CFD593 /* MissedCallNotification.swift */; };
+		50C7743CE29CD9E6B35520AA /* LogDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4873289B4DCCC3061CDF75D4 /* LogDelegate.swift */; };
+		577F4C8B453F7A173AAC8292 /* CallActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D641E6E1BA99B2C5E8FF11 /* CallActions.swift */; };
+		57C16DD033E9E7AE7B266CC0 /* PILEventDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771CECC79A92C72CD5DD30D /* PILEventDelegate.swift */; };
+		5AA32FC7802535B61282F2F5 /* IOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B81D23929D51401A780FBE5 /* IOS.swift */; };
+		5BE7D36ABE2815C1BF4B153B /* ringtone-voys.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1BBB4FA0445DCF651233E778 /* ringtone-voys.wav */; };
+		5C4426209668A9185B946BD5 /* Observability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828C00552260DBAE23FAC220 /* Observability.swift */; };
+		61262CF2CFCCC6B2AC7FF044 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F99B89BE73D163802E43807 /* Settings.swift */; };
+		61EAA68A312F0CF166D72333 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FCE48CB5FAF209AD1DD6D62 /* Event.swift */; };
+		6703BE8629ADEB773F01CD50 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF058B6726188917A82B3FB /* CallView.swift */; };
+		6791D2B552356422C7D918A4 /* Quality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68DC6B28E47D0F295B7962 /* Quality.swift */; };
+		68FD16EC524ACA6FBD1C5BB0 /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2A9306D1FBF47A57787B80BC /* ringtone.wav */; };
+		6BA2FDA0B1A987167558858A /* Colltacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3FC63C116D88D10ED679C /* Colltacts.swift */; };
+		6FCB5AABD7374B3A4904C77E /* UpdateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CE23F7CF05031A346EBD7B /* UpdateViews.swift */; };
+		722E096609DE8823394B1ADF /* PushKitDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F68DAF3C96385DEDE3664F /* PushKitDelegate.swift */; };
+		74D76BA71251DE6FAF7E01A1 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F8970AC1FFD455624C7D20 /* Brand.swift */; };
+		764A82196FAAEF6459A81DFB /* Native.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7BDC29E0051002BA979BF508 /* Native.xcstrings */; };
+		7765F6BBC22E2548DC808225 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE44BA97F2FF0BDDA6ADA912 /* UpdateChecker.swift */; };
+		7B83209DC044F0E96C052A6B /* OutgoingNumberPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C9F031905AB5F2A3CD86EE /* OutgoingNumberPromptView.swift */; };
+		7DA1D64F6472BE39BA9AB91A /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7C40AD9A4881947DB1EC36 /* EventsManager.swift */; };
+		7E467AB6D714B4E7A60FD06D /* LinphoneWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D285A9B0C276AD766C1346F9 /* LinphoneWrapper */; };
+		7EFAC4402A9BC14B033F9F27 /* RecentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740520B1450AA7AFB9271E33 /* RecentsView.swift */; };
+		7F2C9AF9430FB7BF2FD506B6 /* linphonesw in Frameworks */ = {isa = PBXBuildFile; productRef = 62B7D1DC4D4301BFEC32674A /* linphonesw */; };
+		8142914765AA5E12BC111B18 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1DBEC26373EA8232C8ECF /* Keychain.swift */; };
+		8159204C81E7701820114F99 /* MissedCall.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30EF2CE2D3C7AA0344858837 /* MissedCall.stringsdict */; };
+		817E7E536D3775E051833DDD /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2FE7585DBD9406E60A48 /* Actions.swift */; };
+		8418F5E386723596634280AE /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D24244CC3B33C933A393D0 /* SurveyView.swift */; };
+		8614DC8877942C053031EC58 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AFF4029ACBDD9A97347E56 /* Preferences.swift */; };
+		87F68F1ABF6F2AF0DC2D79EE /* AttendedTransferSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8731BAD2A76B4A6C8B979509 /* AttendedTransferSession.swift */; };
+		8A7512222C92F888F04A9E02 /* ResClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5845928223CDEEBA8AB0AF /* ResClient.swift */; };
+		8AFAF8F22D387D9DA49FD508 /* ApplicationSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D4559C17C366F930C422A /* ApplicationSetup.swift */; };
+		8CFDB4AFF4D92D55B9F38C01 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474C67C21E1CEEA84B35931F /* CallManager.swift */; };
+		8EBED568F8DF6492BED8368C /* Segment in Frameworks */ = {isa = PBXBuildFile; productRef = 8F91DC72F9DC87DFC7834C77 /* Segment */; };
+		8F649EB196B2A6150ECB35C6 /* CallRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975223CA9908DAE8D617713 /* CallRecord.swift */; };
+		94EA794AE0C4C1FAE1A67205 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 2935CAC4B9CE9821B894C36D /* Sentry */; };
+		9927BE77EAAACAF07F960301 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1C8F68D7EA73B0DC27D43D00 /* PrivacyInfo.xcprivacy */; };
+		9CFC039A65DDF92BF069F779 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D977A3851F7D13AC2DDF8066 /* SettingsView.swift */; };
+		9D2AFC8DF064A442276EF126 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044B270BC139C19C890675B /* Direction.swift */; };
+		A589243B36F45CC24B68514C /* LinphoneAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC2633D9C4D281636D4D92 /* LinphoneAudio.swift */; };
+		A62F7C998B99E1858CA5FCE7 /* VialerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC4839DA9C32DF320E5E32 /* VialerApp.swift */; };
+		A687E0FF1CD5833738F31521 /* CallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE81082D86B35265B3285F3 /* CallState.swift */; };
+		A82AA5A76DE391B8D7F4232F /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB36D532834729698A27F4D /* OnboardingFlow.swift */; };
+		AC9B071126D55768840868B0 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8227691DA8EAE65499AB1000 /* HTTPClient.swift */; };
+		AD4687697F7B0E42511D5E1E /* DevCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1C4EA6BD54855ADCCEFD3 /* DevCredentials.swift */; };
+		B03713441F71253A45656932 /* FeedbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B1534E2B9A52E22570231 /* FeedbackManager.swift */; };
+		B4B41070D9ED91B6B13AA21F /* CallDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92129E5B6B684B365E4DAFCC /* CallDelegate.swift */; };
+		B4C4249B895B17A134E08F58 /* Calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6D3031431F21E92E80AADA /* Calls.swift */; };
+		BD24279DCF8E3942A298E1DA /* LinphoneListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156F847C848E0E486E198F6 /* LinphoneListener.swift */; };
+		BD5D13DC654F6308BE0FB0E0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35EC9DEB6A29F31E02376AE /* User.swift */; };
+		BEF0420249F52B5F30076759 /* ConnectivityBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE2C508F3D52B81928EC616 /* ConnectivityBanner.swift */; };
+		BFB6132DF61E4D1EF373B6C8 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE96BAAF3E9A069D54E5E83 /* Contacts.swift */; };
+		C016AED1A03EEAC00CD4ED86 /* AudioState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B785FAE377915D85D070D0A8 /* AudioState.swift */; };
+		C02A0D68E31CDCD965FD15B5 /* NoticeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90490102ADF95F9D07EC51B0 /* NoticeBanner.swift */; };
+		C0CDD2CABD92968385535BA9 /* SystemTones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B396C09517779E3B442D8E1D /* SystemTones.swift */; };
+		C1080A52DEE86054679C749D /* Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140C593B183886A2878B5B3 /* Middleware.swift */; };
+		C9AC14D5DC1D89681607C3B5 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = FF6314B2A6899111B70200E4 /* Swinject */; };
+		CC0BA976DAD45BCC205C4573 /* CallwakerMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D8EDF79ABD2F6686341968 /* CallwakerMiddleware.swift */; };
+		CCC8A8A7E332C3ABEB004185 /* VoIPLibCallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B78BCC8527C5F3F0670FE1 /* VoIPLibCallState.swift */; };
+		CDE7649B12EC743F6A81AA93 /* VoipLibEventTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ECC7DF894DFAF0C33A874C /* VoipLibEventTranslator.swift */; };
+		D0C2556478EA21FD42E0336B /* RecentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F484A508D95BA467D07E5073 /* RecentsStore.swift */; };
+		D32DA665FC5C53EDC7904ED5 /* OutgoingCallCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313392B803472D26901A1B2E /* OutgoingCallCoordinator.swift */; };
+		D4E9616F80BE46E4BE782F8A /* PresenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87640BD06A4F96694CDBEB8F /* PresenceManager.swift */; };
+		D513AAC605037608A0A76A21 /* CallList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3313BBC92B57898F7071F431 /* CallList.swift */; };
+		D6875B788B6937B7CE2D15FB /* InitializationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467E87306A52AA5954031FDB /* InitializationError.swift */; };
+		DADD0CC8CA970FCDE9B67CCC /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563D629CCB0909F2E0F9B9D /* Call.swift */; };
+		DF633CA058A2C58BB5C91BE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 566AA3FCBEA70B3E2B180106 /* Assets.xcassets */; };
+		DFA5C62479023C1059DA4A63 /* VoIPLibHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A919C584C4228270827EE45A /* VoIPLibHelper.swift */; };
+		E1B75D24B6CC5F68286C4074 /* VoipgridAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407DDF2DC9041D39F734C919 /* VoipgridAPI.swift */; };
+		E25BB1A39EC59D90FD993114 /* ReleaseNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF1CA4F31EA041F6C7F06E2 /* ReleaseNotes.swift */; };
+		E2E595AE4D9F13AF7DF02CE4 /* VoIPLibCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D3027284CC708F4D06E34C /* VoIPLibCall.swift */; };
+		E5F73D2700FE2656B0C2A44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB5E3D892965155546C21BF /* Theme.swift */; };
+		E73B99FD6199A70428310A20 /* NoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AAE766C01B8CB5C7954B /* NoticeManager.swift */; };
+		E7BE804E5ACFDDE12A9BE0AE /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B90FE84049C80564CF4C376 /* L10n.swift */; };
+		EFBE2A56971931F3DF1A594F /* VoIPLibConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518328B45119BC569A88461D /* VoIPLibConfig.swift */; };
+		F1D227FAFC3A168DC120CC4F /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4701E3AF6A0D832C8DF40C /* AppContainer.swift */; };
+		F2DCDBEE682B99172252F34F /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7E98920C3B83922C681E /* LocalStore.swift */; };
+		F49A526881400DE5A594A6F2 /* PILCallFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ACC2A5F380ABCD2BD363EF /* PILCallFactory.swift */; };
+		F7E2A06D72B2C6C0FB92BB96 /* Codec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A84976B355430065D044A44 /* Codec.swift */; };
+		F838206C074D04ADDD8447AE /* RegistrationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104B9342DC973E9E72CBB8D4 /* RegistrationState.swift */; };
+		FA5B16A743C412905097C9BD /* PortalWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E55401771A549A8FB9540E /* PortalWebView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		028D350BB20A65B4DC65772D /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
+		0950AAE766C01B8CB5C7954B /* NoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeManager.swift; sourceTree = "<group>"; };
+		0FE2C508F3D52B81928EC616 /* ConnectivityBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityBanner.swift; sourceTree = "<group>"; };
+		0FE3FC63C116D88D10ED679C /* Colltacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colltacts.swift; sourceTree = "<group>"; };
+		104B9342DC973E9E72CBB8D4 /* RegistrationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationState.swift; sourceTree = "<group>"; };
+		18972A74620316C21C772FAA /* DialerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialerView.swift; sourceTree = "<group>"; };
+		1B5629461D8A0A017D4915FE /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		1BBB4FA0445DCF651233E778 /* ringtone-voys.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ringtone-voys.wav"; sourceTree = "<group>"; };
+		1C8F68D7EA73B0DC27D43D00 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1CC2D0232C712EBC92FD136E /* CallDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDirection.swift; sourceTree = "<group>"; };
+		23D8EDF79ABD2F6686341968 /* CallwakerMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallwakerMiddleware.swift; sourceTree = "<group>"; };
+		245D2FE7585DBD9406E60A48 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		28E1DBEC26373EA8232C8ECF /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		29CC716E4841BB0D2954EA2D /* Vialer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vialer.entitlements; sourceTree = "<group>"; };
+		2A9306D1FBF47A57787B80BC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringtone.wav; sourceTree = "<group>"; };
+		313392B803472D26901A1B2E /* OutgoingCallCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCallCoordinator.swift; sourceTree = "<group>"; };
+		3313BBC92B57898F7071F431 /* CallList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallList.swift; sourceTree = "<group>"; };
+		354532A1CB61B4BDE7ADF67D /* LinphoneWrapper */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LinphoneWrapper; path = PhoneLib/LinphoneWrapper; sourceTree = SOURCE_ROOT; };
+		361B9683EAA045E979AF26B9 /* ConnectivityMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityMonitor.swift; sourceTree = "<group>"; };
+		38E8A7E11E0F83CD61E1EC4D /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		3B90FE84049C80564CF4C376 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		3D68DC6B28E47D0F295B7962 /* Quality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quality.swift; sourceTree = "<group>"; };
+		407DDF2DC9041D39F734C919 /* VoipgridAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoipgridAPI.swift; sourceTree = "<group>"; };
+		4245E375EECEC2629FF5C333 /* ColltactsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColltactsStore.swift; sourceTree = "<group>"; };
+		467E87306A52AA5954031FDB /* InitializationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationError.swift; sourceTree = "<group>"; };
+		474C67C21E1CEEA84B35931F /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		4873289B4DCCC3061CDF75D4 /* LogDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDelegate.swift; sourceTree = "<group>"; };
+		4A4FFD38DFCE09776B795996 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		4AF1CA4F31EA041F6C7F06E2 /* ReleaseNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseNotes.swift; sourceTree = "<group>"; };
+		4D1A0C7029948AF9B98740F1 /* CallFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFeedbackView.swift; sourceTree = "<group>"; };
+		4F567C0C3413B522DD4BDBF8 /* Banners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banners.swift; sourceTree = "<group>"; };
+		50F82F0DAC42C4295D657C8F /* PlatformIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformIntegrator.swift; sourceTree = "<group>"; };
+		518328B45119BC569A88461D /* VoIPLibConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPLibConfig.swift; sourceTree = "<group>"; };
+		52D24244CC3B33C933A393D0 /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
+		566AA3FCBEA70B3E2B180106 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		580466296A111DCAD8F43B5D /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		58B78BCC8527C5F3F0670FE1 /* VoIPLibCallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPLibCallState.swift; sourceTree = "<group>"; };
+		597B876DE1A4690E4DE202F0 /* IOSCallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSCallKit.swift; sourceTree = "<group>"; };
+		59AFF4029ACBDD9A97347E56 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		5C7E75DEA7116D50AA7077FB /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringback.wav; sourceTree = "<group>"; };
+		5FE81082D86B35265B3285F3 /* CallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallState.swift; sourceTree = "<group>"; };
+		612DA764EFE3B4C53A82E92F /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
+		61F68DAF3C96385DEDE3664F /* PushKitDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushKitDelegate.swift; sourceTree = "<group>"; };
+		6470000E5912C32C3DF88106 /* VoIPLib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPLib.swift; sourceTree = "<group>"; };
+		6C27B0E10C033C200C9EC9B4 /* CallInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInfoProvider.swift; sourceTree = "<group>"; };
+		6EE96BAAF3E9A069D54E5E83 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
+		6FCE48CB5FAF209AD1DD6D62 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		72AA6E61D6796E146BF982F0 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		72F1C4EA6BD54855ADCCEFD3 /* DevCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevCredentials.swift; sourceTree = "<group>"; };
+		740520B1450AA7AFB9271E33 /* RecentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsView.swift; sourceTree = "<group>"; };
+		7937634D93CFE2FB6A0301EC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		7A84976B355430065D044A44 /* Codec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codec.swift; sourceTree = "<group>"; };
+		7BDC29E0051002BA979BF508 /* Native.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Native.xcstrings; sourceTree = "<group>"; };
+		7D5845928223CDEEBA8AB0AF /* ResClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResClient.swift; sourceTree = "<group>"; };
+		8227691DA8EAE65499AB1000 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		828C00552260DBAE23FAC220 /* Observability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observability.swift; sourceTree = "<group>"; };
+		830D189243FCBA7E4DB6A40A /* PIL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIL.swift; sourceTree = "<group>"; };
+		84ACC2A5F380ABCD2BD363EF /* PILCallFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PILCallFactory.swift; sourceTree = "<group>"; };
+		8731BAD2A76B4A6C8B979509 /* AttendedTransferSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendedTransferSession.swift; sourceTree = "<group>"; };
+		87640BD06A4F96694CDBEB8F /* PresenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceManager.swift; sourceTree = "<group>"; };
+		8A6FB8A90B1DC49B7485AD42 /* ClientSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientSettingsView.swift; sourceTree = "<group>"; };
+		8B4701E3AF6A0D832C8DF40C /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		8B81D23929D51401A780FBE5 /* IOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS.swift; sourceTree = "<group>"; };
+		8BBDFC4237DBFE3132C1569B /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		8DE440A5BB607F205CEB4A39 /* LinphoneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinphoneManager.swift; sourceTree = "<group>"; };
+		8EAD7E98920C3B83922C681E /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		90490102ADF95F9D07EC51B0 /* NoticeBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBanner.swift; sourceTree = "<group>"; };
+		92129E5B6B684B365E4DAFCC /* CallDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDelegate.swift; sourceTree = "<group>"; };
+		98D3027284CC708F4D06E34C /* VoIPLibCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPLibCall.swift; sourceTree = "<group>"; };
+		9BC61A279F03A1DD69926093 /* AudioRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRoute.swift; sourceTree = "<group>"; };
+		9C3E91E73AC76014F46F60E5 /* BusinessAvailability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessAvailability.swift; sourceTree = "<group>"; };
+		9F99B89BE73D163802E43807 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A4B5C5F733F4F0CBE6D27D45 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
+		A919C584C4228270827EE45A /* VoIPLibHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPLibHelper.swift; sourceTree = "<group>"; };
+		AAE100093885E272749305E6 /* LinphoneRegistrationListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinphoneRegistrationListener.swift; sourceTree = "<group>"; };
+		AD7D4559C17C366F930C422A /* ApplicationSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSetup.swift; sourceTree = "<group>"; };
+		AE44BA97F2FF0BDDA6ADA912 /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
+		AEF058B6726188917A82B3FB /* CallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
+		B35EC9DEB6A29F31E02376AE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B396C09517779E3B442D8E1D /* SystemTones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTones.swift; sourceTree = "<group>"; };
+		B563D629CCB0909F2E0F9B9D /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		B785FAE377915D85D070D0A8 /* AudioState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioState.swift; sourceTree = "<group>"; };
+		C140C593B183886A2878B5B3 /* Middleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Middleware.swift; sourceTree = "<group>"; };
+		C98946D33402B6FFE98C0B8B /* ColltactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColltactsView.swift; sourceTree = "<group>"; };
+		CA7C40AD9A4881947DB1EC36 /* EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
+		CE8C8B4DC4D2322CD8F0ECB4 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		CECF90088708899163D39BF4 /* CallSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSessionState.swift; sourceTree = "<group>"; };
+		D0ECC7DF894DFAF0C33A874C /* VoipLibEventTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoipLibEventTranslator.swift; sourceTree = "<group>"; };
+		D1A40A093D4F0D94E83AE3D5 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		D57B1534E2B9A52E22570231 /* FeedbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManager.swift; sourceTree = "<group>"; };
+		D771CECC79A92C72CD5DD30D /* PILEventDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PILEventDelegate.swift; sourceTree = "<group>"; };
+		D977A3851F7D13AC2DDF8066 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D9CE23F7CF05031A346EBD7B /* UpdateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViews.swift; sourceTree = "<group>"; };
+		DE6D3031431F21E92E80AADA /* Calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calls.swift; sourceTree = "<group>"; };
+		E2553410580E0E3371DFAF6B /* Vialer.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Vialer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4D641E6E1BA99B2C5E8FF11 /* CallActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallActions.swift; sourceTree = "<group>"; };
+		E8C9F031905AB5F2A3CD86EE /* OutgoingNumberPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingNumberPromptView.swift; sourceTree = "<group>"; };
+		E975223CA9908DAE8D617713 /* CallRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRecord.swift; sourceTree = "<group>"; };
+		EC39A55C3ADA16F638E940D3 /* HolodeckAPIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolodeckAPIs.swift; sourceTree = "<group>"; };
+		ECB11D120D3040DF12800A51 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		ECDC2633D9C4D281636D4D92 /* LinphoneAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinphoneAudio.swift; sourceTree = "<group>"; };
+		EEBC4839DA9C32DF320E5E32 /* VialerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VialerApp.swift; sourceTree = "<group>"; };
+		F044B270BC139C19C890675B /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		F156F847C848E0E486E198F6 /* LinphoneListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinphoneListener.swift; sourceTree = "<group>"; };
+		F1615C1D01851CAE64CFD593 /* MissedCallNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissedCallNotification.swift; sourceTree = "<group>"; };
+		F484A508D95BA467D07E5073 /* RecentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsStore.swift; sourceTree = "<group>"; };
+		F84D3EEABA94867C5B7BEBCE /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "en-US"; path = "en-US.lproj/MissedCall.stringsdict"; sourceTree = "<group>"; };
+		F8E55401771A549A8FB9540E /* PortalWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalWebView.swift; sourceTree = "<group>"; };
+		F9F8970AC1FFD455624C7D20 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		FC905CEF242EC54A0751C407 /* FeatureFlagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagsView.swift; sourceTree = "<group>"; };
+		FCB36D532834729698A27F4D /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
+		FCB5E3D892965155546C21BF /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E5AE0C4B9C9876EEB9ACCCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F2C9AF9430FB7BF2FD506B6 /* linphonesw in Frameworks */,
+				C9AC14D5DC1D89681607C3B5 /* Swinject in Frameworks */,
+				7E467AB6D714B4E7A60FD06D /* LinphoneWrapper in Frameworks */,
+				94EA794AE0C4C1FAE1A67205 /* Sentry in Frameworks */,
+				8EBED568F8DF6492BED8368C /* Segment in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		002997BB41D02A60B275B383 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				6EE96BAAF3E9A069D54E5E83 /* Contacts.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		018F99D9CB4FC7A57F10D0DF /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		02BD82A247C588538D791CD5 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				104B9342DC973E9E72CBB8D4 /* RegistrationState.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		0314CDF016E4DCB98318AE06 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				6FCE48CB5FAF209AD1DD6D62 /* Event.swift */,
+				CA7C40AD9A4881947DB1EC36 /* EventsManager.swift */,
+				D771CECC79A92C72CD5DD30D /* PILEventDelegate.swift */,
+				50F82F0DAC42C4295D657C8F /* PlatformIntegrator.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		0BE1FDCF872E66F049F64D76 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				354532A1CB61B4BDE7ADF67D /* LinphoneWrapper */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		0C592A9C56BBD05ED6456B35 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				28E1DBEC26373EA8232C8ECF /* Keychain.swift */,
+				8EAD7E98920C3B83922C681E /* LocalStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		23F99609DD721F72C571C2E2 /* Vialer */ = {
+			isa = PBXGroup;
+			children = (
+				A1216BE39C628398F89C4689 /* App */,
+				EA5D33844C84B050916EC752 /* Config */,
+				DDB8A9D1BD2BEE7962D2DE77 /* Core */,
+				ADD6F9D22D383B577E4D24F2 /* Data */,
+				EAAF8030FE619572FEE567F2 /* Domain */,
+				BB39177EE1B8CE8DE17088E2 /* Features */,
+				A207DB2D96070FDB57668BD6 /* Generated */,
+				AEC24E12A46234DA48A48426 /* Resources */,
+				549E498DB97A71F3575CD305 /* Shared */,
+			);
+			path = Vialer;
+			sourceTree = "<group>";
+		};
+		2AD2DAD98D51AB8FF040472C /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				467E87306A52AA5954031FDB /* InitializationError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		2E695268786725345A18DCAD /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				38E8A7E11E0F83CD61E1EC4D /* AudioManager.swift */,
+				9BC61A279F03A1DD69926093 /* AudioRoute.swift */,
+				B785FAE377915D85D070D0A8 /* AudioState.swift */,
+				B396C09517779E3B442D8E1D /* SystemTones.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		333A4CB0014941F9187B7BD4 = {
+			isa = PBXGroup;
+			children = (
+				0BE1FDCF872E66F049F64D76 /* Packages */,
+				F36C91338A8662C4DBFF0B72 /* PhoneLib */,
+				23F99609DD721F72C571C2E2 /* Vialer */,
+				EDED4BF1B52E91B7A39BCAD7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		342A6FC2C56D968E2CDAB935 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F1615C1D01851CAE64CFD593 /* MissedCallNotification.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		3453E43345414CB817B3DF13 /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				C140C593B183886A2878B5B3 /* Middleware.swift */,
+				61F68DAF3C96385DEDE3664F /* PushKitDelegate.swift */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
+		3C88F90E31D29036F1DA3898 /* Linphone */ = {
+			isa = PBXGroup;
+			children = (
+				ECDC2633D9C4D281636D4D92 /* LinphoneAudio.swift */,
+				F156F847C848E0E486E198F6 /* LinphoneListener.swift */,
+				8DE440A5BB607F205CEB4A39 /* LinphoneManager.swift */,
+				AAE100093885E272749305E6 /* LinphoneRegistrationListener.swift */,
+			);
+			path = Linphone;
+			sourceTree = "<group>";
+		};
+		428B094B85BD3489D2CA25F5 /* iOSPhoneLib */ = {
+			isa = PBXGroup;
+			children = (
+				542E73336CCD910601AEC69B /* iOSVoIPLib */,
+				8E7F0C32012AEB44A05DD935 /* PIL */,
+			);
+			path = iOSPhoneLib;
+			sourceTree = "<group>";
+		};
+		47A88389A6D9F18F6E46D777 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				3C88F90E31D29036F1DA3898 /* Linphone */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		489EF27708420A302F53E4E5 /* Resgate */ = {
+			isa = PBXGroup;
+			children = (
+				7D5845928223CDEEBA8AB0AF /* ResClient.swift */,
+			);
+			path = Resgate;
+			sourceTree = "<group>";
+		};
+		499067C90CA290C3F8EA9B72 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				8227691DA8EAE65499AB1000 /* HTTPClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4B7EBA9AEC6FF32AB5846562 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8731BAD2A76B4A6C8B979509 /* AttendedTransferSession.swift */,
+				6C27B0E10C033C200C9EC9B4 /* CallInfoProvider.swift */,
+				7A84976B355430065D044A44 /* Codec.swift */,
+				F044B270BC139C19C890675B /* Direction.swift */,
+				3D68DC6B28E47D0F295B7962 /* Quality.swift */,
+				98D3027284CC708F4D06E34C /* VoIPLibCall.swift */,
+				58B78BCC8527C5F3F0670FE1 /* VoIPLibCallState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4BA7F8B3915D5CE62E049C34 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				828C00552260DBAE23FAC220 /* Observability.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		52C5FAAC20C0AAA8932D5A84 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				23D8EDF79ABD2F6686341968 /* CallwakerMiddleware.swift */,
+				EC39A55C3ADA16F638E940D3 /* HolodeckAPIs.swift */,
+				407DDF2DC9041D39F734C919 /* VoipgridAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		542E73336CCD910601AEC69B /* iOSVoIPLib */ = {
+			isa = PBXGroup;
+			children = (
+				DCB20E417DA33ED93404B009 /* Classes */,
+			);
+			path = iOSVoIPLib;
+			sourceTree = "<group>";
+		};
+		549E498DB97A71F3575CD305 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				4F567C0C3413B522DD4BDBF8 /* Banners.swift */,
+				ECB11D120D3040DF12800A51 /* Components.swift */,
+				0FE2C508F3D52B81928EC616 /* ConnectivityBanner.swift */,
+				90490102ADF95F9D07EC51B0 /* NoticeBanner.swift */,
+				F8E55401771A549A8FB9540E /* PortalWebView.swift */,
+				FCB5E3D892965155546C21BF /* Theme.swift */,
+				D9CE23F7CF05031A346EBD7B /* UpdateViews.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		6A3EA5BA7900177A069D6ED0 /* Recents */ = {
+			isa = PBXGroup;
+			children = (
+				740520B1450AA7AFB9271E33 /* RecentsView.swift */,
+			);
+			path = Recents;
+			sourceTree = "<group>";
+		};
+		74F66397F700CFDE26CEAED8 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				518328B45119BC569A88461D /* VoIPLibConfig.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		78DDA0215A4685DCC0004B53 /* Dialer */ = {
+			isa = PBXGroup;
+			children = (
+				18972A74620316C21C772FAA /* DialerView.swift */,
+			);
+			path = Dialer;
+			sourceTree = "<group>";
+		};
+		7A3AA6CB354AE8AF7936F221 /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				B563D629CCB0909F2E0F9B9D /* Call.swift */,
+				E4D641E6E1BA99B2C5E8FF11 /* CallActions.swift */,
+				1CC2D0232C712EBC92FD136E /* CallDirection.swift */,
+				3313BBC92B57898F7071F431 /* CallList.swift */,
+				DE6D3031431F21E92E80AADA /* Calls.swift */,
+				CECF90088708899163D39BF4 /* CallSessionState.swift */,
+				5FE81082D86B35265B3285F3 /* CallState.swift */,
+				84ACC2A5F380ABCD2BD363EF /* PILCallFactory.swift */,
+				D0ECC7DF894DFAF0C33A874C /* VoipLibEventTranslator.swift */,
+			);
+			path = Calls;
+			sourceTree = "<group>";
+		};
+		86FB297134314DDA4C5B5A69 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				92129E5B6B684B365E4DAFCC /* CallDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		8E7F0C32012AEB44A05DD935 /* PIL */ = {
+			isa = PBXGroup;
+			children = (
+				1B5629461D8A0A017D4915FE /* Builder.swift */,
+				830D189243FCBA7E4DB6A40A /* PIL.swift */,
+				2E695268786725345A18DCAD /* Audio */,
+				967C78B0936BBB3A967BCBFA /* CallKit */,
+				7A3AA6CB354AE8AF7936F221 /* Calls */,
+				9D8513D67E519D74D0961486 /* Configuration */,
+				002997BB41D02A60B275B383 /* Contacts */,
+				D873B2460D2EE30AC1AF6D28 /* DI */,
+				0314CDF016E4DCB98318AE06 /* Events */,
+				ECBE333FF0DFC7888E2EFE08 /* Helpers */,
+				A8FF253A143073714A82CB79 /* IOS */,
+				AD687EF80B04DF1FD5C6D0BF /* Logging */,
+				342A6FC2C56D968E2CDAB935 /* Notifications */,
+				3453E43345414CB817B3DF13 /* Push */,
+			);
+			path = PIL;
+			sourceTree = "<group>";
+		};
+		967C78B0936BBB3A967BCBFA /* CallKit */ = {
+			isa = PBXGroup;
+			children = (
+				597B876DE1A4690E4DE202F0 /* IOSCallKit.swift */,
+			);
+			path = CallKit;
+			sourceTree = "<group>";
+		};
+		977EAE577F922250C6D097DA /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FCB36D532834729698A27F4D /* OnboardingFlow.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		98E9720DA0D628AE6A6D43DE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9C3E91E73AC76014F46F60E5 /* BusinessAvailability.swift */,
+				E975223CA9908DAE8D617713 /* CallRecord.swift */,
+				0FE3FC63C116D88D10ED679C /* Colltacts.swift */,
+				A4B5C5F733F4F0CBE6D27D45 /* Destination.swift */,
+				9F99B89BE73D163802E43807 /* Settings.swift */,
+				B35EC9DEB6A29F31E02376AE /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9D8513D67E519D74D0961486 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				AD7D4559C17C366F930C422A /* ApplicationSetup.swift */,
+				580466296A111DCAD8F43B5D /* Auth.swift */,
+				59AFF4029ACBDD9A97347E56 /* Preferences.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		A1216BE39C628398F89C4689 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8B4701E3AF6A0D832C8DF40C /* AppContainer.swift */,
+				EEBC4839DA9C32DF320E5E32 /* VialerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A207DB2D96070FDB57668BD6 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				72F1C4EA6BD54855ADCCEFD3 /* DevCredentials.swift */,
+				72AA6E61D6796E146BF982F0 /* Env.swift */,
+				3B90FE84049C80564CF4C376 /* L10n.swift */,
+				4AF1CA4F31EA041F6C7F06E2 /* ReleaseNotes.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		A24D5672F7C2123DAC20F5E2 /* Call */ = {
+			isa = PBXGroup;
+			children = (
+				4D1A0C7029948AF9B98740F1 /* CallFeedbackView.swift */,
+				AEF058B6726188917A82B3FB /* CallView.swift */,
+				E8C9F031905AB5F2A3CD86EE /* OutgoingNumberPromptView.swift */,
+			);
+			path = Call;
+			sourceTree = "<group>";
+		};
+		A8FF253A143073714A82CB79 /* IOS */ = {
+			isa = PBXGroup;
+			children = (
+				8B81D23929D51401A780FBE5 /* IOS.swift */,
+			);
+			path = IOS;
+			sourceTree = "<group>";
+		};
+		AD687EF80B04DF1FD5C6D0BF /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				4873289B4DCCC3061CDF75D4 /* LogDelegate.swift */,
+				028D350BB20A65B4DC65772D /* LogLevel.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		ADD6F9D22D383B577E4D24F2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				52C5FAAC20C0AAA8932D5A84 /* API */,
+				98E9720DA0D628AE6A6D43DE /* Models */,
+				018F99D9CB4FC7A57F10D0DF /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		AEC24E12A46234DA48A48426 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				566AA3FCBEA70B3E2B180106 /* Assets.xcassets */,
+				7937634D93CFE2FB6A0301EC /* Localizable.xcstrings */,
+				7BDC29E0051002BA979BF508 /* Native.xcstrings */,
+				1C8F68D7EA73B0DC27D43D00 /* PrivacyInfo.xcprivacy */,
+				5C7E75DEA7116D50AA7077FB /* ringback.wav */,
+				1BBB4FA0445DCF651233E778 /* ringtone-voys.wav */,
+				2A9306D1FBF47A57787B80BC /* ringtone.wav */,
+				29CC716E4841BB0D2954EA2D /* Vialer.entitlements */,
+				30EF2CE2D3C7AA0344858837 /* MissedCall.stringsdict */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B0EF8B02942B8FF89286D942 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8A6FB8A90B1DC49B7485AD42 /* ClientSettingsView.swift */,
+				FC905CEF242EC54A0751C407 /* FeatureFlagsView.swift */,
+				D977A3851F7D13AC2DDF8066 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		BB39177EE1B8CE8DE17088E2 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				4A4FFD38DFCE09776B795996 /* MainTabView.swift */,
+				A24D5672F7C2123DAC20F5E2 /* Call */,
+				DB68BB241CD5B91FBA7FC462 /* Colltacts */,
+				78DDA0215A4685DCC0004B53 /* Dialer */,
+				977EAE577F922250C6D097DA /* Onboarding */,
+				6A3EA5BA7900177A069D6ED0 /* Recents */,
+				B0EF8B02942B8FF89286D942 /* Settings */,
+				CC065D0F4BFD81FD604E0F9D /* Survey */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		CC065D0F4BFD81FD604E0F9D /* Survey */ = {
+			isa = PBXGroup;
+			children = (
+				52D24244CC3B33C933A393D0 /* SurveyView.swift */,
+			);
+			path = Survey;
+			sourceTree = "<group>";
+		};
+		D873B2460D2EE30AC1AF6D28 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				CE8C8B4DC4D2322CD8F0ECB4 /* Container.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		DB68BB241CD5B91FBA7FC462 /* Colltacts */ = {
+			isa = PBXGroup;
+			children = (
+				C98946D33402B6FFE98C0B8B /* ColltactsView.swift */,
+			);
+			path = Colltacts;
+			sourceTree = "<group>";
+		};
+		DCB20E417DA33ED93404B009 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				245D2FE7585DBD9406E60A48 /* Actions.swift */,
+				6470000E5912C32C3DF88106 /* VoIPLib.swift */,
+				74F66397F700CFDE26CEAED8 /* Config */,
+				2AD2DAD98D51AB8FF040472C /* Error */,
+				47A88389A6D9F18F6E46D777 /* Managers */,
+				4B7EBA9AEC6FF32AB5846562 /* Models */,
+				86FB297134314DDA4C5B5A69 /* Protocols */,
+				02BD82A247C588538D791CD5 /* Registration */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		DDB8A9D1BD2BEE7962D2DE77 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8BBDFC4237DBFE3132C1569B /* Localization.swift */,
+				4BA7F8B3915D5CE62E049C34 /* Logging */,
+				499067C90CA290C3F8EA9B72 /* Networking */,
+				489EF27708420A302F53E4E5 /* Resgate */,
+				0C592A9C56BBD05ED6456B35 /* Storage */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EA5D33844C84B050916EC752 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				F9F8970AC1FFD455624C7D20 /* Brand.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		EAAF8030FE619572FEE567F2 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				474C67C21E1CEEA84B35931F /* CallManager.swift */,
+				4245E375EECEC2629FF5C333 /* ColltactsStore.swift */,
+				361B9683EAA045E979AF26B9 /* ConnectivityMonitor.swift */,
+				D57B1534E2B9A52E22570231 /* FeedbackManager.swift */,
+				0950AAE766C01B8CB5C7954B /* NoticeManager.swift */,
+				313392B803472D26901A1B2E /* OutgoingCallCoordinator.swift */,
+				87640BD06A4F96694CDBEB8F /* PresenceManager.swift */,
+				F484A508D95BA467D07E5073 /* RecentsStore.swift */,
+				D1A40A093D4F0D94E83AE3D5 /* SessionManager.swift */,
+				612DA764EFE3B4C53A82E92F /* Survey.swift */,
+				AE44BA97F2FF0BDDA6ADA912 /* UpdateChecker.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		ECBE333FF0DFC7888E2EFE08 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A919C584C4228270827EE45A /* VoIPLibHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		EDED4BF1B52E91B7A39BCAD7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2553410580E0E3371DFAF6B /* Vialer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F36C91338A8662C4DBFF0B72 /* PhoneLib */ = {
+			isa = PBXGroup;
+			children = (
+				428B094B85BD3489D2CA25F5 /* iOSPhoneLib */,
+			);
+			path = PhoneLib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3DC67A8BB8F3C7EAB2ED9872 /* Vialer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B241282C44FDEAD7956CB45C /* Build configuration list for PBXNativeTarget "Vialer" */;
+			buildPhases = (
+				C598748885F1EAFE6BBA9033 /* Generate dev credentials */,
+				1A554E75FB9B03F5680A3322 /* Generate env */,
+				62B400E0782A6C187DE97482 /* Generate release notes */,
+				0754EB7C62438BCDBE783857 /* Sources */,
+				15B394035D73D64A49607AE5 /* Resources */,
+				1E5AE0C4B9C9876EEB9ACCCE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Vialer;
+			packageProductDependencies = (
+				62B7D1DC4D4301BFEC32674A /* linphonesw */,
+				FF6314B2A6899111B70200E4 /* Swinject */,
+				D285A9B0C276AD766C1346F9 /* LinphoneWrapper */,
+				2935CAC4B9CE9821B894C36D /* Sentry */,
+				8F91DC72F9DC87DFC7834C77 /* Segment */,
+			);
+			productName = Vialer;
+			productReference = E2553410580E0E3371DFAF6B /* Vialer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3EACC6A0993F03E116B82539 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					3DC67A8BB8F3C7EAB2ED9872 = {
+						DevelopmentTeam = E2Q9UE8HM6;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4CEEB487336F46CA2603867D /* Build configuration list for PBXProject "Vialer" */;
+			developmentRegion = "en-US";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				"de-DE",
+				"en-US",
+				"es-ES",
+				"fr-FR",
+				"nl-NL",
+				"pt-PT",
+			);
+			mainGroup = 333A4CB0014941F9187B7BD4;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5A6A9B370D7BB3E6896B6A9A /* XCRemoteSwiftPackageReference "Swinject" */,
+				C99A174949EEF25FD91DC719 /* XCRemoteSwiftPackageReference "analytics-swift" */,
+				68D869DD022D908F09776833 /* XCRemoteSwiftPackageReference "linphone-sdk-swift-ios" */,
+				C10C4A74F470B5A3AF11759E /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				8AC5703D8082A963572AADE0 /* XCLocalSwiftPackageReference "PhoneLib/LinphoneWrapper" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = EDED4BF1B52E91B7A39BCAD7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3DC67A8BB8F3C7EAB2ED9872 /* Vialer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		15B394035D73D64A49607AE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF633CA058A2C58BB5C91BE1 /* Assets.xcassets in Resources */,
+				1B70BDBBFD4B2A4E89E05508 /* Localizable.xcstrings in Resources */,
+				8159204C81E7701820114F99 /* MissedCall.stringsdict in Resources */,
+				764A82196FAAEF6459A81DFB /* Native.xcstrings in Resources */,
+				9927BE77EAAACAF07F960301 /* PrivacyInfo.xcprivacy in Resources */,
+				1520C47C00BEDBA462E4A824 /* ringback.wav in Resources */,
+				5BE7D36ABE2815C1BF4B153B /* ringtone-voys.wav in Resources */,
+				68FD16EC524ACA6FBD1C5BB0 /* ringtone.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A554E75FB9B03F5680A3322 /* Generate env */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate env";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Vialer/Generated/Env.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/generate_env.sh\"";
+		};
+		62B400E0782A6C187DE97482 /* Generate release notes */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate release notes";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Vialer/Generated/ReleaseNotes.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/generate_release_notes.sh\"";
+		};
+		C598748885F1EAFE6BBA9033 /* Generate dev credentials */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate dev credentials";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Vialer/Generated/DevCredentials.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/generate_dev_credentials.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0754EB7C62438BCDBE783857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				817E7E536D3775E051833DDD /* Actions.swift in Sources */,
+				F1D227FAFC3A168DC120CC4F /* AppContainer.swift in Sources */,
+				8AFAF8F22D387D9DA49FD508 /* ApplicationSetup.swift in Sources */,
+				87F68F1ABF6F2AF0DC2D79EE /* AttendedTransferSession.swift in Sources */,
+				14E0B4EEE34EADFCC5F00A30 /* AudioManager.swift in Sources */,
+				0E69D20809B40C7D29947271 /* AudioRoute.swift in Sources */,
+				C016AED1A03EEAC00CD4ED86 /* AudioState.swift in Sources */,
+				4EFDE8B1A1F9ECB3BECBE41C /* Auth.swift in Sources */,
+				0DD233504CE3629EF257760F /* Banners.swift in Sources */,
+				74D76BA71251DE6FAF7E01A1 /* Brand.swift in Sources */,
+				0EDBE5BDA1DA1C8A96A69B33 /* Builder.swift in Sources */,
+				241A497C2A8881B5FF168051 /* BusinessAvailability.swift in Sources */,
+				DADD0CC8CA970FCDE9B67CCC /* Call.swift in Sources */,
+				577F4C8B453F7A173AAC8292 /* CallActions.swift in Sources */,
+				B4B41070D9ED91B6B13AA21F /* CallDelegate.swift in Sources */,
+				006C5434F8DFD3A8CCBF6AB0 /* CallDirection.swift in Sources */,
+				1ECFB6EF6EE2673580225E6E /* CallFeedbackView.swift in Sources */,
+				01131FEF124BD84AB92E6FA2 /* CallInfoProvider.swift in Sources */,
+				D513AAC605037608A0A76A21 /* CallList.swift in Sources */,
+				8CFDB4AFF4D92D55B9F38C01 /* CallManager.swift in Sources */,
+				8F649EB196B2A6150ECB35C6 /* CallRecord.swift in Sources */,
+				2CB1A3444089DABB7BA05885 /* CallSessionState.swift in Sources */,
+				A687E0FF1CD5833738F31521 /* CallState.swift in Sources */,
+				6703BE8629ADEB773F01CD50 /* CallView.swift in Sources */,
+				B4C4249B895B17A134E08F58 /* Calls.swift in Sources */,
+				CC0BA976DAD45BCC205C4573 /* CallwakerMiddleware.swift in Sources */,
+				25DEA5A8FA6C63B8C0D99C5B /* ClientSettingsView.swift in Sources */,
+				F7E2A06D72B2C6C0FB92BB96 /* Codec.swift in Sources */,
+				6BA2FDA0B1A987167558858A /* Colltacts.swift in Sources */,
+				3E198EDF499E401FC67F4A1F /* ColltactsStore.swift in Sources */,
+				3CD071A5E9ED38C4C4973848 /* ColltactsView.swift in Sources */,
+				17B82983135E6DC21C0F1547 /* Components.swift in Sources */,
+				BEF0420249F52B5F30076759 /* ConnectivityBanner.swift in Sources */,
+				2CB13E8A375B7403A34B9F3C /* ConnectivityMonitor.swift in Sources */,
+				BFB6132DF61E4D1EF373B6C8 /* Contacts.swift in Sources */,
+				011F6E280E6B622306E75205 /* Container.swift in Sources */,
+				42062CDE47115FA1BB135F8E /* Destination.swift in Sources */,
+				AD4687697F7B0E42511D5E1E /* DevCredentials.swift in Sources */,
+				35FD5E25BE211982C306ED72 /* DialerView.swift in Sources */,
+				9D2AFC8DF064A442276EF126 /* Direction.swift in Sources */,
+				0B454583A1631A2165C0CDBB /* Env.swift in Sources */,
+				61EAA68A312F0CF166D72333 /* Event.swift in Sources */,
+				7DA1D64F6472BE39BA9AB91A /* EventsManager.swift in Sources */,
+				1B22FD8E9E9E2EEB53C1EBDD /* FeatureFlagsView.swift in Sources */,
+				B03713441F71253A45656932 /* FeedbackManager.swift in Sources */,
+				AC9B071126D55768840868B0 /* HTTPClient.swift in Sources */,
+				26655EBF5E305582B8FBB3B8 /* HolodeckAPIs.swift in Sources */,
+				5AA32FC7802535B61282F2F5 /* IOS.swift in Sources */,
+				32C24399683F437C3C0DCA94 /* IOSCallKit.swift in Sources */,
+				D6875B788B6937B7CE2D15FB /* InitializationError.swift in Sources */,
+				8142914765AA5E12BC111B18 /* Keychain.swift in Sources */,
+				E7BE804E5ACFDDE12A9BE0AE /* L10n.swift in Sources */,
+				A589243B36F45CC24B68514C /* LinphoneAudio.swift in Sources */,
+				BD24279DCF8E3942A298E1DA /* LinphoneListener.swift in Sources */,
+				4B0179DC31E787D8A45B2B37 /* LinphoneManager.swift in Sources */,
+				260E0984DF26A7CD46715F56 /* LinphoneRegistrationListener.swift in Sources */,
+				F2DCDBEE682B99172252F34F /* LocalStore.swift in Sources */,
+				4627ABF93FD0F3197322FCA7 /* Localization.swift in Sources */,
+				50C7743CE29CD9E6B35520AA /* LogDelegate.swift in Sources */,
+				0A98BED24CC0301B5236400D /* LogLevel.swift in Sources */,
+				18E2E5B0A800EB1051086AF7 /* MainTabView.swift in Sources */,
+				C1080A52DEE86054679C749D /* Middleware.swift in Sources */,
+				5034640E1665A3C42475B1AE /* MissedCallNotification.swift in Sources */,
+				C02A0D68E31CDCD965FD15B5 /* NoticeBanner.swift in Sources */,
+				E73B99FD6199A70428310A20 /* NoticeManager.swift in Sources */,
+				5C4426209668A9185B946BD5 /* Observability.swift in Sources */,
+				A82AA5A76DE391B8D7F4232F /* OnboardingFlow.swift in Sources */,
+				D32DA665FC5C53EDC7904ED5 /* OutgoingCallCoordinator.swift in Sources */,
+				7B83209DC044F0E96C052A6B /* OutgoingNumberPromptView.swift in Sources */,
+				2F21763657763429BA41A7EE /* PIL.swift in Sources */,
+				F49A526881400DE5A594A6F2 /* PILCallFactory.swift in Sources */,
+				57C16DD033E9E7AE7B266CC0 /* PILEventDelegate.swift in Sources */,
+				1615A2360F368F260329EE6B /* PlatformIntegrator.swift in Sources */,
+				FA5B16A743C412905097C9BD /* PortalWebView.swift in Sources */,
+				8614DC8877942C053031EC58 /* Preferences.swift in Sources */,
+				D4E9616F80BE46E4BE782F8A /* PresenceManager.swift in Sources */,
+				722E096609DE8823394B1ADF /* PushKitDelegate.swift in Sources */,
+				6791D2B552356422C7D918A4 /* Quality.swift in Sources */,
+				D0C2556478EA21FD42E0336B /* RecentsStore.swift in Sources */,
+				7EFAC4402A9BC14B033F9F27 /* RecentsView.swift in Sources */,
+				F838206C074D04ADDD8447AE /* RegistrationState.swift in Sources */,
+				E25BB1A39EC59D90FD993114 /* ReleaseNotes.swift in Sources */,
+				8A7512222C92F888F04A9E02 /* ResClient.swift in Sources */,
+				4556C18BB89AA93D21D19C5D /* SessionManager.swift in Sources */,
+				61262CF2CFCCC6B2AC7FF044 /* Settings.swift in Sources */,
+				9CFC039A65DDF92BF069F779 /* SettingsView.swift in Sources */,
+				4CF5961B3D242B678389B274 /* Survey.swift in Sources */,
+				8418F5E386723596634280AE /* SurveyView.swift in Sources */,
+				C0CDD2CABD92968385535BA9 /* SystemTones.swift in Sources */,
+				E5F73D2700FE2656B0C2A44B /* Theme.swift in Sources */,
+				7765F6BBC22E2548DC808225 /* UpdateChecker.swift in Sources */,
+				6FCB5AABD7374B3A4904C77E /* UpdateViews.swift in Sources */,
+				BD5D13DC654F6308BE0FB0E0 /* User.swift in Sources */,
+				A62F7C998B99E1858CA5FCE7 /* VialerApp.swift in Sources */,
+				11E248051388BAD2F0FAA450 /* VoIPLib.swift in Sources */,
+				E2E595AE4D9F13AF7DF02CE4 /* VoIPLibCall.swift in Sources */,
+				CCC8A8A7E332C3ABEB004185 /* VoIPLibCallState.swift in Sources */,
+				EFBE2A56971931F3DF1A594F /* VoIPLibConfig.swift in Sources */,
+				DFA5C62479023C1059DA4A63 /* VoIPLibHelper.swift in Sources */,
+				CDE7649B12EC743F6A81AA93 /* VoipLibEventTranslator.swift in Sources */,
+				E1B75D24B6CC5F68286C4074 /* VoipgridAPI.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		30EF2CE2D3C7AA0344858837 /* MissedCall.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F84D3EEABA94867C5B7BEBCE /* en-US */,
+			);
+			name = MissedCall.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		033DCE4C9CA71AC2B69E10B0 /* Release-Verbonden */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Release-Verbonden";
+		};
+		18A1074F84147886EE12583E /* Debug-Vialer */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-vialer";
+				BRAND_DISPLAY_NAME = Vialer;
+				BRAND_IDENTIFIER = vialer;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Vialer";
+		};
+		211E3C0AD81947826923DC3A /* Debug-Voys */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-Voys";
+		};
+		211FCA50D931342D91924DF6 /* Release-Voys */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-voys";
+				BRAND_DISPLAY_NAME = Voys;
+				BRAND_IDENTIFIER = voys;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voys.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Voys";
+		};
+		3BFAD5C2E729B95B2872A519 /* Debug-Verbonden */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-verbonden";
+				BRAND_DISPLAY_NAME = Verbonden;
+				BRAND_IDENTIFIER = verbonden;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.verbonden.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Verbonden";
+		};
+		3EE36B1AABB8D4AF9D17BCEC /* Debug-ANNAbel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-annabel";
+				BRAND_DISPLAY_NAME = ANNAbel;
+				BRAND_IDENTIFIER = annabel;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bellenmetannabel.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-ANNAbel";
+		};
+		5EB2686FA015204A909B09FC /* Debug-Verbonden */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-Verbonden";
+		};
+		6F55F7F31C2B39C502E96907 /* Release-VialerStaging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Release-VialerStaging";
+		};
+		7FB0AF5A0C2BE72B9F5417FD /* Release-Voys */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Release-Voys";
+		};
+		8169447B34912E7E7E8B98A3 /* Debug-VialerStaging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-vialerStaging";
+				BRAND_DISPLAY_NAME = "Vialer Staging";
+				BRAND_IDENTIFIER = vialerStaging;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-VialerStaging";
+		};
+		839089DBE0FC412110320212 /* Debug-Vialer */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-Vialer";
+		};
+		8AEB73A705C721A618766E14 /* Release-Verbonden */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-verbonden";
+				BRAND_DISPLAY_NAME = Verbonden;
+				BRAND_IDENTIFIER = verbonden;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.verbonden.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Verbonden";
+		};
+		A501BE2497C3B051CF81E089 /* Debug-Voys */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-voys";
+				BRAND_DISPLAY_NAME = Voys;
+				BRAND_IDENTIFIER = voys;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voys.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Voys";
+		};
+		B0E96AC0A6FB25F8DE8C1DFF /* Debug-ANNAbel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-ANNAbel";
+		};
+		C16B0CAEDE8C401B6978D7E3 /* Release-Vialer */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Release-Vialer";
+		};
+		D696ACB0623279D3ED0948AF /* Release-ANNAbel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-annabel";
+				BRAND_DISPLAY_NAME = ANNAbel;
+				BRAND_IDENTIFIER = annabel;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bellenmetannabel.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-ANNAbel";
+		};
+		DE2D0BA2B330E70513162D07 /* Release-Vialer */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-vialer";
+				BRAND_DISPLAY_NAME = Vialer;
+				BRAND_IDENTIFIER = vialer;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Vialer";
+		};
+		DED05FF005CBF5E583A3107E /* Release-ANNAbel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Release-ANNAbel";
+		};
+		FCA8EED77BCBCD043D58EB5C /* Release-VialerStaging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-vialerStaging";
+				BRAND_DISPLAY_NAME = "Vialer Staging";
+				BRAND_IDENTIFIER = vialerStaging;
+				CODE_SIGN_ENTITLEMENTS = Vialer/Resources/Vialer.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Vialer/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.voipgrid.vialer;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-VialerStaging";
+		};
+		FF5D91101A948EDDB1473B7B /* Debug-VialerStaging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E2Q9UE8HM6;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 7.75.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-VialerStaging";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4CEEB487336F46CA2603867D /* Build configuration list for PBXProject "Vialer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0E96AC0A6FB25F8DE8C1DFF /* Debug-ANNAbel */,
+				5EB2686FA015204A909B09FC /* Debug-Verbonden */,
+				839089DBE0FC412110320212 /* Debug-Vialer */,
+				FF5D91101A948EDDB1473B7B /* Debug-VialerStaging */,
+				211E3C0AD81947826923DC3A /* Debug-Voys */,
+				DED05FF005CBF5E583A3107E /* Release-ANNAbel */,
+				033DCE4C9CA71AC2B69E10B0 /* Release-Verbonden */,
+				C16B0CAEDE8C401B6978D7E3 /* Release-Vialer */,
+				6F55F7F31C2B39C502E96907 /* Release-VialerStaging */,
+				7FB0AF5A0C2BE72B9F5417FD /* Release-Voys */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug-ANNAbel";
+		};
+		B241282C44FDEAD7956CB45C /* Build configuration list for PBXNativeTarget "Vialer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EE36B1AABB8D4AF9D17BCEC /* Debug-ANNAbel */,
+				3BFAD5C2E729B95B2872A519 /* Debug-Verbonden */,
+				18A1074F84147886EE12583E /* Debug-Vialer */,
+				8169447B34912E7E7E8B98A3 /* Debug-VialerStaging */,
+				A501BE2497C3B051CF81E089 /* Debug-Voys */,
+				D696ACB0623279D3ED0948AF /* Release-ANNAbel */,
+				8AEB73A705C721A618766E14 /* Release-Verbonden */,
+				DE2D0BA2B330E70513162D07 /* Release-Vialer */,
+				FCA8EED77BCBCD043D58EB5C /* Release-VialerStaging */,
+				211FCA50D931342D91924DF6 /* Release-Voys */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug-ANNAbel";
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		8AC5703D8082A963572AADE0 /* XCLocalSwiftPackageReference "PhoneLib/LinphoneWrapper" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PhoneLib/LinphoneWrapper;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A6A9B370D7BB3E6896B6A9A /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.10.0;
+			};
+		};
+		68D869DD022D908F09776833 /* XCRemoteSwiftPackageReference "linphone-sdk-swift-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BelledonneCommunications/linphone-sdk-swift-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.4.24;
+			};
+		};
+		C10C4A74F470B5A3AF11759E /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		C99A174949EEF25FD91DC719 /* XCRemoteSwiftPackageReference "analytics-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/segmentio/analytics-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2935CAC4B9CE9821B894C36D /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C10C4A74F470B5A3AF11759E /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		62B7D1DC4D4301BFEC32674A /* linphonesw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68D869DD022D908F09776833 /* XCRemoteSwiftPackageReference "linphone-sdk-swift-ios" */;
+			productName = linphonesw;
+		};
+		8F91DC72F9DC87DFC7834C77 /* Segment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C99A174949EEF25FD91DC719 /* XCRemoteSwiftPackageReference "analytics-swift" */;
+			productName = Segment;
+		};
+		D285A9B0C276AD766C1346F9 /* LinphoneWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LinphoneWrapper;
+		};
+		FF6314B2A6899111B70200E4 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A6A9B370D7BB3E6896B6A9A /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 3EACC6A0993F03E116B82539 /* Project object */;
+}

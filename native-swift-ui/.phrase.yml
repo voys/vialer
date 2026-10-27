@@ -1,0 +1,20 @@
+# Same Phrase project as the Flutter app (see ../.phrase.yml); pulled as an Xcode String Catalog.
+# Run `phrase pull -t "$PHRASE_ACCESS_TOKEN"` from this directory, then regenerate the Swift
+# accessors with `python3 scripts/generate_l10n.py`.
+
+phrase:
+  project_id: 32969223b3aa8d2c99ba865c611a15e5
+  pull:
+    targets:
+    - file: ./Vialer/Resources/Localizable.xcstrings
+      params:
+        locale_id: 85e4ba11caa8d4fe1e77f4452ae42b7e
+        locale_ids:
+          - nl-NL
+          - de-DE
+          - fr-FR
+          - es-ES
+          - pt-PT
+        file_format: strings_catalog
+        include_unverified_translations: true
+        include_empty_translations: false

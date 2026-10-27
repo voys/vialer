@@ -1,0 +1,10 @@
+xcuserdata/
+*.xcuserstate
+.build/
+.swiftpm/
+DerivedData/
+Vialer.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+Vialer/Generated/DevCredentials.swift
+Vialer/Generated/ReleaseNotes.swift
+Vialer/Generated/Env.swift
+.previews/

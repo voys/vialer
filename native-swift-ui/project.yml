@@ -1,0 +1,196 @@
+name: Vialer
+options:
+  bundleIdPrefix: com.voys
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "27.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: en-US
+
+# One Debug/Release pair per brand; the brand-specific values live in the target's config settings.
+configs:
+  Debug-Voys: debug
+  Release-Voys: release
+  Debug-Vialer: debug
+  Release-Vialer: release
+  Debug-VialerStaging: debug
+  Release-VialerStaging: release
+  Debug-Verbonden: debug
+  Release-Verbonden: release
+  Debug-ANNAbel: debug
+  Release-ANNAbel: release
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
+    DEVELOPMENT_TEAM: E2Q9UE8HM6
+    TARGETED_DEVICE_FAMILY: "1"
+    ENABLE_BITCODE: "NO"
+    MARKETING_VERSION: "7.75.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+packages:
+  linphone-sdk-swift-ios:
+    url: https://github.com/BelledonneCommunications/linphone-sdk-swift-ios.git
+    exactVersion: 5.4.24
+  Swinject:
+    url: https://github.com/Swinject/Swinject.git
+    exactVersion: 2.10.0
+  LinphoneWrapper:
+    path: PhoneLib/LinphoneWrapper
+  sentry-cocoa:
+    url: https://github.com/getsentry/sentry-cocoa.git
+    majorVersion: 9.0.0
+  analytics-swift:
+    url: https://github.com/segmentio/analytics-swift.git
+    majorVersion: 1.0.0
+
+# Brand values applied per configuration. Keep these in sync with BrandConfig in
+# Vialer/Config/Brand.swift and the brands/*.json files of the Flutter app.
+brandSettings: &brandSettings
+  Voys: &voys
+    BRAND_IDENTIFIER: voys
+    BRAND_DISPLAY_NAME: Voys
+    PRODUCT_BUNDLE_IDENTIFIER: com.voys.app
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-voys
+  Vialer: &vialer
+    BRAND_IDENTIFIER: vialer
+    BRAND_DISPLAY_NAME: Vialer
+    PRODUCT_BUNDLE_IDENTIFIER: com.voipgrid.vialer
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-vialer
+  VialerStaging: &vialerStaging
+    BRAND_IDENTIFIER: vialerStaging
+    BRAND_DISPLAY_NAME: Vialer Staging
+    PRODUCT_BUNDLE_IDENTIFIER: com.voipgrid.vialer
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-vialerStaging
+  Verbonden: &verbonden
+    BRAND_IDENTIFIER: verbonden
+    BRAND_DISPLAY_NAME: Verbonden
+    PRODUCT_BUNDLE_IDENTIFIER: nl.verbonden.app
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-verbonden
+  ANNAbel: &annabel
+    BRAND_IDENTIFIER: annabel
+    BRAND_DISPLAY_NAME: ANNAbel
+    PRODUCT_BUNDLE_IDENTIFIER: com.bellenmetannabel.app
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-annabel
+
+targets:
+  Vialer:
+    type: application
+    platform: iOS
+    sources:
+      - path: Vialer
+        excludes:
+          - "Resources/Info.plist"
+      # The iOS phone lib (PIL) is compiled directly into the app target; see SHORTCUTS.md.
+      - path: PhoneLib/iOSPhoneLib
+    dependencies:
+      - package: linphone-sdk-swift-ios
+        product: linphonesw
+      - package: Swinject
+      - package: LinphoneWrapper
+      - package: sentry-cocoa
+        product: Sentry
+      - package: analytics-swift
+        product: Segment
+    info:
+      path: Vialer/Resources/Info.plist
+      properties:
+        BrandIdentifier: $(BRAND_IDENTIFIER)
+        CFBundleDisplayName: $(BRAND_DISPLAY_NAME)
+        CFBundleName: $(BRAND_DISPLAY_NAME)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIBackgroundModes:
+          - remote-notification
+          - voip
+        CFBundleURLTypes:
+          - CFBundleURLSchemes:
+              - vialercall
+        NSContactsUsageDescription: Easily call the contacts on your phone directly from this app. Your contacts are never uploaded to our servers or shared with third parties.
+        NSMicrophoneUsageDescription: This ensures that the person you are calling can hear you.
+        NSBluetoothPeripheralUsageDescription: So you can make calls with your Bluetooth headset, for example.
+        NSBluetoothAlwaysUsageDescription: So you can make calls with your Bluetooth headset, for example.
+        NSUserActivityTypes:
+          - INStartCallIntent
+          - INStartAudioCallIntent
+    preBuildScripts:
+      - name: Generate dev credentials
+        script: "\"$SRCROOT/scripts/generate_dev_credentials.sh\""
+        basedOnDependencyAnalysis: false
+        outputFiles:
+          - $(SRCROOT)/Vialer/Generated/DevCredentials.swift
+      - name: Generate env
+        script: "\"$SRCROOT/scripts/generate_env.sh\""
+        basedOnDependencyAnalysis: false
+        outputFiles:
+          - $(SRCROOT)/Vialer/Generated/Env.swift
+      - name: Generate release notes
+        script: "\"$SRCROOT/scripts/generate_release_notes.sh\""
+        basedOnDependencyAnalysis: false
+        outputFiles:
+          - $(SRCROOT)/Vialer/Generated/ReleaseNotes.swift
+    entitlements:
+      path: Vialer/Resources/Vialer.entitlements
+      properties:
+        aps-environment: development
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        OTHER_LDFLAGS: "-ObjC"
+      configs:
+        Debug-Voys: *voys
+        Release-Voys: *voys
+        Debug-Vialer: *vialer
+        Release-Vialer: *vialer
+        Debug-VialerStaging: *vialerStaging
+        Release-VialerStaging: *vialerStaging
+        Debug-Verbonden: *verbonden
+        Release-Verbonden: *verbonden
+        Debug-ANNAbel: *annabel
+        Release-ANNAbel: *annabel
+
+schemes:
+  Voys:
+    build: { targets: { Vialer: all } }
+    run: { config: Debug-Voys }
+    test: { config: Debug-Voys }
+    profile: { config: Release-Voys }
+    analyze: { config: Debug-Voys }
+    archive: { config: Release-Voys }
+  Vialer:
+    build: { targets: { Vialer: all } }
+    run: { config: Debug-Vialer }
+    test: { config: Debug-Vialer }
+    profile: { config: Release-Vialer }
+    analyze: { config: Debug-Vialer }
+    archive: { config: Release-Vialer }
+  VialerStaging:
+    build: { targets: { Vialer: all } }
+    run: { config: Debug-VialerStaging }
+    test: { config: Debug-VialerStaging }
+    profile: { config: Release-VialerStaging }
+    analyze: { config: Debug-VialerStaging }
+    archive: { config: Release-VialerStaging }
+  Verbonden:
+    build: { targets: { Vialer: all } }
+    run: { config: Debug-Verbonden }
+    test: { config: Debug-Verbonden }
+    profile: { config: Release-Verbonden }
+    analyze: { config: Debug-Verbonden }
+    archive: { config: Release-Verbonden }
+  ANNAbel:
+    build: { targets: { Vialer: all } }
+    run: { config: Debug-ANNAbel }
+    test: { config: Debug-ANNAbel }
+    profile: { config: Release-ANNAbel }
+    analyze: { config: Debug-ANNAbel }
+    archive: { config: Release-ANNAbel }
