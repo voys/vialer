@@ -9,6 +9,15 @@
       }
     },
     {
+      "identity" : "gleap-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GleapSDK/Gleap-iOS-SDK.git",
+      "state" : {
+        "revision" : "346133e2bf0592d80dfd407f2a362de243b7b852",
+        "version" : "19.3.1"
+      }
+    },
+    {
       "identity" : "linphone-sdk-swift-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/BelledonneCommunications/linphone-sdk-swift-ios.git",
