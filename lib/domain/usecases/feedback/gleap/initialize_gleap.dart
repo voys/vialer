@@ -15,6 +15,25 @@ class InitializeGleap extends UseCase {
   /// keep the pending initialization around to guarantee it only runs once.
   static Future<void>? _initialization;
 
+  static const _envDataPropsToIgnore = [
+    'appRAMUsage',
+    'batteryLevel',
+    'batterySaveMode',
+    'buildMode',
+    'bundleID',
+    'deviceIdentifier',
+    'devicePixelRatio',
+    'phoneChargingStatus',
+    'screenHeight',
+    'screenWidth',
+    'sdkType',
+    'sdkVersion',
+    'sessionDuration',
+    'totalDiskSpace',
+    'totalFreeDiskSpace',
+    'totalRAM',
+  ];
+
   bool get isAvailable {
     final brand = _getBrand();
 
@@ -30,6 +49,7 @@ class InitializeGleap extends UseCase {
 
   Future<void> _initialize() async {
     try {
+      await Gleap.setEnvDataPropsToIgnore(propsToIgnore: _envDataPropsToIgnore);
       await Gleap.initialize(token: _envRepository.gleapApiKey);
       await Gleap.showFeedbackButton(false);
     } on Exception catch (exception) {
