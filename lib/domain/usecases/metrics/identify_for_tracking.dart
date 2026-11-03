@@ -19,6 +19,7 @@ import '../../../data/models/user/settings/call_setting.dart';
 import '../../../data/models/user/settings/settings.dart';
 import '../../../data/models/user/user.dart';
 import '../../../data/repositories/legacy/storage.dart';
+import '../../../data/repositories/secure_storage/secure_storage_repository.dart';
 import '../../../dependency_locator.dart';
 import '../use_case.dart';
 import '../user/get_brand.dart';
@@ -57,6 +58,8 @@ class IdentifyForTrackingUseCase extends UseCase {
   Future<Map<String, dynamic>> _platformIdentifyProperties() async => {
     if (Platform.isAndroid)
       'google-play-services-available': await _isPlayServicesAvailable,
+    if (Platform.isAndroid)
+      'keystore-security-level': await _keystoreSecurityLevel,
   };
 
   Future<Map<String, dynamic>> _operatingSystemPermissionProperties() async {
@@ -84,6 +87,9 @@ extension on PermissionStatus {
 }
 
 late final _isPlayServicesAvailable = GooglePlayServices().isAvailable();
+
+late final _keystoreSecurityLevel = dependencyLocator<SecureStorageRepository>()
+    .keySecurityLevel();
 
 extension on User {
   Map<String, dynamic> toIdentifyProperties() {

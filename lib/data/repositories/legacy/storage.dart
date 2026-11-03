@@ -5,6 +5,7 @@ import 'package:dartx/dartx.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../presentation/util/loggable.dart';
 import '../../models/calling/outgoing_number/outgoing_number.dart';
 import '../../models/calling/voip/destination.dart';
 import '../../models/colltacts/colltact_tab.dart';
@@ -13,22 +14,44 @@ import '../../models/relations/colleagues/colleague.dart';
 import '../../models/user/settings/settings.dart';
 import '../../models/user/user.dart';
 import '../../repositories/voipgrid/user_permissions.dart';
+import '../secure_storage/secure_storage_repository.dart';
 
 @singleton
 class StorageRepository {
-  const StorageRepository(this._preferences);
+  const StorageRepository(this._preferences, this._secureStorage);
+
+  @factoryMethod
+  @preResolve
+  static Future<StorageRepository> create(
+    SharedPreferences preferences,
+    SecureStorageRepository secureStorage,
+  ) async {
+    final storage = StorageRepository(preferences, secureStorage);
+    await storage._tidyCredentials();
+    return storage;
+  }
+
   final SharedPreferences _preferences;
+  final SecureStorageRepository _secureStorage;
 
   // Value must stay the same, otherwise everything breaks.
   static const _userKey = 'system_user';
 
+  Map<String, dynamic>? get _userJson =>
+      _preferences.getJson(_userKey, (j) => j! as Map<String, dynamic>);
+
   User? get user {
-    final json = _preferences.getJson(
-      _userKey,
-      (j) => j! as Map<String, dynamic>,
-    );
+    final json = _userJson;
 
     if (json == null) return null;
+
+    // Credentials live in secure storage, unless they couldn't be moved there
+    // yet.
+    json['token'] ??= _secureStorage.apiToken;
+    final voip = json['voip'];
+    if (voip is Map<String, dynamic>) {
+      voip['appaccount_password'] ??= _secureStorage.sipPassword;
+    }
 
     // When upgrading to the new user permission setup, remove the old ones and
     // convert to the new set.
@@ -48,7 +71,77 @@ class StorageRepository {
     return User.fromJson(json);
   }
 
-  set user(User? user) => _preferences.setOrRemoveObject(_userKey, user);
+  set user(User? user) {
+    if (user == null) {
+      _preferences.setOrRemoveString(_userKey, null);
+      unawaited(
+        _secureStorage.clear().catchError(
+          (Object e) => logger.severe('Unable to remove credentials: $e'),
+        ),
+      );
+      return;
+    }
+
+    final json = user.toJson();
+    final credentials = _takeCredentials(json);
+
+    _preferences.setOrRemoveObject(_userKey, json);
+
+    unawaited(
+      _secureStorage
+          .write(
+            apiToken: credentials.apiToken,
+            sipPassword: credentials.sipPassword,
+          )
+          .catchError(
+            (Object e) => logger.severe('Unable to store credentials: $e'),
+          ),
+    );
+  }
+
+  /// Removes the credentials from the user [json], they're kept in secure
+  /// storage instead.
+  static ({String? apiToken, String? sipPassword}) _takeCredentials(
+    Map<String, dynamic> json,
+  ) {
+    final voip = json['voip'] as Map<String, dynamic>?;
+
+    return (
+      apiToken: json.remove('token') as String?,
+      sipPassword: voip?.remove('appaccount_password') as String?,
+    );
+  }
+
+  /// Moves credentials that versions up to 7.75.0 stored in plain text to
+  /// secure storage. Also removes credentials left behind without a user,
+  /// which happens when the app is reinstalled because the iOS Keychain
+  /// survives that.
+  Future<void> _tidyCredentials() async {
+    try {
+      final json = _userJson;
+
+      if (json == null) {
+        if (!_secureStorage.isEmpty) await _secureStorage.clear();
+        return;
+      }
+
+      final credentials = _takeCredentials(json);
+      if (credentials.apiToken == null && credentials.sipPassword == null) {
+        return;
+      }
+
+      // Only removed from preferences once they're stored securely, otherwise
+      // they would be lost.
+      await _secureStorage.write(
+        apiToken: credentials.apiToken,
+        sipPassword: credentials.sipPassword,
+      );
+      await _preferences.setString(_userKey, jsonEncode(json));
+    } on Exception catch (e) {
+      // Retried on the next start.
+      logger.severe('Unable to tidy up credentials: $e');
+    }
+  }
 
   static const _logsKey = 'logs';
 
@@ -289,7 +382,8 @@ class StorageRepository {
   set isUsingScreenReader(bool value) =>
       unawaited(_preferences.setBool(_isUsingScreenReader, value));
 
-  Future<void> clear() => _preferences.clear();
+  Future<void> clear() =>
+      Future.wait([_preferences.clear(), _secureStorage.clear()]);
 
   Future<void> reload() => _preferences.reload();
 }

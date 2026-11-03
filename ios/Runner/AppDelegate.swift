@@ -84,6 +84,7 @@ import UserNotifications
         MiddlewareRegistrarSetup.setUp(binaryMessenger: controller.binaryMessenger, api: middleware)
         nativeToFlutter = NativeToFlutter(binaryMessenger: controller.binaryMessenger)
         NativeClipboardSetup.setUp(binaryMessenger: controller.binaryMessenger, api: NativeClipboardApi())
+        NativeSecureStorageSetup.setUp(binaryMessenger: controller.binaryMessenger, api: SecureStorage())
         
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
