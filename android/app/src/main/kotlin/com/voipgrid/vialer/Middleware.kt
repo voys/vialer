@@ -20,6 +20,7 @@ class Middleware(
     private val context: Context,
     private val logger: Logger,
     private val prefs: FlutterSharedPreferences,
+    private val secureStorage: SecureStorage,
     private val segment: Segment,
 ) : NativeMiddleware {
     private val client = OkHttpClient()
@@ -396,7 +397,7 @@ class Middleware(
             user.voip?.let { voip ->
                 MiddlewareCredentials(
                     sipUserId = voip.sipUserId,
-                    loginToken = user.token
+                    loginToken = secureStorage.credentials.apiToken ?: user.legacyToken ?: ""
                 )
             }
         }

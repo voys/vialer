@@ -11,10 +11,12 @@ class App : FlutterApplication() {
         prefs = FlutterSharedPreferences(this)
         logger = Logger(this, prefs)
         segment = Segment(this, logger, prefs)
+        secureStorage = SecureStorage(this, logger)
         middleware = Middleware(
             this,
             logger,
             prefs,
+            secureStorage,
             segment,
         )
 
@@ -53,6 +55,7 @@ class App : FlutterApplication() {
         lateinit var middleware: Middleware
         lateinit var segment: Segment
         lateinit var prefs: FlutterSharedPreferences
+        lateinit var secureStorage: SecureStorage
 
         val activityMonitor = ActivityMonitor()
 

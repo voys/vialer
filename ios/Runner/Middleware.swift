@@ -7,6 +7,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     private let segment: Segment
 
     private let flutterSharedPreferences = FlutterSharedPreferences()
+    private let secureStorage = SecureStorage()
 
     public var baseUrl: String {
         get {
@@ -35,7 +36,11 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     private var middlewareCredentials: MiddlewareCredentials {
         get {
             MiddlewareCredentials(
-                loginToken: flutterSharedPreferences.systemUser?["token"] as? String ?? "",
+                // Versions up to 7.75.0 stored the token in the user, it's moved once Flutter
+                // starts. Remove the fallback once almost all users have upgraded from 7.75.0.
+                loginToken: secureStorage.credentials.apiToken
+                    ?? flutterSharedPreferences.systemUser?["token"] as? String
+                    ?? "",
                 sipUserId: (flutterSharedPreferences.systemUser?["voip"] as? [String : Any])?["appaccount_account_id"] as? String ?? ""
             )
         }

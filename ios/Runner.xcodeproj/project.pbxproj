@@ -26,6 +26,7 @@
 		83D3A6E22788938200D18E8D /* Middleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3A6E12788938100D18E8D /* Middleware.swift */; };
 		83D3A6E42788940400D18E8D /* FlutterSharedPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D3A6E32788940400D18E8D /* FlutterSharedPreferences.swift */; };
 		8FDF25FD2B8E0DB600436528 /* ClipboardApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDF25FC2B8E0DB600436528 /* ClipboardApi.swift */; };
+		5EC0E5A12F00000000000002 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC0E5A12F00000000000001 /* SecureStorage.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -85,6 +86,7 @@
 		83D3A6E12788938100D18E8D /* Middleware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Middleware.swift; sourceTree = "<group>"; };
 		83D3A6E32788940400D18E8D /* FlutterSharedPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlutterSharedPreferences.swift; sourceTree = "<group>"; };
 		8FDF25FC2B8E0DB600436528 /* ClipboardApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardApi.swift; sourceTree = "<group>"; };
+		5EC0E5A12F00000000000001 /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 				5C6D440F28DE1D1D002F5590 /* ContactImporter.swift */,
 				1A55D21D2B7D2143006BBEFB /* Error.swift */,
 				8FDF25FC2B8E0DB600436528 /* ClipboardApi.swift */,
+				5EC0E5A12F00000000000001 /* SecureStorage.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				D4066D5E27DF49BE0006BF36 /* Metrics.swift in Sources */,
 				5C5B39A22823B94D0052D50F /* SystemTones.swift in Sources */,
 				8FDF25FD2B8E0DB600436528 /* ClipboardApi.swift in Sources */,
+				5EC0E5A12F00000000000002 /* SecureStorage.swift in Sources */,
 				D4066D6227DF50A60006BF36 /* CallScreenBehaviorApi.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				5C6D441028DE1D1D002F5590 /* ContactImporter.swift in Sources */,
