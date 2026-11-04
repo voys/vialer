@@ -42,8 +42,9 @@ class _AndroidFlexibleUpdateHandler implements AndroidFlexibleUpdateHandler {
   final void Function() _onDownloaded;
 
   @override
-  void onUpdateTypeKnown(bool isFlexible) => _onUpdateTypeKnown(isFlexible);
+  Future<void> onUpdateTypeKnown(bool isFlexible) async =>
+      _onUpdateTypeKnown(isFlexible);
 
   @override
-  void onDownloaded() => _onDownloaded();
+  Future<void> onDownloaded() async => _onDownloaded();
 }

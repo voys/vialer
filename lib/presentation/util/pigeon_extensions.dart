@@ -5,7 +5,7 @@ class _NativeToFlutterListener implements NativeToFlutter {
   final void Function(String) onLaunchDialerAndPopulateNumber;
 
   @override
-  void launchDialerAndPopulateNumber(String number) =>
+  Future<void> launchDialerAndPopulateNumber(String number) async =>
       onLaunchDialerAndPopulateNumber(number);
 }
 

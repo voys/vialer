@@ -17,7 +17,7 @@ abstract class ContactSortHostApi {
 @HostApi()
 // ignore:one_member_abstracts
 abstract class NativeLogging {
-  @async
+  @asyncCallback
   void startNativeRemoteLogging(
     String token,
     String userIdentifier,
@@ -68,7 +68,9 @@ abstract class AppUpdates {
 @FlutterApi()
 abstract class AndroidFlexibleUpdateHandler {
   // ignore: avoid_positional_boolean_parameters
+  @asyncCallback
   void onUpdateTypeKnown(bool isFlexible);
+  @asyncCallback
   void onDownloaded();
 }
 
@@ -81,9 +83,9 @@ abstract class CallThrough {
 @HostApi()
 // ignore: one_member_abstracts
 abstract class Contacts {
-  @async
+  @asyncCallback
   void importContacts(String cacheFilePath);
-  @async
+  @asyncCallback
   void importContactAvatars(String avatarDirectoryPath);
 }
 
@@ -100,12 +102,13 @@ abstract class MiddlewareRegistrar {
 
 @FlutterApi()
 abstract class NativeToFlutter {
+  @asyncCallback
   void launchDialerAndPopulateNumber(String number);
 }
 
 @HostApi()
 // ignore: one_member_abstracts
 abstract class NativeClipboard {
-  @async
+  @asyncCallback
   bool hasPhoneNumber();
 }
