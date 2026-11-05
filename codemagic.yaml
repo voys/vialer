@@ -176,7 +176,7 @@ custom: # Custom properties to make workflows cleaner
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-        submit_to_app_store: true
+        submit_to_app_store: false
         release_type: MANUAL
         cancel_previous_submissions: true
       google_play:
