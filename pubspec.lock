@@ -636,10 +636,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_phone_lib
-      sha256: e1b20cf847460ae802a5d5e2ebe3e4108757db371c02d11c2257cf853198909c
+      sha256: "556a15893a247c62e85ae7ea1a93d8ce939a0c307f149a709fe84ab158e2d2ba"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.10"
+    version: "1.0.13"
   flutter_platform_widgets:
     dependency: "direct main"
     description:
@@ -828,10 +828,10 @@ packages:
     dependency: "direct main"
     description:
       name: i18n
-      sha256: "2ae89d332b4bb55986ab7fe252808b586c953c946ee8faa8308d429fdfd6e57b"
+      sha256: d10f71bbb56ace606ce74c0f63daa069d712e57acc79108d7e764f4d3a218463
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.5"
+    version: "4.2.6"
   image:
     dependency: transitive
     description:
@@ -1449,10 +1449,11 @@ packages:
   shared_secure_storage:
     dependency: "direct main"
     description:
-      path: "../shared-secure-storage"
-      relative: true
-    source: path
-    version: "0.1.0"
+      name: shared_secure_storage
+      sha256: e772bc2024c67f03b61cb974d4ed2ba6475518fb44a25702a4b2e387509d3001
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   shelf:
     dependency: transitive
     description:

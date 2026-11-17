@@ -4,7 +4,7 @@ import com.voipgrid.vialer.logging.Logger
 import io.flutter.app.FlutterApplication
 import org.openvoipalliance.flutterphonelib.PhoneLibLogLevel.WARNING
 import org.openvoipalliance.flutterphonelib.startPhoneLib
-import org.openvoipalliance.sharedsecurestorage.SharedSecureStorage
+import co.voys.sharedsecurestorage.SharedSecureStorage
 
 class App : FlutterApplication() {
 
