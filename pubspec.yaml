@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_phone_lib: 1.0.8
+  flutter_phone_lib: 1.0.10
   # This points to our fork of the Font Awesome Flutter library which includes our pro-icons so must
   # be kept private.
 

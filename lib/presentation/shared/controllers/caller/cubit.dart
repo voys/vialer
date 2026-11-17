@@ -136,7 +136,7 @@ class CallerCubit extends Cubit<CallerState> with Loggable {
       if (activeCall != null &&
           activeCall.direction.isInbound &&
           activeCall.state != CallState.ended) {
-        if (activeCall.state == CallState.initializing) {
+        if (activeCall.state == CallState.ringing) {
           emit(Ringing(voip: voip));
         } else {
           _trackVoipCallStarted(
