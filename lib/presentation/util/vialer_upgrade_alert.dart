@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:vialer/global.dart';
 import 'package:vialer/presentation/resources/localizations.dart';

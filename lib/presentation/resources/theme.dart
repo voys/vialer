@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Colors;
+import 'package:material_ui/material_ui.dart' hide Colors;
 
 // We export this so you only need one
 // import for accessing `context.brand.theme.colors`.

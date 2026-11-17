@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/util/phone_number.dart';
@@ -82,32 +82,39 @@ class _KeyInputState extends State<KeyInput> {
                         .phoneNumberInputPopulated(
                           widget.controller.text.phoneNumberSemanticLabel,
                         ),
-              child: PlatformTextField(
-                controller: widget.controller,
-                scrollController: _scrollController,
-                inputFormatters: [_KeyInputFormatter()],
-                showCursor: false,
-                keyboardType: TextInputType.none,
-                enableInteractiveSelection: !context.isUsingScreenReader,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 32),
-                material: (_, _) => MaterialTextFieldData(
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    filled: false,
-                    contentPadding: padding,
-                  ),
-                ),
-                cupertino: (_, _) => CupertinoTextFieldData(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 0,
-                      color: Colors.transparent,
+              child: context.isIOS
+                  ? CupertinoTextField(
+                      controller: widget.controller,
+                      scrollController: _scrollController,
+                      inputFormatters: [_KeyInputFormatter()],
+                      showCursor: false,
+                      keyboardType: TextInputType.none,
+                      enableInteractiveSelection: !context.isUsingScreenReader,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 32),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 0,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      padding: padding,
+                    )
+                  : TextField(
+                      controller: widget.controller,
+                      scrollController: _scrollController,
+                      inputFormatters: [_KeyInputFormatter()],
+                      showCursor: false,
+                      keyboardType: TextInputType.none,
+                      enableInteractiveSelection: !context.isUsingScreenReader,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 32),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        filled: false,
+                        contentPadding: padding,
+                      ),
                     ),
-                  ),
-                  padding: padding,
-                ),
-              ),
             ),
           ),
           _DeleteButton(

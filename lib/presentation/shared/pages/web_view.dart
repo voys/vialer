@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../data/models/voipgrid/web_page.dart';
 import '../../features/settings/widgets/settings_button.dart';
@@ -29,6 +29,9 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   final _settings = InAppWebViewSettings(
+    // The replacement, clearAllCache, is async so isn't guaranteed to finish
+    // before the first page load.
+    // ignore: deprecated_member_use
     clearCache: true,
     useOnDownloadStart: true,
     transparentBackground: true,

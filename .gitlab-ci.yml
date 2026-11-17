@@ -8,7 +8,7 @@ stages:
 
 .flutter:
   image:
-    name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/gmeligio/flutter-android:3.47.4
+    name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/gmeligio/flutter-android:3.50.0
     docker:
       # The image defaults to a non-root user, but the runner checks out the
       # repo as root, leaving files the image's user doesn't own (e.g. pub

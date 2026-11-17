@@ -7,12 +7,10 @@ version: 7.0.0
 
 environment:
   sdk: '>=3.11.0 <4.0.0'
-  flutter: '>=3.47.0 <3.48.0'
+  flutter: '>=3.50.0 <3.51.0'
 
 dependencies:
   flutter:
-    sdk: flutter
-  flutter_localizations:
     sdk: flutter
   flutter_phone_lib: 1.0.8
   # This points to our fork of the Font Awesome Flutter library which includes our pro-icons so must
@@ -46,7 +44,7 @@ dependencies:
   i18n: ^4.1.0
   intl: ^0.20.2
   flutter_dotenv: ^6.0.0
-  sentry_flutter: ^9.9.2
+  sentry_flutter: ^10.3.0
   flutter_segment_sdk: ^3.13.5
   package_info_plus: ^9.0.0
   sqlite3_flutter_libs: ^0.5.41
@@ -57,7 +55,9 @@ dependencies:
   get_it: ^9.2.0
   dartx: ^1.2.0
   connectivity_plus: ^7.0.0
-  flutter_inappwebview: ^6.1.5
+  # Pinned beta: 6.1.x has no Swift Package Manager support on iOS. Move to
+  # the stable release once 6.2.0 is out.
+  flutter_inappwebview: 6.2.0-beta.3
   json_annotation: ^4.12.0
   flutter_rating_bar: ^4.0.1
   flutter_libphonenumber: ^2.7.0
@@ -94,6 +94,8 @@ dependencies:
   riverpod_annotation: any
   meta: any
   http: any
+  material_ui: ^1.11.0
+  cupertino_ui: ^1.1.6
 dev_dependencies:
   test: ^1.24.9
   integration_test:

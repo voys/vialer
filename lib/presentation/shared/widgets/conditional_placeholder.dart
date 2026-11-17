@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Will show the [placeholder] if [showPlaceholder] is true,
 /// else it will show the [child].

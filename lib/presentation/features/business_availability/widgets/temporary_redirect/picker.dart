@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dartx/dartx.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/user/refresh/user_refresh_task.dart';
 import 'package:vialer/domain/usecases/user/refresh/refresh_user.dart';
 import 'package:vialer/presentation/resources/localizations.dart';

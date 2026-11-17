@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:dartx/dartx.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/features/settings/widgets/availability/ringing_device/widget.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/resources/theme.dart';
