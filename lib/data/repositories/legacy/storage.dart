@@ -48,6 +48,13 @@ class StorageRepository {
     // Credentials live in secure storage, unless they couldn't be moved there
     // yet.
     json['token'] ??= _secureStorage.apiToken;
+
+    // Without a token the user can't do anything. This happens when secure
+    // storage lost it, e.g. after restoring a backup on another device, or
+    // when it can't be read yet. The app must then act as logged out, so a
+    // new login starts from scratch instead of building on this user.
+    if (json['token'] == null) return null;
+
     final voip = json['voip'];
     if (voip is Map<String, dynamic>) {
       voip['appaccount_password'] ??= _secureStorage.sipPassword;
@@ -93,10 +100,33 @@ class StorageRepository {
             apiToken: credentials.apiToken,
             sipPassword: credentials.sipPassword,
           )
-          .catchError(
-            (Object e) => logger.severe('Unable to store credentials: $e'),
-          ),
+          .catchError((Object e) {
+            logger.severe(
+              'Unable to store credentials, keeping them in preferences: $e',
+            );
+            _restoreCredentials(credentials);
+          }),
     );
+  }
+
+  /// Puts [credentials] back into the stored user, in plain text like versions
+  /// up to 7.75.0 did. Without this the user would be logged out on the next
+  /// start. Moving them to secure storage is tried again then.
+  void _restoreCredentials(
+    ({String? apiToken, String? sipPassword}) credentials,
+  ) {
+    final json = _userJson;
+
+    // Logged out in the meantime.
+    if (json == null) return;
+
+    json['token'] ??= credentials.apiToken;
+    final voip = json['voip'];
+    if (voip is Map<String, dynamic>) {
+      voip['appaccount_password'] ??= credentials.sipPassword;
+    }
+
+    unawaited(_preferences.setString(_userKey, jsonEncode(json)));
   }
 
   /// Removes the credentials from the user [json], they're kept in secure
@@ -382,10 +412,16 @@ class StorageRepository {
   set isUsingScreenReader(bool value) =>
       unawaited(_preferences.setBool(_isUsingScreenReader, value));
 
-  Future<void> clear() =>
-      Future.wait([_preferences.clear(), _secureStorage.clear()]);
+  Future<void> clear() => Future.wait([
+    _preferences.clear(),
+    // Anything left behind is removed on the next start.
+    _secureStorage.clear().catchError(
+      (Object e) => logger.severe('Unable to remove credentials: $e'),
+    ),
+  ]);
 
-  Future<void> reload() => _preferences.reload();
+  Future<void> reload() =>
+      Future.wait([_preferences.reload(), _secureStorage.reload()]);
 }
 
 extension on SharedPreferences {

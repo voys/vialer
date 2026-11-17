@@ -1,4 +1,5 @@
 import flutter_phone_lib
+import shared_secure_storage
 import PushKit
 import Alamofire
 
@@ -7,7 +8,10 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
     private let segment: Segment
 
     private let flutterSharedPreferences = FlutterSharedPreferences()
-    private let secureStorage = SecureStorage()
+    private let secureStorage = SharedSecureStorage.shared
+
+    /// Must match the key in secure_storage_repository.dart.
+    private let apiTokenKey = "api_token"
 
     public var baseUrl: String {
         get {
@@ -38,7 +42,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
             MiddlewareCredentials(
                 // Versions up to 7.75.0 stored the token in the user, it's moved once Flutter
                 // starts. Remove the fallback once almost all users have upgraded from 7.75.0.
-                loginToken: secureStorage.credentials.apiToken
+                loginToken: (try? secureStorage.read(apiTokenKey))
                     ?? flutterSharedPreferences.systemUser?["token"] as? String
                     ?? "",
                 sipUserId: (flutterSharedPreferences.systemUser?["voip"] as? [String : Any])?["appaccount_account_id"] as? String ?? ""
@@ -80,6 +84,11 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
 
         guard let appAccountId = Int(middlewareCredentials.sipUserId) else {
             logger.writeLog("Registration cancelled: sipUserId is not a number")
+            return
+        }
+
+        guard !middlewareCredentials.loginToken.isEmpty else {
+            logger.writeLog("Registration cancelled: there is no API token")
             return
         }
 
@@ -179,6 +188,11 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
         guard let installationId = flutterSharedPreferences.installationId,
               let registrationToken = flutterSharedPreferences.middlewareRegistrationToken else {
             logger.writeLog("Skipping unregister: no active registration")
+            return
+        }
+
+        guard !middlewareCredentials.loginToken.isEmpty else {
+            logger.writeLog("Skipping unregister: there is no API token")
             return
         }
 

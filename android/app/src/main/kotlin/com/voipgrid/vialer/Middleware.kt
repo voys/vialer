@@ -11,6 +11,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.openvoipalliance.flutterphonelib.NativeMiddleware
 import org.openvoipalliance.flutterphonelib.NativeMiddlewareUnavailableReason
+import org.openvoipalliance.sharedsecurestorage.SharedSecureStorage
 import java.io.IOException
 import java.math.BigDecimal
 import java.util.UUID
@@ -20,7 +21,7 @@ class Middleware(
     private val context: Context,
     private val logger: Logger,
     private val prefs: FlutterSharedPreferences,
-    private val secureStorage: SecureStorage,
+    private val secureStorage: SharedSecureStorage,
     private val segment: Segment,
 ) : NativeMiddleware {
     private val client = OkHttpClient()
@@ -395,14 +396,18 @@ class Middleware(
     private val middlewareCredentials
         get() = prefs.user?.let { user ->
             user.voip?.let { voip ->
-                MiddlewareCredentials(
-                    sipUserId = voip.sipUserId,
-                    loginToken = secureStorage.credentials.apiToken ?: user.legacyToken ?: ""
-                )
+                // Without a token every request would fail, so that's the same as not being
+                // logged in.
+                (secureStorage.read(API_TOKEN_KEY) ?: user.legacyToken)?.let { token ->
+                    MiddlewareCredentials(sipUserId = voip.sipUserId, loginToken = token)
+                }
             }
         }
 
     companion object {
+        /** Must match the key in secure_storage_repository.dart. */
+        private const val API_TOKEN_KEY = "api_token"
+
         /**
          * The number of seconds that the Middleware will wait for us to respond before the call
          * will be rejected.
