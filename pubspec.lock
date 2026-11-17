@@ -1449,9 +1449,10 @@ packages:
   shared_secure_storage:
     dependency: "direct main"
     description:
-      path: "../shared-secure-storage"
-      relative: true
-    source: path
+      name: shared_secure_storage
+      sha256: c43f466d7f69cc34cf85529d448f915ad9c338b1f5dc9b95d4542b5d88b40b0e
+      url: "https://pub.dev"
+    source: hosted
     version: "0.1.0"
   shelf:
     dependency: transitive
