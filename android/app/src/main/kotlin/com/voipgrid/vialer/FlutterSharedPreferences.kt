@@ -95,7 +95,7 @@ val Context.isIgnoringBatteryOptimizations: Boolean
 @JvmInline
 value class UserJson(private val json: JSONObject) {
     /**
-     * Versions up to 7.75.0 stored the API token here, it's moved to [SecureStorage] once Flutter
+     * Versions up to 7.75.0 stored the API token here, it's moved to secure storage once Flutter
      * starts. Remove once almost all users have upgraded from 7.75.0.
      */
     val legacyToken: String?

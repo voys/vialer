@@ -13,6 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_phone_lib: 1.0.10
+  # TODO: replace with the pub.dev version once it is published.
+  shared_secure_storage:
+    path: ../shared-secure-storage
   # This points to our fork of the Font Awesome Flutter library which includes our pro-icons so must
   # be kept private.
 

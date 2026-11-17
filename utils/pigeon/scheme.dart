@@ -112,27 +112,3 @@ abstract class NativeClipboard {
   @asyncCallback
   bool hasPhoneNumber();
 }
-
-class Credentials {
-  String? apiToken;
-  String? sipPassword;
-}
-
-/// Credentials kept in the iOS Keychain or an Android Keystore-encrypted file,
-/// so native code can read them before Flutter has started.
-@HostApi()
-abstract class NativeSecureStorage {
-  @async
-  Credentials read();
-
-  /// Values that are null are left as they are, use [clear] to remove them.
-  @async
-  void write(Credentials credentials);
-
-  @async
-  void clear();
-
-  /// Where the Android Keystore key lives, for metrics. Always null on iOS.
-  @async
-  String? keySecurityLevel();
-}

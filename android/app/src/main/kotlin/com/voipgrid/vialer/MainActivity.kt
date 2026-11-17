@@ -104,8 +104,6 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
 
         nativeToFlutter = NativeToFlutter(binaryMessenger);
 
-        NativeSecureStorage.setUp(binaryMessenger, App.secureStorage)
-
         NativeClipboard.setUp(binaryMessenger, object : NativeClipboard {
             override fun hasPhoneNumber(callback: (Result<Boolean>) -> Unit) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {

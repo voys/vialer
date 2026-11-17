@@ -2,7 +2,9 @@ package com.voipgrid.vialer
 
 import com.voipgrid.vialer.logging.Logger
 import io.flutter.app.FlutterApplication
+import org.openvoipalliance.flutterphonelib.PhoneLibLogLevel.WARNING
 import org.openvoipalliance.flutterphonelib.startPhoneLib
+import org.openvoipalliance.sharedsecurestorage.SharedSecureStorage
 
 class App : FlutterApplication() {
 
@@ -11,7 +13,10 @@ class App : FlutterApplication() {
         prefs = FlutterSharedPreferences(this)
         logger = Logger(this, prefs)
         segment = Segment(this, logger, prefs)
-        secureStorage = SecureStorage(this, logger)
+        SharedSecureStorage.onError = { message, error ->
+            logger.writeLog("SECURE-STORAGE: $message: $error", WARNING)
+        }
+        secureStorage = SharedSecureStorage.getInstance(this)
         middleware = Middleware(
             this,
             logger,
@@ -55,7 +60,7 @@ class App : FlutterApplication() {
         lateinit var middleware: Middleware
         lateinit var segment: Segment
         lateinit var prefs: FlutterSharedPreferences
-        lateinit var secureStorage: SecureStorage
+        lateinit var secureStorage: SharedSecureStorage
 
         val activityMonitor = ActivityMonitor()
 
