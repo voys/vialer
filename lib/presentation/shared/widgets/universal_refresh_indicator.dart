@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// It is only possible to use the default [RefreshIndicator] with a [ListView],
 /// this will wrap the provided [child] so it can also have drag-to-refresh

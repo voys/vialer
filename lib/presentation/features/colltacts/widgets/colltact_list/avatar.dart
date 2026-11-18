@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/util/color.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/util/contact.dart';

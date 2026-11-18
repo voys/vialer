@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "org.jetbrains.kotlin.plugin.compose"
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
@@ -79,6 +78,7 @@ android {
     buildFeatures {
         compose true
         buildConfig true
+        resValues true
     }
 
     signingConfigs {
@@ -100,12 +100,20 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         viewBinding true
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
+    // AAPT's default pattern minus `.*`, which would strip the bundled .env
+    // asset since AGP 9.
+    androidResources {
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -122,6 +130,12 @@ task generateNativeValues(type: Exec) {
 }
 
 preBuild.dependsOn generateNativeValues
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
 
 flutter {
     source '../..'

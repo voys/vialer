@@ -27,6 +27,9 @@ class T9Colltacts extends _$T9Colltacts {
   final _getSharedContacts = dependencyLocator<GetSharedContactsUseCase>();
   final _getPermissionStatus = GetPermissionStatusUseCase();
 
+  _T9SearchIndex? _searchIndex;
+  int _latestFilterRequest = 0;
+
   @override
   T9ColltactsState build() {
     return const T9ColltactsState.loading();
@@ -57,17 +60,30 @@ class T9Colltacts extends _$T9Colltacts {
     final colleagues = await _getColleagues();
     final sharedContacts = await _getSharedContacts();
 
-    state = T9ColltactsState.loaded(
-      [
-        ...contacts.map(Colltact.contact),
-        ...colleagues.map(Colltact.colleague),
-        ...sharedContacts.map(Colltact.sharedContact),
-      ],
-      [],
-    );
+    final colltacts = [
+      ...contacts.map(Colltact.contact),
+      ...colleagues.map(Colltact.colleague),
+      ...sharedContacts.map(Colltact.sharedContact),
+    ];
+
+    try {
+      _searchIndex = await compute(_buildSearchIndex, colltacts);
+    } catch (_) {
+      _searchIndex = null;
+      rethrow;
+    } finally {
+      // Searches started before this load would otherwise overwrite the
+      // fresh state with stale results once they complete.
+      _latestFilterRequest++;
+      // Show the colltacts even when indexing failed, instead of loading
+      // forever.
+      state = T9ColltactsState.loaded(colltacts, []);
+    }
   }
 
   Future<void> filter(String input) async {
+    final request = ++_latestFilterRequest;
+
     // Necessary for auto cast.
     final state = this.state;
 
@@ -82,17 +98,26 @@ class T9Colltacts extends _$T9Colltacts {
         return;
       }
 
-      final t9Colltacts = await compute(
-        _filterColltactsByRegularExpression,
-        _FilterByRegularExpressionRequest(
-          colltacts: state.colltacts,
+      final index = _searchIndex;
+      if (index == null) return;
+
+      // Only the search strings are sent to the isolate and only indices
+      // come back, so the main thread doesn't copy all colltacts per key press.
+      final matches = await compute(
+        _findMatches,
+        _FindMatchesRequest(
+          names: index.names,
+          numbers: index.numbers,
           regex: _getT9Regex(input),
         ),
       );
 
+      // A newer key press has started its own search in the meantime.
+      if (request != _latestFilterRequest) return;
+
       this.state = T9ColltactsState.loaded(
         state.colltacts,
-        t9Colltacts,
+        [for (final i in matches) index.entries[i]],
       );
     }
   }
@@ -141,15 +166,12 @@ class T9Colltacts extends _$T9Colltacts {
   }
 }
 
-/// Filters the list of colltacts by a given T9 search, for a large amount of
-/// colltacts this can be computationally heavy so it is designed to be run
-/// in an isolate.
-Future<List<T9Colltact>> _filterColltactsByRegularExpression(
-  _FilterByRegularExpressionRequest request,
-) async {
-  // Map each contact with multiple phone numbers to multiple t9 contacts
-  // with a single phone number.
-  return request.colltacts
+/// Maps each colltact with multiple phone numbers to multiple t9 colltacts
+/// with a single phone number, and prepares the strings to search in. For a
+/// large amount of colltacts this is heavy so it's designed to run in an
+/// isolate, once per load.
+_T9SearchIndex _buildSearchIndex(List<Colltact> colltacts) {
+  final entries = colltacts
       .map(
         (colltact) => colltact.when(
           colleague: (colleague) => [
@@ -179,23 +201,45 @@ Future<List<T9Colltact>> _filterColltactsByRegularExpression(
         ),
       )
       .flatten()
-      // Only keep those whose name or number matches the regex.
-      .where(
-        (t9) =>
-            t9.nameForT9Search.contains(request.regex) ||
-            t9.relevantPhoneNumber.value.contains(request.regex),
-      )
       .distinct()
       .toList();
+
+  return _T9SearchIndex(
+    entries: entries,
+    names: entries.map((t9) => t9.nameForT9Search).toList(),
+    numbers: entries.map((t9) => t9.relevantPhoneNumber.value).toList(),
+  );
 }
 
-class _FilterByRegularExpressionRequest {
-  const _FilterByRegularExpressionRequest({
-    required this.colltacts,
+/// Returns the indices of the entries whose name or number matches the regex.
+List<int> _findMatches(_FindMatchesRequest request) => [
+  for (var i = 0; i < request.names.length; i++)
+    if (request.names[i].contains(request.regex) ||
+        request.numbers[i].contains(request.regex))
+      i,
+];
+
+class _T9SearchIndex {
+  const _T9SearchIndex({
+    required this.entries,
+    required this.names,
+    required this.numbers,
+  });
+
+  final List<T9Colltact> entries;
+  final List<String> names;
+  final List<String> numbers;
+}
+
+class _FindMatchesRequest {
+  const _FindMatchesRequest({
+    required this.names,
+    required this.numbers,
     required this.regex,
   });
 
-  final List<Colltact> colltacts;
+  final List<String> names;
+  final List<String> numbers;
   final RegExp regex;
 }
 

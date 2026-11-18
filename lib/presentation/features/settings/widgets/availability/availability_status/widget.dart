@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import '../../../../../../../data/models/relations/user_availability_status.dart';
 import '../../../../../../../data/models/user/user.dart';

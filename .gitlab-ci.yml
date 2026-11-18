@@ -8,7 +8,7 @@ stages:
 
 .flutter:
   image:
-    name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/gmeligio/flutter-android:3.47.4
+    name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/gmeligio/flutter-android:3.50.0
     docker:
       # The image defaults to a non-root user, but the runner checks out the
       # repo as root, leaving files the image's user doesn't own (e.g. pub
@@ -41,9 +41,14 @@ analyze:
   before_script:
     - !reference [ .flutter, before_script ]
     - bash utils/ci/codemagic/bin/configure_font_awesome_gitlab_access.sh
+    # On Kubernetes runners `user: root` is ignored and the checkout isn't ours,
+    # so `dart run` can't bump pubspec.lock's mtime when the checkout left it
+    # older than pubspec.yaml. A plain touch only needs write access.
+    - touch pubspec.lock
     - dart pub get
-    - curl -fsSL "https://github.com/phrase/phrase-cli/releases/latest/download/phrase_linux_amd64" -o /usr/local/bin/phrase && chmod +x /usr/local/bin/phrase
-    - phrase pull -t "$PHRASE_ACCESS_TOKEN"
+    # Kubernetes runners don't run as root, so install somewhere any user can write.
+    - curl -fsSL "https://github.com/phrase/phrase-cli/releases/latest/download/phrase_linux_amd64" -o /tmp/phrase && chmod +x /tmp/phrase
+    - /tmp/phrase pull -t "$PHRASE_ACCESS_TOKEN"
     - bash utils/bin/pigeon.sh
     - dart run build_runner build --delete-conflicting-outputs
     - touch .env

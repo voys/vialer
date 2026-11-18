@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/widget.dart';
 
 import '../widgets/details/widget.dart';

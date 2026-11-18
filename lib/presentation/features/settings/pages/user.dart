@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/change_password.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/util/context_extensions.dart';

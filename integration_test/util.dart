@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dartx/dartx.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/onboarding/step.dart';
 import 'package:vialer/presentation/features/main_page.dart';
 import 'package:vialer/presentation/features/onboarding/pages/info/info_page.dart';

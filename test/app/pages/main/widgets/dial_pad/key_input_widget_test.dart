@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/user/brand.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 import 'package:vialer/presentation/shared/widgets/brand_provider/widget.dart';
@@ -13,9 +12,7 @@ void main() {
     locale: const Locale('en'),
     localizationsDelegates: const [
       VialerLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
+      ...GlobalMaterialLocalizations.delegates,
     ],
     home: Scaffold(
       body: BrandProvider(

@@ -18,12 +18,21 @@
       }
     },
     {
-      "identity" : "sentry-cocoa",
+      "identity" : "sentry-apple-binaries",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/getsentry/sentry-cocoa",
+      "location" : "https://github.com/getsentry/sentry-apple-binaries",
       "state" : {
-        "revision" : "9e193ac0b71760603aa666bad7e9e303dd7031a8",
-        "version" : "8.56.2"
+        "revision" : "3f13fd5a82e98dda7a4498dcd84b49d0a38cbdb4",
+        "version" : "9.34.0"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "88754449ab766a739610b660e117762115fabc9c",
+        "version" : "1.7.6"
       }
     },
     {

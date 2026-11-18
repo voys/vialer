@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:styled_text/styled_text.dart' as styled_text;
 
 /// Allows for styling text with a variety of inline-styles via the use of tags,

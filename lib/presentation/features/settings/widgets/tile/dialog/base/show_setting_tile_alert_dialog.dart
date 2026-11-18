@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/user/settings/settings.dart';
 
 import '../../value.dart';

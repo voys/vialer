@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:search_highlight_text/search_highlight_text.dart';
 import 'package:vialer/presentation/util/phone_number.dart';

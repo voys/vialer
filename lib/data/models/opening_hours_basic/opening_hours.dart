@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-
-part 'opening_hours.g.dart';
+import 'package:material_ui/material_ui.dart';
 
 part 'opening_hours.freezed.dart';
+part 'opening_hours.g.dart';
 
 @freezed
 abstract class OpeningHoursModule with _$OpeningHoursModule {

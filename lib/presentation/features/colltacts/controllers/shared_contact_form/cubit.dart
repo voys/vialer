@@ -1,6 +1,6 @@
 import 'package:dartx/dartx.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/domain/usecases/phone_numbers/validate_phone_number.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/shared_contact_form/widget.dart';
 

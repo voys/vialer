@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:vialer/domain/usecases/onboarding/logout_on_incomplete_onboarding.dart';
 import 'package:vialer/domain/usecases/user/settings/import_legacy_settings.dart';
@@ -117,9 +116,7 @@ class _AppState extends State<App> {
                 routes: Routes.mapped,
                 localizationsDelegates: const [
                   VialerLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
+                  ...GlobalMaterialLocalizations.delegates,
                 ],
                 supportedLocales: VialerLocalizations.locales.map(Locale.new),
                 // We get a route of `/` when opening the app from an intent
@@ -144,7 +141,11 @@ class _AppState extends State<App> {
                     ErrorWidget.builder = (_) => const BuildError();
                   }
 
-                  return child!;
+                  // Dependencies such as flutter_platform_widgets still build
+                  // with package:flutter/material.dart and need its Theme and
+                  // localizations. Remove once they've moved to material_ui.
+                  // ignore: deprecated_member_use
+                  return MaterialUiCompatibilityBridge(child: child!);
                 },
               ),
             );

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'features/dialer/dialer_page.dart';
 import 'features/main_page.dart';
