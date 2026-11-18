@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // TODO: Once Dart mixins are more powerful, also mixin WidgetsBindingObserver
 // here, so classes don't have to mixin WidgetsBindingObserver _and_ this mixin.

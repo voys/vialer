@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dartx/dartx.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../resources/localizations.dart';

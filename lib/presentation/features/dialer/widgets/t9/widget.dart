@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/features/dialer/controllers/t9/riverpod.dart';
 import 'package:vialer/presentation/features/dialer/controllers/t9/state.dart';
 import 'package:vialer/presentation/util/contact.dart';
@@ -52,8 +52,11 @@ class _T9ColltactsListState extends ConsumerState<_T9ColltactsList> {
     widget.controller.addListener(_onInputChanged);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // The measuring item is only built when there are no results yet. The
+      // provider is kept alive, so earlier results can already be shown.
       final renderBox =
-          _listKey.currentContext!.findRenderObject()! as RenderBox;
+          _listKey.currentContext?.findRenderObject() as RenderBox?;
+      if (!mounted || renderBox == null) return;
 
       setState(() {
         // Height of the list will be 2 items.

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/user/settings/app_setting.dart';
 import 'package:vialer/presentation/resources/localizations.dart';
 

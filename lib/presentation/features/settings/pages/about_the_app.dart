@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/user/brand.dart';
 import 'package:vialer/presentation/features/settings/widgets/support_button.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/feature_announcement.dart';

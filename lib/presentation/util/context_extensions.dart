@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 import 'package:vialer/presentation/resources/theme/colors.vialer.dart';

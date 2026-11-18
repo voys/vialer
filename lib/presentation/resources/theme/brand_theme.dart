@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart' hide Colors;
-import 'package:flutter/material.dart' as material_colors show Colors;
+import 'package:material_ui/material_ui.dart' hide Colors;
+import 'package:material_ui/material_ui.dart' as material_colors show Colors;
 import 'package:vialer/presentation/resources/theme/colors.dart';
 
 import '../../../data/models/user/brand.dart';

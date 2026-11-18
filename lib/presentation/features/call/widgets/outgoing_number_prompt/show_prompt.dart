@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/domain/usecases/calling/outgoing_number/should_prompt_user_for_outgoing_number.dart';
 import 'package:vialer/presentation/features/call/widgets/outgoing_number_prompt/widget.dart';
 

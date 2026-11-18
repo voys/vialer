@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/data/models/calling/voip/destination.dart';
 import 'package:vialer/presentation/features/settings/widgets/availability/ringing_device/widget.dart';
 import 'package:vialer/presentation/resources/localizations.dart';

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phone_lib/flutter_phone_lib.dart';
 // Contact isn't exported publicly by flutter_phone_lib.
 // ignore: implementation_imports
 import 'package:flutter_phone_lib/src/contacts/contact.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:vialer/presentation/util/loggable.dart';
 
 import '../../../shared/controllers/caller/cubit.dart';

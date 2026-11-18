@@ -1,5 +1,5 @@
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:dartx/dartx.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:vialer/presentation/resources/theme.dart';
 
 import '../../../../../../data/models/user/events/logged_in_user_availability_changed.dart';

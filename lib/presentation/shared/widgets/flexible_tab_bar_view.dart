@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Wraps a [TabBarView] but if [children] is only a single element, will just
 /// return it directly and skip the [TabBarView].
