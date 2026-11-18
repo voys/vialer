@@ -77,10 +77,10 @@ custom: # Custom properties to make workflows cleaner
     - &set_testflight_release_notes_for_main
       name: Preparing "What to test" for TestFlight
       script: echo '[{"language":"en-US","text":"Main"},{"language":"nl-NL","text":"Main"}]' > release_notes.json
-    - &call_zapier_production_build_webhook
-      name: Calling our Zapier webhook to inform of a new production build
+    - &call_n8n_production_build_webhook
+      name: Calling our n8n webhook to inform of a new production build
       ignore_failure: true
-      script: curl "https://hooks.zapier.com/hooks/catch/1394555/blav33z?build_id=${CM_BUILD_ID}"
+      script: curl "https://n8n.eu-production.holodeck.voys.nl/webhook/codemagic-ios-build?build_id=${CM_BUILD_ID}"
     - &write_dependency_trees_to_artifacts
       name: Creating dependency tree files
       script: . utils/ci/codemagic/bin/create_dependency_tree_files.sh
@@ -467,7 +467,7 @@ workflows:
       - *build_for_ios
       - *release_to_sentry
       - *track_new_version
-      - *call_zapier_production_build_webhook
+      - *call_n8n_production_build_webhook
     publishing: *publish_for_production
 
   production-voys:
