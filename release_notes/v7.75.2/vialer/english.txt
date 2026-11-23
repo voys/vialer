@@ -1,0 +1,1 @@
+- Android: Important call screen buttons will now not appear behind Android's on-screen navigation controls
