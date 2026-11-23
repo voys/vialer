@@ -1,2 +1,1 @@
-- Android: Not force enabling echo cancellation
-- Various dependency upgrades
+- Android: Important call screen buttons will now not appear behind Android's on-screen navigation controls
