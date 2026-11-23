@@ -352,10 +352,13 @@ class _CallPageState extends State<_CallPage>
                   ),
                 ),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: CallActions(
-                      onTransferButtonPressed: _transfer,
+                  child: SafeArea(
+                    top: false,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CallActions(
+                        onTransferButtonPressed: _transfer,
+                      ),
                     ),
                   ),
                 ),
