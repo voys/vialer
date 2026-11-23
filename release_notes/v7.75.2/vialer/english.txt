@@ -1,0 +1,2 @@
+- Android: Not force enabling echo cancellation
+- Various dependency upgrades
