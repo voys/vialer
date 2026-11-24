@@ -1,5 +1,9 @@
 import 'package:pigeon/pigeon.dart';
 
+// Keys of the secrets in secure storage, which Dart and native code share.
+const String secureStorageApiTokenKey = 'api_token';
+const String secureStorageSipPasswordKey = 'sip_password';
+
 enum OrderBy { givenName, familyName }
 
 class ContactSort {

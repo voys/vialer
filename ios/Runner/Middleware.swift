@@ -9,10 +9,6 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
 
     private let flutterSharedPreferences = FlutterSharedPreferences()
     private let secureStorage = SharedSecureStorage.shared
-
-    /// Must match the key in secure_storage_repository.dart.
-    private let apiTokenKey = "api_token"
-
     public var baseUrl: String {
         get {
             // The hardcoded callwaker URL, picking the environment based on the
@@ -42,7 +38,7 @@ public class Middleware: NSObject, NativeMiddleware, MiddlewareRegistrar {
             MiddlewareCredentials(
                 // Versions up to 7.75.0 stored the token in the user, it's moved once Flutter
                 // starts. Remove the fallback once almost all users have upgraded from 7.75.0.
-                loginToken: (try? secureStorage.read(apiTokenKey))
+                loginToken: (try? secureStorage.read(secureStorageApiTokenKey))
                     ?? flutterSharedPreferences.systemUser?["token"] as? String
                     ?? "",
                 sipUserId: (flutterSharedPreferences.systemUser?["voip"] as? [String : Any])?["appaccount_account_id"] as? String ?? ""

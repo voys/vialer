@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_secure_storage/shared_secure_storage.dart';
 
+import '../../../presentation/util/pigeon.dart';
+
 /// Credentials kept in the iOS Keychain or with the Android Keystore, shared
 /// with native code.
 ///
@@ -47,10 +49,9 @@ class SecureStorageRepository {
     }
   }
 
-  /// Native code reads the token with the same key, see `Middleware.kt` and
-  /// `Middleware.swift`.
-  static const _apiTokenKey = 'api_token';
-  static const _sipPasswordKey = 'sip_password';
+  /// Defined in `utils/pigeon/scheme.dart`, so native code uses the same keys.
+  static const _apiTokenKey = secureStorageApiTokenKey;
+  static const _sipPasswordKey = secureStorageSipPasswordKey;
 
   final SharedSecureStorage _storage;
   String? _apiToken;

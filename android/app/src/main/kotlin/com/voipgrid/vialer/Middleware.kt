@@ -398,16 +398,13 @@ class Middleware(
             user.voip?.let { voip ->
                 // Without a token every request would fail, so that's the same as not being
                 // logged in.
-                (secureStorage.read(API_TOKEN_KEY) ?: user.legacyToken)?.let { token ->
+                (secureStorage.read(secureStorageApiTokenKey) ?: user.legacyToken)?.let { token ->
                     MiddlewareCredentials(sipUserId = voip.sipUserId, loginToken = token)
                 }
             }
         }
 
     companion object {
-        /** Must match the key in secure_storage_repository.dart. */
-        private const val API_TOKEN_KEY = "api_token"
-
         /**
          * The number of seconds that the Middleware will wait for us to respond before the call
          * will be rejected.
