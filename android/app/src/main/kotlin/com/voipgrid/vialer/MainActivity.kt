@@ -17,7 +17,6 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugins.GeneratedPluginRegistrant
 import org.openvoipalliance.flutterphonelib.PhoneLib
-import org.openvoipalliance.flutterphonelib.startCall
 
 class MainActivity : FlutterActivity(), CallScreenBehavior {
     private lateinit var nativeToFlutter: NativeToFlutter
@@ -148,22 +147,19 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
 
     protected override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        intent.onCallAction { number, callStartAction -> call(number, callStartAction) }
+        intent.onCallAction(::fillNumberInDialer)
         setIntent(intent);
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent.onCallAction { number, callStartAction -> call(number, callStartAction) }
+        intent.onCallAction(::fillNumberInDialer)
     }
 
-    private fun call(number: String, callStartAction: CallStartAction) {
+    private fun fillNumberInDialer(number: String) {
         val normalizedNumber = number.replace(Regex("[^0-9\\+]"), "")
         if (normalizedNumber.isEmpty()) return
-        when (callStartAction) {
-            CallStartAction.IMMEDIATELY_START_CALL -> startCall(normalizedNumber)
-            CallStartAction.FILL_NUMBER_IN_DIALER -> nativeToFlutter.launchDialerAndPopulateNumber(normalizedNumber) {}
-        }
+        nativeToFlutter.launchDialerAndPopulateNumber(normalizedNumber) {}
     }
 
     protected override fun onResume() {
@@ -193,37 +189,9 @@ class MainActivity : FlutterActivity(), CallScreenBehavior {
     }
 }
 
-fun Intent.onCallAction(callback: (number: String, callStartAction: CallStartAction) -> Unit) {
-    val number = data?.schemeSpecificPart ?: ""
-
+fun Intent.onCallAction(callback: (number: String) -> Unit) {
     when (action) {
-        VoysIntent.ACTION_CALL -> {
-            val remotePartyNumber = getStringExtra(VoysIntent.EXTRA_REMOTE_PARTY_NUMBER) ?: ""
-            val remotePartyName = getStringExtra(VoysIntent.EXTRA_REMOTE_PARTY_NAME) ?: ""
-
-            // Giving vague hints about the data we have been provided for privacy reasons, log
-            // to console if you need to debug this.
-            App.logger.writeLog("Received ${VoysIntent.ACTION_CALL} so starting call")
-            App.logger.writeLog("Remote party number starts with ${remotePartyNumber.take(3)}")
-            App.logger.writeLog("Remote party name is ${remotePartyName.length} characters long")
-            App.sendAppToBackgroundAfterCall = true
-            callback(number, CallStartAction.IMMEDIATELY_START_CALL)
-        }
-        Intent.ACTION_CALL, Intent.ACTION_DIAL, Intent.ACTION_VIEW -> callback(number, CallStartAction.FILL_NUMBER_IN_DIALER)
+        Intent.ACTION_CALL, Intent.ACTION_DIAL, Intent.ACTION_VIEW -> callback(data?.schemeSpecificPart ?: "")
         else -> {}
     }
 }
-
-enum class CallStartAction {
-    IMMEDIATELY_START_CALL,
-    FILL_NUMBER_IN_DIALER,
-}
-
-class VoysIntent {
-    companion object {
-        const val ACTION_CALL: String = "co.voys.action.CALL"
-        const val EXTRA_REMOTE_PARTY_NUMBER: String = "co.voys.intent.extra.REMOTE_PARTY_NUMBER"
-        const val EXTRA_REMOTE_PARTY_NAME: String = "co.voys.intent.extra.REMOTE_PARTY_NAME"
-    }
-}
-
