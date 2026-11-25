@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-import 'dart:io' show HttpClient, Platform, exit;
+import 'dart:io' show ContentType, HttpClient, Platform, exit;
 
 import '../../ci_utils.dart';
 
@@ -14,11 +14,6 @@ Future<void> main(List<String> args) async {
     'https://gitlab.wearespindle.com/api/v4/projects/105/merge_requests/$mergeRequestId',
   );
 
-  final regex = RegExp(
-    r'^(.*)\[Codemagic: Latest Build \(\d*\)\]\(https.*\).*',
-    dotAll: true,
-  );
-
   if (apiToken == null) {
     print('GITLAB_API_TOKEN not found.');
     exit(1);
@@ -26,7 +21,7 @@ Future<void> main(List<String> args) async {
 
   final client = HttpClient();
   var request = await client.getUrl(url);
-  request.headers.set('Content-Type', 'application/json');
+  request.headers.contentType = ContentType.json;
   request.headers.set('Private-Token', apiToken);
 
   var response = await request.close();
@@ -41,14 +36,15 @@ Future<void> main(List<String> args) async {
   final body = jsonDecode(await readResponse(response)) as Map<String, dynamic>;
   final description = body['description'] as String;
 
-  final match = regex.firstMatch(description);
-  if (match != null) {
+  if (description.containsCodemagicLink) {
     print('Previous build information found, updating MR description..');
 
     request = await client.putUrl(url);
-    request.headers.set('Content-Type', 'application/json');
+    request.headers.contentType = ContentType.json;
     request.headers.set('Private-Token', apiToken);
-    request.write(jsonEncode({'description': match.group(1)}));
+    request.write(
+      jsonEncode({'description': description.withoutCodemagicLink}),
+    );
     response = await request.close();
 
     if (response.statusCode == 200) {
@@ -63,4 +59,15 @@ Future<void> main(List<String> args) async {
   }
 
   exit(0);
+}
+
+const _codemagicLinkLineStart = '[Codemagic: Latest Build';
+
+extension CodemagicStringExtension on String {
+  bool get containsCodemagicLink => contains(_codemagicLinkLineStart);
+
+  String get withoutCodemagicLink => const LineSplitter()
+      .convert(this)
+      .where((line) => !line.startsWith(_codemagicLinkLineStart))
+      .join('\n');
 }

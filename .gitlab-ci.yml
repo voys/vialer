@@ -96,6 +96,7 @@ build & test:
     when: always
     reports:
       junit: "test_results/**/test_result_*.xml"
+      annotations: utils/ci/gitlab/annotations.json
   before_script:
     # Prepare SSH
     - 'command -v ssh-agent >/dev/null || (apt-get update -y && apt-get install openssh-client -y)'
@@ -110,3 +111,6 @@ build & test:
   script:
     - dart ./bin/remove_build_url.dart
     - dart ./bin/build_via_codemagic.dart
+  after_script:
+    # after_script starts in a fresh shell at the project root.
+    - cd ./utils/ci/gitlab && dart ./bin/cancel_codemagic_build.dart
