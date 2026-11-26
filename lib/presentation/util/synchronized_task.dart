@@ -84,3 +84,8 @@ enum SynchronizedTaskMode {
 }
 
 const editUserTask = 'EditUser';
+
+/// Taken in [SynchronizedTaskMode.queue] by user refreshes and setting
+/// changes, so a refresh can't store what the server had before a setting
+/// change reached it.
+const userSettingsTask = 'UserSettings';

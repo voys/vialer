@@ -20,6 +20,7 @@ import '../../../../data/models/user/settings/listeners/update_remote_logging.da
 import '../../../../data/models/user/settings/listeners/update_use_mobile_number_as_fallback.dart';
 import '../../../../data/models/user/settings/settings.dart';
 import '../../../../dependency_locator.dart';
+import '../../../../presentation/util/synchronized_task.dart';
 import '../../use_case.dart';
 
 class ChangeSettingUseCase extends UseCase {
@@ -55,9 +56,16 @@ class ChangeSettingUseCase extends UseCase {
       return SettingChangeResult.changed;
     }
 
-    await ForceUpdateSetting()(key, value);
-
-    final result = await _callListeners(key, value);
+    // The refresh on failure below takes this lock too, so it has to stay
+    // outside of it.
+    final result =
+        await SynchronizedTask<SettingChangeListenResult>.named(
+          userSettingsTask,
+          SynchronizedTaskMode.queue,
+        ).run(() async {
+          await ForceUpdateSetting()(key, value);
+          return _callListeners(key, value);
+        });
 
     if (result.log) {
       logger.info('Set $key to $value');
