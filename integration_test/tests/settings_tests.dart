@@ -3,6 +3,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/data/models/relations/user_availability_status.dart';
+import 'package:vialer/presentation/features/settings/widgets/availability/ringing_device/widget.dart'
+    show RingingDeviceType;
 import 'package:vialer/presentation/features/settings/widgets/tile/always_show_caller_name_in_recents.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/enable_advanced_voip_logging.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/link/calls.dart';
@@ -67,26 +69,34 @@ Future<void> _userCanChangeTheirAvailabilityStatus(SettingsRobot robot) async {
   }
 }
 
+/// Ends ringing in this app, whatever it started on: the call tests need
+/// that, and going offline in the availability test can leave no device
+/// selected at all.
 Future<void> _userCanChangeTheirRingingDevice(SettingsRobot robot) async {
-  final originalDevice = robot.currentRingingDevice;
-  final originalDestination = robot.currentDestination;
-  final otherDevice = robot.otherAvailableRingingDevice;
+  final onlineDevices = robot.otherRingingDevices(online: true);
+  final offlineDevices = robot.otherRingingDevices(online: false);
 
-  if (otherDevice == null) {
+  if (onlineDevices.isEmpty && offlineDevices.isEmpty) {
     throw TestFailure(
-      'The test account should have another device that can ring besides '
-      '${originalDevice.name}, but has: ${robot.ringingDevicesDescription}',
+      'The test account should have another device besides this app, but '
+      'has: ${robot.ringingDevicesDescription}',
     );
   }
 
   try {
-    await robot.selectRingingDevice(otherDevice);
-    robot.verifyRingingDeviceIs(otherDevice);
+    for (final device in offlineDevices) {
+      await robot.tapOfflineRingingDeviceAndVerifyWarning(device);
+    }
 
-    await robot.selectRingingDevice(originalDevice);
-    robot.verifyRingingDeviceIs(originalDevice);
+    for (final device in onlineDevices) {
+      await robot.selectRingingDevice(device);
+      robot.verifyRingingDeviceIs(device);
+    }
+
+    await robot.selectRingingDevice(RingingDeviceType.mobile);
+    robot.verifyRingingDeviceIs(RingingDeviceType.mobile);
   } finally {
-    await robot.restoreDestination(originalDestination);
+    await robot.restoreRingingDeviceToThisApp();
   }
 }
 

@@ -9,7 +9,7 @@ import 'package:vialer/data/models/business_availability/temporary_redirect/temp
     show Display, TemporaryRedirectDestination;
 import 'package:vialer/data/models/calling/outgoing_number/outgoing_number.dart';
 import 'package:vialer/data/models/calling/voip/destination.dart'
-    show Destination, DestinationsList, IsOnline;
+    show Destination, DestinationIdentifier, DestinationsList, IsOnline;
 import 'package:vialer/data/models/feature/feature.dart';
 import 'package:vialer/data/models/relations/user_availability_status.dart';
 import 'package:vialer/data/models/user/settings/app_setting.dart';
@@ -228,37 +228,22 @@ class SettingsRobot extends IntegrationTestRobot {
 
   RingingDeviceType get currentRingingDevice => _user.ringingDevice;
 
-  int get currentDestination => _user.settings.get(CallSetting.destination);
+  List<RingingDeviceButton> get _ringingDeviceButtons => tester
+      .widgetList<RingingDeviceButton>(find.byType(RingingDeviceButton))
+      .toList();
 
-  /// A ringing device other than the current one that can actually ring,
-  /// preferring a fixed destination since that never goes offline. Null when
-  /// there is none, or when the current device has no button to return to.
-  RingingDeviceType? get otherAvailableRingingDevice {
-    final buttons = tester
-        .widgetList<RingingDeviceButton>(find.byType(RingingDeviceButton))
-        .toList();
-
-    if (!buttons.any((button) => button.type == currentRingingDevice)) {
-      return null;
-    }
-
-    final candidates = buttons
-        .where(
-          (button) => button.type != currentRingingDevice && button.canRing,
-        )
-        .map((button) => button.type);
-
-    return candidates.contains(RingingDeviceType.fixed)
-        ? RingingDeviceType.fixed
-        : candidates.firstOrNull;
-  }
+  /// The devices shown besides this app, either the ones that can ring or the
+  /// ones that can't.
+  List<RingingDeviceType> otherRingingDevices({required bool online}) => [
+    for (final button in _ringingDeviceButtons)
+      if (button.type != RingingDeviceType.mobile && button.canRing == online)
+        button.type,
+  ];
 
   /// The devices shown and whether each can ring, to explain why there is
   /// no other device to switch to.
   String get ringingDevicesDescription {
-    final buttons = tester.widgetList<RingingDeviceButton>(
-      find.byType(RingingDeviceButton),
-    );
+    final buttons = _ringingDeviceButtons;
     if (buttons.isEmpty) return 'no devices';
 
     return buttons
@@ -305,8 +290,65 @@ class SettingsRobot extends IntegrationTestRobot {
     );
   }
 
-  Future<void> restoreDestination(int destination) =>
-      _restoreSetting(CallSetting.destination, destination);
+  /// An offline device can't be picked, the app warns about it instead.
+  Future<void> tapOfflineRingingDeviceAndVerifyWarning(
+    RingingDeviceType type,
+  ) async {
+    await _waitForSettingsToBeApplied();
+    final before = currentRingingDevice;
+
+    final button = _ringingDeviceButton(type);
+    await tester.ensureVisible(button);
+    await tester.pumpAndSettle();
+    await tester.tap(button);
+
+    final warning = find.text(
+      tester.msg.main.colleagues.status.aDeviceIsOffline(
+        _ringingDeviceLabel(type),
+      ),
+    );
+    await tester.pumpUntilFound(
+      warning,
+      reason: 'Picking the offline ${type.name} should warn that it is offline',
+    );
+    expect(
+      currentRingingDevice,
+      before,
+      reason: 'Picking the offline ${type.name} should not change the device',
+    );
+
+    // The warning covers the bottom of the screen until it times out.
+    await tester.pumpUntilGone(
+      warning,
+      reason: 'The offline warning should go away by itself',
+    );
+  }
+
+  String _ringingDeviceLabel(RingingDeviceType type) {
+    final devices = tester.msg.ua.mobile.devices;
+    return switch (type) {
+      RingingDeviceType.webphone => devices.webphone,
+      RingingDeviceType.deskPhone => devices.deskphone,
+      RingingDeviceType.mobile => devices.mobile,
+      RingingDeviceType.unknown ||
+      RingingDeviceType.fixed => devices.fixedDestination,
+    };
+  }
+
+  /// The call tests need calls to ring in this app.
+  Future<void> restoreRingingDeviceToThisApp() =>
+      _restore('the ringing device', () async {
+        if (currentRingingDevice == RingingDeviceType.mobile) return;
+
+        final appAccount = _settings.state.availableDestinations
+            .findAppAccountFor(user: _user);
+        if (appAccount == null) return;
+
+        await _settings.changeSetting(
+          CallSetting.destination,
+          appAccount.identifier,
+        );
+      });
 
   // Troubleshooting
 
