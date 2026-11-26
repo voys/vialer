@@ -139,7 +139,7 @@ fi
 validate_outgoing_calling_environment() {
     if ! require_env INTEGRATION_TEST_CALLING_PHONE_NUMBER; then
         echo "🚨 The outgoing call test dials this number. Add it to your .env file:"
-        echo "   INTEGRATION_TEST_CALLING_PHONE_NUMBER=+447700900123"
+        echo "   INTEGRATION_TEST_CALLING_PHONE_NUMBER=+31612345678"
         exit 1
     fi
 }

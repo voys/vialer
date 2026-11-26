@@ -253,6 +253,22 @@ class SettingsRobot extends IntegrationTestRobot {
         : candidates.firstOrNull;
   }
 
+  /// The devices shown and whether each can ring, to explain why there is
+  /// no other device to switch to.
+  String get ringingDevicesDescription {
+    final buttons = tester.widgetList<RingingDeviceButton>(
+      find.byType(RingingDeviceButton),
+    );
+    if (buttons.isEmpty) return 'no devices';
+
+    return buttons
+        .map(
+          (button) =>
+              '${button.type.name} (${button.canRing ? 'online' : 'offline'})',
+        )
+        .join(', ');
+  }
+
   Finder _ringingDeviceButton(RingingDeviceType type) => find.byWidgetPredicate(
     (widget) => widget is RingingDeviceButton && widget.type == type,
   );
@@ -490,27 +506,11 @@ class SettingsRobot extends IntegrationTestRobot {
   String get currentMobileNumber =>
       _user.settings.get(CallSetting.mobileNumber);
 
-  /// The current mobile number with its last digit changed, so it stays a
-  /// valid number in the same country. Null when the current number can't be
-  /// entered as is, since it then couldn't be put back.
-  Future<String?> findAnotherValidMobileNumber() async {
-    final original = currentMobileNumber;
-    final validate = StrictlyValidateMobilePhoneNumber();
-
-    // The dialog prefixes whatever is entered with a plus.
-    if (!original.startsWith('+') || !await validate(original)) return null;
-
-    final lastDigit = int.tryParse(original.substring(original.length - 1));
-    if (lastDigit == null) return null;
-
-    final prefix = original.substring(0, original.length - 1);
-    for (var i = 1; i < 10; i++) {
-      final candidate = '$prefix${(lastDigit + i) % 10}';
-      if (await validate(candidate)) return candidate;
-    }
-
-    return null;
-  }
+  /// The dialog prefixes whatever is entered with a plus and only saves
+  /// valid numbers, so having no mobile number can't be entered again.
+  Future<bool> canEnterMobileNumber(String number) async =>
+      number.startsWith('+') &&
+      await StrictlyValidateMobilePhoneNumber()(number);
 
   Future<void> changeMobileNumber(String number) async {
     await _waitForSettingsToBeApplied();

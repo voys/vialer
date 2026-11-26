@@ -230,6 +230,11 @@ extension TestExtensions on WidgetTester {
 
 const _defaultPumpUntilTimeout = Duration(seconds: 30);
 
+/// Fake numbers, for wherever a test needs a mobile number that belongs to
+/// nobody.
+const fakeMobileNumber = '+31612345678';
+const otherFakeMobileNumber = '+31612345679';
+
 typedef IntegrationTestContext = ({
   WidgetTester tester,
   TestConfiguration config,

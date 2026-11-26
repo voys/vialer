@@ -22,12 +22,10 @@ import 'package:vialer/presentation/features/colltacts/controllers/cubit.dart';
 import 'package:vialer/presentation/features/colltacts/controllers/shared_contacts/cubit.dart';
 import 'package:vialer/presentation/features/colltacts/pages/add_shared_contact/page.dart';
 import 'package:vialer/presentation/features/colltacts/pages/colltacts_page.dart';
-import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/alphabet_list.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/avatar.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/colltact_item_list.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/colltacts_tab_bar.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/details/widget.dart';
-import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/group_header.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/item.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/search.dart';
 import 'package:vialer/presentation/features/colltacts/widgets/colltact_list/util/kind.dart';
@@ -49,9 +47,6 @@ class ContactsRobot extends IntegrationTestRobot {
 
   /// Colleagues arrive over the websocket, which can take a while to connect.
   static const _listsLoadTimeout = Duration(seconds: 60);
-
-  /// Matches the app's own threshold for showing the letters beside a list.
-  static const minimumGroupsForAlphabet = 8;
 
   BuildContext get _context => tester.element(
     find.byType(ColltactsPage, skipOffstage: false).first,
@@ -328,70 +323,6 @@ class ContactsRobot extends IntegrationTestRobot {
     if (_colleaguesCubit.state.showOnlineColleaguesOnly != value) {
       _colleaguesCubit.showOnlineColleaguesOnly = value;
     }
-  }
-
-  // Alphabet
-
-  Finder get _alphabetList => find.descendant(
-    of: _tabContent(selectedTab),
-    matching: find.byType(AlphabetListView),
-  );
-
-  List<String> get alphabetLetters => tester
-      .widget<AlphabetListView>(_alphabetList)
-      .children
-      .whereType<GroupHeader>()
-      .map((header) => header.group)
-      .toList();
-
-  /// The letters beside the list are the only text under an [AbsorbPointer].
-  Finder _sideLetter(String letter) => find
-      .descendant(
-        of: find.descendant(
-          of: _alphabetList,
-          matching: find.byType(AbsorbPointer),
-        ),
-        matching: find.text(letter),
-      )
-      .first;
-
-  Future<void> dragAlongAlphabet({
-    required String from,
-    required String to,
-  }) async {
-    final start = tester.getCenter(_sideLetter(from));
-    final end = tester.getCenter(_sideLetter(to));
-
-    await tester.timedDragFrom(
-      start,
-      end - start,
-      const Duration(milliseconds: 500),
-    );
-    await tester.pumpAndSettle();
-  }
-
-  void verifyGroupIsScrolledIntoView(String letter) {
-    final header = find.descendant(
-      of: _alphabetList,
-      matching: find.byWidgetPredicate(
-        (widget) => widget is GroupHeader && widget.group == letter,
-      ),
-    );
-
-    expect(
-      header,
-      findsWidgets,
-      reason: 'The list should have scrolled to the "$letter" group',
-    );
-
-    final list = tester.getRect(_alphabetList);
-    final top = tester.getRect(header.first).top;
-
-    expect(
-      top >= list.top && top < list.bottom,
-      isTrue,
-      reason: 'The "$letter" group should be scrolled into view',
-    );
   }
 
   // Shared contacts

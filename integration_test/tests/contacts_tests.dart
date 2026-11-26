@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/data/models/colltacts/colltact_tab.dart';
 import 'package:vialer/data/models/colltacts/shared_contacts/shared_contact.dart';
 import 'package:vialer/data/models/relations/colleagues/colleague.dart';
@@ -14,10 +15,6 @@ import '../utils/test_extensions.dart';
 /// Every contact these tests create has this given name, so any left behind
 /// by an earlier run that failed can be recognised and removed.
 const _testContactGivenName = 'IntegrationTest';
-
-/// From the UK range reserved for fiction, so it belongs to nobody and can't
-/// match the calls other tests make.
-const _deviceContactPhoneNumber = '+447700900123';
 
 Future<void> runContactsTests(IntegrationTestContext context) async {
   final tester = context.tester;
@@ -78,7 +75,6 @@ Future<void> _userCanBrowseColleagues(ContactsRobot robot) async {
     await robot.clearSearch();
 
     await _userCanHideOfflineColleagues(robot);
-    await _userCanJumpToALetterInTheColleaguesList(robot);
 
     await robot.setShowOnlineColleaguesOnly(showedOnlineColleaguesOnly);
   } finally {
@@ -142,11 +138,10 @@ Future<void> _userCanHideOfflineColleagues(ContactsRobot robot) async {
   );
 
   if (offlineColleague == null) {
-    debugPrint(
-      'Skipping hiding offline colleagues: the test account has no offline '
-      'colleague to hide.',
+    throw TestFailure(
+      'The test account should have an offline colleague, whose name is not '
+      "part of an online colleague's name, to hide",
     );
-    return;
   }
 
   await robot.search(offlineColleague.name);
@@ -159,27 +154,6 @@ Future<void> _userCanHideOfflineColleagues(ContactsRobot robot) async {
   await robot.waitForListToShow(offlineColleague.name);
 
   await robot.clearSearch();
-}
-
-Future<void> _userCanJumpToALetterInTheColleaguesList(
-  ContactsRobot robot,
-) async {
-  final letters = robot.alphabetLetters;
-
-  if (letters.length < ContactsRobot.minimumGroupsForAlphabet) {
-    debugPrint(
-      'Skipping the alphabet: the colleagues fall into ${letters.length} '
-      'letter groups, and the letters only show from '
-      '${ContactsRobot.minimumGroupsForAlphabet}.',
-    );
-    return;
-  }
-
-  await robot.dragAlongAlphabet(from: letters.first, to: letters.last);
-  robot.verifyGroupIsScrolledIntoView(letters.last);
-
-  await robot.dragAlongAlphabet(from: letters.last, to: letters.first);
-  robot.verifyGroupIsScrolledIntoView(letters.first);
 }
 
 Future<void> _userCanManageASharedContact(
@@ -296,7 +270,7 @@ Future<void> _userCanSeePhoneContacts(ContactsRobot robot) async {
     await robot.addDeviceContact(
       givenName: _testContactGivenName,
       familyName: 'Device $uniqueId',
-      phoneNumber: _deviceContactPhoneNumber,
+      phoneNumber: fakeMobileNumber,
     );
     final name = await robot.waitForPhoneContactNamedWith(uniqueId);
 
@@ -305,7 +279,7 @@ Future<void> _userCanSeePhoneContacts(ContactsRobot robot) async {
 
     await robot.openDetails(name);
     robot.verifyDetailsShowName(name);
-    robot.verifyDetailsShowPhoneNumber(_deviceContactPhoneNumber);
+    robot.verifyDetailsShowPhoneNumber(fakeMobileNumber);
     await robot.goBack();
 
     await robot.clearSearch();

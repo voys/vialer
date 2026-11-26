@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/data/models/relations/user_availability_status.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/always_show_caller_name_in_recents.dart';
 import 'package:vialer/presentation/features/settings/widgets/tile/enable_advanced_voip_logging.dart';
@@ -72,11 +73,10 @@ Future<void> _userCanChangeTheirRingingDevice(SettingsRobot robot) async {
   final otherDevice = robot.otherAvailableRingingDevice;
 
   if (otherDevice == null) {
-    debugPrint(
-      'Skipping changing the ringing device: the user has no other device '
-      'that can ring',
+    throw TestFailure(
+      'The test account should have another device that can ring besides '
+      '${originalDevice.name}, but has: ${robot.ringingDevicesDescription}',
     );
-    return;
   }
 
   try {
@@ -170,24 +170,22 @@ Future<void> _userCanManageTheirAccount(SettingsRobot robot) async {
   await robot.closeUserPage();
 }
 
+/// An account without a mobile number can't get back to that through the
+/// app, so it is only put back around it.
 Future<void> _userCanChangeTheirMobileNumber(SettingsRobot robot) async {
   final original = robot.currentMobileNumber;
-  final other = await robot.findAnotherValidMobileNumber();
-
-  if (other == null) {
-    debugPrint(
-      'Skipping changing the mobile number: "$original" could not be entered '
-      'again afterwards',
-    );
-    return;
-  }
+  final other = original == fakeMobileNumber
+      ? otherFakeMobileNumber
+      : fakeMobileNumber;
 
   try {
     await robot.changeMobileNumber(other);
     robot.verifyMobileNumberIs(other);
 
-    await robot.changeMobileNumber(original);
-    robot.verifyMobileNumberIs(original);
+    if (await robot.canEnterMobileNumber(original)) {
+      await robot.changeMobileNumber(original);
+      robot.verifyMobileNumberIs(original);
+    }
   } finally {
     await robot.restoreMobileNumber(original);
   }
@@ -195,21 +193,19 @@ Future<void> _userCanChangeTheirMobileNumber(SettingsRobot robot) async {
 
 Future<void> _userCanChangeTheirOutgoingNumber(SettingsRobot robot) async {
   if (!robot.canChangeOutgoingNumber) {
-    debugPrint(
-      'Skipping changing the outgoing number: the user is not allowed to',
+    throw TestFailure(
+      'The test account should be allowed to change its outgoing number',
     );
-    return;
   }
 
   final original = robot.currentOutgoingNumber;
   final other = robot.otherOutgoingNumber;
 
   if (other == null) {
-    debugPrint(
-      'Skipping changing the outgoing number: there is no other option, or '
-      'the current one could not be picked again',
+    throw TestFailure(
+      'The test account should have an outgoing number to change to, and its '
+      'current one ($original) should be offered to change back to',
     );
-    return;
   }
 
   try {
@@ -225,17 +221,19 @@ Future<void> _userCanChangeTheirOutgoingNumber(SettingsRobot robot) async {
 
 Future<void> _userCanManageTheirClient(SettingsRobot robot) async {
   if (!robot.canOpenClientPage) {
-    debugPrint(
-      'Skipping the client page: the user has none of the permissions for it',
+    throw TestFailure(
+      'The test account should have the permissions to see the client page',
     );
-    return;
   }
 
   await robot.openClientPage();
 
-  if (robot.canChangeTemporaryRedirect) {
-    await _userCanStartAndStopATemporaryRedirect(robot);
+  if (!robot.canChangeTemporaryRedirect) {
+    throw TestFailure(
+      'The test account should be allowed to change the temporary redirect',
+    );
   }
+  await _userCanStartAndStopATemporaryRedirect(robot);
 
   for (final link in [
     CallsLinkTile,
@@ -244,7 +242,7 @@ Future<void> _userCanManageTheirClient(SettingsRobot robot) async {
     StatsLinkTile,
   ]) {
     if (!await robot.openPortalLinkAndReturn(link)) {
-      debugPrint('Skipping $link: the user is not allowed to see it');
+      throw TestFailure('The test account should be allowed to see $link');
     }
   }
 
@@ -261,11 +259,10 @@ Future<void> _userCanStartAndStopATemporaryRedirect(SettingsRobot robot) async {
     }
 
     if (!robot.hasTemporaryRedirectDestinations) {
-      debugPrint(
-        'Skipping starting a temporary redirect: the client has no voicemail '
-        'to redirect to',
+      throw TestFailure(
+        "The test account's client should have a voicemail to temporarily "
+        'redirect to',
       );
-      return;
     }
 
     await robot.startTemporaryRedirect();

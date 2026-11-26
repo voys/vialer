@@ -68,9 +68,9 @@ Future<void> _userCanOpenAndCloseTheForgottenPasswordPage(
 /// Such a user can still use the app, but cannot receive calls in it. They are
 /// logged out again so the main user can log in after.
 ///
-/// The mobile number step is checked here as well. An invalid number is never
-/// saved, because it blocks continuing, and the original number is put back
-/// before continuing, which leaves the account untouched.
+/// The mobile number step is checked here as well. Nothing entered is saved
+/// until continuing, and the original number is put back before that, which
+/// leaves the account untouched.
 Future<void> _userWithoutAnAppAccountIsToldTheyCannotReceiveCalls(
   OnboardingRobot robot,
 ) async {
@@ -92,6 +92,8 @@ Future<void> _userWithoutAnAppAccountIsToldTheyCannotReceiveCalls(
   final originalMobileNumber = robot.enteredMobileNumber;
   await robot.enterMobileNumber('12345');
   await robot.verifyMobileNumberIsRejected();
+  await robot.enterMobileNumber(fakeMobileNumber);
+  await robot.verifyMobileNumberIsAccepted();
   await robot.enterMobileNumber(originalMobileNumber);
   await robot.verifyMobileNumberIsAccepted();
 

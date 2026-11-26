@@ -115,11 +115,10 @@ Future<void> _userCanAddACallerAsSharedContact(RecentsRobot robot) async {
     preferredNumber: TestEnv.integrationTestCallingPhoneNumber,
   );
   if (call == null) {
-    debugPrint(
-      'Skipping adding a caller as shared contact: none of the shown calls is '
-      'with an outside number that is not a contact yet.',
+    throw TestFailure(
+      'A call with an outside number that is not a contact yet should be '
+      'shown, to add as shared contact',
     );
-    return;
   }
 
   final name =
