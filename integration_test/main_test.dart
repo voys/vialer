@@ -14,6 +14,7 @@ import 'tests/settings_tests.dart';
 import 'utils/bootstrap.dart';
 import 'utils/permission_mock.dart';
 import 'utils/test_extensions.dart';
+import 'utils/test_log.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,17 @@ void main() {
 
     final context = tester.asContext();
     final config = context.config;
+
+    TestLog.start();
+    TestLog.detail('Platform', Platform.operatingSystem);
+    TestLog.detail('On an emulator or simulator', _isOnEmulator);
+    TestLog.detail('On CI', _isCI);
+    TestLog.detail('Suite', config.suite.name);
+    TestLog.detail('Can place real calls', config.canPlaceRealCalls);
+    TestLog.detail(
+      'Checks call media is established',
+      !config.skipTestingCallMediaEstablished,
+    );
 
     await bootstrapAppForIntegrationTest();
     await tester.pumpAndSettle();
@@ -49,6 +61,8 @@ void main() {
     }
 
     await runCleanupTests(context);
+
+    TestLog.finish();
   });
 }
 

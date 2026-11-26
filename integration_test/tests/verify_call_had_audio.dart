@@ -9,6 +9,7 @@ import 'package:vialer/domain/usecases/user/get_logged_in_user.dart';
 import 'package:vialer/domain/usecases/voipgrid/get_voipgrid_base_url.dart';
 
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 
 const _minimumAudioDuration = Duration(seconds: 4);
 const _pollInterval = Duration(seconds: 5);
@@ -20,22 +21,44 @@ Future<void> verifyCallHadAudio(
   required DateTime placedAfter,
   String? thirdPartyNumber,
 }) async {
+  final description =
+      'The ${direction.name} call carried audio, according to its recording';
+
   if (context.config.skipTestingCallMediaEstablished) {
-    debugPrint(
-      'Skipping the recording check: media does not establish on this runner, '
-      'so the call cannot have carried the audio this would assert on.',
+    TestLog.skip(
+      description,
+      because:
+          'media does not establish on this runner, so the call cannot have '
+          'carried the audio this would assert on',
     );
     return;
   }
 
-  debugPrint(
-    'We will now query recent calls to confirm we can find the call we just '
-    'made, and then download the call recording and make sure the recording '
-    'is available and holds at least '
-    '${_minimumAudioDuration.inSeconds}s of audio.',
+  await TestLog.test(
+    description,
+    () => _verifyCallHadAudio(
+      context.tester,
+      direction: direction,
+      placedAfter: placedAfter,
+      thirdPartyNumber: thirdPartyNumber,
+    ),
+  );
+}
+
+Future<void> _verifyCallHadAudio(
+  WidgetTester tester, {
+  required Direction direction,
+  required DateTime placedAfter,
+  required String? thirdPartyNumber,
+}) async {
+  TestLog.detail('Placed after', placedAfter);
+  TestLog.detail('Other party', thirdPartyNumber ?? 'any');
+  TestLog.detail(
+    'Minimum audio in the recording',
+    '${_minimumAudioDuration.inSeconds}s',
   );
 
-  final tester = context.tester;
+  TestLog.step('⏳', 'Waiting for the call to show in the call history');
 
   final callId = await _pollUntilAvailable(
     tester,
@@ -46,6 +69,9 @@ Future<void> verifyCallHadAudio(
     ),
     reason: 'The call that was just made should appear in the call history',
   );
+
+  TestLog.detail('Call', callId);
+  TestLog.step('⏳', 'Waiting for the recording to be available');
 
   final recording = await _pollUntilAvailable(
     tester,
@@ -65,10 +91,11 @@ Future<void> verifyCallHadAudio(
 
   final wav = audio.asWavFile;
 
-  debugPrint(
-    'Downloaded the recording of call $callId: ${recording.audioDescription}, '
-    '${wav.sampleRate}Hz ${wav.bitsPerSample}-bit, ${wav.channels} channel(s), '
-    'format ${wav.audioFormat}, ${wav.duration.inMilliseconds}ms of audio',
+  TestLog.detail(
+    'Recording',
+    '${recording.audioDescription}, ${wav.sampleRate}Hz '
+        '${wav.bitsPerSample}-bit, ${wav.channels} channel(s), format '
+        '${wav.audioFormat}, ${wav.duration.inMilliseconds}ms of audio',
   );
 
   expect(

@@ -4,9 +4,15 @@ import 'package:vialer/presentation/features/onboarding/pages/login/login_page.d
 import 'package:vialer/presentation/features/settings/widgets/tile/link/sub_page.dart';
 
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 
 Future<void> runCleanupTests(IntegrationTestContext context) async {
-  await _userCanLogoutOfTheApp(context.tester);
+  TestLog.group('🧹', 'Cleanup');
+
+  await TestLog.test(
+    'User can log out of the app',
+    () => _userCanLogoutOfTheApp(context.tester),
+  );
 }
 
 Future<void> _userCanLogoutOfTheApp(

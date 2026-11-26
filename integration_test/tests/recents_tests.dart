@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/presentation/features/recent/widgets/popup_menu.dart';
 
@@ -6,19 +5,53 @@ import '../robots/calling_robot.dart';
 import '../robots/recents_robot.dart';
 import '../utils/test_env.dart';
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 
 Future<void> runRecentsTests(IntegrationTestContext context) async {
+  TestLog.group('🕘', 'Recents');
+
   await context.tester.navigateToRecentsTab();
 
   final robot = RecentsRobot(context.tester);
 
-  await _userCanSeeTheirRecentCalls(context, robot);
-  await _userCanCopyTheNumberOfACall(robot);
-  await _userCanViewTheDetailsOfACall(robot);
-  await _userCanShowOnlyMissedCalls(robot);
-  await _userCanSwitchBetweenPersonalAndAllCalls(robot);
-  await _userCanAddACallerAsSharedContact(robot);
-  await _userCanCallBack(context, robot);
+  await TestLog.test(
+    'User can see their recent calls',
+    () => _userCanSeeTheirRecentCalls(context, robot),
+  );
+  await TestLog.test(
+    'User can copy the number of a call',
+    () => _userCanCopyTheNumberOfACall(robot),
+  );
+  await TestLog.test(
+    'User can view the details of a call',
+    () => _userCanViewTheDetailsOfACall(robot),
+  );
+  await TestLog.test(
+    'User can show only missed calls',
+    () => _userCanShowOnlyMissedCalls(robot),
+  );
+  await TestLog.test(
+    'User can switch between personal and all calls',
+    () => _userCanSwitchBetweenPersonalAndAllCalls(robot),
+  );
+  await TestLog.test(
+    'User can add a caller as shared contact',
+    () => _userCanAddACallerAsSharedContact(robot),
+  );
+
+  if (_placedOutgoingCallEarlier(context.config)) {
+    await TestLog.test(
+      'User can call back',
+      () => _userCanCallBack(context, robot),
+    );
+  } else {
+    TestLog.skip(
+      'User can call back',
+      because:
+          'this device cannot place a real call, or no call to the calling '
+          'test number was placed in this run',
+    );
+  }
 }
 
 /// Whether the outgoing call tests ran earlier, leaving a fresh call to the
@@ -35,6 +68,11 @@ Future<void> _userCanSeeTheirRecentCalls(
 
   if (!_placedOutgoingCallEarlier(context.config)) return;
 
+  TestLog.step(
+    '🔎',
+    'Expecting the call to ${TestEnv.integrationTestCallingPhoneNumber} '
+        'near the top',
+  );
   await robot.verifyOutgoingCallIsNearTheTop(
     TestEnv.integrationTestCallingPhoneNumber,
     placedAfter: DateTime.now().subtract(const Duration(hours: 1)),
@@ -43,6 +81,7 @@ Future<void> _userCanSeeTheirRecentCalls(
 
 Future<void> _userCanCopyTheNumberOfACall(RecentsRobot robot) async {
   final call = robot.topCall;
+  TestLog.detail('Number of the top call', call.thirdPartyNumber);
 
   await robot.clearClipboard();
   await robot.openCallMenuAndSelect(call, RecentCallMenuAction.copy);
@@ -53,6 +92,8 @@ Future<void> _userCanCopyTheNumberOfACall(RecentsRobot robot) async {
 
 Future<void> _userCanViewTheDetailsOfACall(RecentsRobot robot) async {
   final call = robot.topCall;
+  TestLog.detail('Number of the top call', call.thirdPartyNumber);
+  TestLog.detail('Placed at', call.date);
 
   await robot.openCallMenuAndSelect(call, RecentCallMenuAction.callDetails);
   await robot.verifyCallDetailsAreShownFor(call);
@@ -63,6 +104,8 @@ Future<void> _userCanViewTheDetailsOfACall(RecentsRobot robot) async {
 Future<void> _userCanShowOnlyMissedCalls(RecentsRobot robot) async {
   final hadMissedCalls = robot.showsMissedCalls;
   final hadAnsweredCalls = robot.showsAnsweredCalls;
+  TestLog.detail('Missed calls shown', hadMissedCalls);
+  TestLog.detail('Answered calls shown', hadAnsweredCalls);
 
   await robot.turnOnMissedCallsOnly();
   try {
@@ -80,15 +123,17 @@ Future<void> _userCanSwitchBetweenPersonalAndAllCalls(
   RecentsRobot robot,
 ) async {
   if (!robot.canSeeClientCalls) {
-    debugPrint(
+    TestLog.step(
+      'ℹ️',
       'The test user may not see client calls, so only checking that the '
-      'personal and all calls tabs are hidden.',
+          'personal and all calls tabs are hidden',
     );
     robot.verifyCallTabsAreHidden();
     return;
   }
 
   final wasEnabled = robot.showClientCallsSetting;
+  TestLog.detail('Showed client calls before', wasEnabled);
   if (!wasEnabled) await robot.setShowClientCalls(enabled: true);
 
   try {
@@ -125,6 +170,9 @@ Future<void> _userCanAddACallerAsSharedContact(RecentsRobot robot) async {
       '${RecentsRobot.sharedContactNamePrefix} '
       '${DateTime.now().millisecondsSinceEpoch}';
 
+  TestLog.detail('Number of the call', call.thirdPartyNumber);
+  TestLog.detail('Shared contact', name);
+
   try {
     await robot.openCallMenuAndSelect(
       call,
@@ -156,14 +204,6 @@ Future<void> _userCanCallBack(
   IntegrationTestContext context,
   RecentsRobot robot,
 ) async {
-  if (!_placedOutgoingCallEarlier(context.config)) {
-    debugPrint(
-      'Skipping calling back from recents: this device cannot place a real '
-      'call, or no call to the calling test number was placed in this run.',
-    );
-    return;
-  }
-
   final call = robot.outgoingCallTo(TestEnv.integrationTestCallingPhoneNumber);
   if (call == null) {
     throw TestFailure(
@@ -175,9 +215,11 @@ Future<void> _userCanCallBack(
   final callingRobot = CallingRobot(context.tester, context.config);
   final calledAfter = DateTime.now().subtract(const Duration(minutes: 1));
 
+  TestLog.step('☎️', 'Calling back ${call.thirdPartyNumber}');
   await robot.openCallMenuAndSelect(call, RecentCallMenuAction.call);
   await callingRobot.waitForCallToConnect();
   await callingRobot.verifyCallDuration();
+  TestLog.step('🔴', 'Hanging up');
   await callingRobot.tapHangUpButton();
   await callingRobot.verifyCallScreenIsDismissed();
 

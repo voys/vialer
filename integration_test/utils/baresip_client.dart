@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'test_log.dart';
 
 /// Remote control for the local [baresip](https://github.com/baresip/baresip)
 /// SIP client, which acts as the remote party in calling tests so the app can
@@ -55,15 +57,18 @@ class BaresipClient {
     }
 
     final received = StringBuffer();
+    var loggedMessages = 0;
 
     // ignore: cancel_subscriptions
     final subscription = socket.listen(
       (data) {
-        final text = utf8.decode(data, allowMalformed: true);
-        received.write(text);
-        debugPrint('[baresip] $text');
+        received.write(utf8.decode(data, allowMalformed: true));
+
+        final messages = _messagesIn(received.toString()).toList();
+        messages.skip(loggedMessages).forEach(_log);
+        loggedMessages = messages.length;
       },
-      onError: (Object e) => debugPrint('[baresip] socket error: $e'),
+      onError: (Object e) => TestLog.warning('baresip socket error: $e'),
     );
 
     return BaresipClient._(socket, subscription, received);
@@ -75,15 +80,24 @@ class BaresipClient {
     (event) => event['type'] == 'CALL_CLOSED',
   );
 
+  /// Why baresip's call ended, such as `480 Temporarily Unavailable`, or null
+  /// while it hasn't.
+  String? get callClosedReason => _events
+      .where((event) => event['type'] == 'CALL_CLOSED')
+      .map((event) => '${event['param'] ?? 'no reason given'}')
+      .firstOrNull;
+
   /// The DTMF digits baresip received from the app, in order.
   String get receivedDtmf => _events
       .where((event) => event['type'] == 'CALL_DTMF_START')
       .map((event) => event['param'])
       .join();
 
-  /// Every message baresip sent so far, decoded from its netstrings.
-  Iterable<Map<String, dynamic>> get _events sync* {
-    final buffer = _received.toString();
+  Iterable<Map<String, dynamic>> get _events =>
+      _messagesIn(_received.toString());
+
+  /// Every complete message in what baresip sent, decoded from its netstrings.
+  static Iterable<Map<String, dynamic>> _messagesIn(String buffer) sync* {
     var offset = 0;
     while (true) {
       final separator = buffer.indexOf(':', offset);
@@ -98,6 +112,21 @@ class BaresipClient {
 
       // Skip the trailing comma that closes every netstring.
       offset = end + 1;
+    }
+  }
+
+  /// Events say what happened to the call, responses whether a command
+  /// worked.
+  static void _log(Map<String, dynamic> message) {
+    if (message['event'] == true) {
+      final param = message['param'];
+      TestLog.step(
+        '🛰️',
+        'baresip: ${message['type']}'
+            '${param is String && param.isNotEmpty ? ' ($param)' : ''}',
+      );
+    } else if (message['response'] == true && message['ok'] != true) {
+      TestLog.warning('baresip refused a command: ${message['data']}');
     }
   }
 
@@ -123,7 +152,10 @@ class BaresipClient {
       'token': 'integration-test-${_commandCount++}',
     });
 
-    debugPrint('[baresip] trying to send $payload');
+    TestLog.step(
+      '🛰️',
+      'Telling baresip to $command${params.isEmpty ? '' : ' $params'}',
+    );
     _socket.write('${utf8.encode(payload).length}:$payload,');
     await _socket.flush();
   }

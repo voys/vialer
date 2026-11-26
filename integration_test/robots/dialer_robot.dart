@@ -9,6 +9,7 @@ import 'package:vialer/data/models/colltacts/t9_colltact.dart';
 import 'package:vialer/data/models/relations/colleagues/colleague.dart';
 import 'package:vialer/data/repositories/relations/colleagues/colleagues_repository.dart';
 import 'package:vialer/dependency_locator.dart';
+import 'package:vialer/presentation/features/call/widgets/call_button.dart';
 import 'package:vialer/presentation/features/dialer/controllers/t9/riverpod.dart';
 import 'package:vialer/presentation/features/dialer/controllers/t9/state.dart'
     show ColltactsLoaded;
@@ -17,8 +18,10 @@ import 'package:vialer/presentation/features/dialer/widgets/t9/widget.dart';
 import 'package:vialer/presentation/features/main_page.dart';
 import 'package:vialer/presentation/shared/widgets/dial_pad/key_input.dart';
 import 'package:vialer/presentation/shared/widgets/dial_pad/keypad.dart';
+import 'package:vialer/presentation/shared/widgets/dial_pad/widget.dart';
 
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 import 'integration_test_robot.dart';
 
 class DialerRobot extends IntegrationTestRobot {
@@ -110,6 +113,24 @@ class DialerRobot extends IntegrationTestRobot {
     verifyEnteredNumber('');
   }
 
+  /// With no number entered, the call button fills in the last dialled number
+  /// rather than calling.
+  Future<void> tapCallButtonToFillInLastDialledNumber() async {
+    expect(
+      enteredNumber,
+      isEmpty,
+      reason: 'With a number entered, the call button would place a call',
+    );
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(DialPad),
+        matching: find.byType(CallButton),
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
   Finder _keypadButton(String value) => find.byWidgetPredicate(
     (widget) => widget is KeypadValueButton && widget.primaryValue == value,
   );
@@ -160,8 +181,13 @@ class DialerRobot extends IntegrationTestRobot {
 
   /// Types the keys that match the start of the colleague's name, the way T9
   /// matches names.
-  Future<void> enterT9DigitsForNameOf(Colleague colleague) =>
-      enterDigits(_t9LettersOf(colleague.name).map(_t9DigitFor).join());
+  Future<void> enterT9DigitsForNameOf(Colleague colleague) {
+    final letters = _t9LettersOf(colleague.name);
+    final digits = letters.map(_t9DigitFor).join();
+
+    TestLog.step('🔤', 'Typing $digits for "${letters.join()}"');
+    return enterDigits(digits);
+  }
 
   Future<void> verifyColleagueIsSuggested(Colleague colleague) async {
     await tester.pumpUntil(

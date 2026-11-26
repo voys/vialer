@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/data/models/colltacts/colltact_tab.dart';
 import 'package:vialer/data/models/colltacts/shared_contacts/shared_contact.dart';
@@ -11,6 +10,7 @@ import '../robots/calling_robot.dart';
 import '../robots/contacts_robot.dart';
 import '../utils/test_env.dart';
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 
 /// Every contact these tests create has this given name, so any left behind
 /// by an earlier run that failed can be recognised and removed.
@@ -18,6 +18,9 @@ const _testContactGivenName = 'IntegrationTest';
 
 Future<void> runContactsTests(IntegrationTestContext context) async {
   final tester = context.tester;
+
+  TestLog.group('👥', 'Contacts');
+
   await tester.navigateToContactsTab();
 
   final robot = ContactsRobot(tester);
@@ -31,10 +34,22 @@ Future<void> runContactsTests(IntegrationTestContext context) async {
   await robot.waitForListsToLoad();
   final initialTab = robot.selectedTab;
 
-  await _userCanSwitchBetweenTabs(robot);
-  await _userCanBrowseColleagues(robot);
-  await _userCanManageASharedContact(robot, callingRobot);
-  await _userCanSeePhoneContacts(robot);
+  await TestLog.test(
+    'User can switch between tabs',
+    () => _userCanSwitchBetweenTabs(robot),
+  );
+  await TestLog.test(
+    'User can browse colleagues',
+    () => _userCanBrowseColleagues(robot),
+  );
+  await TestLog.test(
+    'User can manage a shared contact',
+    () => _userCanManageASharedContact(robot, callingRobot),
+  );
+  await TestLog.test(
+    'User can see phone contacts',
+    () => _userCanSeePhoneContacts(robot),
+  );
 
   // The selected tab is remembered, so leave it as it was found.
   await robot.openTab(initialTab);
@@ -48,6 +63,7 @@ Future<void> _userCanSwitchBetweenTabs(ContactsRobot robot) async {
     ColltactTab.colleagues,
     ColltactTab.contacts,
   ]) {
+    TestLog.step('🗂️', 'Opening the ${tab.name} tab');
     await robot.openTab(tab);
     robot.verifyTabIsSelected(tab);
   }
@@ -69,6 +85,10 @@ Future<void> _userCanBrowseColleagues(ContactsRobot robot) async {
           (colleague) => colleague._hasName && colleague.number != null,
         ) ??
         robot.colleagues.firstWhere((colleague) => colleague._hasName);
+
+    TestLog.detail('Colleagues listed', robot.colleagues.length);
+    TestLog.detail('Colleague', colleague.name);
+    TestLog.detail("Colleague's number", colleague.number);
 
     await _userCanSearchColleagues(robot, colleague);
     await _userCanSeeAColleaguesDetails(robot, colleague);
@@ -98,10 +118,12 @@ Future<void> _userCanSearchColleagues(
         !(other.number ?? '').contains(term),
   );
 
+  TestLog.step('🔎', 'Searching for "${colleague.name}"');
   await robot.search(colleague.name);
   await robot.waitForListToShow(colleague.name);
 
   if (otherColleague != null) {
+    TestLog.step('🙈', 'Expecting "${otherColleague.name}" to be hidden');
     await robot.waitForListToNotShow(otherColleague.name);
   }
 }
@@ -110,6 +132,7 @@ Future<void> _userCanSeeAColleaguesDetails(
   ContactsRobot robot,
   Colleague colleague,
 ) async {
+  TestLog.step('🪪', 'Opening the details of "${colleague.name}"');
   await robot.openDetails(colleague.name);
 
   robot.verifyDetailsShowName(colleague.name);
@@ -144,6 +167,10 @@ Future<void> _userCanHideOfflineColleagues(ContactsRobot robot) async {
     );
   }
 
+  TestLog.step(
+    '💤',
+    'Hiding and showing the offline colleague "${offlineColleague.name}"',
+  );
   await robot.search(offlineColleague.name);
   await robot.waitForListToShow(offlineColleague.name);
 
@@ -170,9 +197,14 @@ Future<void> _userCanManageASharedContact(
   );
   final editedContact = contact.copyWith(familyName: 'Edited $uniqueId');
 
+  TestLog.detail('Shared contact', contact.displayName);
+  TestLog.detail('Renamed to', editedContact.displayName);
+  TestLog.detail('Phone number', phoneNumber);
+
   await robot.openTab(ColltactTab.sharedContact);
 
   try {
+    TestLog.step('➕', 'Adding the shared contact');
     await robot.tapAddSharedContactButton();
     await robot.fillInSharedContactForm(
       givenName: contact.givenName!,
@@ -197,12 +229,13 @@ Future<void> _userCanManageASharedContact(
         phoneNumber,
       );
     } else {
-      debugPrint(
-        'Skipping calling the shared contact: this device cannot place a real '
-        'call.',
+      TestLog.step(
+        '⏭️',
+        'Not calling the shared contact: this device cannot place a real call',
       );
     }
 
+    TestLog.step('✏️', 'Renaming the shared contact');
     await robot.tapEditButton();
     await robot.changeSharedContactFamilyName(editedContact.familyName!);
     await robot.saveSharedContactForm();
@@ -212,6 +245,7 @@ Future<void> _userCanManageASharedContact(
     await robot.waitForListToShow(editedContact.displayName);
     await robot.waitForListToNotShow(contact.displayName);
 
+    TestLog.step('🗑️', 'Deleting the shared contact');
     await robot.openDetails(editedContact.displayName);
     await robot.tapEditButton();
     await robot.deleteSharedContact();
@@ -233,6 +267,7 @@ Future<void> _userCanCallASharedContact(
   String name,
   String phoneNumber,
 ) async {
+  TestLog.step('📞', 'Calling the shared contact on $phoneNumber');
   await robot.tapPhoneNumberInDetails(phoneNumber);
   await callingRobot.waitForCallToConnect();
   await callingRobot.verifyCallDuration();
@@ -252,15 +287,20 @@ Future<void> _userCanSeePhoneContacts(ContactsRobot robot) async {
   await robot.openTab(ColltactTab.contacts);
   robot.verifyPhoneContactsTabShowsContactsOrEmptyState();
 
+  TestLog.detail('Phone contacts on the device', robot.phoneContacts.length);
+
   if (!Platform.isAndroid) {
-    debugPrint(
-      'Skipping adding a phone contact: on iOS the contacts permission is '
-      'only mocked, so writing to the address book would prompt for access.',
+    TestLog.step(
+      '⏭️',
+      'Not adding a phone contact: on iOS the contacts permission is only '
+          'mocked, so writing to the address book would prompt for access',
     );
     return;
   }
 
   final uniqueId = DateTime.now().millisecondsSinceEpoch.toString();
+  TestLog.detail('Phone contact', '$_testContactGivenName Device $uniqueId');
+  TestLog.detail('Phone number', fakeMobileNumber);
 
   // The app keeps showing the last contact once the device has none left, so
   // removal can only be seen when there are other contacts.
@@ -304,7 +344,7 @@ Future<void> _withoutHidingFailure(
   try {
     await cleanUp();
   } catch (error) {
-    debugPrint('Could not $description: $error');
+    TestLog.warning('Could not $description: $error');
   }
 }
 

@@ -62,6 +62,7 @@ import 'package:vialer/presentation/shared/widgets/stylized_switch.dart';
 import 'package:vialer/version_info.vialer.dart';
 
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 import 'integration_test_robot.dart';
 
 class SettingsRobot extends IntegrationTestRobot {
@@ -467,11 +468,18 @@ class SettingsRobot extends IntegrationTestRobot {
     await _scrollToPreference(tile);
 
     if (tester.widget<StylizedSwitch>(_switchOf(tile)).onChanged == null) {
-      debugPrint('Not toggling $tile: this user is not allowed to change it');
+      TestLog.step(
+        '⏭️',
+        'Not toggling $tile: this user is not allowed to change it',
+      );
       return;
     }
 
     final original = _switchValue(tile);
+    TestLog.step(
+      '🔁',
+      'Turning $tile ${original ? 'off' : 'on'} and back',
+    );
     final key = _settingKeyOf(tile);
 
     try {
@@ -660,15 +668,17 @@ class SettingsRobot extends IntegrationTestRobot {
     await tester.pumpAndSettle();
 
     // The open menu is built after the dialog, so its copy of the item comes
-    // last.
+    // last. The item itself only takes taps on its text, so the menu row
+    // around it is tapped instead.
+    final menuItem = find
+        .byWidgetPredicate(
+          (widget) =>
+              widget is DropdownMenuItem<OutgoingNumber> &&
+              widget.value == number,
+        )
+        .last;
     await tester.tap(
-      find
-          .byWidgetPredicate(
-            (widget) =>
-                widget is DropdownMenuItem<OutgoingNumber> &&
-                widget.value == number,
-          )
-          .last,
+      find.ancestor(of: menuItem, matching: find.byType(InkWell)).first,
     );
     await tester.pumpAndSettle();
     await _saveDialog(dialog);
@@ -1035,7 +1045,7 @@ class SettingsRobot extends IntegrationTestRobot {
     try {
       await restore();
     } on Object catch (error) {
-      debugPrint('Unable to restore $description: $error');
+      TestLog.warning('Unable to restore $description: $error');
     }
   }
 }

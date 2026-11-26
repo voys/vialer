@@ -40,6 +40,7 @@ import 'package:vialer/presentation/shared/widgets/bottom_toggle.dart';
 import 'package:vialer/presentation/shared/widgets/stylized_switch.dart';
 
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 import 'integration_test_robot.dart';
 
 class ContactsRobot extends IntegrationTestRobot {
@@ -500,7 +501,10 @@ class ContactsRobot extends IntegrationTestRobot {
     for (final contact in sharedContacts) {
       if (contact.givenName != givenName) continue;
 
-      debugPrint('Deleting leftover shared contact "${contact.displayName}"');
+      TestLog.step(
+        '🧹',
+        'Deleting leftover shared contact "${contact.displayName}"',
+      );
       await deleteSharedContact(uuid: contact.id);
     }
 
@@ -578,7 +582,7 @@ class ContactsRobot extends IntegrationTestRobot {
     for (final contact in await device.FlutterContacts.getContacts()) {
       if (!contact.displayName.startsWith('$givenName ')) continue;
 
-      debugPrint('Deleting device contact "${contact.displayName}"');
+      TestLog.step('🧹', 'Deleting device contact "${contact.displayName}"');
       await device.FlutterContacts.deleteContact(contact);
     }
   }

@@ -21,6 +21,7 @@ import 'package:vialer/presentation/shared/widgets/caller.dart';
 import 'package:vialer/presentation/shared/widgets/dial_pad/keypad.dart';
 import 'package:vialer/presentation/shared/widgets/dial_pad/widget.dart';
 
+import '../utils/baresip_client.dart';
 import '../utils/test_extensions.dart';
 import 'integration_test_robot.dart';
 
@@ -107,9 +108,14 @@ class CallingRobot extends IntegrationTestRobot {
   /// on top of the Flutter app, so there is no widget to find and we assert
   /// on the call state instead. Until that screen goes away again the app
   /// draws no frames, so nothing may pump in the meantime.
-  Future<void> waitForIncomingCallToRing() async {
+  ///
+  /// Stops waiting once [caller] reports its call ended, since nothing can
+  /// ring after that.
+  Future<void> waitForIncomingCallToRing({
+    required BaresipClient caller,
+  }) async {
     await tester.waitUntilWithoutPumping(
-      () => _callerState is Ringing,
+      () => _callerState is Ringing || caller.hasSeenCallClosed,
       timeout: _incomingCallTimeout,
       reason:
           'The app should ring for the call placed by baresip. Nothing came in '
@@ -118,6 +124,15 @@ class CallingRobot extends IntegrationTestRobot {
           'routes to the app account of the logged in test user '
           '(see ~/.baresip/baresip.log).',
     );
+
+    if (_callerState is! Ringing) {
+      throw TestFailure(
+        "baresip's call ended before the app rang, with: "
+        '${caller.callClosedReason}. The PBX could not reach the app, so '
+        'check that the test user is available and rings in this app, and '
+        'that the device receives pushes.',
+      );
+    }
   }
 
   /// Answers the ringing call.
@@ -239,9 +254,21 @@ class CallingRobot extends IntegrationTestRobot {
         (_callerState as CallProcessState).isVoipCallMuted,
   );
 
-  Future<void> toggleHoldOnAndOff() => _toggleCallActionButton(
+  Future<void> toggleHoldOnAndOff() async {
+    await _putCallOnHold();
+    await _resumeCall();
+  }
+
+  Future<void> _putCallOnHold() => _setCallAction(
     tester.msg.main.call.ongoing.actions.hold,
     isActive: () => _activeCall?.isOnHold ?? false,
+    active: true,
+  );
+
+  Future<void> _resumeCall() => _setCallAction(
+    tester.msg.main.call.ongoing.actions.hold,
+    isActive: () => _activeCall?.isOnHold ?? false,
+    active: false,
   );
 
   /// Taps a call action button (e.g. mute or hold), verifies it becomes active,
@@ -250,15 +277,20 @@ class CallingRobot extends IntegrationTestRobot {
     String label, {
     required bool Function() isActive,
   }) async {
-    _verifyCallActionIsActive(label, isActive: false);
+    await _setCallAction(label, isActive: isActive, active: true);
+    await _setCallAction(label, isActive: isActive, active: false);
+  }
+
+  Future<void> _setCallAction(
+    String label, {
+    required bool Function() isActive,
+    required bool active,
+  }) async {
+    _verifyCallActionIsActive(label, isActive: !active);
 
     await _tapCallActionButton(label);
-    await _waitForCallAction(label, isActive: isActive, expected: true);
-    _verifyCallActionIsActive(label, isActive: true);
-
-    await _tapCallActionButton(label);
-    await _waitForCallAction(label, isActive: isActive, expected: false);
-    _verifyCallActionIsActive(label, isActive: false);
+    await _waitForCallAction(label, isActive: isActive, expected: active);
+    _verifyCallActionIsActive(label, isActive: active);
   }
 
   Future<void> _tapCallActionButton(String label) async {

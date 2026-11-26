@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vialer/data/models/call_records/call_record.dart';
 import 'package:vialer/data/repositories/call_records/personal/recent_call_repository.dart';
@@ -8,9 +7,16 @@ import '../robots/calling_robot.dart';
 import '../utils/baresip_client.dart';
 import '../utils/test_env.dart';
 import '../utils/test_extensions.dart';
+import '../utils/test_log.dart';
 import 'verify_call_had_audio.dart';
 
 Future<void> runIncomingCallTests(IntegrationTestContext context) async {
+  TestLog.group('📲', 'Incoming calls');
+  TestLog.detail(
+    'baresip dials',
+    TestEnv.integrationTestIncomingCallNumber,
+  );
+
   await context.tester.navigateToContactsTab();
 
   final robot = CallingRobot(context.tester, context.config);
@@ -19,16 +25,28 @@ Future<void> runIncomingCallTests(IntegrationTestContext context) async {
     const Duration(minutes: 1),
   );
 
-  await _userCanReceiveACall(context.tester, robot);
+  await TestLog.test(
+    'User can receive a call',
+    () => _userCanReceiveACall(context.tester, robot),
+  );
   await verifyCallHadAudio(
     context,
     direction: Direction.inbound,
     placedAfter: receivedAfter,
   );
 
-  await _userCanTransferACall(robot);
-  await _userCanDeclineACall(context.tester, robot);
-  await _unansweredCallIsMissed(context.tester, robot);
+  await TestLog.test(
+    'User can transfer a call',
+    () => _userCanTransferACall(robot),
+  );
+  await TestLog.test(
+    'User can decline a call',
+    () => _userCanDeclineACall(context.tester, robot),
+  );
+  await TestLog.test(
+    'An unanswered call is missed',
+    () => _unansweredCallIsMissed(context.tester, robot),
+  );
 }
 
 /// Digits that are easy to tell apart in baresip's log.
@@ -42,17 +60,19 @@ Future<void> _userCanReceiveACall(
 
   try {
     // Wait so the user is registered properly before making a call
-    debugPrint('Connected to baresip, going to make a call in 5s.');
+    TestLog.step('⏳', 'Waiting 5s for the app to be registered');
     await robot.waitFor(const Duration(seconds: 5));
-    await baresip.dial(TestEnv.integrationTestIncomingCallNumber);
+    await _dial(baresip);
 
-    await robot.waitForIncomingCallToRing();
+    await robot.waitForIncomingCallToRing(caller: baresip);
     robot.verifyCallIsIncoming();
     await robot.ringFor(const Duration(seconds: 3));
+    TestLog.step('🟢', 'Answering the call');
     await robot.answerIncomingCall();
     await robot.waitForAnsweredCallToConnect();
     await robot.verifyCallDuration();
 
+    TestLog.step('🎹', 'Sending the DTMF digits $_dtmfDigits');
     await robot.sendDtmf(_dtmfDigits);
     await tester.pumpUntil(
       () => baresip.receivedDtmf.contains(_dtmfDigits),
@@ -62,8 +82,15 @@ Future<void> _userCanReceiveACall(
       settle: false,
     );
 
+    // The platform handles hold itself instead of passing it on, so baresip
+    // never sees it and only the app's side can be checked.
+    TestLog.step('⏸️', 'Putting the call on hold, then resuming it');
+    await robot.toggleHoldOnAndOff();
+
+    TestLog.step('🔊', 'Turning the speaker on and off');
     await robot.toggleSpeakerOnAndOff();
     await robot.waitFor(const Duration(seconds: 5));
+    TestLog.step('🔴', 'Hanging up');
     await robot.tapHangUpButton();
     await robot.verifyCallScreenIsDismissed();
   } finally {
@@ -78,11 +105,16 @@ Future<void> _userCanTransferACall(CallingRobot robot) async {
   final baresip = await BaresipClient.connect();
 
   try {
-    await baresip.dial(TestEnv.integrationTestIncomingCallNumber);
+    await _dial(baresip);
 
-    await robot.waitForIncomingCallToRing();
+    await robot.waitForIncomingCallToRing(caller: baresip);
+    TestLog.step('🟢', 'Answering the call');
     await robot.answerIncomingCall();
     await robot.waitForAnsweredCallToConnect();
+    TestLog.step(
+      '🔀',
+      'Transferring the call to ${TestEnv.integrationTestCallingPhoneNumber}',
+    );
     await robot.transferTo(TestEnv.integrationTestCallingPhoneNumber);
     await robot.verifyCallScreenIsDismissed();
   } finally {
@@ -99,11 +131,12 @@ Future<void> _userCanDeclineACall(
   final baresip = await BaresipClient.connect();
 
   try {
-    await baresip.dial(TestEnv.integrationTestIncomingCallNumber);
+    await _dial(baresip);
 
-    await robot.waitForIncomingCallToRing();
+    await robot.waitForIncomingCallToRing(caller: baresip);
     robot.verifyCallIsIncoming();
     await robot.ringFor(const Duration(seconds: 3));
+    TestLog.step('🔴', 'Declining the call');
     await robot.declineIncomingCall();
     await robot.waitForDeclinedCallToEnd();
 
@@ -125,13 +158,18 @@ Future<void> _unansweredCallIsMissed(
   // The call declined just before is also unanswered, so only a call that
   // wasn't in the history yet counts.
   final earlierMissedCallIds = await _missedCallIds();
+  TestLog.detail(
+    'Missed calls already in the history',
+    earlierMissedCallIds.length,
+  );
   final baresip = await BaresipClient.connect();
 
   try {
-    await baresip.dial(TestEnv.integrationTestIncomingCallNumber);
+    await _dial(baresip);
 
-    await robot.waitForIncomingCallToRing();
+    await robot.waitForIncomingCallToRing(caller: baresip);
     await robot.ringFor(const Duration(seconds: 5));
+    TestLog.step('📴', 'baresip hangs up before the call is answered');
     await baresip.hangup();
     await robot.waitForMissedCallToEnd();
   } finally {
@@ -140,6 +178,14 @@ Future<void> _unansweredCallIsMissed(
   }
 
   await _verifyNewMissedCallIsInHistory(tester, earlierMissedCallIds);
+}
+
+Future<void> _dial(BaresipClient baresip) {
+  TestLog.step(
+    '☎️',
+    'baresip is calling ${TestEnv.integrationTestIncomingCallNumber}',
+  );
+  return baresip.dial(TestEnv.integrationTestIncomingCallNumber);
 }
 
 Future<Set<String>> _missedCallIds() async {
@@ -156,9 +202,15 @@ Future<void> _verifyNewMissedCallIsInHistory(
   const attempts = 12;
   const interval = Duration(seconds: 5);
 
+  TestLog.step('⏳', 'Waiting for the missed call to show in the history');
+
   for (var i = 0; i < attempts; i++) {
     final missedCallIds = await _missedCallIds();
-    if (missedCallIds.difference(earlierMissedCallIds).isNotEmpty) return;
+    final newMissedCallIds = missedCallIds.difference(earlierMissedCallIds);
+    if (newMissedCallIds.isNotEmpty) {
+      TestLog.detail('Missed call', newMissedCallIds.join(', '));
+      return;
+    }
 
     await tester.pumpFor(interval);
   }

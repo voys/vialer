@@ -769,7 +769,7 @@ packages:
     source: hosted
     version: "2.1.3"
   glog:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: glog
       sha256: "655491ed9edc961f49d4d840ad8903c2cd47cd1138511f6509b85695a57e299d"
