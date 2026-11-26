@@ -46,7 +46,9 @@ class EnvRepository {
   bool get iosSandboxPushNotifications =>
       get('ENABLE_IOS_SANDBOX_PUSH_NOTIFICATIONS').toBool();
 
-  bool get inTest => get('IN_TEST').toBool();
+  /// Set by `./utils/bin/run-integration-tests`, the only supported way to run
+  /// the integration tests.
+  bool get inTest => const bool.hasEnvironment('INTEGRATION_TEST_RUNNER');
 
   bool get isProduction => get('IS_PRODUCTION').toBool();
 

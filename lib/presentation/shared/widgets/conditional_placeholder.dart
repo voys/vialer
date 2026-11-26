@@ -36,39 +36,43 @@ class Warning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 54,
-          right: 54,
-          top: 54,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _Illustration(
-              child: icon,
-            ),
-            const SizedBox(height: 20),
-            DefaultTextStyle.merge(
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+    // Scrollable so it still fits when shown in a short space, such as above
+    // the keyboard or during a page transition.
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 54,
+            right: 54,
+            top: 54,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _Illustration(
+                child: icon,
               ),
-              textAlign: TextAlign.center,
-              child: title,
-            ),
-            const SizedBox(height: 16),
-            DefaultTextStyle.merge(
-              style: const TextStyle(
-                fontSize: 16,
+              const SizedBox(height: 20),
+              DefaultTextStyle.merge(
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                child: title,
               ),
-              textAlign: TextAlign.center,
-              child: description,
-            ),
-            ...children,
-          ],
+              const SizedBox(height: 16),
+              DefaultTextStyle.merge(
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+                child: description,
+              ),
+              ...children,
+            ],
+          ),
         ),
       ),
     );

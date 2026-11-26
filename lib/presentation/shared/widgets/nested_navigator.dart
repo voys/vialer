@@ -105,9 +105,13 @@ class _NestedNavigatorState extends State<NestedNavigator> {
           return MaterialPageRoute<void>(
             settings: settings,
             fullscreenDialog: widget.fullscreenDialog,
-            builder: (context) {
-              return widget.routes[settings.name]!(context, settings.arguments);
-            },
+            // The page transition paints a background between the route and
+            // the surrounding Material, which would hide the ink splashes of
+            // ListTiles and buttons on the page, so give each page its own.
+            builder: (context) => Material(
+              type: MaterialType.transparency,
+              child: widget.routes[settings.name]!(context, settings.arguments),
+            ),
           );
         },
       ),

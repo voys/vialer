@@ -1,0 +1,399 @@
+#!/bin/bash
+
+# Runs the integration test suite on a connected mobile device (picked from
+# `flutter devices`, or passed with --device=<id>), or on a remote test runner
+# (--emulator-wtf, with --nightly for the wider nightly device set).
+#
+# Which tests run is decided by --suite, never inferred from the environment:
+#
+#   all                      everything — the default on local Android, and
+#                            what Codemagic runs on emulator.wtf
+#   incoming-calls           only the incoming call tests
+#   without-incoming-calls   everything except incoming calls, outgoing calls
+#                            included — the default on iOS and emulator.wtf
+#
+# The app is built for the brand in $BRAND (vialer by default).
+
+if [ -f .env ]; then
+  set -a          # Automatically export all variables created/modified from here on
+  source .env     # Load the variables
+  set +a          # Stop automatically exporting
+else
+  echo "🚨 .env file not found!"
+  exit 1
+fi
+
+set -e
+
+TARGET="integration_test/main_test.dart"
+BRAND="${BRAND:-vialer}"
+BRAND_FILE="brands/$BRAND.json"
+
+if [ ! -f "$BRAND_FILE" ]; then
+    echo "🚨 Unknown brand: $BRAND ($BRAND_FILE does not exist)"
+    exit 1
+fi
+
+if ! command -v jq > /dev/null 2>&1; then
+    echo "🚨 jq is required to read the brand configuration and device list (brew install jq)"
+    exit 1
+fi
+
+PACKAGE="$(jq -r '.appId' "$BRAND_FILE")"
+
+BRAND_DEFINE="--dart-define-from-file=$BRAND_FILE"
+
+GUARD_DEFINE="--dart-define=INTEGRATION_TEST_RUNNER=true"
+
+CI_DEFINE="--dart-define=INTEGRATION_TEST_IS_CI=${CI:-false}"
+
+# Port baresip's ctrl_tcp module listens on, keep in sync with the port in
+# integration_test/utils/baresip_client.dart.
+BARESIP_CTRL_PORT=4444
+
+ANDROID_PERMISSIONS=(
+    "android.permission.RECORD_AUDIO"
+    "android.permission.BLUETOOTH_CONNECT"
+    "android.permission.CALL_PHONE"
+    "android.permission.READ_PHONE_STATE"
+    "android.permission.READ_CONTACTS"
+    "android.permission.WRITE_CONTACTS"
+    "android.permission.POST_NOTIFICATIONS"
+)
+
+DEVICE_ARG=""
+REMOTE_RUNNER=""
+EMULATOR_WTF_ARGS=()
+SUITE_ARG=""
+for arg in "$@"; do
+    case "$arg" in
+        --device=*) DEVICE_ARG="${arg#--device=}" ;;
+        --emulator-wtf) REMOTE_RUNNER="emulator-wtf" ;;
+        --nightly) EMULATOR_WTF_ARGS=(--nightly) ;;
+        --suite=*) SUITE_ARG="${arg#--suite=}" ;;
+        *)
+            echo "🚨 Unknown option: $arg"
+            echo "   Supported: --device=<id> | --emulator-wtf [--nightly] [--suite=<suite>]"
+            exit 1
+            ;;
+    esac
+done
+
+case "$SUITE_ARG" in
+    ""|all|incoming-calls|without-incoming-calls) ;;
+    *)
+        echo "🚨 Unknown suite: $SUITE_ARG"
+        echo "   Supported: --suite=all | --suite=incoming-calls | --suite=without-incoming-calls"
+        exit 1
+        ;;
+esac
+
+if [ -n "$DEVICE_ARG" ] && [ -n "$REMOTE_RUNNER" ]; then
+    echo "🚨 --device cannot be combined with --emulator-wtf"
+    exit 1
+fi
+
+if [ "${#EMULATOR_WTF_ARGS[@]}" -gt 0 ] && [ "$REMOTE_RUNNER" != "emulator-wtf" ]; then
+    echo "🚨 --nightly only applies to --emulator-wtf"
+    exit 1
+fi
+
+cleanup() {
+    if [ "${RUNS_INCOMING_CALL_TESTS:-false}" = true ]; then
+        echo "🛑 Stopping baresip..."
+        killall -9 baresip > /dev/null 2>&1 || true
+    fi
+}
+trap cleanup EXIT
+
+# The app reads .env at runtime, so whatever is set here is what the tests see.
+require_env() {
+    local missing=()
+    for name in "$@"; do
+        [ -z "${!name}" ] && missing+=("$name")
+    done
+
+    if [ "${#missing[@]}" -gt 0 ]; then
+        echo "🚨 Missing or empty in .env: ${missing[*]}"
+        return 1
+    fi
+}
+
+if ! require_env INTEGRATION_TEST_USER_1_USERNAME INTEGRATION_TEST_USER_1_PASSWORD; then
+    echo "🚨 The tests log in as this user. Add it to your .env file:"
+    echo "   INTEGRATION_TEST_USER_1_USERNAME=your_username"
+    echo "   INTEGRATION_TEST_USER_1_PASSWORD=your_password"
+    exit 1
+fi
+
+if ! require_env INTEGRATION_TEST_USER_WITHOUT_APP_ACCOUNT_USERNAME INTEGRATION_TEST_USER_WITHOUT_APP_ACCOUNT_PASSWORD; then
+    echo "🚨 The tests check logging in as a user without an app account. Add it to your .env file:"
+    echo "   INTEGRATION_TEST_USER_WITHOUT_APP_ACCOUNT_USERNAME=your_username"
+    echo "   INTEGRATION_TEST_USER_WITHOUT_APP_ACCOUNT_PASSWORD=your_password"
+    exit 1
+fi
+
+# The app places the outgoing call itself, on the account it is logged in with,
+# so this suite only needs the number to dial. Checked once the suite is known
+# rather than up front, like the incoming half below.
+validate_outgoing_calling_environment() {
+    if ! require_env INTEGRATION_TEST_CALLING_PHONE_NUMBER; then
+        echo "🚨 The outgoing call test dials this number. Add it to your .env file:"
+        echo "   INTEGRATION_TEST_CALLING_PHONE_NUMBER=+447700900123"
+        exit 1
+    fi
+}
+
+# The incoming call is dialled by baresip, which registers with the SIP account
+# below, so only the suites that include incoming calls need these — a developer
+# without them can still run the without-incoming-calls suite.
+validate_incoming_calling_environment() {
+    if ! require_env INTEGRATION_TEST_SIP_USER INTEGRATION_TEST_SIP_PASS; then
+        echo "🚨 baresip registers with this SIP account to place the incoming call."
+        echo "🚨 Please add the following to your .env file:"
+        echo "   INTEGRATION_TEST_SIP_USER=sip_user_number"
+        echo "   INTEGRATION_TEST_SIP_PASS=sip_user_password"
+        exit 1
+    fi
+
+    if ! require_env INTEGRATION_TEST_INCOMING_CALL_NUMBER; then
+        echo "🚨 baresip dials this number to make the app receive an incoming call,"
+        echo "🚨 so it must route to the app account of INTEGRATION_TEST_USER_1_USERNAME."
+        echo "🚨 An internal extension is enough. Add it to your .env file:"
+        echo "   INTEGRATION_TEST_INCOMING_CALL_NUMBER=602"
+        exit 1
+    fi
+}
+
+require_android_firebase_configuration() {
+    if [ ! -f "android/app/google-services.json" ]; then
+        echo "🚨 Firebase configuration file not found: android/app/google-services.json"
+        echo "🚨 Incoming calls are delivered through Firebase, so Android builds need it."
+        exit 1
+    fi
+}
+
+# Baresip runs on the host, but the test code that drives it runs on the device,
+# so the ctrl_tcp port has to be reachable there on localhost.
+expose_baresip_to_device() {
+    adb -s "$1" reverse "tcp:$BARESIP_CTRL_PORT" "tcp:$BARESIP_CTRL_PORT" > /dev/null
+    echo "🔌 baresip reachable from the emulator on 127.0.0.1:$BARESIP_CTRL_PORT"
+}
+
+device_label() {
+    local platform="$1" emulator="$2"
+    if [ "$platform" = "ios" ]; then
+        [ "$emulator" = "true" ] && echo "iOS simulator" || echo "iOS physical device"
+    else
+        [ "$emulator" = "true" ] && echo "Android emulator" || echo "Android physical device"
+    fi
+}
+
+# Hands the run off to emulator.wtf, which builds the APKs itself. Never returns.
+run_on_emulator_wtf() {
+    local suite="${SUITE_ARG:-without-incoming-calls}"
+
+    require_android_firebase_configuration
+
+    if [ "$suite" != "incoming-calls" ]; then
+        validate_outgoing_calling_environment
+    fi
+
+    if [ "$suite" != "without-incoming-calls" ]; then
+        validate_incoming_calling_environment
+        RUNS_INCOMING_CALL_TESTS=true
+        if [ -n "$CI" ]; then
+            echo "🤖 CI — baresip was started by the build step, skipping startup"
+        else
+            ./utils/ci/codemagic/bin/configure_and_run_baresip.sh
+        fi
+    fi
+
+    echo "🎯 Running the $suite suite on emulator.wtf"
+    echo "▶️  Re-run directly with:"
+    echo "   ./utils/bin/run-integration-tests --emulator-wtf --suite=$suite ${EMULATOR_WTF_ARGS[*]}"
+    BRAND="$BRAND" ./utils/ci/codemagic/bin/run_emulator_wtf.sh --suite="$suite" "${EMULATOR_WTF_ARGS[@]}"
+    exit 0
+}
+
+if [ -n "$REMOTE_RUNNER" ]; then
+    run_on_emulator_wtf
+fi
+
+if [ -n "$DEVICE_ARG" ]; then
+    DEVICE_ID="$DEVICE_ARG"
+    DEVICE_NAME="$DEVICE_ARG"
+    if [[ "$DEVICE_ID" == emulator-* ]]; then
+        PLATFORM="android"
+        EMULATOR="true"
+    elif [[ "$DEVICE_ID" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$ ]]; then
+        PLATFORM="ios"
+        EMULATOR="true"
+    elif [[ "$DEVICE_ID" =~ ^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{16}$ ]] || [[ "$DEVICE_ID" =~ ^[0-9a-fA-F]{40}$ ]]; then
+        PLATFORM="ios"
+        EMULATOR="false"
+    else
+        PLATFORM="android"
+        EMULATOR="false"
+    fi
+else
+    echo "🔍 Detecting connected mobile devices..."
+    IDS=()
+    NAMES=()
+    PLATFORMS=()
+    EMULATORS=()
+    while IFS=$'\t' read -r id name platform emulator; do
+        [ -z "$id" ] && continue
+        IDS+=("$id")
+        NAMES+=("$name")
+        PLATFORMS+=("$platform")
+        EMULATORS+=("$emulator")
+    done < <(flutter devices --machine 2>/dev/null | jq -r '
+        .[]
+        | select((.targetPlatform | startswith("android")) or (.targetPlatform == "ios"))
+        | [.id, .name, (if (.targetPlatform | startswith("android")) then "android" else "ios" end), (.emulator | tostring)]
+        | @tsv')
+
+    if [ "${#IDS[@]}" -eq 0 ]; then
+        echo "ℹ️  No local Android or iOS devices found, only emulator.wtf is available."
+    fi
+
+    EMULATOR_WTF_OPTION=$((${#IDS[@]} + 1))
+
+    echo "Select the device to run the integration tests on:"
+    for i in "${!IDS[@]}"; do
+        echo "  [$((i + 1))] ${NAMES[$i]} ($(device_label "${PLATFORMS[$i]}" "${EMULATORS[$i]}")) — ${IDS[$i]}"
+    done
+    echo "  [$EMULATOR_WTF_OPTION] emulator.wtf (remote Android emulators)"
+    printf "Press a number (q to quit): "
+    while true; do
+        read -rsn1 CHOICE
+        if [ "$CHOICE" = "q" ]; then
+            echo "q"
+            exit 0
+        fi
+        if [[ "$CHOICE" =~ ^[1-9]$ ]] && [ "$CHOICE" -le "$EMULATOR_WTF_OPTION" ]; then
+            echo "$CHOICE"
+            break
+        fi
+    done
+
+    if [ "$CHOICE" -eq "$EMULATOR_WTF_OPTION" ]; then
+        run_on_emulator_wtf
+    fi
+
+    INDEX=$((CHOICE - 1))
+    DEVICE_ID="${IDS[$INDEX]}"
+    DEVICE_NAME="${NAMES[$INDEX]}"
+    PLATFORM="${PLATFORMS[$INDEX]}"
+    EMULATOR="${EMULATORS[$INDEX]}"
+fi
+
+EMULATOR_DEFINE="--dart-define=INTEGRATION_TEST_ON_EMULATOR=$EMULATOR"
+
+# Receiving a call needs the device to reach baresip on this machine, which iOS
+# has no way to do, so Android gets the full suite and iOS everything else. An explicit --suite always wins.
+if [ -n "$SUITE_ARG" ]; then
+    SUITE="$SUITE_ARG"
+elif [ "$PLATFORM" = "ios" ]; then
+    SUITE="without-incoming-calls"
+else
+    SUITE="all"
+fi
+
+# Keep in sync with IntegrationTestSuite in integration_test/utils/test_extensions.dart.
+case "$SUITE" in
+    without-incoming-calls)
+        RUNS_OUTGOING_CALL_TESTS=true
+        RUNS_INCOMING_CALL_TESTS=false
+        DART_SUITE="withoutIncomingCalls"
+        ;;
+    incoming-calls)
+        RUNS_OUTGOING_CALL_TESTS=false
+        RUNS_INCOMING_CALL_TESTS=true
+        DART_SUITE="incomingCalls"
+        ;;
+    *)
+        RUNS_OUTGOING_CALL_TESTS=true
+        RUNS_INCOMING_CALL_TESTS=true
+        DART_SUITE="$SUITE"
+        ;;
+esac
+SUITE_DEFINE="--dart-define=INTEGRATION_TEST_SUITE=$DART_SUITE"
+
+if [ "$RUNS_OUTGOING_CALL_TESTS" = true ]; then
+    validate_outgoing_calling_environment
+fi
+if [ "$RUNS_INCOMING_CALL_TESTS" = true ]; then
+    validate_incoming_calling_environment
+fi
+
+BANNER="🎯 Running the $SUITE suite for $BRAND on $DEVICE_NAME ($(device_label "$PLATFORM" "$EMULATOR")) — 👤 $INTEGRATION_TEST_USER_1_USERNAME"
+if [ "$RUNS_OUTGOING_CALL_TESTS" = true ]; then
+    BANNER="$BANNER — 📞 $INTEGRATION_TEST_CALLING_PHONE_NUMBER"
+fi
+if [ "$RUNS_INCOMING_CALL_TESTS" = true ]; then
+    BANNER="$BANNER — ☎️  $INTEGRATION_TEST_INCOMING_CALL_NUMBER"
+fi
+echo "$BANNER"
+echo "▶️  Re-run on this device directly with:"
+echo "   ./utils/bin/run-integration-tests --device=$DEVICE_ID --suite=$SUITE"
+if [ "$PLATFORM" = "ios" ]; then
+    echo "⏳ Heads up: on iOS this is slow — it can take several minutes to build, install, and run, so please be patient."
+fi
+
+if [ "$PLATFORM" = "android" ]; then
+    require_android_firebase_configuration
+
+    # Build the same APK `flutter test` will build (same target and defines, so
+    # its own build below is a cache hit) and install it with all runtime
+    # permissions granted (-g) before the app is ever launched. `flutter test`
+    # reinstalls with `adb install -r`, which preserves the grants.
+    echo "📦 Building the test APK..."
+    flutter build apk --debug \
+        --target="$TARGET" \
+        "$BRAND_DEFINE" \
+        "$GUARD_DEFINE" \
+        "$SUITE_DEFINE" \
+        "$EMULATOR_DEFINE" \
+        "$CI_DEFINE"
+
+    APK="build/app/outputs/flutter-apk/app-debug.apk"
+
+    echo "📲 Installing $PACKAGE with permissions pre-granted..."
+    adb -s "$DEVICE_ID" uninstall "$PACKAGE" > /dev/null 2>&1 || true
+    adb -s "$DEVICE_ID" install -t -g "$APK" > /dev/null
+
+    # -g already grants everything in the merged manifest; this explicit pass
+    # documents what the tests rely on (|| true: some permissions are not
+    # runtime-grantable on older API levels).
+    for permission in "${ANDROID_PERMISSIONS[@]}"; do
+        adb -s "$DEVICE_ID" shell pm grant "$PACKAGE" "$permission" > /dev/null 2>&1 || true
+    done
+    echo "🔓 Runtime permissions granted to $PACKAGE"
+
+    # baresip places the incoming call, so it is only needed by the suites that
+    # include the incoming call tests.
+    if [ "$RUNS_INCOMING_CALL_TESTS" = true ]; then
+        # On CI baresip is already started by the `configure_and_run_baresip`
+        # step in codemagic.yaml, before the emulator boots. The adb reverse
+        # below still has to happen here, since it needs a booted device.
+        if [ -n "$CI" ]; then
+            echo "🤖 CI — baresip was started by the build step, skipping startup"
+        else
+            ./utils/ci/codemagic/bin/configure_and_run_baresip.sh
+        fi
+        expose_baresip_to_device "$DEVICE_ID"
+    fi
+else
+    echo "📱 iOS — runtime permissions aren't handled on this platform and instead we just act as if they are all accepted."
+    echo "   If a test relies on actually having a permission, it will fail."
+fi
+
+flutter test "$TARGET" \
+    -d "$DEVICE_ID" \
+    "$BRAND_DEFINE" \
+    "$GUARD_DEFINE" \
+    "$SUITE_DEFINE" \
+    "$EMULATOR_DEFINE" \
+    "$CI_DEFINE"

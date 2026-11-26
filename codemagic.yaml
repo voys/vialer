@@ -59,12 +59,22 @@ custom: # Custom properties to make workflows cleaner
       script: . utils/ci/codemagic/bin/build_for_ios.sh
     - &prepare_environment_for_integration_testing
       name: Preparing environment for integration testing
-      script: |
-        export IN_TEST=true
-        . utils/ci/codemagic/bin/prepare_environment_file.sh .env.test.example
+      script: . utils/ci/codemagic/bin/prepare_environment_file.sh .env.test.example
+    - &validate_test_environment
+      name: Validating test environment
+      script: dart utils/ci/codemagic/validate_test_environment.dart
+    - &configure_firebase_for_android
+      name: Configuring Firebase for Android
+      script: echo "$ANDROID_FIREBASE_SECRET" | base64 --decode > android/app/google-services.json
     - &run_integration_tests_ios
       name: Running integration tests on iOS emulator
       script: . utils/ci/codemagic/bin/run_integration_tests_ios.sh
+    - &configure_and_run_baresip
+      name: Setup and prepare baresip
+      script: . utils/ci/codemagic/bin/configure_and_run_baresip.sh
+    - &run_integration_tests_on_emulator_wtf
+      name: Running Android integration tests on emulator.wtf
+      script: ./utils/bin/run-integration-tests --emulator-wtf --suite=all $EMULATOR_WTF_ARGS
     - &update_gitlab_merge_request_with_build_url
       name: Updating the Merge Request in Gitlab with a link to this build
       script: |
@@ -352,9 +362,7 @@ workflows:
       - *verify_codebase_complies_with_analysis_rules
       - *flutter_test
       - *update_ios_signing_for_current_brand
-      - *prepare_environment_for_integration_testing
       - *build_for_ios
-      - *run_integration_tests_ios
       - *build_for_android
       - *release_to_sentry
     triggering:
@@ -388,24 +396,48 @@ workflows:
         notify:
           failure: true
 
-  run-integration-tests:
-    name: Run Integration Tests
+  # Run via `.gitlab-ci.yml`
+  run-integration-tests: &integration_tests_workflow
+    name: Run Integration Tests Without Incoming Calls (iOS Simulator)
     <<: *main_workflow
+    environment:
+      groups:
+        - configuration
+        - team_shared_environment
+        - diagnostics
+        - vialer_android_firebase
+        - integration_testing
+      <<: *config_environment
+      vars:
+        <<: *brand_config_vialer_env_vars
     scripts:
-      - *use_workflow_build_number
       - *prepare_environment_file
       - *configure_font_awesome_gitlab_access
       - *run_code_generators
       - *install_native_dependencies
-      - *set_version_for_other
-      - *verify_codebase_complies_with_analysis_rules
-      - *flutter_test
-      - *update_ios_signing_for_current_brand
+      - *validate_test_environment
       - *prepare_environment_for_integration_testing
-      - *build_for_ios
       - *run_integration_tests_ios
     triggering:
       events: [ ]
+
+  # Run via `.gitlab-ci.yml`
+  run-android-integration-tests:
+    name: Run Android Integration Tests (emulator.wtf)
+    <<: *integration_tests_workflow
+    scripts:
+      - *prepare_environment_file
+      - *configure_font_awesome_gitlab_access
+      - *configure_firebase_for_android
+      - *run_code_generators
+      - *install_native_dependencies
+      - *validate_test_environment
+      - *prepare_environment_for_integration_testing
+      - *configure_and_run_baresip
+      - *run_integration_tests_on_emulator_wtf
+    artifacts:
+      - emulator_wtf_results/**
+      - flutter_build_apk.log
 
   staging:
     name: Staging

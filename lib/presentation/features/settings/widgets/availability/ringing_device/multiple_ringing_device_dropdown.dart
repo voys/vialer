@@ -152,10 +152,12 @@ class _DestinationDropdownItem extends StatelessWidget {
                 color: context.brand.theme.colors.red1,
               ),
             ),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              destination.dropdownValue(context),
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                destination.dropdownValue(context),
+              ),
             ),
           ),
         ],

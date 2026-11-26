@@ -85,3 +85,7 @@ devtools_options.yaml
 # FVM Version Cache
 .fvm/
 .fvmrc
+# Integration tests
+emulator_wtf_results/
+flutter_build_apk.log
+.secrets/

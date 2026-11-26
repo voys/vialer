@@ -1,10 +1,12 @@
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 stages:
   - static analysis
   - build and test
+  - integration tests
 
 .flutter:
   image:
@@ -114,3 +116,55 @@ build & test:
   after_script:
     # after_script starts in a fresh shell at the project root.
     - cd ./utils/ci/gitlab && dart ./bin/cancel_codemagic_build.dart
+
+.integration-test-codemagic:
+  image: dart:latest
+  stage: integration tests
+  needs: []
+  rules:
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"
+    - if: $CI_PIPELINE_SOURCE =~ /^(merge_request_event|push|web)$/
+      when: manual
+      allow_failure: true
+  script:
+    - dart ./utils/ci/gitlab/bin/build_via_codemagic.dart
+  after_script:
+    - dart ./utils/ci/gitlab/bin/cancel_codemagic_build.dart
+  artifacts:
+    when: always
+    reports:
+      annotations: annotations.json
+
+integration-tests-ios:
+  extends: .integration-test-codemagic
+  variables:
+    CODEMAGIC_WORKFLOW: "run-integration-tests"
+
+integration-tests-android:
+  extends: .integration-test-codemagic
+  timeout: 2h
+  variables:
+    CODEMAGIC_WORKFLOW: "run-android-integration-tests"
+
+integration-tests-android-nightly:
+  extends: integration-tests-android
+  variables:
+    EMULATOR_WTF_ARGS: --nightly
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  after_script:
+    - !reference [.integration-test-codemagic, after_script]
+    - |
+      if [ -z "${SLACK_WEBHOOK_NIGHTLY_TESTS_URL:-}" ]; then
+        echo "SLACK_WEBHOOK_NIGHTLY_TESTS_URL is not set, skipping the Slack notification"
+        exit 0
+      fi
+      if [ "$CI_JOB_STATUS" = "success" ]; then
+        status=":white_check_mark: passed"
+      else
+        status=":x: $CI_JOB_STATUS"
+      fi
+      curl -fsS -X POST -H "Content-Type: application/json" \
+        --data "{\"status\": \"$status\", \"job_url\": \"$CI_JOB_URL\"}" \
+        "$SLACK_WEBHOOK_NIGHTLY_TESTS_URL" ||
+        echo "Posting to Slack failed"

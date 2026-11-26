@@ -79,50 +79,54 @@ class SettingTileCategory extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Theme.of(context).primaryColor,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 40,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Theme.of(context).primaryColor,
+                                ),
                               ),
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: showBadge
-                                    ? Badge(
-                                        backgroundColor: context
-                                            .brand
-                                            .theme
-                                            .colors
-                                            .settingsBadge,
-                                        smallSize: 8,
-                                        child: iconWidget,
-                                      )
-                                    : iconWidget,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ?title,
-                        if (titleText != null)
-                          Semantics(
-                            header: true,
-                            child: Text(
-                              titleText!.toUpperCase(),
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: showBadge
+                                      ? Badge(
+                                          backgroundColor: context
+                                              .brand
+                                              .theme
+                                              .colors
+                                              .settingsBadge,
+                                          smallSize: 8,
+                                          child: iconWidget,
+                                        )
+                                      : iconWidget,
+                                ),
                               ),
                             ),
                           ),
-                      ],
+                          const SizedBox(width: 8),
+                          if (title != null) Flexible(child: title!),
+                          if (titleText != null)
+                            Flexible(
+                              child: Semantics(
+                                header: true,
+                                child: Text(
+                                  titleText!.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                     if (isButton)
                       FaIcon(

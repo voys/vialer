@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartx/dartx.dart';
@@ -10,6 +11,9 @@ import 'package:vialer/presentation/util/extensions.dart';
 import '../../../../../../data/models/call_records/item.dart';
 import '../../../../../../data/models/colltacts/colltact.dart';
 import '../../../../../../data/models/colltacts/t9_colltact.dart';
+import '../../../../../../data/models/event/event_bus.dart';
+import '../../../../../../data/models/relations/colleagues/colleague.dart';
+import '../../../../../../data/models/relations/events/colleague_list_did_change.dart';
 import '../../../../../../data/models/user/permissions/permission.dart';
 import '../../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../../domain/usecases/colltacts/get_contacts.dart';
@@ -29,10 +33,32 @@ class T9Colltacts extends _$T9Colltacts {
 
   _T9SearchIndex? _searchIndex;
   int _latestFilterRequest = 0;
+  int _latestLoad = 0;
+
+  /// Name and number of every colleague in [_searchIndex], the only parts of
+  /// a colleague T9 searches in.
+  Set<(String, String?)>? _indexedColleagues;
 
   @override
   T9ColltactsState build() {
+    final subscription = dependencyLocator<EventBusObserver>()
+        .on<ColleagueListDidChangeEvent>(_onColleaguesChanged);
+    ref.onDispose(subscription.cancel);
+
     return const T9ColltactsState.loading();
+  }
+
+  /// Colleagues arrive over the websocket, which can be after the dialer was
+  /// built (it's a tab on iOS, built right after login), so the index has to
+  /// follow along. The list is broadcast again on every availability change,
+  /// so only rebuild when something T9 searches in changed.
+  void _onColleaguesChanged(ColleagueListDidChangeEvent event) {
+    final indexedColleagues = _indexedColleagues;
+    if (indexedColleagues == null) return;
+
+    if (setEquals(event.colleagues.searchable, indexedColleagues)) return;
+
+    unawaited(_loadColltacts());
   }
 
   Future<void> loadColltactsIfAllowed() async {
@@ -56,9 +82,13 @@ class T9Colltacts extends _$T9Colltacts {
       state = const T9ColltactsState.loading();
     }
 
+    final load = ++_latestLoad;
+
     final contacts = await _getContacts(latest: false);
     final colleagues = await _getColleagues();
     final sharedContacts = await _getSharedContacts();
+
+    _indexedColleagues = colleagues.searchable;
 
     final colltacts = [
       ...contacts.map(Colltact.contact),
@@ -66,18 +96,21 @@ class T9Colltacts extends _$T9Colltacts {
       ...sharedContacts.map(Colltact.sharedContact),
     ];
 
+    _T9SearchIndex? searchIndex;
     try {
-      _searchIndex = await compute(_buildSearchIndex, colltacts);
-    } catch (_) {
-      _searchIndex = null;
-      rethrow;
+      searchIndex = await compute(_buildSearchIndex, colltacts);
     } finally {
-      // Searches started before this load would otherwise overwrite the
-      // fresh state with stale results once they complete.
-      _latestFilterRequest++;
-      // Show the colltacts even when indexing failed, instead of loading
-      // forever.
-      state = T9ColltactsState.loaded(colltacts, []);
+      // A load started after this one read fresher data, so this one must
+      // not overwrite its results.
+      if (load == _latestLoad) {
+        _searchIndex = searchIndex;
+        // Searches started before this load would otherwise overwrite the
+        // fresh state with stale results once they complete.
+        _latestFilterRequest++;
+        // Show the colltacts even when indexing failed, instead of loading
+        // forever.
+        state = T9ColltactsState.loaded(colltacts, []);
+      }
     }
   }
 
@@ -250,4 +283,10 @@ extension on T9Colltact {
     RegExp('[^a-zA-Z0-9#+*]'),
     '',
   );
+}
+
+extension on Iterable<Colleague> {
+  Set<(String, String?)> get searchable => {
+    for (final colleague in this) (colleague.name, colleague.number),
+  };
 }
