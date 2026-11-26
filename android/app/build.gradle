@@ -83,7 +83,8 @@ android {
 
     signingConfigs {
         release {
-            if (System.getenv()["CI"]) { // CI=true is exported by Codemagic
+            // Only release workflows load the keystore group; test workflows still set CI.
+            if (System.getenv()["FCI_KEYSTORE_PATH"]) {
                 storeFile file(System.getenv()["FCI_KEYSTORE_PATH"])
                 storePassword System.getenv()["FCI_KEYSTORE_PASSWORD"]
                 keyAlias System.getenv()["FCI_KEY_ALIAS"]
