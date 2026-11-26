@@ -101,156 +101,167 @@ class _TemporaryRedirectPickerState extends State<TemporaryRedirectPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TemporaryRedirectExplanation(
-            currentDestination: _selectedDestination,
-            endsAt: _untilDateNotifier.value,
-            hasDestinations: _hasAvailableDestinations,
-          ),
-          const SizedBox(height: 16),
-          FieldHeader(
-            context.msg.main.temporaryRedirect.dropdown.title,
-          ),
-          const SizedBox(height: 8),
-          StylizedDropdown<TemporaryRedirectDestination>(
-            isExpanded: true,
-            value: _selectedDestination,
-            items: _hasAvailableDestinations
-                ? widget.availableDestinations.map(
-                    (dest) {
-                      return DropdownMenuItem<TemporaryRedirectDestination>(
-                        value: dest,
-                        child: Text(
-                          dest.displayName,
-                          overflow: TextOverflow.ellipsis,
+    // With a redirect active the content doesn't fit on smaller screens, so
+    // it scrolls there while the stop button still sits at the bottom
+    // whenever it does fit.
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TemporaryRedirectExplanation(
+                  currentDestination: _selectedDestination,
+                  endsAt: _untilDateNotifier.value,
+                  hasDestinations: _hasAvailableDestinations,
+                ),
+                const SizedBox(height: 16),
+                FieldHeader(
+                  context.msg.main.temporaryRedirect.dropdown.title,
+                ),
+                const SizedBox(height: 8),
+                StylizedDropdown<TemporaryRedirectDestination>(
+                  isExpanded: true,
+                  value: _selectedDestination,
+                  items: _hasAvailableDestinations
+                      ? widget.availableDestinations.map(
+                          (dest) {
+                            return DropdownMenuItem<
+                              TemporaryRedirectDestination
+                            >(
+                              value: dest,
+                              child: Text(
+                                dest.displayName,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          },
+                        ).toList()
+                      : [
+                          DropdownMenuItem<TemporaryRedirectDestination>(
+                            child: Text(
+                              context
+                                  .msg
+                                  .main
+                                  .temporaryRedirect
+                                  .dropdown
+                                  .noVoicemails
+                                  .item,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                        ],
+                  onChanged: _hasAvailableDestinations
+                      ? _changeSelectedDestination
+                      : null,
+                ),
+                if (!_hasAvailableDestinations) ...[
+                  const SizedBox(height: 8),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: context
+                              .msg
+                              .main
+                              .temporaryRedirect
+                              .dropdown
+                              .noVoicemails
+                              .hint
+                              .start,
                         ),
-                      );
-                    },
-                  ).toList()
-                : [
-                    DropdownMenuItem<TemporaryRedirectDestination>(
-                      child: Text(
-                        context
-                            .msg
-                            .main
-                            .temporaryRedirect
-                            .dropdown
-                            .noVoicemails
-                            .item,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontStyle: FontStyle.italic,
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: context
+                              .msg
+                              .main
+                              .temporaryRedirect
+                              .dropdown
+                              .noVoicemails
+                              .hint
+                              .link,
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = _openPortal,
                         ),
-                      ),
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: context
+                              .msg
+                              .main
+                              .temporaryRedirect
+                              .dropdown
+                              .noVoicemails
+                              .hint
+                              .end,
+                        ),
+                      ],
                     ),
-                  ],
-            onChanged: _hasAvailableDestinations
-                ? _changeSelectedDestination
-                : null,
-          ),
-          if (!_hasAvailableDestinations) ...[
-            const SizedBox(height: 8),
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: context
-                        .msg
-                        .main
-                        .temporaryRedirect
-                        .dropdown
-                        .noVoicemails
-                        .hint
-                        .start,
-                  ),
-                  const TextSpan(text: ' '),
-                  TextSpan(
-                    text: context
-                        .msg
-                        .main
-                        .temporaryRedirect
-                        .dropdown
-                        .noVoicemails
-                        .hint
-                        .link,
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
+                    style: TextStyle(
+                      color: context.brand.theme.colors.red1,
                     ),
-                    recognizer: TapGestureRecognizer()..onTap = _openPortal,
-                  ),
-                  const TextSpan(text: ' '),
-                  TextSpan(
-                    text: context
-                        .msg
-                        .main
-                        .temporaryRedirect
-                        .dropdown
-                        .noVoicemails
-                        .hint
-                        .end,
                   ),
                 ],
-              ),
-              style: TextStyle(
-                color: context.brand.theme.colors.red1,
-              ),
-            ),
-          ],
-          const SizedBox(height: 16),
-          FieldHeader(context.msg.main.temporaryRedirect.until.title),
-          const SizedBox(height: 8),
-          Flexible(
-            child: DateField(
-              notifier: _untilDateNotifier,
-              initialDate: widget.activeRedirect?.endsAt,
+                const SizedBox(height: 16),
+                FieldHeader(context.msg.main.temporaryRedirect.until.title),
+                const SizedBox(height: 8),
+                DateField(
+                  notifier: _untilDateNotifier,
+                  initialDate: widget.activeRedirect?.endsAt,
+                ),
+                const SizedBox(height: 16),
+                SettingsButton(
+                  text: _mainActionText,
+                  onPressed:
+                      _actionable &&
+                          _hasCorrectUntilDate &&
+                          _selectedDestination != null
+                      ? () async => _handleAction(
+                          () => widget.onStart(
+                            _selectedDestination!,
+                            _untilDateNotifier.value!,
+                          ),
+                        )
+                      : null,
+                ),
+                if (widget.onCancel != null) ...[
+                  const SizedBox(height: 12),
+                  SettingsButton(
+                    onPressed: widget.onCancel,
+                    text: context.msg.generic.button.cancel,
+                    solid: false,
+                  ),
+                ],
+                if (widget.onStop != null) ...[
+                  const Spacer(),
+                  const SizedBox(height: 48),
+                  SettingsButton(
+                    onPressed: _actionable
+                        ? () => unawaited(_handleAction(widget.onStop!))
+                        : null,
+                    text: context
+                        .msg
+                        .main
+                        .temporaryRedirect
+                        .actions
+                        .stopRedirect
+                        .labelOngoing,
+                    solid: false,
+                  ),
+                ],
+              ],
             ),
           ),
-          const SizedBox(height: 16),
-          SettingsButton(
-            text: _mainActionText,
-            onPressed:
-                _actionable &&
-                    _hasCorrectUntilDate &&
-                    _selectedDestination != null
-                ? () async => _handleAction(
-                    () => widget.onStart(
-                      _selectedDestination!,
-                      _untilDateNotifier.value!,
-                    ),
-                  )
-                : null,
-          ),
-          if (widget.onCancel != null) ...[
-            const SizedBox(height: 12),
-            SettingsButton(
-              onPressed: widget.onCancel,
-              text: context.msg.generic.button.cancel,
-              solid: false,
-            ),
-          ],
-          if (widget.onStop != null) ...[
-            const Spacer(),
-            const SizedBox(height: 48),
-            SettingsButton(
-              onPressed: _actionable
-                  ? () => unawaited(_handleAction(widget.onStop!))
-                  : null,
-              text: context
-                  .msg
-                  .main
-                  .temporaryRedirect
-                  .actions
-                  .stopRedirect
-                  .labelOngoing,
-              solid: false,
-            ),
-          ],
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
