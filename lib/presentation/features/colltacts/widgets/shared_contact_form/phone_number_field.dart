@@ -40,6 +40,8 @@ class _PhoneNumberFieldState extends State<PhoneNumberField> {
       context,
     );
 
+    if (!mounted) return;
+
     setState(() {
       _validationError = validationError;
     });
