@@ -49,6 +49,9 @@ class InitializeGleap extends UseCase {
 
   Future<void> _initialize() async {
     try {
+      await Gleap.disableConsoleLog();
+      await Gleap.setCaptureEnabled(enabled: false);
+      await Gleap.setRemoteLogCollectionEnabled(enabled: false);
       await Gleap.setEnvDataPropsToIgnore(propsToIgnore: _envDataPropsToIgnore);
       await Gleap.initialize(projectId: _envRepository.gleapApiKey);
       await Gleap.showFeedbackButton(false);
