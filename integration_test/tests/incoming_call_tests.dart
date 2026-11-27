@@ -87,8 +87,15 @@ Future<void> _userCanReceiveACall(
     TestLog.step('⏸️', 'Putting the call on hold, then resuming it');
     await robot.toggleHoldOnAndOff();
 
-    TestLog.step('🔊', 'Turning the speaker on and off');
-    await robot.toggleSpeakerOnAndOff();
+    if (robot.config.canRouteAudioToPhone) {
+      TestLog.step('🔊', 'Turning the speaker on and off');
+      await robot.toggleSpeakerOnAndOff();
+    } else {
+      TestLog.warning(
+        'Not turning the speaker on and off, there is no earpiece to route '
+        'the call audio back to',
+      );
+    }
     await robot.waitFor(const Duration(seconds: 5));
     TestLog.step('🔴', 'Hanging up');
     await robot.tapHangUpButton();

@@ -85,6 +85,9 @@ extension on WidgetTester {
       // known and documented by Apple; CallKit is only partially supported
       // there.
       skipTestingCallMediaEstablished: _isIOSSimulator,
+      // An emulator or simulator has no earpiece, so call audio never moves
+      // back from the speaker to the phone.
+      canRouteAudioToPhone: !_isOnEmulator,
     ),
   );
 }

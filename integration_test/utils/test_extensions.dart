@@ -271,6 +271,7 @@ typedef TestConfiguration = ({
   IntegrationTestSuite suite,
   bool canPlaceRealCalls,
   bool skipTestingCallMediaEstablished,
+  bool canRouteAudioToPhone,
 });
 
 extension IntegrationTestEnvironment on WidgetTester {
