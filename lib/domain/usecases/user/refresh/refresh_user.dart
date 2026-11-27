@@ -49,11 +49,6 @@ class RefreshUser extends UseCase with Loggable {
   ) async {
     Future<User?> executeUserRefreshTasks() async {
       final storedUser = _storageRepository.user;
-
-      // Logged out while this refresh was queued, so there's nobody left to
-      // refresh.
-      if (storedUser == null && credentials == null) return null;
-
       final latestUser =
           tasksToPerform.contains(UserRefreshTask.userCore) ||
               storedUser == null

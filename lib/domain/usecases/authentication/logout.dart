@@ -3,10 +3,9 @@ import 'dart:async';
 import '../../../data/models/event/event_bus.dart';
 import '../../../data/repositories/legacy/storage.dart';
 import '../../../dependency_locator.dart';
-import '../../../presentation/util/synchronized_task.dart';
 import '../calling/voip/stop_voip.dart';
 import '../use_case.dart';
-import '../user/get_stored_user.dart';
+import '../user/get_logged_in_user.dart';
 import '../user/settings/clear_and_preserve_cross_session_settings.dart';
 import 'user_was_logged_out.dart';
 
@@ -14,7 +13,7 @@ class Logout extends UseCase {
   final _storageRepository = dependencyLocator<StorageRepository>();
   final _eventBus = dependencyLocator<EventBus>();
 
-  final _getUser = GetStoredUserUseCase();
+  final _getUser = GetLoggedInUserUseCase();
   final _stopVoip = StopVoipUseCase();
   final _preserveCrossSessionSettings =
       ClearStorageAndPreserveCrossSessionSettings();
@@ -22,25 +21,14 @@ class Logout extends UseCase {
   Future<void> call() async {
     await _stopVoip();
 
-    // Queued with user refreshes and setting changes, so those already waiting
-    // finish first instead of storing values after the storage is cleared.
-    final loggedOut = await SynchronizedTask<bool>.named(
-      userSettingsTask,
-      SynchronizedTaskMode.queue,
-    ).run(_clearStorage);
-
-    if (loggedOut) _eventBus.broadcast(const UserWasLoggedOutEvent());
+    await _clearStorage();
   }
 
   /// Clear the storage of all user-specific values.
-  ///
-  /// Returns false if another logout got there first.
-  Future<bool> _clearStorage() async {
-    final user = _getUser();
-    if (user == null) return false;
-
+  Future<void> _clearStorage() async {
     final pushToken = _storageRepository.pushToken;
     final remoteNotificationToken = _storageRepository.remoteNotificationToken;
+    final user = _getUser();
 
     await _preserveCrossSessionSettings(user);
 
@@ -48,6 +36,6 @@ class Logout extends UseCase {
       ..pushToken = pushToken
       ..remoteNotificationToken = remoteNotificationToken;
 
-    return true;
+    _eventBus.broadcast(const UserWasLoggedOutEvent());
   }
 }
