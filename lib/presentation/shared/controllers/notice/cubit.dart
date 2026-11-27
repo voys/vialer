@@ -14,8 +14,8 @@ import '../../../../../data/models/user/permissions/permission.dart' as os;
 import '../../../../../data/models/user/permissions/permission_status.dart';
 import '../../../../../data/repositories/voipgrid/user_permissions.dart';
 import '../../../../../domain/usecases/onboarding/request_permission.dart';
-import '../../../../../domain/usecases/user/get_logged_in_user.dart';
 import '../../../../../domain/usecases/user/get_permission_status.dart';
+import '../../../../../domain/usecases/user/get_stored_user.dart';
 import '../../../../../domain/usecases/user/settings/open_settings.dart';
 import '../../../../../presentation/util/pigeon.dart';
 import '../../../util/cubit_subscriptions.dart';
@@ -38,7 +38,7 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
   late final _getPermissionStatus = GetPermissionStatusUseCase();
   late final _requestPermission = RequestPermissionUseCase();
   late final _openAppSettings = OpenSettingsAppUseCase();
-  late final _getUser = GetLoggedInUserUseCase();
+  late final _getUser = GetStoredUserUseCase();
   late final _googlePlayServices = GooglePlayServices();
 
   final CallerCubit _caller;
@@ -80,7 +80,10 @@ class NoticeCubit extends Cubit<NoticeState> with Loggable, CubitSubscriptions {
             permission: os.Permission.ignoreBatteryOptimizations,
           );
 
+    // Checking the permissions above takes a while, and logging out may have
+    // happened in the meantime.
     final user = _getUser();
+    if (user == null) return;
 
     final googlePlayServicesIsAvailable = Platform.isAndroid
         ? await _googlePlayServices.isAvailable()

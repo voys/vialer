@@ -96,17 +96,11 @@ class RefreshUser extends UseCase with Loggable {
       return user;
     }
 
-    Future<User?> executeBetweenSettingChanges() =>
-        SynchronizedTask<User?>.named(
-          userSettingsTask,
-          SynchronizedTaskMode.queue,
-        ).run(executeUserRefreshTasks);
-
     /// If there aren't many tasks in this list we will always execute
     /// immediately rather than managing synchronization.
     return tasksToPerform.shouldSkipSynchronization
-        ? executeBetweenSettingChanges()
-        : SynchronizedTask<User?>.of(this).run(executeBetweenSettingChanges);
+        ? executeUserRefreshTasks()
+        : SynchronizedTask<User?>.of(this).run(executeUserRefreshTasks);
   }
 
   /// Performs some tasks that are required when we are first setting up a user.

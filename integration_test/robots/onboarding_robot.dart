@@ -246,6 +246,10 @@ class OnboardingRobot extends IntegrationTestRobot {
       find.byType(LoginPage),
       reason: 'The login page should be shown after logging out',
     );
+
+    // Work the logged out session started, such as a user refresh, can still
+    // finish after this and undo what the next login stores.
+    await tester.pumpFor(const Duration(seconds: 15));
   }
 
   EditableText _editableTextIn(Finder finder) => tester.widget<EditableText>(
