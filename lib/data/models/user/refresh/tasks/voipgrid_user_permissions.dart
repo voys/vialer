@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import '../../../../../dependency_locator.dart';
-import '../../../event/event_bus.dart';
 import '../../../../repositories/voipgrid/user_permissions.dart';
+import '../../../event/event_bus.dart';
 import '../../settings/app_setting.dart';
 import '../../settings/setting_changed.dart';
 import '../../user.dart';
