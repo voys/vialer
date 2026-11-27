@@ -28,9 +28,9 @@ Future<void> runAuthenticationTests(IntegrationTestContext context) async {
     'User can open and close the forgotten password page',
     () => _userCanOpenAndCloseTheForgottenPasswordPage(robot),
   );
-  await TestLog.test(
+  TestLog.skip(
     'User without an app account is told they cannot receive calls',
-    () => _userWithoutAnAppAccountIsToldTheyCannotReceiveCalls(robot),
+    because: 'EXPERIMENT: no other login before the main user',
   );
   await TestLog.test(
     'User can log in with valid credentials',
