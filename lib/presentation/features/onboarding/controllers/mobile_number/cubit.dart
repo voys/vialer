@@ -37,6 +37,8 @@ class MobileNumberCubit extends Cubit<MobileNumberState> {
         ? await _validatesPhoneNumber(mobileNumber)
         : true;
 
+    if (isClosed) return;
+
     emit(
       isValid
           ? MobileNumberState(mobileNumber)
