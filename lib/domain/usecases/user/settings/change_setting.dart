@@ -4,6 +4,7 @@ import 'package:vialer/data/models/user/refresh/user_refresh_task.dart';
 import 'package:vialer/data/models/user/settings/setting_changed.dart';
 import 'package:vialer/data/models/user/user.dart';
 import 'package:vialer/domain/usecases/user/get_logged_in_user.dart';
+import 'package:vialer/domain/usecases/user/get_stored_user.dart';
 import 'package:vialer/domain/usecases/user/refresh/refresh_user.dart';
 import 'package:vialer/domain/usecases/user/settings/force_update_setting.dart';
 
@@ -27,6 +28,7 @@ class ChangeSettingUseCase extends UseCase {
   final _metricsRepository = dependencyLocator<MetricsRepository>();
   final _eventBus = dependencyLocator<EventBus>();
   final _getCurrentUser = GetLoggedInUserUseCase();
+  final _getStoredUser = GetStoredUserUseCase();
 
   final _listeners = <SettingChangeListener>[
     UpdateDestinationListener(),
@@ -59,13 +61,21 @@ class ChangeSettingUseCase extends UseCase {
     // The refresh on failure below takes this lock too, so it has to stay
     // outside of it.
     final result =
-        await SynchronizedTask<SettingChangeListenResult>.named(
+        await SynchronizedTask<SettingChangeListenResult?>.named(
           userSettingsTask,
           SynchronizedTaskMode.queue,
         ).run(() async {
+          // A logout may have been queued ahead of this change.
+          if (_getStoredUser() == null) return null;
+
           await ForceUpdateSetting()(key, value);
           return _callListeners(key, value);
         });
+
+    if (result == null) {
+      logger.info('Not changing $key, the user has logged out');
+      return SettingChangeResult.failed;
+    }
 
     if (result.log) {
       logger.info('Set $key to $value');

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:vialer/domain/usecases/user/settings/change_setting.dart';
-
 import '../../../../../dependency_locator.dart';
+import '../../../event/event_bus.dart';
 import '../../../../repositories/voipgrid/user_permissions.dart';
 import '../../settings/app_setting.dart';
+import '../../settings/setting_changed.dart';
 import '../../user.dart';
 import '../user_refresh_task_performer.dart';
 
@@ -44,7 +44,11 @@ class RefreshVoipgridUserPermissions extends UserRefreshTaskPerformer {
     // If client calls are enabled, we're going to disable it as the user
     // no longer has permission for it.
     if (user.settings.getOrNull(AppSetting.showClientCalls) == true) {
-      ChangeSettingUseCase()(AppSetting.showClientCalls, false);
+      // Written directly, as a setting change would queue behind this refresh.
+      unawaited(updateSetting(AppSetting.showClientCalls, false));
+      dependencyLocator<EventBus>().broadcast(
+        const SettingChangedEvent(AppSetting.showClientCalls, true, false),
+      );
     }
 
     return newUser;

@@ -23,4 +23,7 @@ if ! wait "$bootStatusPid"; then
     exit 1
 fi
 
+# The Podfile deletes the pods' privacy manifests on CI, which breaks the
+# simulator build because the pod targets still list them as resources.
+export KEEP_POD_PRIVACY_MANIFESTS=true
 ./utils/bin/run-integration-tests --device="$testDevice" --suite=without-incoming-calls

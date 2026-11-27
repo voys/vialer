@@ -117,7 +117,7 @@ post_install do |installer|
   end
 
   # CI-related clean-up
-  if ENV['CI'] == 'true'
+  if ENV['CI'] == 'true' && ENV['KEEP_POD_PRIVACY_MANIFESTS'] != 'true'
     Dir.glob("Pods/*").each do |pod_dir|
       privacy_files = Dir.glob("#{pod_dir}/**/PrivacyInfo.xcprivacy")
       privacy_files.each do |privacy_file|
