@@ -50,7 +50,7 @@ class InitializeGleap extends UseCase {
   Future<void> _initialize() async {
     try {
       await Gleap.setEnvDataPropsToIgnore(propsToIgnore: _envDataPropsToIgnore);
-      await Gleap.initialize(token: _envRepository.gleapApiKey);
+      await Gleap.initialize(projectId: _envRepository.gleapApiKey);
       await Gleap.showFeedbackButton(false);
     } on Exception catch (exception) {
       _initialization = null;

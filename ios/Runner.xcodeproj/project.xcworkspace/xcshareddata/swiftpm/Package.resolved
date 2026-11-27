@@ -13,8 +13,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GleapSDK/Gleap-iOS-SDK.git",
       "state" : {
-        "revision" : "346133e2bf0592d80dfd407f2a362de243b7b852",
-        "version" : "19.3.1"
+        "revision" : "96ba85eaaca3076f340e60375254bbb974c65a1b",
+        "version" : "19.5.1"
       }
     },
     {
