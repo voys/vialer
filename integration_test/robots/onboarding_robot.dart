@@ -249,7 +249,7 @@ class OnboardingRobot extends IntegrationTestRobot {
 
     // Work the logged out session started, such as a user refresh, can still
     // finish after this and undo what the next login stores.
-    await tester.pumpFor(const Duration(seconds: 15));
+    await tester.pumpFor(const Duration(seconds: 5));
   }
 
   EditableText _editableTextIn(Finder finder) => tester.widget<EditableText>(
