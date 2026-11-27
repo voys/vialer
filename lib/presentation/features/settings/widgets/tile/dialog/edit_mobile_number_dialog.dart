@@ -59,6 +59,8 @@ class _EditMobileNumberDialogState extends State<EditMobileNumberDialog> {
       _textEditingController.text,
     );
 
+    if (!mounted) return;
+
     setState(() => _isValid = isValid);
   }
 
