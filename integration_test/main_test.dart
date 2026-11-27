@@ -61,6 +61,7 @@ void main() {
     }
 
     await runCleanupTests(context);
+    await runUserWithoutAppAccountTests(context);
 
     TestLog.finish();
   });

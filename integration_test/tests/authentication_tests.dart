@@ -29,10 +29,6 @@ Future<void> runAuthenticationTests(IntegrationTestContext context) async {
     () => _userCanOpenAndCloseTheForgottenPasswordPage(robot),
   );
   await TestLog.test(
-    'User without an app account is told they cannot receive calls',
-    () => _userWithoutAnAppAccountIsToldTheyCannotReceiveCalls(robot),
-  );
-  await TestLog.test(
     'User can log in with valid credentials',
     () => _userCanLoginWithValidCredentials(tester),
   );
@@ -48,6 +44,22 @@ Future<void> runAuthenticationTests(IntegrationTestContext context) async {
       because: 'there is no such warning on iOS',
     );
   }
+}
+
+/// Runs after everything else, once the main user has logged out. On
+/// emulator.wtf a login straight after this user's session ended still got
+/// this user's missing app account.
+Future<void> runUserWithoutAppAccountTests(
+  IntegrationTestContext context,
+) async {
+  TestLog.group('🚫', 'User without an app account');
+
+  await TestLog.test(
+    'User without an app account is told they cannot receive calls',
+    () => _userWithoutAnAppAccountIsToldTheyCannotReceiveCalls(
+      OnboardingRobot(context.tester),
+    ),
+  );
 }
 
 /// These are caught by the form itself, so no login is attempted.
@@ -99,7 +111,7 @@ Future<void> _userCanOpenAndCloseTheForgottenPasswordPage(
 }
 
 /// Such a user can still use the app, but cannot receive calls in it. They are
-/// logged out again so the main user can log in after.
+/// logged out again, leaving the app as the cleanup tests do.
 ///
 /// The mobile number step is checked here as well. Nothing entered is saved
 /// until continuing, and the original number is put back before that, which
